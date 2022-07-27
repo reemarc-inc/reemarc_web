@@ -1,0 +1,210 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\CampaignRequest;
+use App\Models\CampaignNotes;
+
+use App\Models\CampaignTypeAssetAttachments;
+use App\Repositories\Admin\CampaignAssetIndexRepository;
+use App\Repositories\Admin\CampaignNotesRepository;
+use App\Repositories\Admin\CampaignRepository;
+use App\Repositories\Admin\CampaignBrandsRepository;
+use App\Repositories\Admin\CampaignTypeAssetAttachmentsRepository;
+use App\Repositories\Admin\CampaignTypeEmailBlastRepository;
+use App\Repositories\Admin\CampaignTypeLandingPageRepository;
+use App\Repositories\Admin\CampaignTypeMiscRepository;
+use App\Repositories\Admin\CampaignTypeProgrammaticBannersRepository;
+use App\Repositories\Admin\CampaignTypeSocialAdRepository;
+use App\Repositories\Admin\CampaignTypeTopcategoriesCopyRepository;
+use App\Repositories\Admin\CampaignTypeWebsiteBannersRepository;
+use App\Repositories\Admin\CampaignTypeWebsiteChangesRepository;
+use App\Repositories\Admin\PermissionRepository;
+
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+
+class ArchivesController extends Controller
+{
+    private $permissionRepository;
+    private $campaignRepository;
+    private $campaignBrandsRepository;
+    private $campaignNotesRepository;
+    private $campaignTypeAssetAttachmentsRepository;
+    private $campaignTypeEmailBlastRepository;
+    private $campaignTypeSocialAdRepository;
+    private $campaignTypeWebsiteBannersRepository;
+    private $campaignTypeWebsiteChangesRepository;
+    private $campaignTypeLandingPageRepository;
+    private $campaignTypeMiscRepository;
+    private $campaignTypeTopcategoriesCopyRepository;
+    private $campaignTypeProgrammaticBannersRepository;
+    private $campaignAssetIndexRepository;
+
+    public function __construct(CampaignRepository $campaignRepository,
+                                CampaignBrandsRepository $campaignBrandsRepository,
+                                CampaignNotesRepository $campaignNotesRepository,
+                                CampaignTypeAssetAttachmentsRepository $campaignTypeAssetAttachmentsRepository,
+                                CampaignTypeEmailBlastRepository $campaignTypeEmailBlastRepository,
+                                CampaignTypeSocialAdRepository $campaignTypeSocialAdRepository,
+                                CampaignTypeWebsiteBannersRepository $campaignTypeWebsiteBannersRepository,
+                                CampaignTypeWebsiteChangesRepository $campaignTypeWebsiteChangesRepository,
+                                CampaignTypeLandingPageRepository $campaignTypeLandingPageRepository,
+                                CampaignTypeMiscRepository $campaignTypeMiscRepository,
+                                CampaignTypeTopcategoriesCopyRepository $campaignTypeTopcategoriesCopyRepository,
+                                CampaignTypeProgrammaticBannersRepository $campaignTypeProgrammaticBannersRepository,
+                                CampaignAssetIndexRepository $campaignAssetIndexRepository,
+                                PermissionRepository $permissionRepository)
+    {
+        parent::__construct();
+
+        $this->campaignRepository = $campaignRepository;
+        $this->campaignBrandsRepository = $campaignBrandsRepository;
+        $this->campaignNotesRepository = $campaignNotesRepository;
+        $this->campaignTypeAssetAttachmentsRepository = $campaignTypeAssetAttachmentsRepository;
+        $this->campaignTypeEmailBlastRepository = $campaignTypeEmailBlastRepository;
+        $this->campaignTypeSocialAdRepository = $campaignTypeSocialAdRepository;
+        $this->campaignTypeWebsiteBannersRepository = $campaignTypeWebsiteBannersRepository;
+        $this->campaignTypeWebsiteChangesRepository = $campaignTypeWebsiteChangesRepository;
+        $this->campaignTypeLandingPageRepository = $campaignTypeLandingPageRepository;
+        $this->campaignTypeMiscRepository = $campaignTypeMiscRepository;
+        $this->campaignTypeTopcategoriesCopyRepository = $campaignTypeTopcategoriesCopyRepository;
+        $this->campaignTypeProgrammaticBannersRepository = $campaignTypeProgrammaticBannersRepository;
+        $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
+        $this->permissionRepository = $permissionRepository;
+
+    }
+
+    public function index(Request $request)
+    {
+        $params = $request->all();
+        $params['status'] = 'archived';
+        $this->data['currentAdminMenu'] = 'archives';
+
+        $options = [
+            'per_page' => $this->perPage,
+            'order' => [
+                'date_created' => 'desc',
+            ],
+            'filter' => $params,
+        ];
+
+        $this->data['filter'] = $params;
+        $this->data['campaigns'] = $this->campaignRepository->findAll($options);
+
+        return view('admin.campaign.archives', $this->data);
+    }
+
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $this->data['currentAdminMenu'] = 'archives';
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+//        $this->data['assignees'] = [
+//            'Stephanie',
+//            'Christine',
+//            'Lindsay',
+//            'Chi',
+//            'Jaewon',
+//            'Jay',
+//            'Hyeonji',
+//            'Yuri',
+//            'Jessica'
+//        ];
+
+        // Campaign_type_asset_attachments
+        $options = [
+            'id' => $id,
+            'order' => [
+                'date_created' => 'desc',
+            ]
+        ];
+        $this->data['attach_files'] = $this->campaignTypeAssetAttachmentsRepository->findAll($options);
+
+        // Campaign_item
+        $campaign = $this->campaignRepository->findById($id);
+        $this->data['campaign'] = $campaign;
+        $this->data['campaign_brand'] = $campaign->campaign_brand;
+        $this->data['assignee'] = $campaign->assignee;
+
+        // Campaign_assets
+        $this->data['assets'] = $assets_list = $this->campaignRepository->getAssetListById($id);
+
+        // Campaign_asset_detail
+        if(sizeof($assets_list)>0){
+            foreach ($assets_list as $k => $asset){
+                $c_id = $asset->c_id;
+                $a_id = $asset->a_id;
+                $a_type = $asset->a_type;
+                $asset_detail = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
+                $assets_list[$k]->detail = $asset_detail;
+                $asset_files = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
+                $assets_list[$k]->files = $asset_files;
+            }
+        }
+
+        // social_ad, website_banners_fileds
+        $this->data['social_ad_fields'] = [
+            'FB/IG Carousel Ad',
+            'FB/IG GIF Ad',
+            'FB/IG Image Ad',
+            'FB/IG Organic Awareness Post',
+            'FB/IG Organic Stories Image Ad',
+            'FB/IG Organic Stories Video Ad',
+            'FB/IG Video Ad'
+        ];
+
+        // social_ad, website_banners_fileds
+        $this->data['programmatic_banners_fields'] = [
+            'Display Ad',
+            'Native Ad',
+            'CTV'
+        ];
+
+        $this->data['banner'] = [
+            'Homepage Main Banners',
+            'Homepage Portal Banners',
+            'Category Ad',
+            'Pop up Banners'
+        ];
+
+        // Campaign_notes
+        $options = [
+            'id' => $id,
+            'order' => [
+                'date_created' => 'desc',
+            ]
+        ];
+        $correspondences = $this->campaignNotesRepository->findAll($options);
+        $this->data['correspondences'] = $correspondences;
+
+        return view('admin.campaign.form', $this->data);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        $this->data['currentAdminMenu'] = 'campaign';
+        $campaign = $this->campaignRepository->findById($id);
+        if($this->campaignRepository->delete($id)){
+            return redirect('admin/campaign')
+                ->with('success', __('Removed the Campaign : ', ['first_name' => $campaign->name]));
+        }
+        return redirect('admin/campaign')
+            ->with('error', __('Fail to delete : ', ['first_name' => $campaign->name]));
+    }
+
+
+}
