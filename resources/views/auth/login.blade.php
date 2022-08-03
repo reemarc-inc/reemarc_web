@@ -5,11 +5,9 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div style="display: flex; justify-content: center;">
-                <img src="{{ asset('/storage/KISS_logo_400x150.png') }}" style="width: 200px;">
+                <img src="{{ asset('/storage/KEC-PM.png') }}" style="width: 200px;">
             </div>
-            <div style="display: flex; justify-content: center; color: #a50018; margin-top: 20px; font-weight: bold;">
-                <p><b>KEC Command Center+</b></p>
-            </div>
+            <br>
             <div class="card">
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}">

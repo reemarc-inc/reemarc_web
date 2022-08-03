@@ -19,7 +19,7 @@ class SendMail extends Mailable
      */
     public function __construct()
     {
-        //
+
     }
 
     /**
@@ -29,13 +29,23 @@ class SendMail extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.copy_complete');
+        $details = [
+            'who'           => 'Wendy',
+            'c_id'          => '1229',
+            'a_id'          => '3993',
+            'task_name'     => 'imPRESS | E-Comm | Saving Bundle: Decorated Nails',
+            'asset_type'    => 'email_blast',
+            'asset_status'  => 'copy_request',
+            'url' => '/admin/campaign/1229/edit#3993'
+        ];
+
+        return $this->markdown('emails.copy_complete')->with('details', $details);
     }
 
     public function email_send()
     {
 
-        Mail::to('jinsunglee.8033@gmail.com')->send(new SendMail());
+//        Mail::to('jilee2@kissusa.com')->send(new SendMail());
         return new SendMail();
     }
 
