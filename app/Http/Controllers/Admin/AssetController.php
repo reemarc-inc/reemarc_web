@@ -173,7 +173,6 @@ class AssetController extends Controller
     public function asset_assign(Request $request)
     {
 
-
         $param = $request->all();
         $params['id'] = $param['a_id'];
         $c_id = $param['c_id'];
@@ -193,7 +192,6 @@ class AssetController extends Controller
         $notify->to_do($c_id, $param['a_id'], $param['assignee']);
 //        Log::info('email sent!!');
         ////////////
-
         $this->data['currentAdminMenu'] = 'asset_assign';
 
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));

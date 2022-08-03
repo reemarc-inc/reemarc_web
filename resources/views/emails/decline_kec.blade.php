@@ -1,13 +1,19 @@
 @component('mail::message')
-# Declined From KEC
 
-# A asset is waiting your Action
-# Asset Type : {{ $details['asset_type'] }}
-# Asset Status : {{ $details['asset_status'] }}
-# Decline Reason : {{ $details['decline_kec'] }}
+# Hi {{ $details['who'] }},
+Please do action for Task #{{ $details['c_id'] }}
+@component('mail::panel')
+{{ $details['task_name'] }}
+@endcomponent
 
-@component('mail::button', ['url' => url($details['url'])])
-    Button Text
+@component('mail::table')
+| TYPE          | STATUS        | Asset ID  |
+| ------------- |:-------------:| ---------:|
+| {{ $details['asset_type'] }}   | {{ $details['asset_status'] }} | {{ $details['a_id'] }}|
+@endcomponent
+
+@component('mail::button', ['url' => url($details['url']),'color' => 'error'])
+Go to Asset
 @endcomponent
 
 Thanks,<br>

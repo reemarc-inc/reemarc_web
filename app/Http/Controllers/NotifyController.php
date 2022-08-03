@@ -48,14 +48,18 @@ class NotifyController extends Controller
         $user_obj = new UserRepository();
         $user_rs = $user_obj->getWriterByBrandName($brand_name); // copywriters who has that brand
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id
-        ];
-
         if($user_rs) {
             foreach ($user_rs as $user){
+                $details = [
+                    'who'           => $user['first_name'],
+                    'c_id'          => $c_id,
+                    'a_id'          => $a_id,
+                    'task_name'     => $campaign_rs['name'],
+                    'asset_type'    => $asset_type,
+                    'asset_status'  => $asset_status,
+                    'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+                ];
+
                 Mail::to($user['email'])->send(new CopyRequest($details));
             }
         }
@@ -70,12 +74,6 @@ class NotifyController extends Controller
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id
-        ];
-
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
 
@@ -83,6 +81,16 @@ class NotifyController extends Controller
 
         $user_obj = new UserRepository();
         $user_rs = $user_obj->findById($author_id);
+
+        $details = [
+            'who'           => $user_rs['first_name'],
+            'c_id'          => $c_id,
+            'a_id'          => $a_id,
+            'task_name'     => $campaign_rs['name'],
+            'asset_type'    => $asset_type,
+            'asset_status'  => $asset_status,
+            'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+        ];
 
         // Email to task creator..
         Mail::to($user_rs['email'])->send(new CopyReview($details));
@@ -97,12 +105,6 @@ class NotifyController extends Controller
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id
-        ];
-
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
 
@@ -113,6 +115,15 @@ class NotifyController extends Controller
             $user_rs = $user_obj->getJoahDirector();
             if($user_rs) {
                 foreach ($user_rs as $user){
+                    $details = [
+                        'who'           => $user_rs['first_name'],
+                        'c_id'          => $c_id,
+                        'a_id'          => $a_id,
+                        'task_name'     => $campaign_rs['name'],
+                        'asset_type'    => $asset_type,
+                        'asset_status'  => $asset_status,
+                        'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+                    ];
                     Mail::to($user['email'])->send(new CopyComplete($details));
                 }
             }
@@ -120,6 +131,15 @@ class NotifyController extends Controller
             $user_rs = $user_obj->getCreativeDirector();
             if($user_rs) {
                 foreach ($user_rs as $user){
+                    $details = [
+                        'who'           => $user_rs['first_name'],
+                        'c_id'          => $c_id,
+                        'a_id'          => $a_id,
+                        'task_name'     => $campaign_rs['name'],
+                        'asset_type'    => $asset_type,
+                        'asset_status'  => $asset_status,
+                        'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+                    ];
                     Mail::to($user['email'])->send(new CopyComplete($details));
                 }
             }
@@ -134,27 +154,23 @@ class NotifyController extends Controller
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
-            'assignee' => $assignee,
-        ];
+        $campaign_obj = new CampaignRepository();
+        $campaign_rs = $campaign_obj->findById($c_id);
 
         $user_obj = new UserRepository();
         $names = $user_obj->getEmailByDesignerName($assignee);
 
-        $receiver_list = array();
-
         foreach ($names as $name){
-            $receiver_list[] = $name['email'];
-        }
-
-        if($receiver_list){
-            foreach ($receiver_list as $toEmail){
-                // Send Notify to assigned designers
-                Mail::to($toEmail)->send(new Todo($details));
-            }
+            $details = [
+                'who'           => $name['first_name'],
+                'c_id'          => $c_id,
+                'a_id'          => $a_id,
+                'task_name'     => $campaign_rs['name'],
+                'asset_type'    => $asset_type,
+                'asset_status'  => $asset_status,
+                'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+            ];
+            Mail::to($name['email'])->send(new Todo($details));
         }
     }
 
@@ -166,11 +182,7 @@ class NotifyController extends Controller
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id
-        ];
+
 
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
@@ -181,6 +193,16 @@ class NotifyController extends Controller
         $user_rs = $user_obj->findById($author_id);
 
         if($user_rs) {
+            $details = [
+                'who'           => $user_rs['first_name'],
+                'c_id'          => $c_id,
+                'a_id'          => $a_id,
+                'task_name'     => $campaign_rs['name'],
+                'asset_type'    => $asset_type,
+                'asset_status'  => $asset_status,
+                'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+            ];
+
             Mail::to($user_rs['email'])->send(new FinalApproval($details));
         }
     }
@@ -193,13 +215,6 @@ class NotifyController extends Controller
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'decline_copy' => $params['decline_copy'],
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id
-        ];
-
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
 
@@ -209,6 +224,15 @@ class NotifyController extends Controller
         $user_rs = $user_obj->findById($author_id);
 
         if($user_rs) {
+            $details = [
+                'who'           => $user_rs['first_name'],
+                'c_id'          => $c_id,
+                'a_id'          => $a_id,
+                'task_name'     => $campaign_rs['name'],
+                'asset_type'    => $asset_type,
+                'asset_status'  => $asset_status,
+                'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+            ];
             Mail::to($user_rs['email'])->send(new DeclineCreative($details));
         }
     }
@@ -222,26 +246,25 @@ class NotifyController extends Controller
         $asset_status = $asset_index_rs['status'];
         $asset_assignee = $asset_index_rs['assignee'];
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'decline_kec' => $params['decline_kec'],
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id
-        ];
-
         $user_obj = new UserRepository();
         $names = $user_obj->getEmailByDesignerName($asset_assignee);
 
+        $campaign_obj = new CampaignRepository();
+        $campaign_rs = $campaign_obj->findById($c_id);
+
         foreach ($names as $name){
-            $receiver_list[] = $name['email'];
+            $details = [
+                'who'           => $name['first_name'],
+                'c_id'          => $c_id,
+                'a_id'          => $a_id,
+                'task_name'     => $campaign_rs['name'],
+                'asset_type'    => $asset_type,
+                'asset_status'  => $asset_status,
+                'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+            ];
+            Mail::to($name['email'])->send(new DeclineKec($details));
         }
 
-        if($receiver_list){
-            foreach ($receiver_list as $toEmail){
-                // Send Notify to assigned designers back!
-                Mail::to($toEmail)->send(new DeclineKec($details));
-            }
-        }
     }
 
     public function decline_from_creative($c_id, $a_id, $params)
@@ -252,13 +275,6 @@ class NotifyController extends Controller
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
 
-        $details = [
-            'asset_type' => $asset_type,
-            'asset_status' => $asset_status,
-            'decline_creative' => $params['decline_creative'],
-            'url' => '/admin/campaign/'.$c_id.'/edit#'.$a_id
-        ];
-
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
 
@@ -268,6 +284,15 @@ class NotifyController extends Controller
         $user_rs = $user_obj->findById($author_id); // task creator
 
         if($user_rs) {
+            $details = [
+                'who'           => $user_rs['first_name'],
+                'c_id'          => $c_id,
+                'a_id'          => $a_id,
+                'task_name'     => $campaign_rs['name'],
+                'asset_type'    => $asset_type,
+                'asset_status'  => $asset_status,
+                'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+            ];
             Mail::to($user_rs['email'])->send(new DeclineCreative($details));
         }
     }
