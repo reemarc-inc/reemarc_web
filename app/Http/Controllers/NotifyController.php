@@ -170,10 +170,7 @@ class NotifyController extends Controller
                 'asset_status'  => $asset_status,
                 'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
             ];
-
-            // Test for email function
-            Mail::to($name['email'])->send(new CopyComplete($details));
-//            Mail::to($name['email'])->send(new Todo($details));
+            Mail::to($name['email'])->send(new Todo($details));
         }
     }
 
