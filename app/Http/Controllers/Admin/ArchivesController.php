@@ -132,6 +132,11 @@ class ArchivesController extends Controller
         $campaign = $this->campaignRepository->findById($id);
         $this->data['campaign'] = $campaign;
         $this->data['campaign_brand'] = $campaign->campaign_brand;
+        $this->data['promotions'] = [
+            'KEC',
+            'Global Marketing'
+        ];
+        $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
 
         // Campaign_assets
