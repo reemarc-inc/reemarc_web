@@ -116,7 +116,7 @@ class NotifyController extends Controller
             if($user_rs) {
                 foreach ($user_rs as $user){
                     $details = [
-                        'who'           => $user_rs['first_name'],
+                        'who'           => $user['first_name'],
                         'c_id'          => $c_id,
                         'a_id'          => $a_id,
                         'task_name'     => $campaign_rs['name'],
@@ -132,7 +132,7 @@ class NotifyController extends Controller
             if($user_rs) {
                 foreach ($user_rs as $user){
                     $details = [
-                        'who'           => $user_rs['first_name'],
+                        'who'           => $user['first_name'],
                         'c_id'          => $c_id,
                         'a_id'          => $a_id,
                         'task_name'     => $campaign_rs['name'],
