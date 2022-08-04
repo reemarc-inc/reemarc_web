@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AssignToDo;
 use App\Mail\CopyComplete;
 use App\Mail\CopyRequest;
 use App\Mail\CopyReview;
@@ -170,7 +171,8 @@ class NotifyController extends Controller
                 'asset_status'  => $asset_status,
                 'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
             ];
-            Mail::to($name['email'])->send(new Todo($details));
+//            Mail::to($name['email'])->send(new Todo($details));
+            Mail::to($name['email'])->send(new AssignToDo($details));
         }
     }
 
