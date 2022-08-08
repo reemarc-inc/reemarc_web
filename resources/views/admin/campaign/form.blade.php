@@ -375,15 +375,26 @@
                             <div class="col">
                                 <div class="form-group">
                                     @foreach ($correspondences as $correspondence)
-                                        <?php $color_role = strtolower(add_underscores($correspondence->users->role)); ?>
+
+                                        <?php if(!empty($correspondence->users)) { ?>
+                                            <?php $role = $correspondence->users->role ?>
+                                            <?php $team = $correspondence->users->team ?>
+                                            <?php $first_name = $correspondence->users->first_name ?>
+                                        <?php }else{  ?>
+                                        <?php $role = 'graphic designer' ?>
+                                        <?php $team = 'Creative' ?>
+                                        <?php $first_name = 'Not Exist User' ?>
+                                        <?php } ?>
+
+                                        <?php $color_role = strtolower(add_underscores($role)); ?>
                                         <div class="note">
                                             <ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
                                                 <li class="media">
                                                     <div class="media-body">
                                                         <div class="media-title-note {{$color_role}}" >
                                                             <div class="media-right"><div class="text-time">{{ date('m/d/y g:i A', strtotime($correspondence->date_created)) }}</div></div>
-                                                            <div class="media-title mb-1">{{ $correspondence->users->first_name }}</div>
-                                                            <div class="text-time">{{ $correspondence->users->team }} | {{ $correspondence->users->role }}</div>
+                                                            <div class="media-title mb-1">{{ $first_name }}</div>
+                                                            <div class="text-time">{{ $team }} | {{ $role }}</div>
                                                         </div>
                                                         <div class="media-description text-muted" style="padding: 15px;">
                                                             {!! $correspondence->note !!}
