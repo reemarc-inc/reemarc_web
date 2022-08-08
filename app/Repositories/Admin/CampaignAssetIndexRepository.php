@@ -129,7 +129,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             where cai.status = "copy_complete"
             ' . $filter_1 . $filter_2 . $filter_3 . '
-            order by due desc');
+            order by due asc');
     }
 
     public function get_asset_jira_todo($str)
@@ -174,7 +174,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "to_do"
             and cai.assignee like "%'.$str.'%"
-            order by due desc');
+            order by due asc');
     }
 
     public function get_asset_jira_progress($str)
@@ -219,7 +219,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "in_progress"
             and cai.assignee like "%'.$str.'%"
-            order by due desc');
+            order by due asc');
     }
 
     public function get_asset_jira_done($str)
@@ -264,7 +264,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "done"
             and cai.assignee like "%'.$str.'%"
-            order by due desc');
+            order by due asc');
     }
 
     public function get_asset_jira_finish($str)
@@ -311,7 +311,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status = "final_approval"
             and cai.assignee like "%'.$str.'%"
             and cai.updated_at >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
-            order by updated_at desc');
+            order by updated_at asc');
     }
 
     public function get_asset_jira_copy_request($str)
@@ -361,7 +361,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and ci.name is not null
             and date_created > "2022-01-01 00:00:00"
             and u.first_name like "%'.$str.'%"
-            order by due desc');
+            order by due asc');
     }
 
     public function get_asset_jira_copy_review($str)
@@ -411,7 +411,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and ci.name is not null
             and date_created > "2021-01-01 00:00:00"
             and u.first_name like "%'.$str.'%"
-            order by due desc');
+            order by due asc');
     }
 
     public function get_asset_jira_copy_complete($str)
@@ -461,7 +461,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and ci.name is not null
             and date_created > "2022-03-01 00:00:00"
             and u.first_name like "%'.$str.'%"
-            order by due desc');
+            order by due asc');
     }
 
     public function get_asset_jira_waiting_final_approval($str)
@@ -510,7 +510,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status = "done"
             and ci.name is not null
             and u.first_name like "%'.$str.'%"
-            order by due desc');
+            order by due asc');
     }
 
 }
