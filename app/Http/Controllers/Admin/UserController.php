@@ -169,6 +169,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+        if ( ($id != auth()->user()->id) && (auth()->user()->role !='admin') ) {
+            return redirect('admin/campaign')
+                ->with('error', 'Could not change.');
+        }
+
         $user = $this->userRepository->findById($id);
 
         $this->data['user'] = $user;
@@ -218,11 +223,11 @@ class UserController extends Controller
         }
 
         if ($this->userRepository->update($id, $param)) {
-            return redirect('admin/users')
+            return redirect('admin/users/'.$id.'/edit')
                 ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
         }
 
-        return redirect('admin/users')
+        return redirect('admin/users/'.$id.'/edit')
                 ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
     }
 
