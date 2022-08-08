@@ -106,9 +106,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -150,9 +150,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -195,9 +195,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -240,9 +240,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -286,9 +286,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -334,9 +334,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -384,9 +384,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -434,9 +434,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
@@ -484,9 +484,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_search_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_to as due from campaign_type_social_ad
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
                     union all
