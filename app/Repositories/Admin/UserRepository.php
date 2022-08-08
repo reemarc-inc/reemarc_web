@@ -9,6 +9,7 @@ use App\Repositories\Admin\Interfaces\UserRepositoryInterface;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
 
 //use App\Models\Role;
 
@@ -74,6 +75,8 @@ class UserRepository implements UserRepositoryInterface
         }
 
         return DB::transaction(function () use ($params, $user) {
+
+            $params['password'] = Hash::make($params['password']);
             $user->update($params);
 //            $this->syncRolesAndPermissions($params, $user);
 
