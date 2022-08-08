@@ -35,7 +35,7 @@
                                                         <div class="bullet"></div>
                                                         <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #eacc34" data-initial="{{$asset->campaign_id}}"></figure>
                                                         <div class="bullet"></div>
-                                                        {{ date('m/d/Y', strtotime($asset->date_created)) }}
+                                                        {{ date('m/d/Y', strtotime($asset->due)) }}
                                                     </div>
                                             </div>
                                         </div>
@@ -62,7 +62,7 @@
                                                 <div class="bullet"></div>
                                                 <figure class="avatar mr-2 avatar-sm text-white" style="background-color: lightsalmon" data-initial="{{$asset->campaign_id}}"></figure>
                                                 <div class="bullet"></div>
-                                                {{ date('m/d/Y', strtotime($asset->date_created)) }}
+                                                {{ date('m/d/Y', strtotime($asset->due)) }}
                                             </div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                                 <div class="bullet"></div>
                                                 <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #ea3c75" data-initial="{{$asset->campaign_id}}"></figure>
                                                 <div class="bullet"></div>
-                                                {{ date('m/d/Y', strtotime($asset->date_created)) }}
+                                                {{ date('m/d/Y', strtotime($asset->due)) }}
                                             </div>
                                         </div>
                                     </div>
@@ -116,7 +116,7 @@
                                                 <div class="bullet"></div>
                                                 <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #3392af" data-initial="{{$asset->campaign_id}}"></figure>
                                                 <div class="bullet"></div>
-                                                {{ date('m/d/Y', strtotime($asset->date_created)) }}
+                                                {{ date('m/d/Y', strtotime($asset->due)) }}
                                             </div>
                                         </div>
                                     </div>
