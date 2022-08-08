@@ -321,11 +321,21 @@ class AssetController extends Controller
         }else{
             $str = !empty($param['q']) ? $param['q'] : '';
         }
+
+        if(isset($_GET['brand'])) {
+            $brand_id = $param['brand'];
+        }else{
+            $brand_id = !empty($param['brand']) ? $param['brand'] : '';
+        }
+        $this->data['brand_'] = $brand_id;
+
         $this->data['filter'] = $param;
-        $this->data['asset_list_copy_request'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_request($str);
-        $this->data['asset_list_copy_review'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_review($str);
-        $this->data['asset_list_copy_complete'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_complete($str);
-        $this->data['asset_list_waiting_final_approval'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval($str);
+        $this->data['asset_list_copy_request'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_request($str, $brand_id);
+        $this->data['asset_list_copy_review'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_review($str, $brand_id);
+        $this->data['asset_list_copy_complete'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_complete($str, $brand_id);
+        $this->data['asset_list_waiting_final_approval'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval($str, $brand_id);
+
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 
         return view('admin.asset.jira_kec', $this->data);
     }

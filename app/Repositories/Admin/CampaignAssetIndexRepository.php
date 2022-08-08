@@ -314,8 +314,15 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by updated_at asc');
     }
 
-    public function get_asset_jira_copy_request($str)
+    public function get_asset_jira_copy_request($str, $brand_id)
     {
+
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
         return DB::select(
             'select  c_id as campaign_id,
                     a_id as asset_id,
@@ -359,13 +366,20 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_requested"
             and ci.name is not null
+              ' . $brand_filter . '
             and date_created > "2022-01-01 00:00:00"
             and u.first_name like "%'.$str.'%"
             order by due asc');
     }
 
-    public function get_asset_jira_copy_review($str)
+    public function get_asset_jira_copy_review($str, $brand_id)
     {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
         return DB::select(
             'select  c_id as campaign_id,
                     a_id as asset_id,
@@ -409,13 +423,20 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_review"
             and ci.name is not null
+              ' . $brand_filter . '
             and date_created > "2021-01-01 00:00:00"
             and u.first_name like "%'.$str.'%"
             order by due asc');
     }
 
-    public function get_asset_jira_copy_complete($str)
+    public function get_asset_jira_copy_complete($str, $brand_id)
     {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
         return DB::select(
             'select  c_id as campaign_id,
                     a_id as asset_id,
@@ -459,13 +480,20 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_complete"
             and ci.name is not null
+              ' . $brand_filter . '
             and date_created > "2022-03-01 00:00:00"
             and u.first_name like "%'.$str.'%"
             order by due asc');
     }
 
-    public function get_asset_jira_waiting_final_approval($str)
+    public function get_asset_jira_waiting_final_approval($str, $brand_id)
     {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
         return DB::select(
             'select  c_id as campaign_id,
                     a_id as asset_id,
@@ -509,6 +537,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "done"
             and ci.name is not null
+              ' . $brand_filter . '
             and u.first_name like "%'.$str.'%"
             order by due asc');
     }
