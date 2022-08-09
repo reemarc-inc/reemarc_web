@@ -16,14 +16,13 @@
         <li class="{{ ($currentAdminMenu == 'campaign') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/campaign') }}"><i class="fas fa-calendar"></i> <span>Project Manage</span></a></li>
         <li class="{{ ($currentAdminMenu == 'archives') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/archives') }}"><i class="fas fa-archive"></i> <span>Project Archives</span></a></li>
 
-        <?php if(auth()->user()->team == 'KEC' || auth()->user()->team == 'Brand' || auth()->user()->role == 'admin'){ ?>
         <li class="menu-header">Asset</li>
+        <?php if(auth()->user()->team == 'KEC' || auth()->user()->team == 'Brand' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira_kec') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_kec') }}"><i class="fas fa-th"></i> <span>Status Board (KEC)</span></a></li>
+        <?php } ?>
         <?php if(auth()->user()->role == 'creative director' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_approval') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_approval') }}"><i class="fas fa-th-list"></i> <span>Approval List</span></a></li>
         <?php } ?>
-        <?php } ?>
-
         <?php if(auth()->user()->team == 'Creative' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira') }}"><i class="fas fa-th"></i> <span>Status Board (Creative)</span></a></li>
         <?php } ?>
