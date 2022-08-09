@@ -24,8 +24,7 @@ class CampaignRepository implements CampaignRepositoryInterface
             }
         }
         if (!empty($options['filter']['q'])) {
-            $campaigns = $campaigns->Where('name', 'LIKE', "%{$options['filter']['q']}%")
-                ->orWhere('author_name', 'LIKE', "%{$options['filter']['q']}%");
+            $campaigns = $campaigns->Where('name', 'LIKE', "%{$options['filter']['q']}%");
         }
         if (!empty($options['filter']['status'])) {
             $campaigns = $campaigns->where('status', $options['filter']['status']);
