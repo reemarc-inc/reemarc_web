@@ -3,7 +3,7 @@
 @endphp
 <aside id="sidebar-wrapper">
     <div class="sidebar-brand">
-        <a href="{{ url('/admin/dashboard')}}">KOE PROJECT MANAGER</a>
+        <a href="{{ url('/admin/dashboard')}}">KISS PROJECT MANAGER</a>
     </div>
     <div class="sidebar-brand sidebar-brand-sm">
         <a href="{{ url('/')}}">KPM</a>
@@ -13,7 +13,7 @@
         <li class="{{ ($currentAdminMenu == 'dashboard') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/dashboard') }}"><i class="fas fa-fire"></i> <span>Dashboard</span></a></li>
 
         <li class="menu-header">Project</li>
-        <li class="{{ ($currentAdminMenu == 'campaign') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/campaign') }}"><i class="fas fa-calendar"></i> <span>Project Manage</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'campaign') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/campaign') }}"><i class="fas fa-calendar"></i> <span>Project Manager</span></a></li>
         <li class="{{ ($currentAdminMenu == 'archives') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/archives') }}"><i class="fas fa-archive"></i> <span>Project Archives</span></a></li>
 
         <li class="menu-header">Asset</li>
