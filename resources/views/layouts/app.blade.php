@@ -23,7 +23,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <a class="navbar-brand" href="{{ url('/') }}">
-                KEC Project Manager
+                KOO Project Manager
             </a>
             <div class="container">
 {{--                <a class="navbar-brand" href="{{ url('/') }}">--}}
