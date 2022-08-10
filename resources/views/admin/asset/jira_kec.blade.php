@@ -4,10 +4,10 @@
 
     <section class="section">
         <div class="section-header">
-            <h1>Status Board (KOO)</h1>
+            <h1>Status Board (KOE)</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Status Board (KOO)</div>
+                <div class="breadcrumb-item">Status Board (KOE)</div>
             </div>
         </div>
 
