@@ -3,10 +3,10 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>KOE Project Manage</h1>
+        <h1>KISS Project Manager</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
-            <div class="breadcrumb-item active">Project Manage</div>
+            <div class="breadcrumb-item active">Project Manager</div>
         </div>
     </div>
     <div class="section-body">
