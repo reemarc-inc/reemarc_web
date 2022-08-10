@@ -18,6 +18,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('/storage/campaigns/1/koe-favicon.png') }}">
+
 </head>
 <body>
     <div id="app">
