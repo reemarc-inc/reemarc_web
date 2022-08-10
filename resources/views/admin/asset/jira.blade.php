@@ -22,23 +22,27 @@
                     <h2 class="section-title">To Do</h2>
                         @foreach ($asset_list_todo as $asset)
                             <div class="card">
-                                <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
-                                    <div class="card-body">
-                                        <div class="media" style="padding-bottom: 0px;">
-                                            <div class="form-group" style="width: 100%">
-                                                    <div class="media-right" >{{$asset->campaign_name}}</div>
-                                                    <div class="media-title mb-1">{{$asset->assignee}}</div>
-                                                    <div class="text-time">{{ date('m/d/Y', strtotime($asset->due))}}</div>
-                                                    <div class="media-description text-muted">{{$asset->name}}</div>
-                                                    <div class="media-links">
-                                                        {{ ucwords(str_replace('_', ' ', $asset->asset_type))}} ({{$asset->asset_id}})
-                                                        <div class="bullet"></div>
-                                                        <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #fc544b" data-initial="{{$asset->campaign_id}}"></figure>
-                                                    </div>
+                                <div class="card-body">
+                                    <div class="media" style="padding-bottom: 0px;">
+                                        <div class="form-group" style="width: 100%">
+                                            <div class="media-right" >{{$asset->campaign_name}}</div>
+                                            <div class="media-title mb-1">
+                                            <a href="">
+                                                {{$asset->assignee}}
+                                            </a>
                                             </div>
+                                            <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
+                                                <div class="text-time">{{ date('m/d/Y', strtotime($asset->due))}}</div>
+                                                <div class="media-description text-muted">{{$asset->name}}</div>
+                                                <div class="media-links">
+                                                    {{ ucwords(str_replace('_', ' ', $asset->asset_type))}} ({{$asset->asset_id}})
+                                                    <div class="bullet"></div>
+                                                    <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #fc544b" data-initial="{{$asset->campaign_id}}"></figure>
+                                                </div>
+                                            </a>
                                         </div>
                                     </div>
-                                </a>
+                                </div>
                             </div>
                         @endforeach
                 </div>
