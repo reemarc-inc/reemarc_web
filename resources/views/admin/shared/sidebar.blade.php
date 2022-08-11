@@ -18,7 +18,7 @@
 
         <li class="menu-header">Asset</li>
         <?php if(auth()->user()->team == 'KEC' || auth()->user()->team == 'Brand' || auth()->user()->role == 'admin'){ ?>
-        <li class="{{ ($currentAdminMenu == 'asset_jira_kec') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_kec') }}"><i class="fas fa-th"></i> <span>Status Board (KOE)</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'asset_jira_kec') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_kec') }}"><i class="fas fa-th"></i> <span>Status Board (Omnichannel)</span></a></li>
         <?php } ?>
         <?php if(auth()->user()->role == 'creative director' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_approval') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_approval') }}"><i class="fas fa-th-list"></i> <span>Approval List</span></a></li>
