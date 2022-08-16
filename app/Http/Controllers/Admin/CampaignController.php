@@ -188,9 +188,34 @@ class CampaignController extends Controller
             'Global Marketing'
         ];
 
+        $this->data['retailers'] = [
+            "ASDA",
+            "Boots",
+            "Bundi",
+            "CVS",
+            "Dollar General",
+            "eBay",
+            "Family Dollar",
+            "K-Mart",
+            "Kaufland",
+            "Kroger",
+            "London Drug",
+            "Muller",
+            "RiteAid",
+            "Rossmann",
+            "Superdrug",
+            "Target",
+            "TESCO",
+            "ULTA",
+            "Wal-mart",
+            "Walgreens",
+            "Website",
+        ];
+
         $this->data['campaign_brand'] = null;
         $this->data['promotion'] = null;
         $this->data['campaign'] = null;
+        $this->data['retailer'] = null;
 
         return view('admin.campaign.form', $this->data);
     }
@@ -309,8 +334,34 @@ class CampaignController extends Controller
             'KEC',
             'Global Marketing'
         ];
+
+        $this->data['retailers'] = [
+            "ASDA",
+            "Boots",
+            "Bundi",
+            "CVS",
+            "Dollar General",
+            "eBay",
+            "Family Dollar",
+            "K-Mart",
+            "Kaufland",
+            "Kroger",
+            "London Drug",
+            "Muller",
+            "RiteAid",
+            "Rossmann",
+            "Superdrug",
+            "Target",
+            "TESCO",
+            "ULTA",
+            "Wal-mart",
+            "Walgreens",
+            "Website",
+        ];
+
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
+        $this->data['retailer'] = $campaign->retailer;
 
         // Campaign_assets
         $this->data['assets'] = $assets_list = $this->campaignRepository->getAssetListById($id);

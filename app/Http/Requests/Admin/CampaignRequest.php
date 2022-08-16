@@ -37,6 +37,7 @@ class CampaignRequest extends FormRequest
 
         return [
             'campaign_brand' => ['required'],
+            'retailer' => [''],
             'promotion' => ['required'],
             'name' => ['required','string', 'max:255'],
             'date_from' => ['required'],
