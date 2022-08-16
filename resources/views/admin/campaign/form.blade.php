@@ -53,7 +53,7 @@
                                         <div class="form-group">
                                             <label>Brands</label>
                                             <select class="form-control @error('campaign_brand') is-invalid @enderror @if (!$errors->has('campaign_brand') && old('campaign_brand')) is-valid @endif"
-                                                    name="campaign_brand">
+                                                    name="campaign_brand" id="campaign_brand" onchange="check_retailer()">
                                                 <option value="">Select</option>
                                                 @foreach ($brands as $key => $value)
                                                     <option value="{{ $key }}" {{ $key == $campaign_brand ? 'selected' : '' }}>
@@ -67,6 +67,48 @@
                                             </div>
                                             @enderror
                                         </div>
+
+
+                                        @if (!empty($campaign->retailer))
+                                        <div class="form-group retailer_box">
+                                            <label>Retailer</label>
+                                            <select class="form-control @error('retailer') is-invalid @enderror @if (!$errors->has('retailer') && old('retailer')) is-valid @endif"
+                                                    name="retailer" id="retailer">
+                                                <option value="">Select</option>
+                                                @foreach ($retailers as $key => $value)
+                                                    <option value="{{ $value }}" {{ $value == $retailer ? 'selected' : '' }}>
+                                                        {{ $value }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            @error('retailer')
+                                            <div class="invalid-feedback">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+                                        @else
+                                            <div class="form-group retailer_box" style="display: none">
+                                                <label>Retailer</label>
+                                                <select class="form-control @error('retailer') is-invalid @enderror @if (!$errors->has('retailer') && old('retailer')) is-valid @endif"
+                                                        name="retailer" id="retailer">
+                                                    <option value="">Select</option>
+                                                    @foreach ($retailers as $key => $value)
+                                                        <option value="{{ $value }}" {{ $value == $retailer ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @error('retailer')
+                                                <div class="invalid-feedback">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
+                                            </div>
+                                        @endif
+
+
+
                                         <div class="form-group">
                                             <label>Promotion</label>
                                             <select class="form-control @error('promotion') is-invalid @enderror @if (!$errors->has('promotion') && old('promotion')) is-valid @endif"
@@ -470,6 +512,16 @@
 
 
     <script>
+
+        function check_retailer(){
+            if($('#campaign_brand').val() == 10){
+                $(".retailer_box").show();
+            }else{
+                $(".retailer_box").hide();
+                $("#retailer").val("");
+            }
+        }
+
         function click_asset_add_btn(){
 
             $("#add_asset_btn").hide();
