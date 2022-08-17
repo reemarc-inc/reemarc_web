@@ -488,7 +488,7 @@
                         <?php $name = $name[count($name)-1]; ?>
                         <div class="modal-title text-lg-center">{{ $name }}</div>
                         <div class="modal-body">
-                            <img class="img-fluid" src="<?php echo '/storage' . $attachment['attachment']; ?>" />
+                            <img class="img-fluid" src="<?php echo '/storage' . $attachment['attachment']; ?>">
                         </div>
                         <div class="modal-footer">
                             <button type="button"
