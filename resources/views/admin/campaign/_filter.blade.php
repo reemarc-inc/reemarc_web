@@ -12,7 +12,7 @@
             <button class="btn btn-block btn-primary btn-filter"><i class="fas fa-search"></i> {{ __('general.btn_search_label') }}</button>
         </div>
         <div class="form-group col-md-2">
-            <a href="{{ url('admin/campaign/create') }}" class="btn btn-block btn-icon icon-left btn-success btn-filter"><i class="fas fa-plus-circle"></i> Create Campaign</a>
+            <a href="{{ url('admin/campaign/create') }}" class="btn btn-block btn-icon icon-left btn-success btn-filter"><i class="fas fa-plus-circle"></i>Create Project</a>
         </div>
     </div>
 </form>
