@@ -265,7 +265,7 @@
             <div class="modal-title text-lg-center" style="font-size: 18px; color: #1a1a1a; float: right;">{{ $name }} </div>
             <div class="modal-title text-sm-center">{{ $attachment['date_created'] }} </div>
             <div class="modal-body">
-                <img class="img-fluid" src=<?php echo '/storage' . $attachment['attachment']; ?> />
+                <img class="img-fluid" src="<?php echo '/storage' . $attachment['attachment']; ?>">
             </div>
             <div class="modal-footer">
                 <button type="button"
