@@ -107,17 +107,6 @@ class ArchivesController extends Controller
     {
         $this->data['currentAdminMenu'] = 'archives';
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
-//        $this->data['assignees'] = [
-//            'Stephanie',
-//            'Christine',
-//            'Lindsay',
-//            'Chi',
-//            'Jaewon',
-//            'Jay',
-//            'Hyeonji',
-//            'Yuri',
-//            'Jessica'
-//        ];
 
         // Campaign_type_asset_attachments
         $options = [
@@ -136,8 +125,34 @@ class ArchivesController extends Controller
             'KEC',
             'Global Marketing'
         ];
+
+        $this->data['retailers'] = [
+            "ASDA",
+            "Boots",
+            "Bundi",
+            "CVS",
+            "Dollar General",
+            "eBay",
+            "Family Dollar",
+            "K-Mart",
+            "Kaufland",
+            "Kroger",
+            "London Drug",
+            "Muller",
+            "RiteAid",
+            "Rossmann",
+            "Superdrug",
+            "Target",
+            "TESCO",
+            "ULTA",
+            "Wal-mart",
+            "Walgreens",
+            "Website",
+        ];
+
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
+        $this->data['retailer'] = $campaign->retailer;
 
         // Campaign_assets
         $this->data['assets'] = $assets_list = $this->campaignRepository->getAssetListById($id);
