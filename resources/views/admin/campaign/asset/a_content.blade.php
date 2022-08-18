@@ -1,5 +1,30 @@
 <?php $asset_id = $data[0][0]->asset_id; $c_id = $data[0][0]->id; $a_type = $data[0][0]->type; ?>
 
+<?php if(!empty($data[6]) && (auth()->user()->role == 'admin' || auth()->user()->role == 'creative director')) { ?>
+<div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 3px;">
+    <form method="POST" action="{{ route('asset.assign') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="form-group">
+            <label>Assignee</label>
+            <select class="form-control" name="assignee">
+                <option value="">Select</option>
+                @foreach ($assignees as $designer)
+                    <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
+                        {{ $designer->first_name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <input type="hidden" name="a_id" value="{{ $asset_id }}">
+        <input type="hidden" name="c_id" value="{{ $c_id }}">
+        <input type="hidden" name="a_type" value="{{ $a_type }}">
+        <div class=" text-right">
+            <button class="btn btn-info">Change</button>
+        </div>
+    </form>
+</div>
+<?php } ?>
+
 <form method="POST" action="{{ route('campaign.edit_a_content', $asset_id) }}" enctype="multipart/form-data">
     @csrf
 

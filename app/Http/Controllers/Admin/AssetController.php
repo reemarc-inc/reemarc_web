@@ -199,6 +199,35 @@ class AssetController extends Controller
             ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Approved and Assigned to '.$param['assignee'].'.'));
     }
 
+    public function asset_assign_change(Request $request)
+    {
+
+        $param = $request->all();
+        $params['id'] = $param['a_id'];
+        $c_id = $param['c_id'];
+        $a_type = $param['a_type'];
+        $params['campaign_id'] = $param['c_id'];
+        $params['type'] = $param['a_type'];
+        $params['status'] = 'to_do';
+        $params['assignee'] = $param['assignee'];
+        $params['updated_at'] = Carbon::now();
+
+        $this->campaignAssetIndexRepository->update($param['a_id'], $params);
+
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' has been Assigned to ' . $params['assignee'] , null);
+
+        // TODO notification
+        $notify = new NotifyController();
+        $notify->to_do($c_id, $param['a_id'], $param['assignee']);
+//        Log::info('email sent!!');
+        ////////////
+        $this->data['currentAdminMenu'] = 'asset_assign';
+
+        $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
+        return redirect('admin/campaign/'.$c_id.'/edit#'.$param['a_id'])
+            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Assigned to '.$param['assignee'].'.'));
+    }
+
     public function asset_decline_copy(Request $request)
     {
         $param = $request->all();
