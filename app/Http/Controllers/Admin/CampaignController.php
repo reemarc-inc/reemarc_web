@@ -363,6 +363,15 @@ class CampaignController extends Controller
         $this->data['assignee'] = $campaign->assignee;
         $this->data['retailer'] = $campaign->retailer;
 
+        $params_['role'] = 'graphic designer';
+        $options_ = [
+            'order' => [
+                'first_name' => 'asc',
+            ],
+            'filter' => $params_,
+        ];
+        $this->data['assignees'] = $this->userRepository->findAll($options_);
+
         // Campaign_assets
         $this->data['assets'] = $assets_list = $this->campaignRepository->getAssetListById($id);
 

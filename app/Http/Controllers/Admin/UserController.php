@@ -183,8 +183,8 @@ class UserController extends Controller
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
         $this->data['teams'] = [
             'KEC',
-            'Brand',
-            'Creative'
+            'Creative',
+            'Global Marketing'
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',

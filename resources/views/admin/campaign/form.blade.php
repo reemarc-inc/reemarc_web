@@ -289,6 +289,9 @@
                                                     <span style="color:#636363; font-size: medium;">({{ ucwords(str_replace('_', ' ', $asset->status)) }})</span>
 {{--                                                    <span style="color:#636363; font-size: medium;">({{ ucwords(str_replace('_', ' ', $asset->decline_creative)) }})</span>--}}
                                                     <span style="color:#999; font-size: medium;">{{ date('m/d/Y', strtotime($asset->due)) }}</span>
+                                                    <?php if(!empty($asset->assignee)) { ?>
+                                                    <span style="color:#2030ac; font-size: medium;">[ {{ $asset->assignee }} ]</span>
+                                                    <?php } ?>
                                                     <span class="float-right">
                                                         <i class="dropdown fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>
                                                         <a  href="javascript:void(0);"
@@ -306,7 +309,7 @@
                                             <div id="asset-id-{{$asset->a_id}}" class="box-body form_creator" data-asset-id="{{ $asset->a_id }}" style="display: none">
                                                 <section>
                                                     <div class="inner_box">
-                                                        <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy]; ?>
+                                                        <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy, $asset->assignee]; ?>
                                                         @include('admin.campaign.asset.'.$asset->a_type, $data)
                                                     </div>
                                                 </section>
