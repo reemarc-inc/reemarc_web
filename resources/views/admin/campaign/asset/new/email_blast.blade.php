@@ -110,12 +110,19 @@
 <script type="text/javascript">
     // Lead time +20 days - Email Blast
     $(function() {
-        var lead_time = new Date();
-        lead_time.setDate(lead_time.getDate()+20);
+        // var lead_time = new Date();
+        // lead_time.setDate(lead_time.getDate()+20);
+
+        var count = 20;
+        var d = new Date();
+        count = count + (parseInt(count/5))*2;
+        d.setDate(d.getDate() +count);
+        if(d.getDay()>5) {  d.setDate(d.getDate()+ (d.getDay()-5)) ; }
 
         $('input[name="<?php echo $asset_type; ?>_email_blast_date"]').daterangepicker({
             singleDatePicker: true,
-            minDate:lead_time,
+            minDate:d,
+            daysOfWeekDisabled: [0,6],
             locale: {
                 format: 'YYYY-MM-DD'
             },

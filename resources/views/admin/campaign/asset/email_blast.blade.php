@@ -393,6 +393,7 @@
         $('input[id="<?php echo $asset_id;?>_email_blast_date"]').daterangepicker({
             singleDatePicker: true,
             minDate:lead_time,
+            beforeShowDay: $.datepicker.noWeekends,
             locale: {
                 format: 'YYYY-MM-DD'
             },
