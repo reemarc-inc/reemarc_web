@@ -84,7 +84,7 @@
     </div>
 
     <div class="form-group">
-        <label>Email Blast Date: (Lead Time 20 Days)</label>
+        <label>Email Blast Date: (Lead Time 12 Days)</label>
         <input required type="text" name="{{ $asset_type }}_email_blast_date" id="new_email_blast_date"
                class="form-control @error($asset_type.'_email_blast_date') is-invalid @enderror @if (!$errors->has($asset_type.'_email_blast_date') && old($asset_type.'_email_blast_date')) is-valid @endif"
                value="{{ old($asset_type . '_email_blast_date', null) }}">
@@ -108,23 +108,27 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +20 days - Email Blast
+    // Lead time +12 days - Email Blast (exclude weekend)
     $(function() {
-        // var lead_time = new Date();
-        // lead_time.setDate(lead_time.getDate()+20);
-
-        var count = 20;
-        var d = new Date();
-        count = count + (parseInt(count/5))*2;
-        d.setDate(d.getDate() +count);
-        if(d.getDay()>5) {  d.setDate(d.getDate()+ (d.getDay()-5)) ; }
-
+        var count = 12;
+        var today = new Date();
+        for (let i = 1; i <= count; i++) {
+            today.setDate(today.getDate() + 1);
+            if (today.getDay() === 6) {
+                today.setDate(today.getDate() + 2);
+            }
+            else if (today.getDay() === 0) {
+                today.setDate(today.getDate() + 1);
+            }
+        }
         $('input[name="<?php echo $asset_type; ?>_email_blast_date"]').daterangepicker({
             singleDatePicker: true,
-            minDate:d,
-            daysOfWeekDisabled: [0,6],
+            minDate: today,
             locale: {
                 format: 'YYYY-MM-DD'
+            },
+            isInvalidDate: function(date) {
+                return (date.day() == 0 || date.day() == 6);
             },
         });
     });

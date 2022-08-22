@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>Run From: (Lead Time 18 Days)</label>
+                <label>Run From: (Lead Time 12 Days)</label>
                 <input type="text" name="{{ $asset_type }}_date_from" id="date_from" placeholder="Start date"
                        class="form-control @error('date_from') is-invalid @enderror @if (!$errors->has('date_from') && old('date_from')) is-valid @endif"
                        value="{{ old('date_from', null) }}">
@@ -98,16 +98,27 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +18 days - Social Ads
+    // Lead time +12 days - Social Ads (exclude weekend)
     $(function() {
-        var lead_time = new Date();
-        lead_time.setDate(lead_time.getDate()+18);
-
+        var count = 12;
+        var today = new Date();
+        for (let i = 1; i <= count; i++) {
+            today.setDate(today.getDate() + 1);
+            if (today.getDay() === 6) {
+                today.setDate(today.getDate() + 2);
+            }
+            else if (today.getDay() === 0) {
+                today.setDate(today.getDate() + 1);
+            }
+        }
         $('input[name="<?php echo $asset_type; ?>_date_from"]').daterangepicker({
             singleDatePicker: true,
-            minDate:lead_time,
+            minDate: today,
             locale: {
                 format: 'YYYY-MM-DD'
+            },
+            isInvalidDate: function(date) {
+                return (date.day() == 0 || date.day() == 6);
             },
         });
     });

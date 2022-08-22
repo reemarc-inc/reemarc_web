@@ -73,16 +73,27 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +7 days - Image Request
+    // Lead time +7 days - Image Request (exclude weekend)
     $(function() {
-        var lead_time = new Date();
-        lead_time.setDate(lead_time.getDate()+7);
-
+        var count = 7;
+        var today = new Date();
+        for (let i = 1; i <= count; i++) {
+            today.setDate(today.getDate() + 1);
+            if (today.getDay() === 6) {
+                today.setDate(today.getDate() + 2);
+            }
+            else if (today.getDay() === 0) {
+                today.setDate(today.getDate() + 1);
+            }
+        }
         $('input[name="<?php echo $asset_type; ?>_launch_date"]').daterangepicker({
             singleDatePicker: true,
-            minDate:lead_time,
+            minDate: today,
             locale: {
                 format: 'YYYY-MM-DD'
+            },
+            isInvalidDate: function(date) {
+                return (date.day() == 0 || date.day() == 6);
             },
         });
     });
