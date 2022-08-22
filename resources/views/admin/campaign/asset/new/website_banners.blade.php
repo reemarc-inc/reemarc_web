@@ -7,7 +7,7 @@
     <input type="hidden" name="{{ $asset_type }}_author_id" value="{{ Auth::user()->id }}" />
 
     <div class="form-group">
-        <label>Deadline Date: (Lead Time 22 Days)</label>
+        <label>Deadline Date: (Lead Time 13 Days)</label>
         <input type="text" name="{{ $asset_type }}_launch_date" id="{{ $asset_type }}_launch_date"
                class="form-control @error($asset_type.'_launch_date') is-invalid @enderror @if (!$errors->has($asset_type.'_launch_date') && old($asset_type.'_launch_date')) is-valid @endif"
                value="{{ old('launch_date', null) }}">
@@ -65,16 +65,27 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +22 days - Web Banners
+    // Lead time +13 days - Web Banners (exclude weekend)
     $(function() {
-        var lead_time = new Date();
-        lead_time.setDate(lead_time.getDate()+22);
-
+        var count = 13;
+        var today = new Date();
+        for (let i = 1; i <= count; i++) {
+            today.setDate(today.getDate() + 1);
+            if (today.getDay() === 6) {
+                today.setDate(today.getDate() + 2);
+            }
+            else if (today.getDay() === 0) {
+                today.setDate(today.getDate() + 1);
+            }
+        }
         $('input[name="<?php echo $asset_type; ?>_launch_date"]').daterangepicker({
             singleDatePicker: true,
-            minDate:lead_time,
+            minDate: today,
             locale: {
                 format: 'YYYY-MM-DD'
+            },
+            isInvalidDate: function(date) {
+                return (date.day() == 0 || date.day() == 6);
             },
         });
     });

@@ -71,20 +71,24 @@
     <div class="form-group">
         <table class="reminder_table">
             <tr>
-                <td><label><b>Writers Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -18 days')); ?></b></span></td>
+                <td><label><b>CopyWriters Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -12 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Creative Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -16 days')); ?></b></span></td>
+                <td><label><b>Creative Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -10 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Review Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -2 days')); ?></b></span></td>
+                <td><label><b>Review Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -3 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Develop Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -0 days')); ?></b></span></td>
+                <td><label><b>Development Start:</b></label></td>
+                <td style="color: #b91d19"><span><b></b></span></td>
+            </tr>
+            <tr>
+                <td><label><b>E-Commerce Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -1 weekday')); ?></b></span></td>
             </tr>
         </table>
     </div>

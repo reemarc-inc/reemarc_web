@@ -135,23 +135,24 @@
     <div class="form-group">
         <table class="reminder_table">
             <tr>
-                <td><label><b>Writers Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -20 days')); ?></b></span></td>
+                <td><label><b>CopyWriters Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -12 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Creative Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -18 days')); ?></b></span></td>
-
+                <td><label><b>Creative Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -10 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Review Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -4 days')); ?></b></span></td>
-
+                <td><label><b>Review Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -3 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Develop Due:</b></label></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -2 days')); ?></b></span></td>
-
+                <td><label><b>Development Start:</b></label></td>
+                <td style="color: #b91d19"><span><b></b></span></td>
+            </tr>
+            <tr>
+                <td><label><b>E-Commerce Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->email_blast_date . ' -1 weekday')); ?></b></span></td>
             </tr>
         </table>
     </div>
@@ -393,6 +394,7 @@
         $('input[id="<?php echo $asset_id;?>_email_blast_date"]').daterangepicker({
             singleDatePicker: true,
             minDate:lead_time,
+            beforeShowDay: $.datepicker.noWeekends,
             locale: {
                 format: 'YYYY-MM-DD'
             },
