@@ -6,11 +6,13 @@ use App\Mail\AssignToDo;
 use App\Mail\CopyComplete;
 use App\Mail\CopyRequest;
 use App\Mail\CopyReview;
+use App\Mail\DeclineCopy;
 use App\Mail\DeclineCreative;
 use App\Mail\DeclineKec;
 use App\Mail\FinalApproval;
 use App\Mail\SendMail;
 use App\Mail\Todo;
+use App\Models\CampaignBrands;
 use App\Models\User;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
 use App\Repositories\Admin\CampaignBrandsRepository;
@@ -220,22 +222,28 @@ class NotifyController extends Controller
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
 
-        $author_id = $campaign_rs['author_id'];
+        $brand_id = $campaign_rs['campaign_brand'];
+
+        $brand_obj = new CampaignBrandsRepository();
+        $brand_rs = $brand_obj->findById($brand_id);
 
         $user_obj = new UserRepository();
-        $user_rs = $user_obj->findById($author_id);
 
-        if($user_rs) {
-            $details = [
-                'who'           => $user_rs['first_name'],
-                'c_id'          => $c_id,
-                'a_id'          => $a_id,
-                'task_name'     => $campaign_rs['name'],
-                'asset_type'    => $asset_type,
-                'asset_status'  => $asset_status,
-                'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
-            ];
-            Mail::to($user_rs['email'])->send(new DeclineCreative($details));
+        // Send email to copy writers
+        $copywriter_rs = $user_obj->getWriterByBrandName($brand_rs['campaign_name']);
+        if($copywriter_rs) {
+            foreach ($copywriter_rs as $copywriter){
+                $details = [
+                    'who'           => $copywriter['first_name'],
+                    'c_id'          => $c_id,
+                    'a_id'          => $a_id,
+                    'task_name'     => $campaign_rs['name'],
+                    'asset_type'    => $asset_type,
+                    'asset_status'  => $asset_status,
+                    'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+                ];
+                Mail::to($copywriter['email'])->send(new DeclineCopy($details));
+            }
         }
     }
 
