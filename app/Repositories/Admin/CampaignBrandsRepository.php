@@ -7,6 +7,7 @@ use DB;
 use App\Repositories\Admin\Interfaces\CampaignBrandsRepositoryInterface;
 
 use App\Models\CampaignBrands;
+use Illuminate\Database\Eloquent\Model;
 
 class CampaignBrandsRepository implements CampaignBrandsRepositoryInterface
 {
@@ -50,6 +51,13 @@ class CampaignBrandsRepository implements CampaignBrandsRepositoryInterface
         $role  = Campaign::findOrFail($id);
 
         return $role->delete();
+    }
+
+    public function getBrandNameById($id)
+    {
+        $brand = new CampaignBrands();
+        $brand = $brand->Where('id', '=', "$id");
+        return $brand->get();
     }
 
 }
