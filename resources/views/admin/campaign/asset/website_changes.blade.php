@@ -204,6 +204,30 @@
     </div>
 </form>
 
+<?php if (!empty($data[2]) && $data[2] == 'copy_review') { ?>
+<?php if(auth()->user()->role == 'graphic designer'
+|| auth()->user()->role == 'ecommerce specialist'
+|| auth()->user()->role == 'marketing'
+|| auth()->user()->role == 'social media manager'
+|| auth()->user()->role == 'admin') { ?>
+<form method="POST" action="{{ route('asset.decline_copy') }}" enctype="multipart/form-data">
+    @csrf
+    <div class="card-body">
+        <div class="form-group">
+            <label>Decline Reason for Copy Review:</label>
+            <textarea class="form-control" id="decline_copy" name="decline_copy" rows="15" cols="100" style="min-height: 200px;"></textarea>
+        </div>
+    </div>
+    <input type="hidden" name="a_id" value="{{ $asset_id }}">
+    <input type="hidden" name="c_id" value="{{ $c_id }}">
+    <input type="hidden" name="a_type" value="{{ $a_type }}">
+    <div class="card-footer text-right">
+        <button class="btn btn-primary">Decline</button>
+    </div>
+</form>
+<?php } ?>
+<?php } ?>
+
 <?php if (!empty($data[2]) && $data[2] == 'done') { ?>
     <?php if(auth()->user()->role == 'graphic designer'
         || auth()->user()->role == 'ecommerce specialist'
