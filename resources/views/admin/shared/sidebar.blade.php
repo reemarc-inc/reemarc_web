@@ -17,7 +17,7 @@
         <li class="{{ ($currentAdminMenu == 'archives') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/archives') }}"><i class="fas fa-archive"></i> <span>Project Archives</span></a></li>
 
         <li class="menu-header">Asset</li>
-        <?php if(auth()->user()->team == 'KEC' || auth()->user()->team == 'Brand' || auth()->user()->role == 'admin'){ ?>
+        <?php if(auth()->user()->team == 'KEC' || auth()->user()->team == 'Global Marketing' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira_kec') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_kec') }}"><i class="fas fa-th"></i> <span>Status Board (Omnichannel)</span></a></li>
         <?php } ?>
         <?php if(auth()->user()->role == 'creative director' || auth()->user()->role == 'admin'){ ?>
