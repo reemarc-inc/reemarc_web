@@ -602,102 +602,217 @@ class CampaignController extends Controller
         }
     }
 
-    public function assetRemove($a_id, $type)
+    public function assetRemovePermissionCheck($a_id, $c_id, $type)
     {
+        $user = auth()->user();
 
-        $obj = $this->campaignAssetIndexRepository->findById($a_id);
-        $c_id = $obj->campaign_id;
-        // Add correspondence for asset Removed
-        $this->add_asset_correspondence($obj->campaign_id, $type, $a_id, 'Removed the Asset ');
+        if( ($user->role == 'admin') || ($user->role == 'creative director') ) return true; // admin okay
 
-        // Delete from campaignAssetIndex table
-        $this->campaignAssetIndexRepository->delete($a_id);
+        $c_obj = $this->campaignRepository->findById($c_id);
+        if($user->id != $c_obj->author_id){ // project author check
+            return false;
+        }
 
+        // asset creator check
         if($type == 'email_blast'){
-            if($this->campaignTypeEmailBlastRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeEmailBlastRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'social_ad'){
-            if($this->campaignTypeSocialAdRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeSocialAdRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'website_banners'){
-            if($this->campaignTypeWebsiteBannersRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeWebsiteBannersRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'website_changes'){
-            if($this->campaignTypeWebsiteChangesRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeWebsiteChangesRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'landing_page'){
-            if($this->campaignTypeLandingPageRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeLandingPageRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'misc'){
-            if($this->campaignTypeMiscRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeMiscRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'topcategories_copy'){
-            if($this->campaignTypeTopcategoriesCopyRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeTopcategoriesCopyRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'programmatic_banners'){
-            if($this->campaignTypeProgrammaticBannersRepository->deleteByAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeProgrammaticBannersRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'image_request'){
-            if($this->campaignTypeImageRequestRepository->deletebyAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeImageRequestRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'roll_over'){
-            if($this->campaignTypeRollOverRepository->deletebyAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeRollOverRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'store_front'){
-            if($this->campaignTypeStoreFrontRepository->deletebyAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeStoreFrontRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }else if($type == 'a_content'){
-            if($this->campaignTypeAContentRepository->deletebyAssetId($a_id)){
-                echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
-            }else{
-                echo 'fail';
+            $rs = $this->campaignTypeAContentRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
             }
         }
+        return true;
+    }
+    public function assetRemove($a_id, $type)
+    {
+        $obj = $this->campaignAssetIndexRepository->findById($a_id);
+        $c_id = $obj->campaign_id;
+
+        if($this->assetRemovePermissionCheck($a_id, $c_id, $type)){
+
+            // Add correspondence for asset Removed
+            $this->add_asset_correspondence($obj->campaign_id, $type, $a_id, 'Removed the Asset ');
+
+            // Delete from campaignAssetIndex table
+            $this->campaignAssetIndexRepository->delete($a_id);
+
+            if($type == 'email_blast'){
+                if($this->campaignTypeEmailBlastRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'social_ad'){
+                if($this->campaignTypeSocialAdRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'website_banners'){
+                if($this->campaignTypeWebsiteBannersRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'website_changes'){
+                if($this->campaignTypeWebsiteChangesRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'landing_page'){
+                if($this->campaignTypeLandingPageRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'misc'){
+                if($this->campaignTypeMiscRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'topcategories_copy'){
+                if($this->campaignTypeTopcategoriesCopyRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'programmatic_banners'){
+                if($this->campaignTypeProgrammaticBannersRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'image_request'){
+                if($this->campaignTypeImageRequestRepository->deletebyAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'roll_over'){
+                if($this->campaignTypeRollOverRepository->deletebyAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'store_front'){
+                if($this->campaignTypeStoreFrontRepository->deletebyAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'a_content'){
+                if($this->campaignTypeAContentRepository->deletebyAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }
+
+        }else{
+            echo 'fail';
+        }
+
     }
 
 
     public function campaignRemove($c_id)
     {
-        $this->campaignAssetIndexRepository->deleteByCampaignId($c_id);
 
-        if($this->campaignRepository->delete($c_id)){
-            echo 'success';
+        $user = auth()->user();
+        $c_obj = $this->campaignRepository->findById($c_id);
+        $a_id = $c_obj->author_id;
+
+        if( ($user->id == $a_id) || ($user->role == 'admin') || ($user->role == 'creative director') ){
+            $this->campaignAssetIndexRepository->deleteByCampaignId($c_id);
+            if($this->campaignRepository->delete($c_id)){
+                echo 'success';
+            }else{
+                echo 'fail';
+            }
         }else{
-            echo 'fail';
+            echo 'You do not have permission to remove';
         }
+
     }
 
     public function file_exist_check($file, $project_id, $asset_id)

@@ -742,13 +742,13 @@
                     type: "GET",
                     datatype: "json",
                     success: function(response) {
-                        if(response == 'fail'){
-                            alert('Failed');
-                        }else{
+                        if(response != 'fail'){
                             $(el).parent().parent().parent().parent().parent().parent().fadeOut( "slow", function() {
                                 $(el).parent().parent().parent().parent().parent().parent().remove();
                             });
                             window.location.reload(response);
+                        }else{
+                            alert('You do not have permission to remove');
                         }
                     },
                 })
