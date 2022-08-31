@@ -315,16 +315,35 @@ class AssetController extends Controller
         $param = $request->all();
         $this->data['currentAdminMenu'] = 'asset_jira';
 
-        $user = auth()->user();
-        if($user->team == 'Creative' && $user->role == 'graphic designer') {
-            if(isset($_GET['q'])){ // if search with nothing..
-                $str = $param['q'];
-            }else{ // if come first time..
-                $str = $param['q'] = $user->first_name;
-            }
+//        $user = auth()->user();
+//        if($user->team == 'Creative' && $user->role == 'graphic designer') {
+//            if(isset($_GET['q'])){ // if search with nothing..
+//                $str = $param['q'];
+//            }else{ // if come first time..
+//                $str = $param['q'] = $user->first_name;
+//            }
+//        }else{
+//            $str = !empty($param['q']) ? $param['q'] : '';
+//        }
+
+
+        $params['role'] = 'graphic designer';
+        $options = [
+            'order' => [
+                'first_name' => 'asc',
+            ],
+            'filter' => $params,
+        ];
+
+        $this->data['designers'] = $this->userRepository->findAll($options);
+
+        if(isset($_GET['designer'])){
+            $str = $param['designer'];
         }else{
-            $str = !empty($param['q']) ? $param['q'] : '';
+            $str = '';
         }
+
+        $this->data['designer'] = $str;
         $this->data['filter'] = $param;
         $this->data['asset_list_todo'] = $this->campaignAssetIndexRepository->get_asset_jira_todo($str);
         $this->data['asset_list_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_progress($str);
