@@ -38,7 +38,11 @@
                                             <td>{{ date('m/d/Y', strtotime($asset->due)) }}</td>
                                             <td>{{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}</td>
                                             <td>{{ $asset->asset_id }}</td>
-                                            <td><figure class="avatar mr-2 avatar-sm text-white" style="background-color: #ea3c75" data-initial="{{$asset->campaign_id}}"></figure></td>
+                                            <td>
+                                                <a href="{{ url('admin/campaign/'.$asset->campaign_id.'/edit') }}">
+                                                    <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #ea3c75" data-initial="{{$asset->campaign_id}}"></figure>
+                                                </a>
+                                            </td>
                                             <td>{{ $asset->name }}</td>
                                             <td>
                                                 <a href="{{ url('admin/asset/'. $asset->asset_id .'/'. $asset->campaign_id . '/' . $asset->asset_type . '/detail')}}" class="btn btn-secondary">
