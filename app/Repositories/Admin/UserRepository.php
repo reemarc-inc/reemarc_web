@@ -108,14 +108,14 @@ class UserRepository implements UserRepositoryInterface
     public function getJoahDirector()
     {
         $users = new User();
-        $users = $users->Where('role', '=', "joah director");
+        $users = $users->Where('role', '=', "creative director")->Where('user_brand', 'LIKE', "%JOAH Beauty%");
         return $users->get();
     }
 
     public function getCreativeDirector()
     {
         $users = new User();
-        $users = $users->Where('role', '=', "creative director");
+        $users = $users->Where('role', '=', "creative director")->Where('user_brand', 'NOT LIKE', "%JOAH Beauty%");
         return $users->get();
     }
 
