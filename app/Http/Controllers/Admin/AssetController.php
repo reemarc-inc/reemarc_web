@@ -420,7 +420,12 @@ class AssetController extends Controller
     {
         $campaignAssetIndex = $this->campaignAssetIndexRepository->findById($id);
 
-        $param['status'] = 'copy_complete';
+        if($campaignAssetIndex->type == 'topcategories_copy'){ // Top Category Copy should not go to Creative. -> go to Done.
+            $this->finalApproval($id);
+            return;
+        }else{
+            $param['status'] = 'copy_complete';
+        }
         $param['updated_at'] = Carbon::now();
 
         $c_id = $campaignAssetIndex->campaign_id;
