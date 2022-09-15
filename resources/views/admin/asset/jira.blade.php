@@ -21,7 +21,66 @@
                 <div class="col-lg-3">
                     <h2 class="section-title">To Do</h2>
                         @foreach ($asset_list_todo as $asset)
-                            <div class="card">
+
+                        <?php
+                        $start_css = '';
+                        $start_late_css = "style=background-color:#f1d2d2;";
+                        if($asset->asset_type == 'email_blast'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'website_banners'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -11 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'social_ad'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'landing_page'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'misc'){
+                            $start_date =  date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'a_content'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if ($asset->asset_type == 'programmatic_banners'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -13 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if ($asset->asset_type == 'image_requested'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -7 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if ($asset->asset_type == 'roll_over'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -8 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if ($asset->asset_type == 'store_front'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
+                            if($start_date <= date('m/d/Y') ){
+                                $start_css = $start_late_css;
+                            }
+                        }else{
+                            $start_date = 'N/A';
+                        }
+                        ?>
+
+                            <div class="card" {{ $start_css }}>
                                 <div class="card-body">
                                     <div class="media" style="padding-bottom: 0px;">
                                         <div class="form-group" style="width: 100%">
@@ -38,6 +97,8 @@
                                                     {{ ucwords(str_replace('_', ' ', $asset->asset_type))}} ({{$asset->asset_id}})
                                                     <div class="bullet"></div>
                                                     <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #fc544b" data-initial="{{$asset->campaign_id}}"></figure>
+                                                    <div class="bullet"></div>
+                                                    {{ $start_date }}
                                                 </div>
                                             </a>
                                         </div>
