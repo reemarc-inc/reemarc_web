@@ -116,8 +116,11 @@
     </div>
 
     <div class="form-group">
-        <label>Headline:</label>
-        <input type="text" name="headline" class="form-control" value="<?php echo $data[0][0]->headline; ?>">
+        <label>Headline: <b style="color: #b91d19">(Max 40 characters)</b></label>
+        <input type="text" name="headline" class="form-control"
+               onkeyup="limit(this, {{$asset_id}})"
+               value="<?php echo $data[0][0]->headline; ?>">
+        <p id="{{$asset_id}}_charsLeft"></p>
     </div>
 
     <div class="form-group">
@@ -381,4 +384,16 @@
             },
         });
     });
+
+    var max_chars = 40;
+    // var charsLeftDisplay = document.getElementById("charsLeft");
+
+    function limit(element, asset_id) {
+        if (element.value.length > max_chars) {
+            element.value = element.value.slice(0, -1);
+            return false;
+        }
+        var charsLeftDisplay = document.getElementById(asset_id+"_charsLeft");
+        charsLeftDisplay.innerHTML = (max_chars - element.value.length) + " characters left...";
+    }
 </script>

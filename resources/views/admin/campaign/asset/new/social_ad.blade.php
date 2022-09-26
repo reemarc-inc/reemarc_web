@@ -47,7 +47,7 @@
     </div>
 
     <div class="form-group">
-        <label>Headline:</label>
+        <label>Headline: <b style="color: #b91d19">(Max 40 characters)</b></label>
         <input type="text" name="{{ $asset_type }}_headline" class="form-control" value="">
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>
