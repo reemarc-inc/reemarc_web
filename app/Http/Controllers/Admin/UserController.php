@@ -216,6 +216,11 @@ class UserController extends Controller
 
         $param = $request->request->all();
 
+        if($param['password'] == null){
+            return redirect('admin/users/'.$id.'/edit')
+                ->with('error', 'Fail to Update! Please fill out Password');
+        }
+
         if (isset($param['user_brand'])) {
             $param['user_brand'] = implode(', ', $param['user_brand']);
         } else {
