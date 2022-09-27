@@ -218,7 +218,7 @@ class UserController extends Controller
 
         if($param['password'] == null){
             return redirect('admin/users/'.$id.'/edit')
-                ->with('error', 'Fail to Update! Please fill out Password');
+                ->with('error', 'Please enter your password to update');
         }
 
         if (isset($param['user_brand'])) {
