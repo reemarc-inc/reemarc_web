@@ -22,6 +22,7 @@ use App\Repositories\Admin\CampaignTypeWebsiteBannersRepository;
 use App\Repositories\Admin\CampaignTypeWebsiteChangesRepository;
 use App\Repositories\Admin\PermissionRepository;
 
+use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -41,6 +42,7 @@ class ArchivesController extends Controller
     private $campaignTypeTopcategoriesCopyRepository;
     private $campaignTypeProgrammaticBannersRepository;
     private $campaignAssetIndexRepository;
+    private $userRepository;
 
     public function __construct(CampaignRepository $campaignRepository,
                                 CampaignBrandsRepository $campaignBrandsRepository,
@@ -55,6 +57,7 @@ class ArchivesController extends Controller
                                 CampaignTypeTopcategoriesCopyRepository $campaignTypeTopcategoriesCopyRepository,
                                 CampaignTypeProgrammaticBannersRepository $campaignTypeProgrammaticBannersRepository,
                                 CampaignAssetIndexRepository $campaignAssetIndexRepository,
+                                UserRepository $userRepository,
                                 PermissionRepository $permissionRepository)
     {
         parent::__construct();
@@ -72,6 +75,7 @@ class ArchivesController extends Controller
         $this->campaignTypeTopcategoriesCopyRepository = $campaignTypeTopcategoriesCopyRepository;
         $this->campaignTypeProgrammaticBannersRepository = $campaignTypeProgrammaticBannersRepository;
         $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
+        $this->userRepository = $userRepository;
         $this->permissionRepository = $permissionRepository;
 
     }
@@ -153,6 +157,15 @@ class ArchivesController extends Controller
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
         $this->data['retailer'] = $campaign->retailer;
+
+        $params_['role'] = 'graphic designer';
+        $options_ = [
+            'order' => [
+                'first_name' => 'asc',
+            ],
+            'filter' => $params_,
+        ];
+        $this->data['assignees'] = $this->userRepository->findAll($options_);
 
         // Campaign_assets
         $this->data['assets'] = $assets_list = $this->campaignRepository->getAssetListById($id);
