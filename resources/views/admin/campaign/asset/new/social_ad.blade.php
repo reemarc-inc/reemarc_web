@@ -54,6 +54,11 @@
     </div>
 
     <div class="form-group">
+        <label>Note:</label>
+        <textarea class="form-control" id="{{ $asset_type }}_note" name="{{ $asset_type }}_note" rows="5" cols="100"></textarea>
+    </div>
+
+    <div class="form-group">
         <label>Newsfeed:</label>
         <input type="text" name="{{ $asset_type }}_newsfeed" class="form-control" value="">
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>

@@ -29,6 +29,7 @@ class CampaignTypeSocialAd extends Model
         'ecommerce_post',
         'text',
         'headline',
+        'note',
         'newsfeed',
         'terms_and_conditions',
         'products_featured',

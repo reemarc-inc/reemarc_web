@@ -123,6 +123,12 @@
         <p id="{{$asset_id}}_charsLeft"></p>
     </div>
 
+
+    <div class="form-group">
+        <label>Note:</label>
+        <textarea class="form-control" id="note" name="note" rows="5" cols="100">{{ $data[0][0]->note }}</textarea>
+    </div>
+
     <div class="form-group">
         <label>Newsfeed:</label>
         <input type="text" name="newsfeed" class="form-control" value="<?php echo $data[0][0]->newsfeed; ?>">

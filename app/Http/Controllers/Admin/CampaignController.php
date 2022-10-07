@@ -993,6 +993,7 @@ class CampaignController extends Controller
 
         $campaignTypeSocialAd['text'] = $request['social_ad_text'];
         $campaignTypeSocialAd['headline'] = $request['social_ad_headline'];
+        $campaignTypeSocialAd['note'] = $request['social_ad_note'];
         $campaignTypeSocialAd['newsfeed'] = $request['social_ad_newsfeed'];
         $campaignTypeSocialAd['products_featured'] = $request['social_ad_products_featured'];
         $campaignTypeSocialAd['click_through_links'] = $request['social_ad_click_through_links'];
@@ -2117,10 +2118,11 @@ class CampaignController extends Controller
         }else if($asset_type == 'social_ad'){
             $new = array(
                 'date_from' => $data['date_from'],
-                'date_to' => $data['date_from'],
+                'date_to' => $data['date_to'],
                 'include_formats' => $data['include_formats'],
                 'text' => $data['text'],
                 'headline' => $data['headline'],
+                'note' => $data['note'],
                 'newsfeed' => $data['newsfeed'],
                 'products_featured' => $data['products_featured'],
                 'click_through_links' => $data['click_through_links'],
@@ -2176,7 +2178,7 @@ class CampaignController extends Controller
         }else if($asset_type == 'programmatic_banners'){
             $new = array(
                 'date_from' => $data['date_from'],
-                'date_to' => $data['date_from'],
+                'date_to' => $data['date_to'],
                 'include_formats' => $data['include_formats'],
                 'display_dimension' => $data['display_dimension'],
                 'products_featured' => $data['products_featured'],
