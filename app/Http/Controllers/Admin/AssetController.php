@@ -154,7 +154,10 @@ class AssetController extends Controller
         $this->data['asset_id'] = $a_id;
         $this->data['a_type'] = $a_type;
         $this->data['c_id'] = $c_id;
-        $this->data['asset_detail'] = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
+        $this->data['asset_detail'] = $asset_detail = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
+        $author_id = $asset_detail[0]->author_id;
+        $user_obj = $this->userRepository->findById($author_id);
+        $this->data['asset_creator'] = $user_obj->first_name . ' ' . $user_obj->last_name;
         $this->data['asset_files'] = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
 
         $params['role'] = 'graphic designer';

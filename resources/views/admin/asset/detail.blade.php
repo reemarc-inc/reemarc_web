@@ -12,11 +12,12 @@
         </div>
 
         <div class="section-body">
-            <h2 class="section-title">Asset Detail</h2>
+            <h2 class="section-title">Asset Detail | Project ID : {{ $c_id }} | Asset ID : {{ $asset_id }} | {{ ucwords(str_replace('_', ' ', $a_type)) }}</h2>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">
                         <div class="card-body">
+                            <p style="float: right">Asset Creator : {{ $asset_creator }}</p>
                             <?php $data = [$asset_detail, $asset_files]; ?>
                             @include('admin.campaign.asset.'.$a_type, $data)
                         </div>

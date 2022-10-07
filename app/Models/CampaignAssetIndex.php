@@ -15,6 +15,7 @@ class CampaignAssetIndex extends Model
     protected $fillable = [
         'id',
         'campaign_id',
+        'author_id',
         'type',
         'status',
         'assignee',
