@@ -76,6 +76,7 @@ class NotifyController extends Controller
 
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
+        $asset_author_id = $asset_index_rs['author_id'];
 
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
@@ -97,6 +98,23 @@ class NotifyController extends Controller
 
         // Email to task creator..
         Mail::to($user_rs['email'])->send(new CopyReview($details));
+
+        if($asset_author_id) {
+            if ($author_id != $asset_author_id) {
+                $asset_author_rs = $user_obj->findById($asset_author_id);
+                $details = [
+                    'who' => $asset_author_rs['first_name'],
+                    'c_id' => $c_id,
+                    'a_id' => $a_id,
+                    'task_name' => $campaign_rs['name'],
+                    'asset_type' => $asset_type,
+                    'asset_status' => $asset_status,
+                    'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                ];
+                // Eamil to asset creator..
+                Mail::to($asset_author_rs['email'])->send(new CopyReview($details));
+            }
+        }
 
     }
 
@@ -185,8 +203,7 @@ class NotifyController extends Controller
 
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
-
-
+        $asset_author_id = $asset_index_rs['author_id'];
 
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
@@ -209,6 +226,24 @@ class NotifyController extends Controller
 
             Mail::to($user_rs['email'])->send(new FinalApproval($details));
         }
+
+        if($asset_author_id) {
+            if ($author_id != $asset_author_id) {
+                $asset_author_rs = $user_obj->findById($asset_author_id);
+                $details = [
+                    'who' => $asset_author_rs['first_name'],
+                    'c_id' => $c_id,
+                    'a_id' => $a_id,
+                    'task_name' => $campaign_rs['name'],
+                    'asset_type' => $asset_type,
+                    'asset_status' => $asset_status,
+                    'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                ];
+                // Eamil to asset creator..
+                Mail::to($asset_author_rs['email'])->send(new FinalApproval($details));
+            }
+        }
+
     }
 
     public function decline_from_copy($c_id, $a_id, $params)

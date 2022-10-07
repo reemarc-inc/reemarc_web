@@ -216,6 +216,7 @@ class CampaignController extends Controller
         $this->data['promotion'] = null;
         $this->data['campaign'] = null;
         $this->data['retailer'] = null;
+        $this->data['author_name'] = null;
 
         return view('admin.campaign.form', $this->data);
     }
@@ -362,6 +363,7 @@ class CampaignController extends Controller
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
         $this->data['retailer'] = $campaign->retailer;
+        $this->data['author_name'] = $campaign->author_name;
 
         $params_['role'] = 'graphic designer';
         $options_ = [
@@ -850,6 +852,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['email_blast_c_id'];
         $campaignAssetIndex['type'] = $request['email_blast_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
         $asset_id = $campaignAssetIndex->id;
 
@@ -967,6 +971,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['social_ad_c_id'];
         $campaignAssetIndex['type'] = $request['social_ad_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1085,6 +1091,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['website_banners_c_id'];
         $campaignAssetIndex['type'] = $request['website_banners_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1196,6 +1204,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['website_changes_c_id'];
         $campaignAssetIndex['type'] = $request['website_changes_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1293,6 +1303,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['landing_page_c_id'];
         $campaignAssetIndex['type'] = $request['landing_page_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1390,6 +1402,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['misc_c_id'];
         $campaignAssetIndex['type'] = $request['misc_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1488,6 +1502,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['topcategories_copy_c_id'];
         $campaignAssetIndex['type'] = $request['topcategories_copy_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1583,6 +1599,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['programmatic_banners_c_id'];
         $campaignAssetIndex['type'] = $request['programmatic_banners_asset_type'];
         $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;

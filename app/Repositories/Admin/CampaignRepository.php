@@ -77,9 +77,10 @@ class CampaignRepository implements CampaignRepositoryInterface
             select  c_id, a_id, a_type,
             (select status from campaign_asset_index where id= a_id ) status,
                    (select assignee from campaign_asset_index where id= a_id) assignee,
-                        (select decline_copy from campaign_asset_index where id= a_id) decline_copy,
-                            (select decline_creative from campaign_asset_index where id= a_id) decline_creative,
-                                (select decline_kec from campaign_asset_index where id= a_id) decline_kec,
+                        (select first_name from campaign_asset_index join users on users.id = campaign_asset_index.author_id where campaign_asset_index.id= a_id) asset_creator,
+                            (select decline_copy from campaign_asset_index where id= a_id) decline_copy,
+                                (select decline_creative from campaign_asset_index where id= a_id) decline_creative,
+                                    (select decline_kec from campaign_asset_index where id= a_id) decline_kec,
                 due from
                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all

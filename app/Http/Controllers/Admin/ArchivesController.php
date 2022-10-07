@@ -157,6 +157,7 @@ class ArchivesController extends Controller
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
         $this->data['retailer'] = $campaign->retailer;
+        $this->data['author_name'] = $campaign->author_name;
 
         $params_['role'] = 'graphic designer';
         $options_ = [

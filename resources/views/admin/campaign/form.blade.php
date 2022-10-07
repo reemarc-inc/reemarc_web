@@ -51,6 +51,9 @@
                                     @include('admin.shared.flash')
                                     <div class="col">
                                         <div class="form-group">
+                                            @if($author_name != null)
+                                                <p style="float: right">Project Creator : {{ $author_name }}</p>
+                                            @endif
                                             <label>Brands</label>
                                             <select class="form-control @error('campaign_brand') is-invalid @enderror @if (!$errors->has('campaign_brand') && old('campaign_brand')) is-valid @endif"
                                                     name="campaign_brand" id="campaign_brand" onchange="check_retailer()">
@@ -286,6 +289,7 @@
                                             <div class="ecommerce_new">
                                                 <h5>{{ ucwords(str_replace('_', ' ', $asset->a_type)) }}
                                                     <span style="color:#933434">#{{ $asset->a_id }}</span>
+                                                    <span style="color:#0a0909; font-size: small;">{{ $asset->asset_creator }}</span>
                                                     <span style="color:#636363; font-size: medium;">({{ ucwords(str_replace('_', ' ', $asset->status)) }})</span>
 {{--                                                    <span style="color:#636363; font-size: medium;">({{ ucwords(str_replace('_', ' ', $asset->decline_creative)) }})</span>--}}
                                                     <span style="color:#999; font-size: medium;">{{ date('m/d/Y', strtotime($asset->due)) }}</span>
