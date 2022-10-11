@@ -26,6 +26,9 @@
         <?php if(auth()->user()->team == 'Creative' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira') }}"><i class="fas fa-th"></i> <span>Status Board (Creative)</span></a></li>
         <?php } ?>
+        <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin'){ ?>
+        <li class="{{ ($currentAdminMenu == 'asset_jira_copywriter') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_copywriter') }}"><i class="fas fa-th"></i> <span>Status Board (CopyWriter)</span></a></li>
+        <?php } ?>
 
         <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="menu-header">Account</li>

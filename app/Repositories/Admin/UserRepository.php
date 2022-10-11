@@ -126,6 +126,21 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
+    public function getBrandsAssignedWriters()
+    {
+        return DB::select('
+            select * from users where role ="copywriter" order by char_length(user_brand) desc
+        ');
+    }
+
+    public static function getWritersNameByBrand($brand)
+    {
+        return DB::select('
+            select * from users where role = "copywriter" and user_brand like "%'.$brand.'%"
+        ');
+    }
+
+
 //    /**
 //     * Sync roles and permissions
 //     *

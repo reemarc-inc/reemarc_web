@@ -70,6 +70,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('asset_assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
     Route::get('asset_jira', [AdminAsset::class, 'asset_jira'])->name('asset.jira');
     Route::get('asset_jira_kec', [AdminAsset::class, 'asset_jira_kec'])->name('asset.jira_kec');
+    Route::get('asset_jira_copywriter', [AdminAsset::class, 'asset_jira_copywriter'])->name('asset.jira_copywriter');
     Route::get('asset/{a_id}/{c_id}/{a_type}/detail', [AdminAsset::class, 'asset_detail'])->name('asset.detail');
 
     Route::post('asset/assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
