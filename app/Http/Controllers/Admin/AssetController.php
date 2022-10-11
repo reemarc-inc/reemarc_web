@@ -391,6 +391,25 @@ class AssetController extends Controller
         return view('admin.asset.jira_kec', $this->data);
     }
 
+    public function asset_jira_copywriter(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'asset_jira_copywriter';
+        $this->data['asset_list_copy_request'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_request_copywriter();
+        $this->data['brands_assigned_copywriters'] = $this->userRepository->getBrandsAssignedWriters();
+
+        return view('admin.asset.jira_copywriter', $this->data);
+    }
+
+    public static function get_writers_by_brand($brand)
+    {
+        $rs = UserRepository::getWritersNameByBrand($brand);
+        $list = '';
+        foreach ($rs as $writer){
+            $list .= $writer->first_name . ' ';
+        }
+        return $list;
+    }
+
     public function copyReview($id)
     {
         $campaignAssetIndex = $this->campaignAssetIndexRepository->findById($id);
