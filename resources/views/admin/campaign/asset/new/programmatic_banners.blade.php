@@ -76,9 +76,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +15 days - Programmatic Banners (exclude weekend)
+    // Lead time +17 days - Programmatic Banners (exclude weekend)
     $(function() {
-        var count = 15;
+        var count = 17;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

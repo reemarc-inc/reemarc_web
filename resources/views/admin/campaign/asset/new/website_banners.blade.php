@@ -65,9 +65,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +13 days - Web Banners (exclude weekend)
+    // Lead time +15 days - Web Banners (exclude weekend)
     $(function() {
-        var count = 13;
+        var count = 15;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

@@ -103,9 +103,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +12 days - Social Ads (exclude weekend)
+    // Lead time +14 days - Social Ads (exclude weekend)
     $(function() {
-        var count = 12;
+        var count = 14;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

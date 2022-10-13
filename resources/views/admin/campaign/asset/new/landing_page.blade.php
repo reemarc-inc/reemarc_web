@@ -51,9 +51,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +25 days - Landing Page (exclude weekend)
+    // Lead time +28 days - Landing Page (exclude weekend)
     $(function() {
-        var count = 25;
+        var count = 28;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

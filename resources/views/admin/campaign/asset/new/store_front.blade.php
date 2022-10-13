@@ -45,9 +45,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +21 days - Store Front (exclude weekend)
+    // Lead time +23 days - Store Front (exclude weekend)
     $(function() {
-        var count = 21;
+        var count = 23;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

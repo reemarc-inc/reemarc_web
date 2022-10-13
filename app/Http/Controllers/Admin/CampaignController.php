@@ -1978,7 +1978,9 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['a_content_c_id'];
         $campaignAssetIndex['type'] = $request['a_content_asset_type'];
-        $campaignAssetIndex['status'] = 'copy_complete';
+        $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;

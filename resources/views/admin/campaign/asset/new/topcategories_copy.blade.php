@@ -40,9 +40,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +4 days - Top Categories Copy (exclude weekend)
+    // Lead time +6 days - Top Categories Copy (exclude weekend)
     $(function() {
-        var count = 4;
+        var count = 6;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);
