@@ -53,9 +53,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +9 days - Misc (exclude weekend)
+    // Lead time +13 days - Misc (exclude weekend)
     $(function() {
-        var count = 9;
+        var count = 13;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

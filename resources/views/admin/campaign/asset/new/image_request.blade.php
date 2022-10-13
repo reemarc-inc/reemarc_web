@@ -73,9 +73,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +7 days - Image Request (exclude weekend)
+    // Lead time +9 days - Image Request (exclude weekend)
     $(function() {
-        var count = 7;
+        var count = 9;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

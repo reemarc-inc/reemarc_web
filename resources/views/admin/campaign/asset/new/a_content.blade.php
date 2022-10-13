@@ -40,9 +40,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +23 days - A+ Content (exclude weekend)
+    // Lead time +25 days - A+ Content (exclude weekend)
     $(function() {
-        var count = 23;
+        var count = 25;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

@@ -63,11 +63,15 @@
                 <td style="color: #b91d19"><span></span></td>
             </tr>
             <tr>
+                <td><label><b>Copy Review Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -9 weekday')); ?></b></span></td>
+            </tr>
+            <tr>
                 <td><label><b>Creative Start:</b></label></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -7 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Review Start:</b></label></td>
+                <td><label><b>Final Review Start:</b></label></td>
                 <td style="color: #b91d19"><span></span></td>
             </tr>
             <tr>

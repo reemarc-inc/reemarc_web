@@ -38,9 +38,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +8 days - Roll Over (exclude weekend)
+    // Lead time +10 days - Roll Over (exclude weekend)
     $(function() {
-        var count = 8;
+        var count = 10;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

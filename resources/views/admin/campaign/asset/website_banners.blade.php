@@ -60,6 +60,10 @@
         <table class="reminder_table">
             <tr>
                 <td><label><b>CopyWriters Start:</b></label></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -15 weekday')); ?></b></span></td>
+            </tr>
+            <tr>
+                <td><label><b>Copy Review Start:</b></label></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -13 weekday')); ?></b></span></td>
             </tr>
             <tr>
@@ -67,7 +71,7 @@
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -11 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Review Start:</b></label></td>
+                <td><label><b>Final Review Start:</b></label></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -4 weekday')); ?></b></span></td>
             </tr>
             <tr>
