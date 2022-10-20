@@ -52,7 +52,11 @@
                                     <div class="col">
                                         <div class="form-group">
                                             @if($author_name != null)
-                                                <p style="float: right">Project Creator : {{ $author_name }}</p>
+                                                <p style="float: right">Project Creator &nbsp
+                                                    <span style="color:#ffffff; font-size: medium;background-color: #933434;border-radius: 6px;">
+                                                    &nbsp{{ $author_name }}&nbsp
+                                                    </span>
+                                                </p>
                                             @endif
                                             <label>Brands</label>
                                             <select class="form-control @error('campaign_brand') is-invalid @enderror @if (!$errors->has('campaign_brand') && old('campaign_brand')) is-valid @endif"
@@ -282,21 +286,39 @@
 
                     @if(!empty($assets))
                     <div class="card assets_existing">
+                        <p style="display: inline-block; margin: 3px 0px 0px 26px;  float: right;">
+                            <span style="color:#ffffff; font-size: small;background-color: #933434;border-radius: 8px;">
+                                                    &nbsp Asset Creator &nbsp
+                            </span>&nbsp
+                            <span style="color:#ffffff; font-size: small;background-color: #314190FF;border-radius: 8px;">
+                                                   &nbsp Assigned Designer &nbsp
+                            </span>
+                        </p>
                         <?php foreach ($assets as $asset): ?>
                                 <div class="clearfix" id="{{$asset->a_id}}">
                                     <div class="card box asset box-primary">
                                         <div class="card-header">
                                             <div class="ecommerce_new">
                                                 <h5>{{ ucwords(str_replace('_', ' ', $asset->a_type)) }}
-                                                    <span style="color:#933434">#{{ $asset->a_id }}</span>
-                                                    <span style="color:#0a0909; font-size: small;">{{ $asset->asset_creator }}</span>
-                                                    <span style="color:#636363; font-size: medium;">({{ ucwords(str_replace('_', ' ', $asset->status)) }})</span>
-{{--                                                    <span style="color:#636363; font-size: medium;">({{ ucwords(str_replace('_', ' ', $asset->decline_creative)) }})</span>--}}
-                                                    <span style="color:#999; font-size: medium;">{{ date('m/d/Y', strtotime($asset->due)) }}</span>
+                                                    <span style="color:#933434">#{{ $asset->a_id }}</span>&nbsp
+                                                    <span style="color:#ffffff; font-size: medium;background-color: #898787;border-radius: 10px;">
+                                                        &nbsp{{ ucwords(str_replace('_', ' ', $asset->status)) }}&nbsp
+                                                    </span>&nbsp
+                                                    <?php if(!empty($asset->asset_creator)) { ?>
+                                                    <span style="color:#ffffff; font-size: small;background-color: #933434;border-radius: 6px;">
+                                                        &nbsp{{ $asset->asset_creator }}&nbsp
+                                                    </span>&nbsp
+                                                    <?php } ?>
+                                                    <span style="color:#898787; font-size: medium;">{{ date('m/d/Y', strtotime($asset->due)) }}</span>&nbsp
                                                     <?php if(!empty($asset->assignee)) { ?>
-                                                    <span style="color:#2030ac; font-size: medium;">[ {{ $asset->assignee }} ]</span>
+                                                    <span style="color:#ffffff; font-size: small;background-color: #314190;border-radius: 6px;">
+                                                        &nbsp{{ $asset->assignee }}&nbsp
+                                                    </span>
                                                     <?php } ?>
                                                     <span class="float-right">
+                                                        <i class="fa fa-address-card"
+                                                                data-toggle="modal"
+                                                                data-target="#myModal-{{$asset->a_id}}"></i>
                                                         <i class="dropdown fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>
                                                         <a  href="javascript:void(0);"
                                                             class="close"
@@ -468,6 +490,82 @@
         </div>
 
     </section>
+
+    @if(!empty($assets))
+        <?php foreach ($assets as $asset): ?>
+            <div class="modal fade" id="myModal-{{$asset->a_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-xl" role="document">
+
+                    <div class="modal-content">
+
+                        <form method="POST" action="{{ route('asset.asset_notification_user') }}" enctype="multipart/form-data">
+                            @csrf
+
+                            <input type="hidden" name="a_id" value="{{ $asset->a_id }}">
+                            <input type="hidden" name="c_id" value="{{ $campaign->id }}">
+
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Notification List - {{ ucwords(str_replace('_', ' ', $asset->a_type)) }} #{{ $asset->a_id }} </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label style="color: #b91d19; font-size: medium">Do not need to choose Project & Asset Creators since they will receive all notifications of the project</label>
+                                    <div class="row">
+                                        <?php if (isset($users)): ?>
+                                            <?php if (isset($asset->asset_notification_user[0]->user_id_list)) { ?>
+
+
+                                                @foreach($users as $user)
+                                                <?php $checkbox_fields = explode(', ', $asset->asset_notification_user[0]->user_id_list); ?>
+                                                        <div class="col-sm-3">
+                                                            <div class="form-check">
+                                                                <input  <?php if (in_array($user->id, $checkbox_fields)) echo "checked" ?>
+                                                                        type="checkbox"
+                                                                        name="user_id_list[]"
+                                                                        value="{{ $user->id }}"
+                                                                >
+                                                                <label class="form-check-label " for="{{ $user->id }}">
+                                                                    {{ $user->first_name }} {{ $user->last_name }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                @endforeach
+                                            <?php }else{ ?>
+                                                @foreach($users as $user)
+                                                    <div class="col-sm-3">
+                                                        <div class="form-check">
+                                                            <input
+                                                                type="checkbox"
+                                                                name="user_id_list[]"
+                                                                value="{{ $user->id }}"
+                                                            >
+                                                            <label class="form-check-label " for="{{ $user->id }}">
+                                                                {{ $user->first_name }} {{ $user->last_name }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            <?php } ?>
+                                        <?php endif; ?>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+        <?php endforeach; ?>
+    @endif
 
     <?php if (!empty($attach_files)): ?>
         <?php foreach ($attach_files as $attachment): ?>
@@ -746,6 +844,7 @@
                     type: "GET",
                     datatype: "json",
                     success: function(response) {
+                        alert(response);
                         if(response != 'fail'){
                             $(el).parent().parent().parent().parent().parent().parent().fadeOut( "slow", function() {
                                 $(el).parent().parent().parent().parent().parent().parent().remove();

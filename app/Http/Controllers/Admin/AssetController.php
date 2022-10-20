@@ -28,6 +28,7 @@ use App\Models\CampaignTypeSocialAd;
 use App\Models\CampaignTypeTopcategoriesCopy;
 use App\Models\CampaignTypeWebsiteBanners;
 use App\Models\CampaignTypeWebsiteChanges;
+use App\Repositories\Admin\AssetNotificationUserRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
 use App\Repositories\Admin\CampaignNotesRepository;
 use App\Repositories\Admin\CampaignRepository;
@@ -82,6 +83,7 @@ class AssetController extends Controller
     private $campaignTypeStoreFrontRepository;
     private $campaignTypeAContentRepository;
     private $userRepository;
+    private $assetNotificationUserRepository;
     private $campaignAssetIndexRepository;
 
     public function __construct(CampaignRepository $campaignRepository,
@@ -102,6 +104,7 @@ class AssetController extends Controller
                                 CampaignTypeAContentRepository $campaignTypeAContentRepository,
                                 CampaignAssetIndexRepository $campaignAssetIndexRepository,
                                 UserRepository $userRepository,
+                                AssetNotificationUserRepository $assetNotificationUserRepository,
                                 PermissionRepository $permissionRepository)
     {
         parent::__construct();
@@ -124,6 +127,7 @@ class AssetController extends Controller
         $this->campaignTypeAContentRepository = $campaignTypeAContentRepository;
         $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
         $this->userRepository = $userRepository;
+        $this->assetNotificationUserRepository =$assetNotificationUserRepository;
         $this->permissionRepository = $permissionRepository;
 
     }
@@ -564,8 +568,8 @@ class AssetController extends Controller
         }
     }
 
-    public function check_all_approval($c_id){
-
+    public function check_all_approval($c_id)
+    {
         $approval_assets = $this->campaignAssetIndexRepository->get_assets_final_approval_by_campaing_id($c_id);
 
         foreach ($approval_assets as $asset){
@@ -577,5 +581,31 @@ class AssetController extends Controller
         return true;
     }
 
+    public function asset_notification_user(Request $request)
+    {
+        $param = $request->all();
+
+        $c_id = $param['c_id'];
+        $params['asset_id'] = $param['a_id'];
+
+        if (isset($param['user_id_list'])) {
+            $params['user_id_list'] = implode(', ', $param['user_id_list']);
+        } else {
+            $params['user_id_list'] = '';
+        }
+
+        $params['updated_at'] = Carbon::now();
+
+        if($this->assetNotificationUserRepository->getByAssetId($params['asset_id'])->count() !== 0){
+            $this->assetNotificationUserRepository->update($params['asset_id'], $params);
+        }else{
+            $this->assetNotificationUserRepository->create($params);
+        }
+
+        $this->data['currentAdminMenu'] = 'campaign';
+
+        return redirect('admin/campaign/'.$c_id.'/edit')
+            ->with('success', __('Data has been Updated.'));
+    }
 
 }

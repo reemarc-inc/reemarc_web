@@ -79,6 +79,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('asset/decline_creative', [AdminAsset::class, 'asset_decline_creative'])->name('asset.decline_creative');
     Route::post('asset/decline_kec', [AdminAsset::class, 'asset_decline_kec'])->name('asset.decline_kec');
 
+    Route::post('asset/asset_notification_user', [AdminAsset::class, 'asset_notification_user'])->name('asset.asset_notification_user');
+
     Route::get('asset/copyReview/{id}', [AdminAsset::class, 'copyReview'])->name('campaign.copyReview');
     Route::get('asset/copyComplete/{id}', [AdminAsset::class, 'copyComplete'])->name('campaign.copyComplete');
     Route::get('asset/inProgress/{id}', [AdminAsset::class, 'inProgress'])->name('campaign.inProgress');
