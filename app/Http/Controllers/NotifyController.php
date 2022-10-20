@@ -14,6 +14,7 @@ use App\Mail\SendMail;
 use App\Mail\Todo;
 use App\Models\CampaignBrands;
 use App\Models\User;
+use App\Repositories\Admin\AssetNotificationUserRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
 use App\Repositories\Admin\CampaignBrandsRepository;
 use App\Repositories\Admin\CampaignRepository;
@@ -113,6 +114,35 @@ class NotifyController extends Controller
                 ];
                 // Eamil to asset creator..
                 Mail::to($asset_author_rs['email'])->send(new CopyReview($details));
+            }
+        }
+
+        // Email to asset_notification_user
+        $anu_obj = new AssetNotificationUserRepository();
+        $anu_rs = $anu_obj->getByAssetId($a_id);
+        if(isset($anu_rs[0])){
+            if($anu_rs[0]->user_id_list != "" ) {
+                $reciver_list = explode(', ', $anu_rs[0]->user_id_list);
+            }else{
+                $reciver_list = '';
+            }
+        }else{
+            $reciver_list = '';
+        }
+        if($reciver_list != ''){
+            foreach ($reciver_list as $reciver_id){
+                $reciver_rs = $user_obj->findById($reciver_id);
+                $details = [
+                    'who' => $reciver_rs['first_name'],
+                    'c_id' => $c_id,
+                    'a_id' => $a_id,
+                    'task_name' => $campaign_rs['name'],
+                    'asset_type' => $asset_type,
+                    'asset_status' => $asset_status,
+                    'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                ];
+                // Eamil to asset_notification_user
+                Mail::to($reciver_rs['email'])->send(new CopyReview($details));
             }
         }
 
@@ -241,6 +271,35 @@ class NotifyController extends Controller
                 ];
                 // Eamil to asset creator..
                 Mail::to($asset_author_rs['email'])->send(new FinalApproval($details));
+            }
+        }
+
+        // Email to asset_notification_user
+        $anu_obj = new AssetNotificationUserRepository();
+        $anu_rs = $anu_obj->getByAssetId($a_id);
+        if(isset($anu_rs[0])){
+            if($anu_rs[0]->user_id_list != "" ) {
+                $reciver_list = explode(', ', $anu_rs[0]->user_id_list);
+            }else{
+                $reciver_list = '';
+            }
+        }else{
+            $reciver_list = '';
+        }
+        if($reciver_list != ''){
+            foreach ($reciver_list as $reciver_id){
+                $reciver_rs = $user_obj->findById($reciver_id);
+                $details = [
+                    'who' => $reciver_rs['first_name'],
+                    'c_id' => $c_id,
+                    'a_id' => $a_id,
+                    'task_name' => $campaign_rs['name'],
+                    'asset_type' => $asset_type,
+                    'asset_status' => $asset_status,
+                    'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                ];
+                // Eamil to asset_notification_user
+                Mail::to($reciver_rs['email'])->send(new FinalApproval($details));
             }
         }
 

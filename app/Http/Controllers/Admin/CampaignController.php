@@ -37,6 +37,7 @@ use App\Models\CampaignTypeStoreFront;
 use App\Models\CampaignTypeTopcategoriesCopy;
 use App\Models\CampaignTypeWebsiteBanners;
 use App\Models\CampaignTypeWebsiteChanges;
+use App\Repositories\Admin\AssetNotificationUserRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
 use App\Repositories\Admin\CampaignNotesRepository;
 use App\Repositories\Admin\CampaignRepository;
@@ -91,6 +92,7 @@ class CampaignController extends Controller
     private $campaignTypeStoreFrontRepository;
     private $campaignTypeAContentRepository;
     private $campaignAssetIndexRepository;
+    private $assetNotificationUserRepository;
     private $userRepository;
 
     public function __construct(CampaignRepository $campaignRepository,
@@ -110,6 +112,7 @@ class CampaignController extends Controller
                                 CampaignTypeStoreFrontRepository $campaignTypeStoreFrontRepository,
                                 CampaignTypeAContentRepository $campaignTypeAContentRepository,
                                 CampaignAssetIndexRepository $campaignAssetIndexRepository,
+                                AssetNotificationUserRepository $assetNotificationUserRepository,
                                 UserRepository $userRepository,
                                 PermissionRepository $permissionRepository)
     {
@@ -132,6 +135,7 @@ class CampaignController extends Controller
         $this->campaignTypeStoreFrontRepository = $campaignTypeStoreFrontRepository;
         $this->campaignTypeAContentRepository = $campaignTypeAContentRepository;
         $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
+        $this->assetNotificationUserRepository = $assetNotificationUserRepository;
         $this->userRepository = $userRepository;
         $this->permissionRepository = $permissionRepository;
 
@@ -318,6 +322,12 @@ class CampaignController extends Controller
         $this->data['currentAdminMenu'] = 'campaign';
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 
+        $this->data['users'] = $this->userRepository->findAll([
+            'order' => [
+                'first_name' => 'asc',
+            ]
+        ]);
+
         // Campaign_type_asset_attachments
         $options = [
             'id' => $id,
@@ -387,6 +397,8 @@ class CampaignController extends Controller
                 $assets_list[$k]->detail = $asset_detail;
                 $asset_files = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
                 $assets_list[$k]->files = $asset_files;
+                $asset_notification_user = $this->assetNotificationUserRepository->getListByAssetId($a_id);
+                $assets_list[$k]->asset_notification_user = $asset_notification_user;
             }
         }
 
