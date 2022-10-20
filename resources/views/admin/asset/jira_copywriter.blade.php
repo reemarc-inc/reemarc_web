@@ -41,12 +41,12 @@
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'social_ad'){
-                                $start_date = date('m/d/Y', strtotime($asset->due . ' -12 weekday'));
+                                $start_date = date('m/d/Y', strtotime($asset->due . ' -14 weekday'));
                                 if($start_date <= date('m/d/Y') ){
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'landing_page'){
-                                $start_date = date('m/d/Y', strtotime($asset->due . ' -29 weekday'));
+                                $start_date = date('m/d/Y', strtotime($asset->due . ' -28 weekday'));
                                 if($start_date <= date('m/d/Y') ){
                                     $start_css = $start_late_css;
                                 }
@@ -62,6 +62,11 @@
                                 }
                             }else if ($asset->asset_type == 'programmatic_banners'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -17 weekday'));
+                                if($start_date <= date('m/d/Y') ){
+                                    $start_css = $start_late_css;
+                                }
+                            }else if($asset->asset_type == 'misc'){
+                                $start_date = date('m/d/Y', strtotime($asset->due . ' -13 weekday'));
                                 if($start_date <= date('m/d/Y') ){
                                     $start_css = $start_late_css;
                                 }
