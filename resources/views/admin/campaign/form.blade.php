@@ -844,7 +844,6 @@
                     type: "GET",
                     datatype: "json",
                     success: function(response) {
-                        alert(response);
                         if(response != 'fail'){
                             $(el).parent().parent().parent().parent().parent().parent().fadeOut( "slow", function() {
                                 $(el).parent().parent().parent().parent().parent().parent().remove();
