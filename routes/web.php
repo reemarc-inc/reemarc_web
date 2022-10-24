@@ -46,6 +46,7 @@ Route::get('/email_copy_review', [NotifyController::class, 'copy_review']);
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard.index');
+    Route::get('/dashboard/test', [AdminDashboard::class, 'test'])->name('dashboard.test');
 
     Route::get('roles/reload-permissions/{id}', [AdminRole::class, 'reloadPermissions'])->name('roles.update');
     Route::get('roles/reload-permissions', [AdminRole::class, 'reloadPermissions'])->name('roles.update');

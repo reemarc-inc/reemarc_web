@@ -71,27 +71,31 @@
     <div class="form-group">
         <table class="reminder_table">
             <tr>
-                <td><label><b>CopyWriters Start:</b></label></td>
+                <td><span class="lead-time"><b>&nbspCopyWriters Start&nbsp</b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -19 weekday')); ?></b></span></td>
+            </tr>
+            <tr>
+                <td><span class="lead-time"><b>&nbspCopy Review Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -17 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Copy Review Start:</b></label></td>
+                <td><span class="lead-time"><b>&nbspCreative Assign Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -15 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Creative Start:</b></label></td>
+                <td><span class="lead-time"><b>&nbspCreative Work Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -13 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Final Review Start:</b></label></td>
+                <td><span class="lead-time"><b>&nbspFinal Review Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -3 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><label><b>Development Start:</b></label></td>
-                <td style="color: #b91d19"><span></span></td>
+                <td><span class="lead-time"><b>&nbspDevelopment Start&nbsp</b></span></td>
+                <td style="color: #b91d19"><span><b>N/A</b></span></td>
             </tr>
             <tr>
-                <td><label><b>E-Commerce Start:</b></label></td>
+                <td><span class="lead-time"><b>&nbspE-Commerce Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -1 weekday')); ?></b></span></td>
             </tr>
         </table>

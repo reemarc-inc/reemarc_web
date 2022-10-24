@@ -1474,6 +1474,13 @@ h6 .badge {
     border-radius: 5px;
 }
 
+.lead-time {
+    color:#ffffff;
+    font-size: small;
+    background-color: #04a0a0;
+    border-radius: 6px;
+}
+
 .ecommerce-specialist{
     background-color: #ffefdc; }
 .copywriter{
