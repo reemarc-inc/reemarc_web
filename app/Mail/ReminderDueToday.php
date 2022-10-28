@@ -31,7 +31,7 @@ class ReminderDueToday extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.due.due_date_today')
+        return $this->subject('Reminder Start Date [Today]')->markdown('emails.due.due_date_today')
             ->with('details', $this->details);
     }
 

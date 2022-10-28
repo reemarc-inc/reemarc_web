@@ -110,7 +110,8 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
-                    ci.name as name,
+                    ci.name as project_name,
+                    u.id as asset_author_id,
                     u.first_name as asset_author_name,
                     u.email as asset_author_email,
                     cai.status,
@@ -231,8 +232,10 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
-                    ci.name as name,
-                    u.first_name as author_name,
+                    ci.name as project_name,
+                    u.id as asset_author_id,
+                    u.first_name as asset_author_name,
+                    u.email as asset_author_email,
                     cai.status,
                     cai.assignee,
                     cb.campaign_name as brand_name,
@@ -259,7 +262,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
-            left join users u on u.id = ci.author_id
+            left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "done"
             and ci.name is not null

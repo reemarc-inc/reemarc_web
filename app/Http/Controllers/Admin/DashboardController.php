@@ -111,59 +111,57 @@ class DashboardController extends Controller
             }
 
             if($copyreview_start_due == $today){
-                // sending 'today is due' email => to asset creator
-                if(isset($item->author_id)){
-                    $asset_creator_rs = $user_obj->findById($item->author_id);
+                // sending 'today is due' email => to asset creator (okay)
+                if(isset($item->asset_author_id)){
                     $details = [
                         'due' => $copyreview_start_due,
-                        'who' => $asset_creator_rs['first_name'],
-                        'c_id' => $asset_creator_rs['campaign_id'],
-                        'a_id' => $asset_creator_rs['asset_id'],
-                        'task_name' => $asset_creator_rs['name'],
-                        'asset_type' => $asset_creator_rs['asset_type'],
+                        'who' => $item->asset_author_name,
+                        'c_id' => $item->campaign_id,
+                        'a_id' => $item->asset_id,
+                        'task_name' => $item->project_name,
+                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                         'asset_status' => 'Copy Review',
-                        'url' => '/admin/campaign/' . $asset_creator_rs['campaign_id'] . '/edit#' . $asset_creator_rs['asset_id'],
+                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator!
-//                    Mail::to($asset_creator_rs['email'])->send(new ReminderDueToday($details));
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
                     Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details)); // TEST to ME!
                 }
 
 
             }else if($copyreview_start_due == $tomorrow){
                 // sending 'tomorrow is due' email => to asset creator (okay)
-                if(isset($item->asset_author_email)){
+                if(isset($item->asset_author_id)){
                     $details = [
                         'due' => $copyreview_start_due, // tomorrow date!
                         'who' => $item->asset_author_name,
                         'c_id' => $item->campaign_id,
                         'a_id' => $item->asset_id,
-                        'task_name' => $item->name,
-                        'asset_type' => $item->asset_type,
+                        'task_name' => $item->project_name,
+                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                         'asset_status' => 'Copy Review',
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator
-//                    Mail::to($asset_creator_rs['email'])->send(new ReminderDueBefore($details));
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
                     Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
             }else if($copyreview_start_due < $today){
                 // sending 'over due' email => to asset creator and directors (okay)
-                if(isset($item->asset_author_email)){
+                if(isset($item->asset_author_id)){
                     $details = [
                         'due' => $copyreview_start_due,
                         'who' => $item->asset_author_name,
                         'c_id' => $item->campaign_id,
                         'a_id' => $item->asset_id,
-                        'task_name' => $item->name,
-                        'asset_type' => $item->asset_type,
+                        'task_name' => $item->project_name,
+                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                         'asset_status' => 'Copy Review',
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
-                    // Eamil to asset creator and Director!
-//                    Mail::to($asset_creator_rs['email'])->send(new ReminderDueAfter($details));
+                    // Email to asset creator and Director!
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueAfter($details));
                     Mail::to('jilee2@kissusa.com')->bcc('jinsunglee.8033@gmail.com')->send(new ReminderDueAfter($details));
-
                 }
 
             }
@@ -264,41 +262,84 @@ class DashboardController extends Controller
         foreach ($result_done as $item) {
 
             $asset_type = $item->asset_type;
-            $Final_review_start_due = date('Y-m-d');
+            $final_review_start_due = date('Y-m-d');
 
             if($asset_type == 'email_blast'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
             }else if($asset_type == 'social_ad'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
             }else if($asset_type == 'website_banners'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-4 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-4 weekday'));
             }else if($asset_type == 'landing_page'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
             }else if($asset_type == 'misc'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
             }else if($asset_type == 'programmatic_banners'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
             }else if($asset_type == 'a_content'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-6 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-6 weekday'));
             }else if($asset_type == 'image_request'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
             }else if($asset_type == 'roll_over'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
             }else if($asset_type == 'store_front'){
-                $Final_review_start_due = date('Y-m-d', strtotime($item->due . '-6 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-6 weekday'));
             }
 
-            $next_day_of_due = date('Y-m-d', strtotime($Final_review_start_due . '1 day'));
-
-            if($Final_review_start_due == $today){
+            if($final_review_start_due == $today){
                 // sending 'today is due' email => asset creator
+                if(isset($item->asset_author_id)){
+                    $details = [
+                        'due' => $final_review_start_due,
+                        'who' => $item->asset_author_name,
+                        'c_id' => $item->campaign_id,
+                        'a_id' => $item->asset_id,
+                        'task_name' => $item->project_name,
+                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                        'asset_status' => 'Final Review',
+                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                    ];
+                    // Eamil to asset creator!
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details)); // TEST to ME!
+                }
 
-            }else if($next_day_of_due == $today){
+
+            }else if($final_review_start_due == $tomorrow){
                 // sending 'tomorrow is due' email => send to asset creator
+                if(isset($item->asset_author_id)){
+                    $details = [
+                        'due' => $final_review_start_due, // tomorrow date!
+                        'who' => $item->asset_author_name,
+                        'c_id' => $item->campaign_id,
+                        'a_id' => $item->asset_id,
+                        'task_name' => $item->project_name,
+                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                        'asset_status' => 'Final Review',
+                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                    ];
+                    // Eamil to asset creator
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                }
 
-            }else if($Final_review_start_due < $today){
+            }else if($final_review_start_due < $today){
                 // sending 'past due date' if late, email to => asset creator and directors. same as copy_review
-
+                if(isset($item->asset_author_id)){
+                    $details = [
+                        'due' => $final_review_start_due,
+                        'who' => $item->asset_author_name,
+                        'c_id' => $item->campaign_id,
+                        'a_id' => $item->asset_id,
+                        'task_name' => $item->project_name,
+                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                        'asset_status' => 'Final Review',
+                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                    ];
+                    // Email to asset creator and Director!
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueAfter($details));
+                    Mail::to('jilee2@kissusa.com')->bcc('jinsunglee.8033@gmail.com')->send(new ReminderDueAfter($details));
+                }
             }
 
         }
