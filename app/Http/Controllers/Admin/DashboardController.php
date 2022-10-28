@@ -144,11 +144,11 @@ class DashboardController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator
-//                    Mail::to($asset_creator_rs['email'])->send(new AssignToDo($details));
+//                    Mail::to($asset_creator_rs['email'])->send(new ReminderDueBefore($details));
                     Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
             }else if($copyreview_start_due < $today){
-                // sending 'past due date' email => to asset creator and directors (okay)
+                // sending 'over due' email => to asset creator and directors (okay)
                 if(isset($item->asset_author_email)){
                     $details = [
                         'due' => $copyreview_start_due,
@@ -160,10 +160,10 @@ class DashboardController extends Controller
                         'asset_status' => 'Copy Review',
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
-                    // Eamil to asset creator
-//                    Mail::to($asset_creator_rs['email'])->send(new AssignToDo($details));
-//                    $info[] = $details;
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueAfter($details));
+                    // Eamil to asset creator and Director!
+//                    Mail::to($asset_creator_rs['email'])->send(new ReminderDueAfter($details));
+                    Mail::to('jilee2@kissusa.com')->bcc('jinsunglee.8033@gmail.com')->send(new ReminderDueAfter($details));
+
                 }
 
             }
