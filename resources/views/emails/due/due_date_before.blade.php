@@ -5,20 +5,20 @@
 <span style="color:#ffffff; font-size: medium;background-color: #933434;border-radius: 6px;">
 &nbsp;{{ $details['due'] }}&nbsp;
 </span> &nbsp; is
-<b style="color: #b91d19">Copy Review Start Date</b> for Asset
+<b style="color: #b91d19">{{ $details['asset_status'] }} Start Date</b> for Asset
 
 @component('mail::table')
-    | TYPE          | Asset ID  |
-    | :------------: | :---------:|
-    | Email Blast   | 5152 |
+| TYPE          | Asset ID  |
+| :------------: | :---------:|
+| {{ $details['asset_type'] }}   | {{ $details['a_id'] }} |
 @endcomponent
 
 @component('mail::panel')
-    Project name here!
+{{ $details['task_name'] }}
 @endcomponent
 
 @component('mail::button', ['url' => url($details['url']),'color' => 'error'])
-    Go to Asset
+Go to Asset
 @endcomponent
 
 Thanks,<br>
