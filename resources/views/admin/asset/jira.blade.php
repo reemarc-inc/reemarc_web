@@ -60,13 +60,13 @@
                             if($start_date <= date('m/d/Y') ){
                                 $start_css = $start_late_css;
                             }
-                        }else if ($asset->asset_type == 'image_requested'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -7 weekday'));
+                        }else if ($asset->asset_type == 'image_request'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
                             if($start_date <= date('m/d/Y') ){
                                 $start_css = $start_late_css;
                             }
                         }else if ($asset->asset_type == 'roll_over'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -8 weekday'));
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
                             if($start_date <= date('m/d/Y') ){
                                 $start_css = $start_late_css;
                             }

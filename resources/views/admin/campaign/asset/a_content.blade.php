@@ -319,7 +319,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +33 days - A+ Content
+    // Lead time +27 days - A+ Content
     $(function() {
         var lead_time = "<?php echo $data[0][0]->launch_date; ?>"
 

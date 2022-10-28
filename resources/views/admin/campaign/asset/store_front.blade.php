@@ -64,7 +64,7 @@
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopy Review Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -25 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b>N/A</b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Assign Start&nbsp</b></span></td>
@@ -324,7 +324,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +33 days - Store Front
+    // Lead time +23 days - Store Front
     $(function() {
         var lead_time = "<?php echo $data[0][0]->launch_date; ?>"
 
