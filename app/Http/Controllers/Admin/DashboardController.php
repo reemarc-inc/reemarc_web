@@ -122,7 +122,7 @@ class DashboardController extends Controller
                         'a_id' => $asset_creator_rs['asset_id'],
                         'task_name' => $asset_creator_rs['name'],
                         'asset_type' => $asset_creator_rs['asset_type'],
-                        'asset_status' => $asset_creator_rs['status'],
+                        'asset_status' => 'Copy Review',
                         'url' => '/admin/campaign/' . $asset_creator_rs['campaign_id'] . '/edit#' . $asset_creator_rs['asset_id'],
                     ];
                     // Eamil to asset creator!
@@ -135,13 +135,13 @@ class DashboardController extends Controller
                 // sending 'tomorrow is due' email => to asset creator (okay)
                 if(isset($item->asset_author_email)){
                     $details = [
-                        'due' => $copyreview_start_due,
+                        'due' => $next_day_of_due, // tomorrow date!
                         'who' => $item->asset_author_name,
                         'c_id' => $item->campaign_id,
                         'a_id' => $item->asset_id,
                         'task_name' => $item->name,
                         'asset_type' => $item->asset_type,
-                        'asset_status' => $item->status,
+                        'asset_status' => 'Copy Review',
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator
@@ -158,7 +158,7 @@ class DashboardController extends Controller
                         'a_id' => $item->asset_id,
                         'task_name' => $item->name,
                         'asset_type' => $item->asset_type,
-                        'asset_status' => $item->status,
+                        'asset_status' => 'Copy Review',
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator
