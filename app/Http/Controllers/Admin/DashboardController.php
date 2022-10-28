@@ -40,6 +40,7 @@ class DashboardController extends Controller
         $user_obj = new UserRepository();
 
         $today = date('Y-m-d');
+        $tomorrow = date('Y-m-d', strtotime($today . '1 day'));
 
         $info = array();
 
@@ -109,8 +110,6 @@ class DashboardController extends Controller
                 $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
             }
 
-            $next_day_of_due = date('Y-m-d', strtotime($copyreview_start_due . '1 day'));
-
             if($copyreview_start_due == $today){
                 // sending 'today is due' email => to asset creator
                 if(isset($item->author_id)){
@@ -131,11 +130,11 @@ class DashboardController extends Controller
                 }
 
 
-            }else if($next_day_of_due == $today){
+            }else if($copyreview_start_due == $tomorrow){
                 // sending 'tomorrow is due' email => to asset creator (okay)
                 if(isset($item->asset_author_email)){
                     $details = [
-                        'due' => $next_day_of_due, // tomorrow date!
+                        'due' => $copyreview_start_due, // tomorrow date!
                         'who' => $item->asset_author_name,
                         'c_id' => $item->campaign_id,
                         'a_id' => $item->asset_id,
