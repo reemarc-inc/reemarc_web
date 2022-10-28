@@ -66,22 +66,20 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
         return $assetNotificationUser->get();
     }
 
-    public function getCopyWriterStatus()
+    public function getCopyRequestStatus()
     {
         return DB::select(
-            'select  c_id as campaign_id,
+            'select c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
-                    date_created,
                     ci.name as name,
                     u.first_name as author_name,
                     cai.status,
-                    cai.assignee,
-                    cb.campaign_name,
+                    cb.campaign_name as brand_name,
                     cb.id as brand_id
             from
-                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
@@ -89,7 +87,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
                     union all
@@ -102,7 +100,169 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_requested"
             and ci.name is not null
-            and due > "2022-10-01 00:00:00"
+            order by due asc');
+    }
+
+    public function getCopyReviewStatus()
+    {
+        return DB::select(
+            'select c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    u.first_name as asset_author_name,
+                    u.email as asset_author_email,
+                    cai.status,
+                    cb.campaign_name as brand_name,
+                    cb.id as brand_id
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status = "copy_review"
+            and ci.name is not null
+            order by due asc');
+    }
+
+    public function getCopyCompleteStatus()
+    {
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cb.campaign_name as brand_name,
+                    cb.id as brand_id
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+					select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = ci.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status = "copy_complete"
+            and ci.name is not null
+            order by due asc');
+    }
+
+    public function getToDoStatus()
+    {
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name as brand_name,
+                    cb.id as brand_id
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+					select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = ci.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status = "to_do"
+            and ci.name is not null
+            order by due asc');
+    }
+
+    public function getDoneStatus()
+    {
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name as brand_name,
+                    cb.id as brand_id
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+					select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = ci.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status = "done"
+            and ci.name is not null
             order by due asc');
     }
 

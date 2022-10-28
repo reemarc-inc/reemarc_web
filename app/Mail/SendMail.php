@@ -30,6 +30,7 @@ class SendMail extends Mailable
     public function build()
     {
         $details = [
+            'due'           => '10-28-2022',
             'who'           => 'Wendy',
             'c_id'          => '1229',
             'a_id'          => '3993',
@@ -39,7 +40,7 @@ class SendMail extends Mailable
             'url' => '/admin/campaign/1229/edit#3993'
         ];
 
-        return $this->markdown('emails.copy_complete')->with('details', $details);
+        return $this->markdown('emails.due.due_date_after')->with('details', $details);
     }
 
     public function email_send()
