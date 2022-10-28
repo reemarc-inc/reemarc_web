@@ -84,7 +84,7 @@
     </div>
 
     <div class="form-group">
-        <label>Email Blast Date: (Lead Time 12 Days)</label>
+        <label>Email Blast Date: (Lead Time 16 Days)</label>
         <input required type="text" name="{{ $asset_type }}_email_blast_date" id="new_email_blast_date"
                class="form-control @error($asset_type.'_email_blast_date') is-invalid @enderror @if (!$errors->has($asset_type.'_email_blast_date') && old($asset_type.'_email_blast_date')) is-valid @endif"
                value="{{ old($asset_type . '_email_blast_date', null) }}">
@@ -108,9 +108,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +14 days - Email Blast (exclude weekend)
+    // Lead time +16 days - Email Blast (exclude weekend)
     $(function() {
-        var count = 14;
+        var count = 16;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);
