@@ -12,12 +12,12 @@
         <div class="card-body">
 {{--          <canvas id="myChart" height="158"></canvas>--}}
         <?php
-            foreach ($items as $item) {
+            foreach ($info as $item) {
 
 
         ?>
             <div>
-               {{$item->asset_type}} {{ $item->due }} {{ date('Y-m-d H:i:s') }}
+               {{ var_dump($item) }}
             </div>
         <?php
             }
