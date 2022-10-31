@@ -41,6 +41,7 @@ class DashboardController extends Controller
 
         $today = date('Y-m-d');
         $tomorrow = date('Y-m-d', strtotime($today . '1 day'));
+        $day_after_tomorrow = date('Y-m-d', strtotime($today . '2 day'));
 
         $info = array();
 
@@ -88,10 +89,11 @@ class DashboardController extends Controller
                     ];
                     // Eamil to asset creator!
 //                    Mail::to($person['email'])->send(new ReminderDueToday($details));
+//                    $info[] = $details;
                     Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details)); // TEST to ME!
                 }
 
-            }else if($copywriter_start_due == $today){
+            }else if($copywriter_start_due == $day_after_tomorrow){
                 // sending 'tomorrow is due' email => send to copy writers
                 $brand_name = $item->brand_name;
                 $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
@@ -108,6 +110,7 @@ class DashboardController extends Controller
                     ];
                     // Eamil to asset creator!
 //                    Mail::to($person['email'])->send(new ReminderDueBefore($details));
+//                    $info[] = $details;
                     Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details)); // TEST to ME!
                 }
             }else if($copywriter_start_due < $today){
@@ -127,6 +130,7 @@ class DashboardController extends Controller
                     ];
                     // Eamil to copy writer! and director
 //                    Mail::to($person['email'])->send(new ReminderDueAfter($details));
+//                    $info[] = $details;
                     Mail::to('jilee2@kissusa.com')->send(new ReminderDueAfter($details)); // TEST to ME!
                 }
 
