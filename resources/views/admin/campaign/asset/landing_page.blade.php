@@ -75,7 +75,7 @@
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -21 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><span class="lead-time"><b>&nbspFinal Review Start&nbsp</b></span></td>
+                <td><span class="lead-time"><b>&nbspCreative Review Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -11 weekday')); ?></b></span></td>
             </tr>
             <tr>

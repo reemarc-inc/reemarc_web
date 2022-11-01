@@ -134,7 +134,7 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <h2 class="section-title">Done (Waiting Final Approval)</h2>
+                    <h2 class="section-title">Done (Creative Review)</h2>
                     @foreach ($asset_list_done as $asset)
                         <div class="card">
                             <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
