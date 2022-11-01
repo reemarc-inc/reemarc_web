@@ -94,7 +94,7 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <h2 class="section-title">Waiting Copy Review</h2>
+                    <h2 class="section-title">Copy Review</h2>
                     @foreach ($asset_list_copy_review as $asset)
 
                         <?php
@@ -212,7 +212,7 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <h2 class="section-title">Waiting Final Approval</h2>
+                    <h2 class="section-title">Creative Review</h2>
                     @foreach ($asset_list_waiting_final_approval as $asset)
                         <div class="card">
                             <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">

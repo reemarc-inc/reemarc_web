@@ -302,7 +302,9 @@
                                                 <h5>{{ ucwords(str_replace('_', ' ', $asset->a_type)) }}
                                                     <span style="color:#933434">#{{ $asset->a_id }}</span>&nbsp
                                                     <span style="color:#ffffff; font-size: medium;background-color: #898787;border-radius: 10px;">
-                                                        &nbsp{{ ucwords(str_replace('_', ' ', $asset->status)) }}&nbsp
+                                                        <?php $temp_status = $asset->status ?>
+                                                        <?php if ($temp_status == 'done') $temp_status = 'creative_review'; ?>
+                                                        &nbsp{{ ucwords(str_replace('_', ' ', $temp_status)) }}&nbsp
                                                     </span>&nbsp
                                                     <?php if(!empty($asset->asset_creator)) { ?>
                                                     <span style="color:#ffffff; font-size: small;background-color: #933434;border-radius: 6px;">

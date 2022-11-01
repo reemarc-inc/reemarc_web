@@ -75,7 +75,7 @@
                 <td style="color: #b91d19"><span><b>N/A</b></span></td>
             </tr>
             <tr>
-                <td><span class="lead-time"><b>&nbspFinal Review Start&nbsp</b></span></td>
+                <td><span class="lead-time"><b>&nbspCreative Review Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b>N/A</b></span></td>
             </tr>
             <tr>
