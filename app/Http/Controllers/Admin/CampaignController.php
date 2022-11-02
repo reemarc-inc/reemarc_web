@@ -1726,6 +1726,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['image_request_c_id'];
         $campaignAssetIndex['type'] = $request['image_request_asset_type'];
         $campaignAssetIndex['status'] = 'copy_complete';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1818,6 +1820,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['roll_over_c_id'];
         $campaignAssetIndex['type'] = $request['roll_over_asset_type'];
         $campaignAssetIndex['status'] = 'copy_complete';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
@@ -1904,6 +1908,8 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['store_front_c_id'];
         $campaignAssetIndex['type'] = $request['store_front_asset_type'];
         $campaignAssetIndex['status'] = 'copy_complete';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
 
         $asset_id = $campaignAssetIndex->id;
