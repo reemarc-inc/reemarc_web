@@ -38,7 +38,7 @@ class DashboardController extends Controller
             'c_id' => 1111,
             'a_id' => 2222,
             'task_name' => 'Template Assets for Catalog Flow Emails - imPRESS',
-            'asset_type' => ucwords(str_replace('_', ' ', misc)),
+            'asset_type' => ucwords(str_replace('_', ' ', 'misc')),
             'asset_status' => 'Copy Request',
             'url' => '/admin/campaign/1111/edit#2222',
         ];
