@@ -32,6 +32,24 @@ class DashboardController extends Controller
     {
         $this->data['currentAdminMenu'] = 'dashboard';
 
+
+        $details = [
+            'due' => '2022-10-21',
+            'who' => 'tester',
+            'c_id' => 1621,
+            'a_id' => 5191,
+            'task_name' => 'Template Assets for Catalog Flow Emails - imPRESS',
+            'asset_type' => ucwords(str_replace('_', ' ', 'misc')),
+            'asset_status' => 'Copy Request',
+            'url' => '/admin/campaign/1621/edit#5191',
+        ];
+        // Email to copy writer! and director
+        Mail::to('jilee2@kissusa.com')
+            ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
+            ->send(new ReminderDueAfter($details));
+
+        ddd("end");
+
         // This is for template preview!!!
 //        $send_email = new SendMail();
 //        return $send_email->build();
@@ -84,8 +102,8 @@ class DashboardController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Email to asset creator!
-//                    Mail::to($person['email'])->send(new ReminderDueToday($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details)); // TEST to ME!
+                    Mail::to($person['email'])->send(new ReminderDueToday($details));
+//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details)); // TEST to ME!
                 }
 
             }else if($copywriter_start_due == $day_after_tomorrow){
@@ -104,8 +122,8 @@ class DashboardController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Email to asset creator!
-//                    Mail::to($person['email'])->send(new ReminderDueBefore($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details)); // TEST to ME!
+                    Mail::to($person['email'])->send(new ReminderDueBefore($details));
+//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details)); // TEST to ME!
                 }
             }else if($copywriter_start_due < $today){
                 // sending 'past due date' email => send to copy writers and directors
@@ -122,7 +140,7 @@ class DashboardController extends Controller
                         'asset_status' => 'Copy Request',
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
-                    // Eamil to copy writer! and director
+                    // Email to copy writer! and director
 //                    Mail::to($person['email'])->send(new ReminderDueAfter($details));
                     Mail::to('jilee2@kissusa.com')->send(new ReminderDueAfter($details));
 //                    Mail::to('jilee2@kissusa.com')
