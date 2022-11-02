@@ -46,8 +46,6 @@ class DashboardController extends Controller
         $cc_list = array();
 
         $cc_list[] = 'jilee2@kissusa.com';
-        $cc_list[] = '33.jinsunglee@gmail.com';
-        $cc_list[] = 'jinsunglee.8033@gmail.com';
 
         Mail::to('jinjin33s@gmail.com')
             ->cc($cc_list)
