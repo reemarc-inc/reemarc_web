@@ -38,19 +38,19 @@ class DashboardController extends Controller
             'c_id' => 1111,
             'a_id' => 2222,
             'task_name' => 'Template Assets for Catalog Flow Emails - imPRESS',
-            'asset_type' => ucwords(str_replace('_', ' ', 'misc')),
+            'asset_type' => 'Misc',
             'asset_status' => 'Copy Request',
             'url' => '/admin/campaign/1111/edit#2222',
         ];
 
-        $cc_list = [];
+        $cc_list = array();
 
         $cc_list[] = 'jilee2@kissusa.com';
         $cc_list[] = '33.jinsunglee@gmail.com';
         $cc_list[] = 'jinsunglee.8033@gmail.com';
 
         Mail::to('jinjin33s@gmail.com')
-            ->cc($cc_list[])
+            ->cc($cc_list)
             ->send(new ReminderDueAfter($details));
 
         ddd("done");
