@@ -133,12 +133,20 @@ class UserRepository implements UserRepositoryInterface
         ');
     }
 
+    public function getDesignerByFirstName($first_name)
+    {
+        $users = new User();
+        $users = $users->Where('role', '=', "graphic designer")->Where('first_name', '=', "$first_name");
+        return $users->get();
+    }
+
     public static function getWritersNameByBrand($brand)
     {
         return DB::select('
             select * from users where role = "copywriter" and user_brand like "%'.$brand.'%"
         ');
     }
+
 
 
 //    /**

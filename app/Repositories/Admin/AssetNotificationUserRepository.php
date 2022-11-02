@@ -143,12 +143,11 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
     public function getCopyCompleteStatus()
     {
         return DB::select(
-            'select  c_id as campaign_id,
+            'select c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
-                    ci.name as name,
-                    u.first_name as author_name,
+                    ci.name as project_name,
                     cai.status,
                     cb.campaign_name as brand_name,
                     cb.id as brand_id
@@ -174,7 +173,6 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
-            left join users u on u.id = ci.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_complete"
             and ci.name is not null
@@ -188,7 +186,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
-                    ci.name as name,
+                    ci.name as project_name,
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
