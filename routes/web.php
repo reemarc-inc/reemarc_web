@@ -44,6 +44,8 @@ Route::get('/email_test', [SendMail::class, 'email_send'])->name('email_send');
 Route::get('/email_copy_request', [NotifyController::class, 'copy_request']);
 Route::get('/email_copy_review', [NotifyController::class, 'copy_review']);
 
+Route::get('/notification/reminder_email', [NotifyController::class, 'reminder_email']);
+
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard.index');
     Route::get('/dashboard/test', [AdminDashboard::class, 'test'])->name('dashboard.test');
