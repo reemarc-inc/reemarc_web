@@ -32,26 +32,26 @@ class DashboardController extends Controller
     {
         $this->data['currentAdminMenu'] = 'dashboard';
 
-        $details = [
-            'due' => '2022-10-21',
-            'who' => 'Jordan',
-            'c_id' => 1111,
-            'a_id' => 2222,
-            'task_name' => 'Template Assets for Catalog Flow Emails - imPRESS',
-            'asset_type' => 'Misc',
-            'asset_status' => 'Copy Request',
-            'url' => '/admin/campaign/1111/edit#2222',
-        ];
-
-        $cc_list = array();
-
-        $cc_list[] = 'jilee2@kissusa.com';
-
-        Mail::to('jinjin33s@gmail.com')
-            ->cc($cc_list)
-            ->send(new ReminderDueAfter($details));
-
-        ddd("done");
+//        $details = [
+//            'due' => '2022-10-21',
+//            'who' => 'Jordan',
+//            'c_id' => 1111,
+//            'a_id' => 2222,
+//            'task_name' => 'Template Assets for Catalog Flow Emails - imPRESS',
+//            'asset_type' => 'Misc',
+//            'asset_status' => 'Copy Request',
+//            'url' => '/admin/campaign/1111/edit#2222',
+//        ];
+//
+//        $cc_list = array();
+//
+//        $cc_list[] = 'jilee2@kissusa.com';
+//
+//        Mail::to('jinjin33s@gmail.com')
+//            ->cc($cc_list)
+//            ->send(new ReminderDueAfter($details));
+//
+//        ddd("done");
 
         // This is for template preview!!!
 //        $send_email = new SendMail();
@@ -146,9 +146,7 @@ class DashboardController extends Controller
                         ->cc('frank.russo@kissusa.com', 'jikim@kissusa.com')
                         ->send(new ReminderDueAfter($details));
                 }
-
             }
-
         }
 
         // copy_review for Asset Creator!!!
@@ -222,11 +220,8 @@ class DashboardController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Email to asset creator and Director!
-
-                    $cc_list = [];
-
+                    $cc_list = array();
                     if($item->brand_id == 1){
-
                         $cc_list[] = 'kristing@kissusa.com';
                     }else if($item->brand_id == 2){
                         $cc_list[] = 'kibremer@kissusa.com';
@@ -247,22 +242,16 @@ class DashboardController extends Controller
                         $cc_list[] = 'jikim@kissusa.com';
                         $cc_list[] = 'annette.goldstein@kissusa.com';
                     }else if($item->brand_id == 10){
-                        $cc_list[] = 'frank.russo@kissusa.com';
-                        $cc_list[] = 'jikim@kissusa.com';
-                        $cc_list[] = 'annette.goldstein@kissusa.com';
+                        $cc_list[] = 'carriec@kissusa.com';
                     }else if($item->brand_id == 13){
                         $cc_list[] = 'kibremer@kissusa.com';
                     }
-
-                    Mail::to($item->asset_author_email)
-                        ->cc($cc_list[])
-                        ->send(new ReminderDueAfter($details));
-
                     // Send email to director
+                    Mail::to($item->asset_author_email)
+                        ->cc($cc_list)
+                        ->send(new ReminderDueAfter($details));
                 }
-
             }
-
         }
 
         // copy_complete for Creative Director!!! (Creative Assign start)
@@ -310,8 +299,7 @@ class DashboardController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-//                            Mail::to($joah_team_leader['email'])->send(new ReminderDueToday($details));
-                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                            Mail::to($joah_team_leader['email'])->send(new ReminderDueToday($details));
                         }
                     }
                 }else{ // If NOT Joah.. => Hong Jung
@@ -328,12 +316,10 @@ class DashboardController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-//                            Mail::to($creative_leader['email'])->send(new ReminderDueToday($details));
-                            Mail::to('jilee2@kissua.com')->send(new ReminderDueToday($details));
+                            Mail::to($creative_leader['email'])->send(new ReminderDueToday($details));
                         }
                     }
                 }
-
             }else if($creative_assign_start_due == $day_after_tomorrow){
                 // sending 'tomorrow is due' email => send to hong, geunho
                 if($item->brand_id == 5){ // If Joah.. => Geunho
@@ -350,8 +336,7 @@ class DashboardController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-//                            Mail::to($joah_team_leader['email'])->send(new ReminderDueBefore($details));
-                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                            Mail::to($joah_team_leader['email'])->send(new ReminderDueBefore($details));
                         }
                     }
                 }else{ // If NOT Joah.. => Hong Jung
@@ -368,8 +353,7 @@ class DashboardController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-//                            Mail::to($creative_leader['email'])->send(new ReminderDueBefore($details));
-                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                            Mail::to($creative_leader['email'])->send(new ReminderDueBefore($details));
                         }
                     }
                 }
@@ -389,9 +373,10 @@ class DashboardController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-//                            Mail::to($joah_team_leader['email'])->send(new ReminderDueAfter($details));
-                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueAfter($details));
-                            // Send to director
+                            // Send to director Haejin
+                            Mail::to($joah_team_leader['email'])
+                                ->cc('haejin.chang@kissusa.com')
+                                ->send(new ReminderDueAfter($details));
                         }
                     }
                 }else{ // If NOT Joah.. => Hong Jung
@@ -408,10 +393,10 @@ class DashboardController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-//                            Mail::to($creative_leader['email'])->send(new ReminderDueAfter($details));
-                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueAfter($details));
-                            // Send to director
-
+                            // Send to director Flori
+                            Mail::to($creative_leader['email'])
+                                ->cc('flori.ohm@kissusa.com')
+                                ->send(new ReminderDueAfter($details));
                         }
                     }
                 }
@@ -462,8 +447,7 @@ class DashboardController extends Controller
                         'asset_status'  => 'Creative Work',
                         'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                     ];
-//                    Mail::to($designer[0]->email)->send(new ReminderDueToday($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                    Mail::to($designer[0]->email)->send(new ReminderDueToday($details));
                 }
 
             }else if($creative_work_start_due == $day_after_tomorrow){
@@ -480,8 +464,7 @@ class DashboardController extends Controller
                         'asset_status'  => 'Creative Work',
                         'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                     ];
-//                    Mail::to($designer[0]->email)->send(new ReminderDueBefore($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                    Mail::to($designer[0]->email)->send(new ReminderDueBefore($details));
                 }
 
             }else if($creative_work_start_due < $today){
@@ -498,15 +481,19 @@ class DashboardController extends Controller
                         'asset_status'  => 'Creative Work',
                         'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                     ];
-//                    Mail::to($designer[0]->email)->send(new ReminderDueAfter($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueAfter($details));
                     // Send to leader .. Hong, Geunho-joah
-
+                    if($item->brand_id == 5){ // if joah, Geunho
+                        Mail::to($designer[0]->email)
+                            ->cc('geunho.kang@kissusa.com')
+                            ->send(new ReminderDueAfter($details));
+                    }else{ // others, Hong
+                        Mail::to($designer[0]->email)
+                            ->cc('hojung@kissusa.com')
+                            ->send(new ReminderDueAfter($details));
+                    }
                 }
             }
-
         }
-
 
         // waiting_approval (creative review) for asset creator!!! (Final Review start)
         $result_done = $obj->getDoneStatus();
@@ -551,8 +538,7 @@ class DashboardController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator!
-//                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details)); // TEST to ME!
+                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
                 }
 
 
@@ -570,8 +556,7 @@ class DashboardController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator
-//                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
                 }
 
             }else if($final_review_start_due < $today){
@@ -587,17 +572,40 @@ class DashboardController extends Controller
                         'asset_status' => 'Final Review',
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
-                    // Email to asset creator and Director!
-//                    Mail::to($item->asset_author_email)->send(new ReminderDueAfter($details));
-                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueAfter($details));
-//                    Mail::to('jilee2@kissusa.com')->bcc('jinsunglee.8033@gmail.com')->send(new ReminderDueAfter($details));
+
+                    $cc_list = array();
+                    if($item->brand_id == 1){
+                        $cc_list[] = 'kristing@kissusa.com';
+                    }else if($item->brand_id == 2){
+                        $cc_list[] = 'kibremer@kissusa.com';
+                    }else if($item->brand_id == 3){
+                        $cc_list[] = 'jennifer.clark@kissusa.com';
+                    }else if($item->brand_id == 4){
+                        $cc_list[] = 'kristing@kissusa.com';
+                    }else if($item->brand_id == 5){
+                        $cc_list[] = 'haejin.chang@kissusa.com';
+                    }else if($item->brand_id == 6){
+                        $cc_list[] = 'jennifer.clark@kissusa.com';
+                    }else if($item->brand_id == 7){
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'jikim@kissusa.com';
+                        $cc_list[] = 'annette.goldstein@kissusa.com';
+                    }else if($item->brand_id == 8){
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'jikim@kissusa.com';
+                        $cc_list[] = 'annette.goldstein@kissusa.com';
+                    }else if($item->brand_id == 10){
+                        $cc_list[] = 'carriec@kissusa.com';
+                    }else if($item->brand_id == 13){
+                        $cc_list[] = 'kibremer@kissusa.com';
+                    }
+                    // Send email to director
+                    Mail::to($item->asset_author_email)
+                        ->cc($cc_list)
+                        ->send(new ReminderDueAfter($details));
                 }
             }
-
         }
 
-//        $this->data['info'] = $info;
-//
-//        return view('admin.dashboard.test', $this->data);
     }
 }
