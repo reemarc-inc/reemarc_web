@@ -13,6 +13,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
+        Commands\ReminderEmail::class,
         //
     ];
 
@@ -27,7 +28,7 @@ class Kernel extends ConsoleKernel
 //        $schedule->command('inspire')->dailyAt('4:00');
         $schedule->command('reminder_email')
             ->timezone('America/New_York')
-            ->dailyAt('15:08');
+            ->dailyAt('15:25');
 
     }
 
