@@ -436,14 +436,6 @@ class NotifyController extends Controller
         $obj = new AssetNotificationUserRepository();
         $user_obj = new UserRepository();
 
-
-        $name = $user_obj->getEmailByDesignerName('Junghaeng');
-
-        $email = $name[0]->email;
-
-        return $email;
-        ddd("die");
-
         $today = date('Y-m-d');
         $day_after_tomorrow = date('Y-m-d', strtotime($today . '2 day'));
 
