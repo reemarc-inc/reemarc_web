@@ -19,6 +19,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Artisan::command('reminder_email', function () {
+Artisan::command('reminder:email', function () {
     $this->comment(NotifyController::reminder_email());
 })->purpose('Send Reminder Email');
