@@ -17,5 +17,5 @@ Go to Asset
 @endcomponent
 
 Thanks,<br>
-KOE Project Manager
+KDO Project Manager
 @endcomponent
