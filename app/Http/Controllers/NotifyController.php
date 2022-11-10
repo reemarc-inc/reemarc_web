@@ -480,8 +480,8 @@ class NotifyController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Email to asset creator!
-                    Mail::to($person['email'])->send(new ReminderDueToday($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+//                    Mail::to($person['email'])->send(new ReminderDueToday($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
 
             }else if($copywriter_start_due == $day_after_tomorrow){
@@ -500,8 +500,8 @@ class NotifyController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Email to asset creator!
-                    Mail::to($person['email'])->send(new ReminderDueBefore($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+//                    Mail::to($person['email'])->send(new ReminderDueBefore($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
             }else if($copywriter_start_due < $today){
                 // sending 'past due date' email => send to copy writers and directors
@@ -519,12 +519,12 @@ class NotifyController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Email to copy writer! and director Frank and Ji
-                    Mail::to($person['email'])
-                        ->cc('frank.russo@kissusa.com', 'jikim@kissusa.com', 'scmarkman@kissusa.com', 'jilee2@kissusa.com')
-                        ->send(new ReminderDueAfter($details));
-//                    Mail::to('jilee2@kissusa.com')
-//                        ->cc('jinsunglee.8033@gmail.com', 'jinsunglee.8033@gmail.com')
+//                    Mail::to($person['email'])
+//                        ->cc('frank.russo@kissusa.com', 'jikim@kissusa.com', 'scmarkman@kissusa.com', 'jilee2@kissusa.com')
 //                        ->send(new ReminderDueAfter($details));
+                    Mail::to('jilee2@kissusa.com')
+                        ->cc('jinsunglee.8033@gmail.com', 'jinsunglee.8033@gmail.com')
+                        ->send(new ReminderDueAfter($details));
 
                 }
             }
@@ -569,8 +569,8 @@ class NotifyController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator!
-                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
             }else if($copyreview_start_due == $day_after_tomorrow){
                 // sending 'tomorrow is due' email => to asset creator (okay)
@@ -586,8 +586,8 @@ class NotifyController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator
-                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
             }else if($copyreview_start_due < $today){
                 // sending 'over due' email => to asset creator and directors (okay)
@@ -611,12 +611,12 @@ class NotifyController extends Controller
                     $cc_list[] = 'jilee2@kissusa.com';
 
                     // Send email to director
-                    Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
-                        ->send(new ReminderDueAfter($details));
-//                    Mail::to('jilee2@kissusa.com')
-//                        ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
+//                    Mail::to($item->asset_author_email)
+//                        ->cc($cc_list)
 //                        ->send(new ReminderDueAfter($details));
+                    Mail::to('jilee2@kissusa.com')
+                        ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
+                        ->send(new ReminderDueAfter($details));
 
                 }
             }
@@ -667,8 +667,8 @@ class NotifyController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-                            Mail::to($joah_team_leader['email'])->send(new ReminderDueToday($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+//                            Mail::to($joah_team_leader['email'])->send(new ReminderDueToday($details));
+                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                         }
                     }
                 }else{ // If NOT Joah.. => Hong Jung
@@ -685,8 +685,8 @@ class NotifyController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-                            Mail::to($creative_leader['email'])->send(new ReminderDueToday($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+//                            Mail::to($creative_leader['email'])->send(new ReminderDueToday($details));
+                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                         }
                     }
                 }
@@ -706,8 +706,8 @@ class NotifyController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-                            Mail::to($joah_team_leader['email'])->send(new ReminderDueBefore($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+//                            Mail::to($joah_team_leader['email'])->send(new ReminderDueBefore($details));
+                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                         }
                     }
                 }else{ // If NOT Joah.. => Hong Jung
@@ -724,8 +724,8 @@ class NotifyController extends Controller
                                 'asset_status'  => 'Creative Assign',
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
-                            Mail::to($creative_leader['email'])->send(new ReminderDueBefore($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+//                            Mail::to($creative_leader['email'])->send(new ReminderDueBefore($details));
+                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                         }
                     }
                 }
@@ -746,13 +746,13 @@ class NotifyController extends Controller
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
                             // Send to director Haejin
-                            Mail::to($joah_team_leader['email'])
-                                ->cc('haejin.chang@kissusa.com')
-                                ->send(new ReminderDueAfter($details));
-
-//                            Mail::to('jilee2@kissusa.com')
-//                                ->cc('jinsunglee.8033@gmail.com')
+//                            Mail::to($joah_team_leader['email'])
+//                                ->cc('haejin.chang@kissusa.com')
 //                                ->send(new ReminderDueAfter($details));
+
+                            Mail::to('jilee2@kissusa.com')
+                                ->cc('jinsunglee.8033@gmail.com')
+                                ->send(new ReminderDueAfter($details));
 
                         }
                     }
@@ -771,12 +771,12 @@ class NotifyController extends Controller
                                 'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                             ];
                             // Send to director Flori
-                            Mail::to($creative_leader['email'])
-                                ->cc('flori.ohm@kissusa.com')
-                                ->send(new ReminderDueAfter($details));
-//                            Mail::to('jilee2@kissusa.com')
-//                                ->cc('jinsunglee.8033@gmail.com')
+//                            Mail::to($creative_leader['email'])
+//                                ->cc('flori.ohm@kissusa.com')
 //                                ->send(new ReminderDueAfter($details));
+                            Mail::to('jilee2@kissusa.com')
+                                ->cc('jinsunglee.8033@gmail.com')
+                                ->send(new ReminderDueAfter($details));
                         }
                     }
                 }
@@ -827,8 +827,8 @@ class NotifyController extends Controller
                         'asset_status'  => 'Creative Work',
                         'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                     ];
-                    Mail::to($designer[0]->email)->send(new ReminderDueToday($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+//                    Mail::to($designer[0]->email)->send(new ReminderDueToday($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
 
             }else if($creative_work_start_due == $day_after_tomorrow){
@@ -845,8 +845,8 @@ class NotifyController extends Controller
                         'asset_status'  => 'Creative Work',
                         'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
                     ];
-                    Mail::to($designer[0]->email)->send(new ReminderDueBefore($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+//                    Mail::to($designer[0]->email)->send(new ReminderDueBefore($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
 
             }else if($creative_work_start_due < $today){
@@ -865,19 +865,19 @@ class NotifyController extends Controller
                     ];
                     // Send to leader .. Hong, Geunho-joah
                     if($item->brand_id == 5){ // if joah, Geunho
-                        Mail::to($designer[0]->email)
-                            ->cc('geunho.kang@kissusa.com')
-                            ->send(new ReminderDueAfter($details));
-//                        Mail::to('jilee2@kissusa.com')
-//                            ->cc('jinsunglee.8033@gmail.com')
+//                        Mail::to($designer[0]->email)
+//                            ->cc('geunho.kang@kissusa.com')
 //                            ->send(new ReminderDueAfter($details));
+                        Mail::to('jilee2@kissusa.com')
+                            ->cc('jinsunglee.8033@gmail.com')
+                            ->send(new ReminderDueAfter($details));
                     }else{ // others, Hong
-                        Mail::to($designer[0]->email)
-                            ->cc('hojung@kissusa.com')
-                            ->send(new ReminderDueAfter($details));
-//                        Mail::to('jilee2@kissusa.com')
-//                            ->cc('jinsunglee.8033@gmail.com')
+//                        Mail::to($designer[0]->email)
+//                            ->cc('hojung@kissusa.com')
 //                            ->send(new ReminderDueAfter($details));
+                        Mail::to('jilee2@kissusa.com')
+                            ->cc('jinsunglee.8033@gmail.com')
+                            ->send(new ReminderDueAfter($details));
 
                     }
                 }
@@ -927,8 +927,8 @@ class NotifyController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator!
-                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueToday($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
 
 
@@ -946,8 +946,8 @@ class NotifyController extends Controller
                         'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                     ];
                     // Eamil to asset creator
-                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+//                    Mail::to($item->asset_author_email)->send(new ReminderDueBefore($details));
+                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
 
             }else if($final_review_start_due < $today){
@@ -972,13 +972,13 @@ class NotifyController extends Controller
                     $cc_list[] = 'jilee2@kissusa.com';
 
                     // Send email to director
-                    Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
-                        ->send(new ReminderDueAfter($details));
+//                    Mail::to($item->asset_author_email)
+//                        ->cc($cc_list)
+//                        ->send(new ReminderDueAfter($details));
 
-//                        Mail::to('jilee2@kissusa.com')
-//                            ->cc('jinsunglee.8033@gmail.com')
-//                            ->send(new ReminderDueAfter($details));
+                        Mail::to('jilee2@kissusa.com')
+                            ->cc('jinsunglee.8033@gmail.com')
+                            ->send(new ReminderDueAfter($details));
 
                 }
             }
