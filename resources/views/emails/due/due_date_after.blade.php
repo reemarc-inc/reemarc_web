@@ -3,7 +3,7 @@
 # Hi {{ $details['who'] }},
 
 <b style="color: #b91d19">{{ $details['asset_status'] }} Start Date</b>
-<span style="color:#ffffff; font-size: medium;background-color: #933434;border-radius: 6px;">&nbsp;{{ $details['due'] }}&nbsp;</span> is over due
+<span style="color:#ffffff; font-size: medium;background-color: #933434;border-radius: 6px;">&nbsp;{{ $details['due'] }}&nbsp;</span> is overdue
 
 @component('mail::table')
 | TYPE          | Asset ID  |
