@@ -352,10 +352,10 @@ class AssetController extends Controller
 
         $this->data['designer'] = $str;
         $this->data['filter'] = $param;
-        $this->data['asset_list_todo'] = $this->campaignAssetIndexRepository->get_asset_jira_todo($str);
-        $this->data['asset_list_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_progress($str);
-        $this->data['asset_list_done'] = $this->campaignAssetIndexRepository->get_asset_jira_done($str);
-        $this->data['asset_list_finish'] = $this->campaignAssetIndexRepository->get_asset_jira_finish($str);
+        $this->data['asset_list_todo'] = $this->campaignAssetIndexRepository->get_asset_jira_to_do_creative($str, null);
+        $this->data['asset_list_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress_creative($str, null);
+        $this->data['asset_list_done'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval_creative($str, null);
+        $this->data['asset_list_finish'] = $this->campaignAssetIndexRepository->get_asset_jira_finish_creative($str);
 
         return view('admin.asset.jira', $this->data);
     }
@@ -388,7 +388,11 @@ class AssetController extends Controller
         $this->data['asset_list_copy_request'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_request($str, $brand_id);
         $this->data['asset_list_copy_review'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_review($str, $brand_id);
         $this->data['asset_list_copy_complete'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_complete($str, $brand_id);
+        $this->data['asset_list_to_do'] = $this->campaignAssetIndexRepository->get_asset_jira_to_do($str, $brand_id);
+        $this->data['asset_list_in_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress($str, $brand_id);
         $this->data['asset_list_waiting_final_approval'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval($str, $brand_id);
+
+//        $this->data['asset_list_waiting_asset_completed'] = $this->campaignAssetIndexRepository->get_asset_jira_asset_completed($str, $brand_id);
 
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 

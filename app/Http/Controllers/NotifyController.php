@@ -520,7 +520,7 @@ class NotifyController extends Controller
                     ];
                     // Email to copy writer! and director Frank and Ji
                     Mail::to($person['email'])
-                        ->cc('frank.russo@kissusa.com', 'jikim@kissusa.com', 'scmarkman@kissusa.com', 'jilee2@kissusa.com')
+                        ->cc('frank.russo@kissusa.com', 'motuhin@kissusa.com', 'jilee2@kissusa.com')
                         ->send(new ReminderDueAfter($details));
 //                    Mail::to('jilee2@kissusa.com')
 //                        ->cc('jinsunglee.8033@gmail.com', 'jinsunglee.8033@gmail.com')
@@ -606,8 +606,7 @@ class NotifyController extends Controller
                     $cc_list = array();
 
                     $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'jikim@kissusa.com';
-                    $cc_list[] = 'scmarkman@kissusa.com';
+                    $cc_list[] = 'motuhin@kissusa.com';
                     $cc_list[] = 'jilee2@kissusa.com';
 
                     // Send email to director
@@ -967,8 +966,7 @@ class NotifyController extends Controller
                     $cc_list = array();
 
                     $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'jikim@kissusa.com';
-                    $cc_list[] = 'scmarkman@kissusa.com';
+                    $cc_list[] = 'motuhin@kissusa.com';
                     $cc_list[] = 'jilee2@kissusa.com';
 
                     // Send email to director

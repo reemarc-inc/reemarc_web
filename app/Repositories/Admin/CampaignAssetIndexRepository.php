@@ -267,7 +267,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_finish($str)
+    public function get_asset_jira_finish_creative($str)
     {
         return DB::select(
             'select  c_id as campaign_id,
@@ -362,7 +362,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
-            left join users u on u.id = ci.author_id
+            left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_requested"
             and ci.name is not null
@@ -404,7 +404,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
-            left join users u on u.id = ci.author_id
+            left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_requested"
             and ci.name is not null
@@ -459,7 +459,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
-            left join users u on u.id = ci.author_id
+            left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_review"
             and ci.name is not null
@@ -516,13 +516,293 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
-            left join users u on u.id = ci.author_id
+            left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_complete"
             and ci.name is not null
               ' . $brand_filter . '
             and date_created > "2022-03-01 00:00:00"
             and u.first_name like "%'.$str.'%"
+            order by due asc');
+    }
+
+    public function get_asset_jira_in_creative($str, $brand_id)
+    {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    date_created,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status in ("to_do", "in_progress")
+            and ci.name is not null
+              ' . $brand_filter . '
+            and u.first_name like "%'.$str.'%"
+            order by due asc');
+    }
+
+    public function get_asset_jira_to_do($str, $brand_id)
+    {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    date_created,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status in ("to_do")
+            and ci.name is not null
+              ' . $brand_filter . '
+            and u.first_name like "%'.$str.'%"
+            order by due asc');
+    }
+
+    public function get_asset_jira_to_do_creative($str, $brand_id)
+    {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    date_created,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status in ("to_do")
+            and ci.name is not null
+              ' . $brand_filter . '
+            and cai.assignee like "%'.$str.'%"
+            order by due asc');
+    }
+
+    public function get_asset_jira_in_progress($str, $brand_id)
+    {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    date_created,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status in ("in_progress")
+            and ci.name is not null
+              ' . $brand_filter . '
+            and u.first_name like "%'.$str.'%"
+            order by due asc');
+    }
+
+    public function get_asset_jira_in_progress_creative($str, $brand_id)
+    {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    date_created,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status in ("in_progress")
+            and ci.name is not null
+              ' . $brand_filter . '
+            and cai.assignee like "%'.$str.'%"
             order by due asc');
     }
 
@@ -573,13 +853,119 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
-            left join users u on u.id = ci.author_id
+            left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "done"
             and ci.name is not null
               ' . $brand_filter . '
             and u.first_name like "%'.$str.'%"
             order by due asc');
+    }
+
+    public function get_asset_jira_waiting_final_approval_creative($str, $brand_id)
+    {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    date_created,
+                    ci.name as name,
+                    u.first_name as author_name,
+                    cai.status,
+                    cai.assignee,
+                    cb.campaign_name
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status = "done"
+            and ci.name is not null
+              ' . $brand_filter . '
+            and cai.assignee like "%'.$str.'%"
+            order by due asc');
+    }
+
+    public function get_asset_jira_asset_completed($str)
+    {
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    cai.status,
+                    cai.assignee,
+                    cai.author_id,
+                    u.first_name as asset_author,
+                    cb.campaign_name,
+                    cai.updated_at
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
+            where cai.status = "final_approval"
+            and u.first_name like "%'.$str.'%"
+            and cai.updated_at >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
+            order by updated_at asc');
     }
 
 }
