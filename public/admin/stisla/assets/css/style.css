@@ -2100,9 +2100,9 @@ a.bb {
   color: #34395e; }
 
 .text-time {
-  font-size: 12px;
-  color: #666;
-  font-weight: 500;
+  font-size: 13px;
+  color: #1a1a1a;
+  font-weight: 700;
   margin-bottom: 10px; }
 
 .bullet, .slash {
