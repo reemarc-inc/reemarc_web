@@ -267,14 +267,28 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_finish_creative($str)
+    public function get_asset_jira_finish_creative($str, $brand_id, $asset_id)
     {
+
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        if($asset_id != '') {
+            $asset_id_filter = ' and cai.id =' . $asset_id . ' ';
+        }else{
+            $asset_id_filter = ' ';
+        }
+
         return DB::select(
             'select  c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
                     ci.name as name,
+                    u.first_name as author_name,
                     cai.status,
                     cai.assignee,
                     cb.campaign_name,
@@ -307,8 +321,11 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
+            left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "final_approval"
+              ' . $brand_filter . '
+              ' . $asset_id_filter . '
             and cai.assignee like "%'.$str.'%"
             and cai.updated_at >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
             order by updated_at asc');
