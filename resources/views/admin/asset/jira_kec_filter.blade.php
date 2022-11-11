@@ -17,6 +17,10 @@
         </div>
 
         <div class="form-group col-md-2">
+            <input type="text" name="asset_id" class="form-control" id="asset_id" placeholder="Asset ID" value="{{ !empty($filter['asset_id']) ? $filter['asset_id'] : '' }}">
+        </div>
+
+        <div class="form-group col-md-2">
             <button class="btn btn-block btn-primary btn-filter"><i class="fas fa-search"></i> {{ __('general.btn_search_label') }}</button>
         </div>
     </div>
