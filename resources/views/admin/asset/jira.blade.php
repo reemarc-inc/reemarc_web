@@ -234,8 +234,12 @@
                                     <div class="media" style="padding-bottom: 0px;">
                                         <div class="form-group" style="width: 100%">
                                             <div class="media-right" >{{$asset->campaign_name}}</div>
-                                            <div class="media-title mb-1">{{$asset->assignee}}</div>
-                                            <div class="text-time">{{ date('m/d/Y', strtotime($asset->due))}}</div>
+                                            <div class="media-title mb-1">{{$asset->author_name}}</div>
+                                            <div class="text-time">{{ date('m/d/Y', strtotime($asset->due))}}
+                                                <span style="color:#ffffff; font-size: small;background-color: #314190FF;border-radius: 8px; float: right;">
+                                                   &nbsp {{ $asset->assignee }} &nbsp
+                                                </span>
+                                            </div>
                                             <div class="media-description text-muted">{{ mb_strimwidth($asset->name, 0,50, '...') }}</div>
                                             <div class="media-links">
                                                 <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #050a61" data-initial="{{$asset->asset_id}}"></figure>
