@@ -407,11 +407,11 @@ class NotifyController extends Controller
 
     public static function reminder_email()
     {
-        $user_obj = new UserRepository();
-        $jin =$user_obj->findById(97);
+//        $user_obj = new UserRepository();
+//        $jin =$user_obj->findById(97);
         $details = [
             'due' => '2022-11-11',
-            'who' => $jin->first_name,
+            'who' => 'test',
             'c_id' => 1580,
             'a_id' => 5039,
             'task_name' => 'Holiday KISS Nails & Lashes - KISS Mass Market',
