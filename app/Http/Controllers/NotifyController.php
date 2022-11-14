@@ -409,24 +409,24 @@ class NotifyController extends Controller
     {
 //        $user_obj = new UserRepository();
 //        $jin =$user_obj->findById(97);
-        $details = [
-            'due' => '2022-11-11',
-            'who' => 'test',
-            'c_id' => 1580,
-            'a_id' => 5039,
-            'task_name' => 'Holiday KISS Nails & Lashes - KISS Mass Market',
-            'asset_type' => 'Website Banners',
-            'asset_status' => 'Creative Review',
-            'url' => '/admin/campaign/1580/edit#5039',
-        ];
+//        $details = [
+//            'due' => '2022-11-11',
+//            'who' => 'test',
+//            'c_id' => 1580,
+//            'a_id' => 5039,
+//            'task_name' => 'Holiday KISS Nails & Lashes - KISS Mass Market',
+//            'asset_type' => 'Website Banners',
+//            'asset_status' => 'Creative Review',
+//            'url' => '/admin/campaign/1580/edit#5039',
+//        ];
 
 //        $cc_list = array();
 //
 //        $cc_list[] = 'jinsunglee.8033@gmail.com';
 //
-        Mail::to('jilee2@kissusa.com')
-            ->send(new ReminderDueAfter($details));
-        return 'done';
+//        Mail::to('jilee2@kissusa.com')
+//            ->send(new ReminderDueAfter($details));
+//        return 'done';
 
         // This is for template preview!!!
 //        $send_email = new ReminderDueAfter($details);
