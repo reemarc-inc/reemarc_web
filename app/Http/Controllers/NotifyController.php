@@ -25,6 +25,7 @@ use App\Mail\ReminderDueAfter;
 use App\Mail\ReminderDueBefore;
 use App\Mail\ReminderDueToday;
 use Mail;
+use DB;
 
 class NotifyController extends Controller
 {
@@ -406,31 +407,31 @@ class NotifyController extends Controller
 
     public static function reminder_email()
     {
-//        $details = [
-//            'due' => '2022-10-21',
-//            'who' => 'Jordan',
-//            'c_id' => 1111,
-//            'a_id' => 2222,
-//            'task_name' => 'Template Assets for Catalog Flow Emails - imPRESS',
-//            'asset_type' => 'Misc',
-//            'asset_status' => 'Copy Request',
-//            'url' => '/admin/campaign/1111/edit#2222',
-//        ];
-//
+        $user_obj = new UserRepository();
+        $jin =$user_obj->findById(97);
+        $details = [
+            'due' => '2022-11-11',
+            'who' => $jin->first_name,
+            'c_id' => 1580,
+            'a_id' => 5039,
+            'task_name' => 'Holiday KISS Nails & Lashes - KISS Mass Market',
+            'asset_type' => 'Website Banners',
+            'asset_status' => 'Creative Review',
+            'url' => '/admin/campaign/1580/edit#5039',
+        ];
+
 //        $cc_list = array();
 //
-//        $cc_list[] = 'jilee2@kissusa.com';
+//        $cc_list[] = 'jinsunglee.8033@gmail.com';
 //
-//        Mail::to('jinjin33s@gmail.com')
-//            ->cc($cc_list)
-//            ->send(new ReminderDueAfter($details));
-//
-//        ddd("done");
-
+        Mail::to('jilee2@kissusa.com')
+            ->send(new ReminderDueAfter($details));
+        return 'done';
 
         // This is for template preview!!!
-//        $send_email = new SendMail();
-//        return $send_email->build();
+//        $send_email = new ReminderDueAfter($details);
+//        return 'done';
+
 
 
         $obj = new AssetNotificationUserRepository();
