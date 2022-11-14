@@ -18,6 +18,7 @@
         $second = 'Project Manage';
         $third = 'Create Project';
     }
+
     ?>
 
     <section class="section">
@@ -321,7 +322,7 @@
                                                         <i class="fa fa-address-card"
                                                                 data-toggle="modal"
                                                                 data-target="#myModal-{{$asset->a_id}}"></i>
-                                                        <i class="dropdown fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>
+                                                        <i id="arrow-{{$asset->a_id}}" class="dropdown fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>
                                                         <a  href="javascript:void(0);"
                                                             class="close"
                                                             data-id=""
@@ -618,6 +619,16 @@
     <?php endif; ?>
 
 
+    <script type="text/javascript">
+        const queryString = window.location.href;
+        if(queryString.includes('#')) {
+            var asset_id = queryString.split('#').pop();
+            $('#asset-id-'+asset_id).show();
+            $('#arrow-'+asset_id).removeClass('fa-angle-down');
+            $('#arrow-'+asset_id).addClass('fa-angle-up');
+        }
+    </script>
+
     <script>
 
         function check_retailer(){
@@ -829,11 +840,11 @@
                 $(el).toggleClass('with-border');
                 $(el).removeClass('fa-angle-up');
                 $(el).addClass('fa-angle-down');
-                $('#asset-id-'+asset_id).hide();
+                $('#asset-id-'+asset_id).slideUp();
             }else{
                 $(el).removeClass('fa-angle-down');
                 $(el).addClass('fa-angle-up');
-                $('#asset-id-'+asset_id).show();
+                $('#asset-id-'+asset_id).slideDown();
             }
         }
 
