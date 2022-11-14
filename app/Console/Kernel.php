@@ -31,7 +31,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->call('App\Http\Controllers\notification@reminder_email')
             ->timezone('America/New_York')
-            ->dailyAt('11:20');
+            ->dailyAt('11:30');
 
     }
 
