@@ -24,14 +24,14 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('inspire')->dailyAt('4:00');
+//        $schedule->command('inspire')->dailyAt('4:00');
 //        $schedule->command('reminder:email')
 //            ->timezone('America/New_York')
 //            ->dailyAt('8:30');
 
         $schedule->call('App\Http\Controllers\NotifyController@reminder_email')
             ->timezone('America/New_York')
-            ->dailyAt('11:30');
+            ->dailyAt('8:30');
 
     }
 
