@@ -29,7 +29,9 @@ class Kernel extends ConsoleKernel
 //            ->timezone('America/New_York')
 //            ->dailyAt('8:30');
 
-        $schedule->call('App\Http\Controllers\notification@reminder_email')->dailyAt('11:20');
+        $schedule->call('App\Http\Controllers\notification@reminder_email')
+            ->timezone('America/New_York')
+            ->dailyAt('11:20');
 
     }
 
