@@ -384,6 +384,8 @@ class CampaignController extends Controller
         ];
         $this->data['assignees'] = $this->userRepository->findAll($options_);
 
+        $this->data['kiss_users'] = $this->userRepository->getKissUsers();
+
         // Campaign_assets
         $this->data['assets'] = $assets_list = $this->campaignRepository->getAssetListById($id);
 
