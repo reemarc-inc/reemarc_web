@@ -15,6 +15,7 @@ use App\Http\Requests\Admin\AssetWebsiteBannersRequest;
 use App\Http\Requests\Admin\AssetWebsiteChangesRequest;
 use App\Http\Requests\Admin\CampaignRequest;
 use App\Http\Requests\Admin\UserRequest;
+use App\Mail\AssetMessage;
 use App\Mail\Todo;
 use App\Models\CampaignAssetIndex;
 use App\Models\CampaignNotes;
@@ -61,6 +62,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 use Illuminate\Support\Facades\Log;
+
+use Mail;
 
 class AssetController extends Controller
 {
@@ -630,6 +633,43 @@ class AssetController extends Controller
             $this->assetNotificationUserRepository->update($params['asset_id'], $params);
         }else{
             $this->assetNotificationUserRepository->create($params);
+        }
+
+        $this->data['currentAdminMenu'] = 'campaign';
+
+        return redirect('admin/campaign/'.$c_id.'/edit')
+            ->with('success', __('Data has been Updated.'));
+    }
+
+    public function asset_add_note(Request $request)
+    {
+        $param = $request->all();
+        $user = auth()->user();
+
+        $c_id = $param['c_id'];
+        $email_list = $param['email_list'];
+
+        $campaign_note = new CampaignNotes();
+        $campaign_note['id'] = $c_id;
+        $campaign_note['user_id'] = $user->id;
+        $campaign_note['type'] = 'note';
+        $campaign_note['note'] = $param['create_note'];
+        $campaign_note['date_created'] = Carbon::now();
+        $campaign_note->save();
+
+        $new_note = preg_replace("/<p[^>]*?>/", "", $param['create_note']);
+        $new_note = str_replace("</p>", "\r\n", $new_note);
+
+        if($email_list){
+            $details = [
+                'who' => $user->first_name,
+                'c_id' => $c_id,
+                'message' => $new_note,
+                'url' => '/admin/campaign/'.$c_id.'/edit',
+            ];
+            //send to receivers
+            $cc_list = explode(',', $email_list);
+            Mail::to($user->email)->cc($cc_list)->send(new AssetMessage($details));
         }
 
         $this->data['currentAdminMenu'] = 'campaign';

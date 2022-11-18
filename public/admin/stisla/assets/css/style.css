@@ -1482,15 +1482,21 @@ h6 .badge {
 }
 
 .ecommerce-specialist{
-    background-color: #ffefdc; }
+    background-color: #f8e4cd; }
 .copywriter{
-    background-color: #e6f3e9;}
+    background-color: #d4f8db;}
 .developer {
-    background-color: #e6e9f3;}
+    background-color: #acbef1;}
 .social-media-manager {
-     background-color: #ffefdc;}
+     background-color: #f2d2f8;}
 .graphic-designer {
-    background-color: #f1e5e5;}
+    background-color: #cff8f5;}
+.admin {
+    background-color: #f6d9d9;}
+.creative-director {
+    background-color: #c3e5f6;}
+.marketing {
+    background-color: #f8ecd2;}
 
 .media .media-description {
   line-height: 24px;

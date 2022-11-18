@@ -21,6 +21,16 @@
 
     ?>
 
+    <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=qyql6dcovykms8pye5ba3sqvichqs41yambv2r1q1um0j5vc"></script>
+    <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
+    <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
+
+    <style>
+        .create_note::before {
+            white-space: pre;
+        }
+    </style>
     <section class="section">
         <div class="section-header">
             <h1>Create Project</h1>
@@ -444,9 +454,53 @@
                     <div class="card">
                         <div class="card-header">
                             <h4>CORRESPONDENCE</h4>
+                            <div class=" text-right">
+                                <button class="btn btn-success" id="add_note_btn" onclick="click_add_note_btn()">Add Note</button>
+                            </div>
                         </div>
+
                         <div class="card-body">
                             <div class="col">
+
+{{--                                <div class="form-group" id="add_note" style="display: none">--}}
+{{--                                    <div class="note">--}}
+{{--                                        <textarea class="form-control"--}}
+{{--                                                  id="new_note"--}}
+{{--                                                  name="new_note"--}}
+{{--                                                  style="height: 100px;"></textarea>--}}
+{{--                                        <div class=" text-right">--}}
+{{--                                            <button class="btn btn-primary" onclick="click_cancel_note_btn()">Cancel</button>--}}
+{{--                                            <button type="submit" class="btn btn-primary">Send Note</button>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+
+                                    <section id="add_note" class="notes" style="display: none;">
+
+                                        <div class="write note">
+                                            <form method="POST" action="{{ route('asset.asset_add_note') }}" enctype="multipart/form-data">
+                                                @csrf
+                                                <select name="exist_assets" id="exist_assets" style="font-size: large; width: 50%; background-color: #c4c4c4" onchange="select_note_asset()">
+                                                    <option value="">Select Asset</option>
+                                                    <?php foreach ($assets as $asset): ?>
+                                                    <option value="{{ucwords(str_replace('_', ' ', $asset->a_type))}} #{{ $asset->a_id }}">{{ucwords(str_replace('_', ' ', $asset->a_type))}} #{{ $asset->a_id }}</option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                                <input type="hidden" name="c_id" value="{{ $campaign->id }}">
+                                                <input type="hidden" id="email_list" name="email_list" value="">
+                                                <textarea id="create_note" name="create_note" class="wysiwyg"></textarea>
+                                                <div id="at_box" style="display: none">
+                                                    <input class="form-control" placeholder="Name" type="text"/>
+                                                </div>
+                                                <div class=" text-right">
+                                                    <button type="button" class="btn btn-primary" onclick="click_cancel_note_btn()">Cancel</button>
+                                                    <button type="submit" class="btn btn-info">Send Note</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </section>
+
                                 <div class="form-group">
                                     @foreach ($correspondences as $correspondence)
 
@@ -618,7 +672,6 @@
         <?php endforeach; ?>
     <?php endif; ?>
 
-
     <script type="text/javascript">
         const queryString = window.location.href;
         if(queryString.includes('#')) {
@@ -646,6 +699,22 @@
             $("#asset_new").show();
 
         }
+
+        function click_add_note_btn(){
+            $("#add_note_btn").hide();
+            $("#add_note").slideDown();
+
+        }
+
+        function click_cancel_note_btn(){
+            $("#add_note_btn").show();
+            $("#add_note").slideUp();
+        }
+
+        function select_note_asset(){
+            tinymce.get("create_note").execCommand('mceInsertContent', false, $("#exist_assets").val());
+        }
+
 
         function change_asset_type(){
 
@@ -1045,6 +1114,79 @@
                 })
             }
         }
+
+    </script>
+
+    <script type="text/javascript">
+
+        // If on mobile and click the wysiwyg box make sure its no hidden
+        // var $div = $("body");
+        // var observer = new MutationObserver(function(mutations) {
+        //     mutations.forEach(function(mutation) {
+        //         if (mutation.attributeName === "data-ephox-mobile-fullscreen-style") {
+        //             var attributeValue = $(mutation.target).attr(mutation.attributeName);
+        //             if (attributeValue == undefined) {
+        //                 $div.removeClass('tinymc');
+        //             } else {
+        //                 $div.addClass('tinymc');
+        //             }
+        //         }
+        //     });
+        // });
+        //
+        // observer.observe($div[0], {
+        //     attributes: true
+        // });
+
+        tinymce.init({
+            selector: '.wysiwyg',
+            placeholder: 'To reference a specific asset please use the select field above. If you would like to notify a specific person type @ then enter the persons name in the field that appears. ',
+            menubar: false,
+            plugins: "paste",
+            paste_as_text: true,
+            init_instance_callback: function (editor) {
+                editor.on('keypress', function (e) {
+                    if (e.key == '@' && editor.id == 'create_note') {
+                        $("#at_box").show();
+                        $("#at_box input").attr('readonly', false);
+                        $("#at_box input").focus();
+                    }
+                });
+            }
+        });
+
+        arr = <?php echo json_encode($kiss_users); ?>;
+        // console.log(arr);
+
+        total = [];
+        $.each(arr, function(k,v) {
+            total.push(k);
+        });
+
+        var email_list=[];
+
+        $("#at_box input").autocomplete({
+            source: total,
+            minLength: 0,
+            select: function(event, ui) {
+                $.each(arr, function(k,v) {
+                    if (k == ui.item.label) {
+                        email = arr[k];
+                        email_list.push(email);
+                        name = '@' + arr[k].split('@')[0];
+                        tinymce.get("create_note").execCommand('mceInsertContent', false, name);
+                        $('#email_list').val(email_list);
+                        $('#at_box input').val('');
+                        $('#at_box').hide();
+                    }
+                })
+                return false;
+            },
+            messages: {
+                noResults: '',
+                results: function() {}
+            }
+        });
 
     </script>
 

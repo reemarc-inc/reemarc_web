@@ -140,6 +140,22 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
+    public function getKissUsers()
+    {
+        $users = new User();
+        $users = $users->get();
+
+        $names = [];
+
+        foreach ($users as $user){
+            $full_name = $user['first_name'].' '.$user['last_name'];
+            $names[$full_name] = $user['email'];
+        }
+
+        return $names;
+
+    }
+
     public static function getWritersNameByBrand($brand)
     {
         return DB::select('
