@@ -22,7 +22,7 @@
     ?>
 
     <link href="http://code.jquery.com/ui/1.10.2/themes/smoothness/jquery-ui.css" rel="Stylesheet">
-    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=qyql6dcovykms8pye5ba3sqvichqs41yambv2r1q1um0j5vc"></script>
+    <script src="https://cloud.tinymce.com/5/tinymce.min.js?apiKey=6k40mnsmx70j0s3xt18143p5x2tq53p5d0kftr23w7kntoec"></script>
     <script src="http://code.jquery.com/ui/1.10.2/jquery-ui.js" ></script>
     <script src="https://code.jquery.com/jquery-migrate-3.0.0.min.js"></script>
 
