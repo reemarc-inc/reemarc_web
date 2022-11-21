@@ -101,7 +101,7 @@
 
     <div class="form-group">
         <label>Note:</label>
-        <textarea class="form-control" id="{{ $asset_type }}_note" name="{{ $asset_type }}_note" rows="5" cols="100"></textarea>
+        <textarea class="form-control" id="{{ $asset_type }}_note" name="{{ $asset_type }}_note" rows="5" cols="100" style="height:100px;"></textarea>
     </div>
 
     <div class="form-group">
@@ -113,7 +113,7 @@
 
     <div class="form-group">
         <label>Products Featured:</label>
-        <input type="text" name="{{ $asset_type }}_products_featured" class="form-control" value="">
+        <textarea class="form-control" name="{{ $asset_type }}_products_featured" rows="5" cols="100" style="height:100px;"></textarea>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>
     </div>

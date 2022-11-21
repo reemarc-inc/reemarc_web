@@ -138,7 +138,7 @@
 
     <div class="form-group">
         <label>Note:</label>
-        <textarea class="form-control" id="note" name="note" rows="5" cols="100">{{ $data[0][0]->note }}</textarea>
+        <textarea class="form-control" id="note" name="note" rows="5" cols="100" style="height:100px;">{{ $data[0][0]->note }}</textarea>
     </div>
 
     <div class="form-group">
@@ -148,7 +148,7 @@
 
     <div class="form-group">
         <label>Products Featured:</label>
-        <input type="text" name="products_featured" class="form-control" value="<?php echo $data[0][0]->products_featured; ?>">
+        <textarea class="form-control" id="products_featured" name="products_featured" style="height:100px;">{{ $data[0][0]->products_featured }}</textarea>
     </div>
 
     <div class="form-group">
