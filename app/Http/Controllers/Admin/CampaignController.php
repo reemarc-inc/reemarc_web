@@ -221,6 +221,7 @@ class CampaignController extends Controller
         $this->data['campaign'] = null;
         $this->data['retailer'] = null;
         $this->data['author_name'] = null;
+        $this->data['kiss_users'] = $this->userRepository->getKissUsers();
 
         return view('admin.campaign.form', $this->data);
     }
@@ -406,13 +407,46 @@ class CampaignController extends Controller
 
         // social_ad, website_banners_fileds
         $this->data['social_ad_fields'] = [
-            'FB/IG Carousel Ad',
-            'FB/IG GIF Ad',
-            'FB/IG Image Ad',
+            "FB/IG Video Ad",
+            "FB/IG GIF Ad",
+            "FB/IG Image Ad",
+            "FB/IG Carousel Ad",
+            "TT Video Ad",
+            "SC Video Ad",
+            "Other Ad",
+            "FB/IG Video Trfc Ad",
+            "FB/IG GIF Trfc Ad",
+            "FB/IG Image Trfc Ad",
+            "FB/IG Carousel Trfc Ad",
+            "TT Video Trfc Ad",
+            "SC Video Trfc Ad",
+            "Other Trfc Ad",
+            "FB/IG Video Conv Ad",
+            "FB/IG Stories Conv Ad",
+            "FB/IG GIF Conv Ad",
+            "FB/IG Carousel Trfc Ad",
+            "FB/IG Image Conv Ad",
+            "FB/IG Carousel Conv Ad",
+            "FB/IG Catalog Conv Ad",
+            "TT Video Conv Ad",
+            "SC Video Conv Ad",
+            "Other Conv Ad",
+            "FB/IG Video Organ Post",
+            "FB/IG Stories Organ Post",
+            "IG Reels Organ Post",
+            "FB/IG GIF Organ Post",
+            "FB/IG Image Organ Post",
+            "FB/IG Organ Grid",
+            "TT Video Organ Post",
+            "SC Video Organ Post",
+            "Other Organ Post",
+            "FB Cover Image",
+            "YT Cover Image",
+            "TW Cover Image",
+            "PIN Cover Image",
             'FB/IG Organic Awareness Post',
             'FB/IG Organic Stories Image Ad',
-            'FB/IG Organic Stories Video Ad',
-            'FB/IG Video Ad'
+            'FB/IG Organic Stories Video Ad'
         ];
 
         // social_ad, website_banners_fileds
