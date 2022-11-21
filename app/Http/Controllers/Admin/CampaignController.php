@@ -424,7 +424,6 @@ class CampaignController extends Controller
             "FB/IG Video Conv Ad",
             "FB/IG Stories Conv Ad",
             "FB/IG GIF Conv Ad",
-            "FB/IG Carousel Trfc Ad",
             "FB/IG Image Conv Ad",
             "FB/IG Carousel Conv Ad",
             "FB/IG Catalog Conv Ad",

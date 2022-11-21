@@ -107,13 +107,17 @@
 
         <?php if (isset($social_ad_fields)): ?>
             <?php foreach($social_ad_fields as $checkbox_field): ?>
+
                 <?php $checkbox_fields = explode(', ', $data[0][0]->include_formats); ?>
-                    <input  <?php if (in_array($checkbox_field, $checkbox_fields)) echo "checked" ?>
+                    <?php if (in_array($checkbox_field, $checkbox_fields)): ?>
+                    <input  checked onclick="return false"
                             type="checkbox"
                             name="include_formats[]"
                             value="<?php echo $checkbox_field; ?>"
                     />
                 <span> <?php echo $checkbox_field; ?></span><br/>
+                    <?php endif; ?>
+
             <?php endforeach; ?>
         <?php endif; ?>
     </div>

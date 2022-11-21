@@ -25,18 +25,64 @@
         </div>
     </div>
 
+    <div class="form-group">
+        <label>Category:</label>
+        <select class="form-control" name="category" onchange="select_category($(this))">
+            <option value="">Select</option>
+{{--            <option value="Awareness Social Ad" {{ $value == $promotion ? 'selected' : '' }}>{{ $value }}</option>--}}
+            <option value="Awareness Social Ad">Awareness Social Ad</option>
+            <option value="Traffic Social Ad">Traffic Social Ad</option>
+            <option value="Conversion Social Ad">Conversion Social Ad</option>
+            <option value="Organic Social Ad/Post">Organic Social Ad/Post</option>
+        </select>
+    </div>
 
     <div class="form-group checkboxes">
         <label>Include Formats: </label>
-        <a href="javascript:void(0)" class="kiss-info-icon" tabindex="-1" title="Choose one or more"></a><br/>
-        <?php foreach($social_ad_fields as $checkbox_field): ?>
-            <input
-                    type="checkbox"
-                    name="{{ $asset_type }}_include_formats[]"
-                    value="{{ $checkbox_field }}"
-            />
-            <span> <?php echo $checkbox_field; ?></span><br/>
-        <?php endforeach; ?>
+        <div class="awareness" hidden>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Ad"/>&nbsp;<span>FB/IG Video Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG GIF Ad"/>&nbsp;<span>FB/IG GIF Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Image Ad"/>&nbsp;<span>FB/IG Image Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Carousel Ad"/>&nbsp;<span>FB/IG Carousel Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="TT Video Ad"/>&nbsp;<span>TT Video Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="SC Video Ad"/>&nbsp;<span>SC Video Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Other Ad"/>&nbsp;<span>Other Ad</span></br>
+        </div>
+        <div class="traffic" hidden>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Trfc Ad"/>&nbsp;<span>FB/IG Video Trfc Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG GIF Trfc Ad"/>&nbsp;<span>FB/IG GIF Trfc Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Image Trfc Ad"/>&nbsp;<span>FB/IG Image Trfc Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Carousel Trfc Ad"/>&nbsp;<span>FB/IG Carousel Trfc Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="TT Video Trfc Ad"/>&nbsp;<span>TT Video Trfc Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="SC Video Trfc Ad"/>&nbsp;<span>SC Video Trfc Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Other Trfc Ad"/>&nbsp;<span>Other Trfc Ad</span></br>
+        </div>
+        <div class="conversion" hidden>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Conv Ad"/>&nbsp;<span>FB/IG Video Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Stories Conv Ad"/>&nbsp;<span>FB/IG Stories Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG GIF Conv Ad"/>&nbsp;<span>FB/IG GIF Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Image Conv Ad"/>&nbsp;<span>FB/IG Image Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Carousel Conv Ad"/>&nbsp;<span>FB/IG Carousel Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Catalog Conv Ad"/>&nbsp;<span>FB/IG Catalog Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="TT Video Conv Ad"/>&nbsp;<span>TT Video Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="SC Video Conv Ad"/>&nbsp;<span>SC Video Conv Ad</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Other Conv Ad"/>&nbsp;<span>Other Conv Ad</span></br>
+        </div>
+        <div class="organic" hidden>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Organ Post"/>&nbsp;<span>FB/IG Video Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Stories Organ Post"/>&nbsp;<span>FB/IG Stories Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="IG Reels Organ Post"/>&nbsp;<span>IG Reels Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG GIF Organ Post"/>&nbsp;<span>FB/IG GIF Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Image Organ Post"/>&nbsp;<span>FB/IG Image Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Organ Grid"/>&nbsp;<span>FB/IG Organ Grid</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="TT Video Organ Post"/>&nbsp;<span>TT Video Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="SC Video Organ Post"/>&nbsp;<span>SC Video Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Other Organ Post"/>&nbsp;<span>Other Organ Post</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="FB Cover Image"/>&nbsp;<span>FB Cover Image</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="YT Cover Image"/>&nbsp;<span>YT Cover Image</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="TW Cover Image"/>&nbsp;<span>TW Cover Image</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="PIN Cover Image"/>&nbsp;<span>PIN Cover Image</span></br>
+        </div>
     </div>
 
     <div class="form-group">
@@ -127,4 +173,24 @@
             },
         });
     });
+
+    function select_category(e){
+        $(".awareness").attr("hidden",true);
+        $(".traffic").attr("hidden",true);
+        $(".conversion").attr("hidden",true);
+        $(".organic").attr("hidden",true);
+
+        let category = $(e).val();
+        if(category == 'Awareness Social Ad') {
+            $('.awareness').removeAttr('hidden');
+        }else if(category == 'Traffic Social Ad'){
+            $('.traffic').removeAttr('hidden');
+        }else if(category == 'Conversion Social Ad'){
+            $('.conversion').removeAttr('hidden');
+        }else if(category == 'Organic Social Ad/Post'){
+            $('.organic').removeAttr('hidden');
+        }
+
+    }
+
 </script>
