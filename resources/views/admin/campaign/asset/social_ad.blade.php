@@ -107,13 +107,17 @@
 
         <?php if (isset($social_ad_fields)): ?>
             <?php foreach($social_ad_fields as $checkbox_field): ?>
+
                 <?php $checkbox_fields = explode(', ', $data[0][0]->include_formats); ?>
-                    <input  <?php if (in_array($checkbox_field, $checkbox_fields)) echo "checked" ?>
+                    <?php if (in_array($checkbox_field, $checkbox_fields)): ?>
+                    <input  checked onclick="return false"
                             type="checkbox"
                             name="include_formats[]"
                             value="<?php echo $checkbox_field; ?>"
                     />
                 <span> <?php echo $checkbox_field; ?></span><br/>
+                    <?php endif; ?>
+
             <?php endforeach; ?>
         <?php endif; ?>
     </div>
@@ -134,7 +138,7 @@
 
     <div class="form-group">
         <label>Note:</label>
-        <textarea class="form-control" id="note" name="note" rows="5" cols="100">{{ $data[0][0]->note }}</textarea>
+        <textarea class="form-control" id="note" name="note" rows="5" cols="100" style="height:100px;">{{ $data[0][0]->note }}</textarea>
     </div>
 
     <div class="form-group">
@@ -144,7 +148,7 @@
 
     <div class="form-group">
         <label>Products Featured:</label>
-        <input type="text" name="products_featured" class="form-control" value="<?php echo $data[0][0]->products_featured; ?>">
+        <textarea class="form-control" id="products_featured" name="products_featured" style="height:100px;">{{ $data[0][0]->products_featured }}</textarea>
     </div>
 
     <div class="form-group">
