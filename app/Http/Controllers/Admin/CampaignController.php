@@ -501,10 +501,11 @@ class CampaignController extends Controller
             'secondary_message' => $data['secondary_message'],
             'campaign_notes'    => $data['campaign_notes'],
         );
+//        ddd(htmlspecialchars_decode($data['campaign_notes']));
         $origin = $campaign->toArray();
         foreach ($new as $key => $value) {
             if (array_key_exists($key, $origin)) {
-                if ($new[$key] != $origin[$key]) {
+                if (html_entity_decode($new[$key]) != html_entity_decode($origin[$key])) {
                     $changed[$key]['new'] = $new[$key];
                     $changed[$key]['original'] = $origin[$key];
                 }
@@ -2124,7 +2125,7 @@ class CampaignController extends Controller
 
         foreach ($new as $key => $value) {
             if (array_key_exists($key, $origin)) {
-                if ($new[$key] != $origin[$key]) {
+                if (html_entity_decode($new[$key]) != html_entity_decode($origin[$key])) {
                     $changed[$key]['new'] = $new[$key];
                     $changed[$key]['original'] = $origin[$key];
                 }
