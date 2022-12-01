@@ -286,7 +286,8 @@
             <?php }?>
 
             <?php if (!empty($data[2]) && $data[2] != 'final_approval') { ?>
-            <input type="submit" name="submit" value="Save Changes" style="margin-top:10px;" class="btn btn-primary submit"/>
+                <input type="submit" name="submit" value="Save Changes" style="margin-top:10px;" class="btn btn-primary submit"/>
+                <input type="hidden" name="status" value="{{ $data[2] }}"/>
             <?php }?>
     </div>
 </form>

@@ -261,7 +261,7 @@ class AssetController extends Controller
         $this->data['currentAdminMenu'] = 'asset_assign';
 
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
-        return redirect('admin/asset_approval')
+        return redirect('admin/campaign/'.$c_id.'/edit#'.$param['a_id'])
             ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Declined.'));
     }
 
@@ -288,7 +288,7 @@ class AssetController extends Controller
         $this->data['currentAdminMenu'] = 'asset_assign';
 
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
-        return redirect('admin/asset_approval')
+        return redirect('admin/campaign/'.$c_id.'/edit#'.$param['a_id'])
             ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Declined.'));
     }
 
@@ -316,7 +316,7 @@ class AssetController extends Controller
         $this->data['currentAdminMenu'] = 'asset_assign';
 
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
-        return redirect('admin/campaign/'.$params['c_id'].'/edit')
+        return redirect('admin/campaign/'.$c_id.'/edit#'.$param['a_id'])
             ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Declined.'));
     }
 

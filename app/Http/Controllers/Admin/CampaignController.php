@@ -972,6 +972,13 @@ class CampaignController extends Controller
         $email_blast = $this->campaignTypeEmailBlastRepository->findById($asset_id);
 
         $param = $request->request->all();
+
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $email_blast->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if (isset($param['email_list'])) {
             $param['email_list'] = implode(', ', $param['email_list']);
         } else {
@@ -1008,7 +1015,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$email_blast->id.'/edit')
                 ->with('success', __('Email Blast ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$email_blast->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1089,6 +1096,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $social_ad->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if (isset($param['include_formats'])) {
             $param['include_formats'] = implode(', ', $param['include_formats']);
         } else {
@@ -1127,7 +1140,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$social_ad->id.'/edit')
                 ->with('success', __('Social Ad ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$social_ad->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1206,6 +1219,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $website_banners->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if (isset($param['banner'])) {
             $param['banner'] = implode(', ', $param['banner']);
         } else {
@@ -1241,7 +1260,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$website_banners->id.'/edit')
                 ->with('success', __('Website Banners ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$website_banners->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1311,6 +1330,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $website_changes->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeWebsiteChangesRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -1340,7 +1365,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$website_changes->id.'/edit')
                 ->with('success', __('Website Changes ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$website_changes->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1410,6 +1435,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $landing_page->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeLandingPageRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -1439,7 +1470,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$landing_page->id.'/edit')
                 ->with('success', __('Landing Page ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$landing_page->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1510,6 +1541,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $misc->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeMiscRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -1539,7 +1576,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$misc->id.'/edit')
                 ->with('success', __('Misc ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$misc->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1607,6 +1644,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $topcategories_copy->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeTopcategoriesCopyRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -1636,7 +1679,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$topcategories_copy->id.'/edit')
                 ->with('success', __('Top Categories Copy ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$topcategories_copy->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1716,6 +1759,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $programmatic_banners->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if (isset($param['include_formats'])) {
             $param['include_formats'] = implode(', ', $param['include_formats']);
         } else {
@@ -1752,7 +1801,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$programmatic_banners->id.'/edit')
                 ->with('success', __('Programmatic Banners ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$programmatic_banners->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1816,6 +1865,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $image_request->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeImageRequestRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -1846,7 +1901,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$image_request->id.'/edit')
                 ->with('success', __('Image Request ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$image_request->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1904,6 +1959,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $roll_over->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeRollOverRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -1934,7 +1995,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$roll_over->id.'/edit')
                 ->with('success', __('Roll Over ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$roll_over->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -1993,6 +2054,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $store_front->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeStoreFrontRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -2023,7 +2090,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$store_front->id.'/edit')
                 ->with('success', __('Store Front ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$store_front->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -2081,6 +2148,12 @@ class CampaignController extends Controller
 
         $param = $request->request->all();
 
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $a_content->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
         if($this->campaignTypeAContentRepository->update($asset_id, $param)){
             $user = auth()->user();
             // insert into campaign note for correspondence
@@ -2111,7 +2184,7 @@ class CampaignController extends Controller
             return redirect('admin/campaign/'.$a_content->id.'/edit')
                 ->with('success', __('A Content ('.$asset_id.') - Update Success'));
         }
-        return redirect('admin/users')
+        return redirect('admin/campaign/'.$a_content->id.'/edit')
             ->with('error', __('Update Failed'));
     }
 
@@ -2164,6 +2237,7 @@ class CampaignController extends Controller
                 'main_subject_line' => $data['main_subject_line'],
                 'main_preheader_line' => $data['main_preheader_line'],
                 'alt_subject_line' => $data['alt_subject_line'],
+                'alt_preheader_line' => $data['alt_preheader_line'],
                 'body_copy' => $data['body_copy'],
                 'click_through_links' => $data['click_through_links'],
                 'email_list' => $data['email_list'],
@@ -2308,6 +2382,25 @@ class CampaignController extends Controller
         $campaign_note['note'] = $change_line;
         $campaign_note['date_created'] = Carbon::now();
         $campaign_note->save();
+    }
+
+    public function permission_check($param){
+
+        if($param['status'] != 'copy_requested'){
+            $user = auth()->user();
+            $user_role = $user->role;
+
+            if($param['status'] == 'in_progress'){
+                if($user_role != 'graphic designer' && $user_role != 'creative director' && $user_role != 'admin'){
+                    return false;
+                }
+            }else{
+                if ($user_role != 'admin') {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
 }
