@@ -188,7 +188,7 @@ class CampaignController extends Controller
         $this->data['currentAdminMenu'] = 'campaign';
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
         $this->data['promotions'] = [
-            'KEC',
+            'KDO',
             'Global Marketing'
         ];
 
@@ -343,7 +343,7 @@ class CampaignController extends Controller
         $this->data['campaign'] = $campaign;
         $this->data['campaign_brand'] = $campaign->campaign_brand;
         $this->data['promotions'] = [
-            'KEC',
+            'KDO',
             'Global Marketing'
         ];
 

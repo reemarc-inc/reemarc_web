@@ -44,7 +44,7 @@
 
     <?php if (!empty($data[4])) { ?>
     <div class="form-group" style="padding-left: 10px;">
-        <label style="color: #a50018; font-size: medium;"> * Decline Reason from KEC:</label>
+        <label style="color: #a50018; font-size: medium;"> * Decline Reason from KDO:</label>
         <textarea class="form-control" id="concept" name="concept" readonly style="height: 100px;">{{ $data[4] }}</textarea>
     </div>
     <?php } ?>
@@ -329,7 +329,7 @@
             @csrf
             <div class="card-body">
                 <div class="form-group">
-                    <label>Decline Reason from KEC:</label>
+                    <label>Decline Reason from KDO:</label>
                     <textarea class="form-control" id="decline_kec" name="decline_kec" rows="15" cols="100" style="min-height: 200px;"></textarea>
                 </div>
             </div>
