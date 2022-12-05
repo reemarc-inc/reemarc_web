@@ -96,7 +96,7 @@ class BrandController extends Controller
         $this->data['role_'] = $user->role;
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
         $this->data['teams'] = [
-            'KEC',
+            'KDO',
             'Brand',
             'Creative'
         ];

@@ -55,7 +55,7 @@ class UserController extends Controller
         $this->data['filter'] = $params;
         $this->data['users'] = $this->userRepository->findAll($options);
         $this->data['teams_'] = [
-            'KEC',
+            'KDO',
             'Creative',
             'Global Marketing'
         ];
@@ -85,7 +85,7 @@ class UserController extends Controller
 
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
         $this->data['teams'] = [
-            'KEC',
+            'KDO',
             'Creative',
             'Global Marketing'
         ];
@@ -182,7 +182,7 @@ class UserController extends Controller
         $this->data['user_brand'] = $user->user_brand;
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
         $this->data['teams'] = [
-            'KEC',
+            'KDO',
             'Creative',
             'Global Marketing'
         ];

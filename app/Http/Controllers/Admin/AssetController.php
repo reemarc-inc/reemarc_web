@@ -305,7 +305,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Decline from KEC', $params['decline_kec']);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Decline from KDO', $params['decline_kec']);
 
         // TODO notification
         // send notification to designer via email
@@ -388,7 +388,7 @@ class AssetController extends Controller
 
         $user = auth()->user();
 
-        if($user->team == 'KEC' && $user->role != 'copywriter') {
+        if($user->team == 'KDO' && $user->role != 'copywriter') {
             if(isset($_GET['q'])){ // if search with nothing..
                 $str = $param['q'];
             }else{ // if come first time..
