@@ -27,42 +27,42 @@
                             $start_late_css = "style=background-color:#f1d2d2;";
                             if($asset->asset_type == 'email_blast'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -16 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'website_banners'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -17 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'social_ad'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -16 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'landing_page'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -30 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'topcategories_copy'){
                                 $start_date =  date('m/d/Y', strtotime($asset->due . ' -5 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'a_content'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -27 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else if ($asset->asset_type == 'programmatic_banners'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -19 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else if($asset->asset_type == 'misc'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -15 weekday'));
-                                if($start_date <= date('m/d/Y') ){
+                                if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                     $start_css = $start_late_css;
                                 }
                             }else{
@@ -100,42 +100,42 @@
                         $start_late_css = "style=background-color:#f1d2d2;";
                         if($asset->asset_type == 'email_blast'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -14 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'website_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -15 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'social_ad'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -14 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'landing_page'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -26 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'topcategories_copy'){
                             $start_date =  date('m/d/Y', strtotime($asset->due . ' -3 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'a_content'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -25 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'programmatic_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -17 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'misc'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -13 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else{
@@ -173,57 +173,57 @@
                         $start_late_css = "style=background-color:#f1d2d2;";
                         if($asset->asset_type == 'email_blast'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -12 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'website_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -13 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'social_ad'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -12 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'landing_page'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'topcategories_copy'){
                             $start_date =  date('m/d/Y', strtotime($asset->due . ' -1 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'a_content'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'programmatic_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -15 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'misc'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -11 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'image_request'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -11 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'roll_over'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -12 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'store_front'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else{
@@ -260,52 +260,52 @@
                         $start_late_css = "style=background-color:#f1d2d2;";
                         if($asset->asset_type == 'email_blast'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'website_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -11 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'social_ad'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'landing_page'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'a_content'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'programmatic_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -13 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'misc'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'image_request'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'roll_over'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'store_front'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else{
@@ -376,52 +376,52 @@
                         $start_late_css = "style=background-color:#f1d2d2;";
                         if($asset->asset_type == 'email_blast'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -3 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'website_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -4 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'social_ad'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -3 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'landing_page'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -11 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'a_content'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -6 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'programmatic_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -3 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'misc'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -2 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'image_request'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -2 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'roll_over'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -3 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'store_front'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -6 weekday'));
-                            if($start_date <= date('m/d/Y') ){
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else{
