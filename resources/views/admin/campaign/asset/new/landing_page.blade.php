@@ -6,7 +6,7 @@
     <input type="hidden" name="{{ $asset_type }}_asset_type" value="{{ $asset_type }}" />
     <input type="hidden" name="{{ $asset_type }}_author_id" value="{{ Auth::user()->id }}" />
     <div class="form-group">
-        <label>Launch Date: (Lead Time 30 Days)</label>
+        <label>Launch Date: (Lead Time 37 Days)</label>
         <input type="text" name="{{ $asset_type }}_launch_date" id="{{ $asset_type }}_launch_date"
                class="form-control @error($asset_type.'_launch_date') is-invalid @enderror @if (!$errors->has($asset_type.'_launch_date') && old($asset_type.'_launch_date')) is-valid @endif"
                value="{{ old($asset_type.'_launch_date', null) }}">
@@ -51,9 +51,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +30 days - Landing Page (exclude weekend)
+    // Lead time +37 days - Landing Page (exclude weekend)
     $(function() {
-        var count = 30;
+        var count = 37;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

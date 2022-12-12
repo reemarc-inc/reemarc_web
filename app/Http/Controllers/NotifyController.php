@@ -448,21 +448,21 @@ class NotifyController extends Controller
             $copywriter_start_due = date('Y-m-d');
 
             if($asset_type == 'email_blast'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
+                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
             }else if($asset_type == 'social_ad'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
+                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
             }else if($asset_type == 'website_banners'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
+                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
             }else if($asset_type == 'landing_page'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
+                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
             }else if($asset_type == 'misc'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-15 weekday'));
+                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
             }else if($asset_type == 'topcategories_copy'){
                 $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
             }else if($asset_type == 'programmatic_banners'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
+                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
             }else if($asset_type == 'a_content'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
+                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-34 weekday'));
             }
 
             if($copywriter_start_due == $today){
@@ -516,7 +516,7 @@ class NotifyController extends Controller
                         ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
-            }else if($copywriter_start_due < $today){
+            }else if(strtotime($copywriter_start_due) < strtotime($today)){
                 // sending 'past due date' email => send to copy writers and directors
                 $brand_name = $item->brand_name;
                 $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
@@ -555,21 +555,21 @@ class NotifyController extends Controller
             $copyreview_start_due = date('Y-m-d');
 
             if($asset_type == 'email_blast'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
+                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
             }else if($asset_type == 'social_ad'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
+                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
             }else if($asset_type == 'website_banners'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-15 weekday'));
+                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
             }else if($asset_type == 'landing_page'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
             }else if($asset_type == 'misc'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
             }else if($asset_type == 'topcategories_copy'){
                 $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
             }else if($asset_type == 'programmatic_banners'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
+                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
             }else if($asset_type == 'a_content'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
+                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-32 weekday'));
             }
 
             if($copyreview_start_due == $today){
@@ -618,7 +618,7 @@ class NotifyController extends Controller
                         ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
-            }else if($copyreview_start_due < $today){
+            }else if(strtotime($copyreview_start_due) < strtotime($today)){
                 // sending 'over due' email => to asset creator and directors (okay)
                 if(isset($item->asset_author_id)){
                     $details = [
@@ -656,25 +656,25 @@ class NotifyController extends Controller
             $creative_assign_start_due = date('Y-m-d');
 
             if($asset_type == 'email_blast'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
             }else if($asset_type == 'social_ad'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
             }else if($asset_type == 'website_banners'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
             }else if($asset_type == 'landing_page'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
             }else if($asset_type == 'misc'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
             }else if($asset_type == 'programmatic_banners'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-15 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
             }else if($asset_type == 'a_content'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
             }else if($asset_type == 'image_request'){
                 $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
             }else if($asset_type == 'roll_over'){
                 $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
             }else if($asset_type == 'store_front'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
             }
 
             if($creative_assign_start_due == $today){
@@ -779,7 +779,7 @@ class NotifyController extends Controller
                         }
                     }
                 }
-            }else if($creative_assign_start_due < $today){
+            }else if(strtotime($creative_assign_start_due) < strtotime($today)){
                 // sending 'past due date' if late, email to => hong, geunho and Flori, Haejin (their directors)
                 if($item->brand_id == 5){ // If Joah.. => Geunho
                     $joah_team_leaders = $user_obj->getJoahDirector();
@@ -853,25 +853,25 @@ class NotifyController extends Controller
             $creative_work_start_due = date('Y-m-d');
 
             if($asset_type == 'email_blast'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
             }else if($asset_type == 'social_ad'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
             }else if($asset_type == 'website_banners'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
             }else if($asset_type == 'landing_page'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
             }else if($asset_type == 'misc'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
             }else if($asset_type == 'programmatic_banners'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
             }else if($asset_type == 'a_content'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
             }else if($asset_type == 'image_request'){
                 $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
             }else if($asset_type == 'roll_over'){
                 $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
             }else if($asset_type == 'store_front'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
             }
 
             if($creative_work_start_due == $today){
@@ -922,7 +922,7 @@ class NotifyController extends Controller
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
 
-            }else if($creative_work_start_due < $today){
+            }else if(strtotime($creative_work_start_due) < strtotime($today)){
                 // sending 'past due date' if late, email to => Hong, Geunho
                 $designer = $user_obj->getDesignerByFirstName($item->assignee);
                 if(isset($designer[0])) {
@@ -976,25 +976,25 @@ class NotifyController extends Controller
             $final_review_start_due = date('Y-m-d');
 
             if($asset_type == 'email_blast'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
             }else if($asset_type == 'social_ad'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
             }else if($asset_type == 'website_banners'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-4 weekday'));
-            }else if($asset_type == 'landing_page'){
                 $final_review_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+            }else if($asset_type == 'landing_page'){
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
             }else if($asset_type == 'misc'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
             }else if($asset_type == 'programmatic_banners'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
             }else if($asset_type == 'a_content'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-6 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
             }else if($asset_type == 'image_request'){
                 $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
             }else if($asset_type == 'roll_over'){
                 $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
             }else if($asset_type == 'store_front'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-6 weekday'));
+                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
             }
 
             if($final_review_start_due == $today){
@@ -1046,7 +1046,7 @@ class NotifyController extends Controller
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
 
-            }else if($final_review_start_due < $today){
+            }else if(strtotime($final_review_start_due) < strtotime($today)){
                 // sending 'past due date' if late, email to => asset creator and directors. same as copy_review
                 if(isset($item->asset_author_id)){
                     $details = [
