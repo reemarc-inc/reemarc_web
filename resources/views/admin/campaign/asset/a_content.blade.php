@@ -60,23 +60,23 @@
         <table class="reminder_table">
             <tr>
                 <td><span class="lead-time"><b>&nbspCopyWriters Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -27 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -34 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopy Review Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -25 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -32 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Assign Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -23 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -30 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Work Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -21 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -28 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Review Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -6 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -13 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspDevelopment Start&nbsp</b></span></td>
@@ -84,7 +84,7 @@
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspE-Commerce Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -1 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -8 weekday')); ?></b></span></td>
             </tr>
         </table>
     </div>
@@ -320,7 +320,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +27 days - A+ Content
+    // Lead time +34 days - A+ Content
     $(function() {
         var lead_time = "<?php echo $data[0][0]->launch_date; ?>"
 
