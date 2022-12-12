@@ -31,7 +31,7 @@ class NewProject extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.new_project')
+        return $this->subject('New Project Created')->markdown('emails.new_project')
             ->with('details', $this->details);
     }
 
