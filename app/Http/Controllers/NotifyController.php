@@ -10,6 +10,7 @@ use App\Mail\DeclineCopy;
 use App\Mail\DeclineCreative;
 use App\Mail\DeclineKec;
 use App\Mail\FinalApproval;
+use App\Mail\NewProject;
 use App\Mail\SendMail;
 use App\Mail\Todo;
 use App\Models\CampaignBrands;
@@ -405,6 +406,27 @@ class NotifyController extends Controller
         }
     }
 
+    public function new_project($campaign)
+    {
+        $user_obj = new UserRepository();
+        $project_creator = $user_obj->findById($campaign->author_id); // task creator
+
+        $details = [
+            'creator' => $project_creator['first_name'],
+            'c_id' => $campaign->id,
+            'team' => $project_creator['team'],
+            'task_name' => $campaign->name,
+            'url' => '/admin/campaign/' . $campaign->id . '/edit',
+        ];
+
+        $cc_list = array();
+        $cc_list[] = 'frank.russo@kissusa.com';
+        $cc_list[] = 'jilee2@kissusa.com';
+        Mail::to('motuhin@kissusa.com')
+            ->cc($cc_list)
+            ->send(new NewProject($details));
+    }
+
     public static function reminder_email()
     {
 //        $user_obj = new UserRepository();
@@ -427,12 +449,19 @@ class NotifyController extends Controller
 //        Mail::to('jilee2@kissusa.com')
 //            ->send(new ReminderDueAfter($details));
 //        return 'done';
+        $details = [
+            'creator' => 'Trang',
+            'c_id' => 1121,
+            'team' => 'Global Marketing',
+            'task_name' => 'blravbrla',
+            'url' => '/admin/campaign/' . 1121 . '/edit'
+        ];
 
         // This is for template preview!!!
-//        $send_email = new ReminderDueAfter($details);
-//        return 'done';
+        $send_email = new NewProject($details);
+        return $send_email;
 
-
+        ddd("here");
 
         $obj = new AssetNotificationUserRepository();
         $user_obj = new UserRepository();
