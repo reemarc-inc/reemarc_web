@@ -20,6 +20,7 @@ use App\Http\Requests\Admin\AssetWebsiteChangesRequest;
 use App\Http\Requests\Admin\CampaignRequest;
 use App\Http\Requests\Admin\UserRequest;
 use App\Mail\MyDemoMail;
+use App\Mail\NewProject;
 use App\Mail\SendMail;
 use App\Models\CampaignAssetIndex;
 use App\Models\CampaignNotes;
@@ -303,6 +304,10 @@ class CampaignController extends Controller
                     $campaign_type_asset_attachments->save();
                 }
             }
+
+            // send notification to Frank and Mo when new project
+            $notify = new NotifyController();
+            $notify->new_project($campaign);
 
             return redirect('admin/campaign')
                 ->with('success', __('New Project has been created. ID : ' . $campaign->id));
