@@ -449,19 +449,19 @@ class NotifyController extends Controller
 //        Mail::to('jilee2@kissusa.com')
 //            ->send(new ReminderDueAfter($details));
 //        return 'done';
-        $details = [
-            'creator' => 'Trang',
-            'c_id' => 1121,
-            'team' => 'Global Marketing',
-            'task_name' => 'blravbrla',
-            'url' => '/admin/campaign/' . 1121 . '/edit'
-        ];
-
-        // This is for template preview!!!
-        $send_email = new NewProject($details);
-        return $send_email;
-
-        ddd("here");
+//        $details = [
+//            'creator' => 'Trang',
+//            'c_id' => 1121,
+//            'team' => 'Global Marketing',
+//            'task_name' => 'blravbrla',
+//            'url' => '/admin/campaign/' . 1121 . '/edit'
+//        ];
+//
+//        // This is for template preview!!!
+//        $send_email = new NewProject($details);
+//        return $send_email;
+//
+//        ddd("here");
 
         $obj = new AssetNotificationUserRepository();
         $user_obj = new UserRepository();
