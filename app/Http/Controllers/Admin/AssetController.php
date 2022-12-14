@@ -641,6 +641,36 @@ class AssetController extends Controller
             ->with('success', __('Data has been Updated.'));
     }
 
+    public function asset_owner_change(Request $request)
+    {
+
+        $param = $request->all();
+
+        $c_id = $param['c_id'];
+        $temp = explode(',', $param['author_id']);
+        $params['author_id'] = $temp[0];
+        $author_name = $temp[1];
+        $params['asset_id'] = $param['a_id'];
+        $params['updated_at'] = Carbon::now();
+
+        $this->campaignAssetIndexRepository->update($params['asset_id'], $params);
+
+        $campaign_note = new CampaignNotes();
+        $campaign_note['id'] = $param['c_id'];
+        $user = auth()->user();
+        $campaign_note['user_id'] = $user->id;
+        $campaign_note['asset_id'] = $param['a_id'];
+        $campaign_note['note'] = 'The Asset (#'. $params['asset_id'] . ') Owner was changed to ' . $author_name;
+        $campaign_note['date_created'] = Carbon::now();
+        $campaign_note->save();
+
+        $this->data['currentAdminMenu'] = 'campaign';
+
+        return redirect('admin/campaign/'.$c_id.'/edit')
+            ->with('success', __('Data has been Updated.'));
+
+    }
+
     public function asset_add_note(Request $request)
     {
         $param = $request->all();
