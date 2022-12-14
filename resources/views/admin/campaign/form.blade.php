@@ -329,9 +329,14 @@
                                                     </span>
                                                     <?php } ?>
                                                     <span class="float-right">
-                                                        <i class="fa fa-address-card"
+                                                        <?php if(auth()->user()->role == 'admin') { ?>
+                                                        <i class="fa fa-spin fa-cog"
                                                                 data-toggle="modal"
-                                                                data-target="#myModal-{{$asset->a_id}}"></i>
+                                                                data-target="#asset-owner-{{$asset->a_id}}"></i>
+                                                        <?php } ?>
+                                                        <i class="fa fa-address-card"
+                                                           data-toggle="modal"
+                                                           data-target="#myModal-{{$asset->a_id}}"></i>
                                                         <i id="arrow-{{$asset->a_id}}" class="dropdown fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>
                                                         <a  href="javascript:void(0);"
                                                             class="close"
@@ -572,7 +577,6 @@
                                         <?php if (isset($users)): ?>
                                             <?php if (isset($asset->asset_notification_user[0]->user_id_list)) { ?>
 
-
                                                 @foreach($users as $user)
                                                 <?php $checkbox_fields = explode(', ', $asset->asset_notification_user[0]->user_id_list); ?>
                                                         <div class="col-sm-3">
@@ -604,6 +608,55 @@
                                                     </div>
                                                 @endforeach
                                             <?php } ?>
+                                        <?php endif; ?>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="modal fade" id="asset-owner-{{$asset->a_id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog modal-xl" role="document">
+
+                    <div class="modal-content">
+
+                        <form method="POST" action="{{ route('asset.asset_owner_change') }}" enctype="multipart/form-data">
+                            @csrf
+                            <input type="hidden" name="a_id" value="{{ $asset->a_id }}">
+                            <input type="hidden" name="c_id" value="{{ $campaign->id }}">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Assign Asset Owner - {{ ucwords(str_replace('_', ' ', $asset->a_type)) }} #{{ $asset->a_id }} </h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <?php if (isset($users)): ?>
+                                            @foreach($users as $user)
+                                                <div class="col-sm-3">
+                                                    <div class="form-check">
+                                                        <input  <?php if ($user->id == $asset->asset_creator_id) echo "checked" ?>
+                                                                type="radio"
+                                                                name="author_id"
+                                                                value="{{ $user->id }},{{ $user->first_name }}"
+                                                        >
+                                                        <label class="form-check-label " for="{{ $user->id }}">
+                                                            {{ $user->first_name }} {{ $user->last_name }}
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            @endforeach
                                         <?php endif; ?>
                                     </div>
 
