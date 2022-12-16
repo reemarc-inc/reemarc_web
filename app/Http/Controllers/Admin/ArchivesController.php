@@ -154,6 +154,9 @@ class ArchivesController extends Controller
             "Website",
         ];
 
+        $this->data['asset_list'] = $this->campaignRepository->getAssetTypeList();
+        $this->data['asset_type'] = $campaign->asset_type;
+        
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
         $this->data['retailer'] = $campaign->retailer;

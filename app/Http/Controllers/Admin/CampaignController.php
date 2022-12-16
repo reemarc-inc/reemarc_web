@@ -217,6 +217,8 @@ class CampaignController extends Controller
             "Website",
         ];
 
+        $this->data['asset_list'] = $this->campaignRepository->getAssetTypeList();
+
         $this->data['campaign_brand'] = null;
         $this->data['promotion'] = null;
         $this->data['campaign'] = null;
@@ -246,6 +248,12 @@ class CampaignController extends Controller
         $params['type'] = 'campaign';
         $params['status'] = 'active';
         $params['date_created'] = Carbon::now();
+
+        if (isset($request['asset_type'])) {
+            $params['asset_type'] = implode(', ', $request['asset_type']);
+        } else {
+            $params['asset_type'] = '';
+        }
 
         $campaign = $this->campaignRepository->create($params);
 
@@ -376,6 +384,9 @@ class CampaignController extends Controller
             "Website",
         ];
 
+        $this->data['asset_list'] = $this->campaignRepository->getAssetTypeList();
+        $this->data['asset_type'] = $campaign->asset_type;
+
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
         $this->data['retailer'] = $campaign->retailer;
@@ -496,6 +507,13 @@ class CampaignController extends Controller
 
         // Insert into campaign note for correspondence
         $data = $request->request->all();
+
+        if (isset($data['asset_type'])) {
+            $data['asset_type'] = implode(', ', $data['asset_type']);
+        } else {
+            $data['asset_type'] = '';
+        }
+
         $new = array(
             'id'                => $data['id'],
             'name'              => $data['name'],
@@ -504,6 +522,7 @@ class CampaignController extends Controller
             'primary_message'   => $data['primary_message'],
             'products_featured' => $data['products_featured'],
             'secondary_message' => $data['secondary_message'],
+            'asset_type'        => $data['asset_type'],
             'campaign_notes'    => $data['campaign_notes'],
         );
 //        ddd(htmlspecialchars_decode($data['campaign_notes']));
@@ -538,7 +557,7 @@ class CampaignController extends Controller
             $campaign_note->save();
         }
 
-        if ($this->campaignRepository->update($id, $request->validated())) {
+        if ($this->campaignRepository->update($id, $data)) {
             if($request->file('c_attachment')){
                 foreach ($request->file('c_attachment') as $file) {
                     $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
