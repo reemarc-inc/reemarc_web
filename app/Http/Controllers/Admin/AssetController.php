@@ -677,6 +677,7 @@ class AssetController extends Controller
         $user = auth()->user();
 
         $c_id = $param['c_id'];
+        $c_title = $param['c_title'];
         $email_list = $param['email_list'];
 
         $campaign_note = new CampaignNotes();
@@ -694,6 +695,7 @@ class AssetController extends Controller
             $details = [
                 'who' => $user->first_name,
                 'c_id' => $c_id,
+                'c_title' => $c_title,
                 'message' => $new_note,
                 'url' => '/admin/campaign/'.$c_id.'/edit',
             ];

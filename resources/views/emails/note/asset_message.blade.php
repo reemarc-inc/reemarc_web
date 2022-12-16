@@ -1,6 +1,7 @@
 @component('mail::message')
 
 # You got a new message from {{ $details['who'] }}
+{{ $details['c_title'] }}
 
 @component('mail::panel')
 {{ $details['message'] }}

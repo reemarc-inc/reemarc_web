@@ -494,6 +494,8 @@
                                                 </select>
                                                 <input type="hidden" name="c_id" value="{{ $campaign->id }}">
                                                 <input type="hidden" id="email_list" name="email_list" value="">
+                                                <input type="hidden" name="c_title" value="{{ $campaign->name }}">
+
                                                 <textarea id="create_note" name="create_note" class="wysiwyg"></textarea>
                                                 <div id="at_box" style="display: none">
                                                     <input class="form-control" placeholder="Name" type="text"/>
