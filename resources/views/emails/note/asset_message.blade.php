@@ -1,7 +1,7 @@
 @component('mail::message')
 
 # You got a new message from {{ $details['who'] }}
-{{ $details['c_title'] }}
+<b style="font: bold;">Project : {{ $details['c_title'] }}</b>
 
 @component('mail::panel')
 {{ $details['message'] }}
