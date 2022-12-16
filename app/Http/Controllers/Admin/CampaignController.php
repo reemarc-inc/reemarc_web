@@ -218,7 +218,7 @@ class CampaignController extends Controller
         ];
 
         $this->data['asset_list'] = $this->campaignRepository->getAssetTypeList();
-
+        $this->data['asset_type'] = null;
         $this->data['campaign_brand'] = null;
         $this->data['promotion'] = null;
         $this->data['campaign'] = null;
