@@ -216,6 +216,22 @@
                                             </div>
                                             @enderror
                                         </div>
+
+                                        <div class="form-group checkboxes">
+                                            <label>Asset Type: </label><br/>
+                                            <?php if (isset($asset_list)): ?>
+                                                <?php foreach($asset_list as $asset_type_item): ?>
+                                                <?php $checkbox_fields = explode(', ', $asset_type); ?>
+                                                <input  <?php if (in_array($asset_type_item->type, $checkbox_fields)) echo "checked" ?>
+                                                        type="checkbox"
+                                                        name="asset_type[]"
+                                                        value="<?php echo $asset_type_item->type ?>"
+                                                />
+                                                <span> <?php echo $asset_type_item->type; ?></span><br/>
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </div>
+
                                         <div class="form-group">
                                             <label>Note / Description: </label>
                                             {!! Form::textarea('campaign_notes', !empty($campaign) ? $campaign->campaign_notes : null, ['class' => 'form-control summernote']) !!}

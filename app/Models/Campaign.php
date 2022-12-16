@@ -32,6 +32,7 @@ class Campaign extends Model
         'status',
         'retailer',
         'email_brand',
+        'asset_type',
         'campaign_notes',
         'type',
 //        'assignee',

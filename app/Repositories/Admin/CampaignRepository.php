@@ -71,6 +71,11 @@ class CampaignRepository implements CampaignRepositoryInterface
         return $campaign->delete();
     }
 
+    public function getAssetTypeList()
+    {
+        return DB::select('select type from campaign_type');
+    }
+
     public function getAssetListById($id)
     {
         return DB::select('
