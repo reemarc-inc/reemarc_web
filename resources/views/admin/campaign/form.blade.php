@@ -73,11 +73,19 @@
                                             <select class="form-control @error('campaign_brand') is-invalid @enderror @if (!$errors->has('campaign_brand') && old('campaign_brand')) is-valid @endif"
                                                     name="campaign_brand" id="campaign_brand" onchange="check_retailer()">
                                                 <option value="">Select</option>
-                                                @foreach ($brands as $key => $value)
-                                                    <option value="{{ $key }}" {{ $key == $campaign_brand ? 'selected' : '' }}>
-                                                        {{ $value }}
-                                                    </option>
-                                                @endforeach
+                                                @if(empty(old('campaign_brand')))
+                                                    @foreach ($brands as $key => $value)
+                                                        <option value="{{ $key }}" {{ $key == $campaign_brand ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($brands as $key => $value)
+                                                        <option value="{{ $key }}" {{ $key == old('campaign_brand') ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                             @error('campaign_brand')
                                             <div class="invalid-feedback">
@@ -132,11 +140,19 @@
                                             <select class="form-control @error('promotion') is-invalid @enderror @if (!$errors->has('promotion') && old('promotion')) is-valid @endif"
                                                     name="promotion">
                                                 <option value="">Select</option>
-                                                @foreach ($promotions as $value)
-                                                    <option value="{{ $value }}" {{ $value == $promotion ? 'selected' : '' }}>
-                                                        {{ $value }}
-                                                    </option>
-                                                @endforeach
+                                                @if(empty(old('promotion')))
+                                                    @foreach ($promotions as $value)
+                                                        <option value="{{ $value }}" {{ $value == $promotion ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                @else
+                                                    @foreach ($promotions as $value)
+                                                        <option value="{{ $value }}" {{ $value == old('promotion') ? 'selected' : '' }}>
+                                                            {{ $value }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif
                                             </select>
                                             @error('$promotion')
                                             <div class="invalid-feedback">
