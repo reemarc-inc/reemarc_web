@@ -513,9 +513,8 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($person['email'])
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueToday($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
@@ -539,9 +538,9 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($person['email'])
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
@@ -564,7 +563,7 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($person['email'])
                         ->cc($cc_list)
                         ->send(new ReminderDueAfter($details));
@@ -618,9 +617,9 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueToday($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
@@ -641,9 +640,9 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
@@ -664,7 +663,7 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     //Send email to director
                     Mail::to($item->asset_author_email)
                         ->cc($cc_list)
@@ -725,9 +724,9 @@ class NotifyController extends Controller
                             $cc_list = array();
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
-                            $cc_list[] = 'jilee2@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($joah_team_leader['email'])
-                                ->cc($cc_list)
+//                                ->cc($cc_list)
                                 ->send(new ReminderDueToday($details));
 //                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                         }
@@ -749,9 +748,9 @@ class NotifyController extends Controller
                             $cc_list = array();
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
-                            $cc_list[] = 'jilee2@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($creative_leader['email'])
-                                ->cc($cc_list)
+//                                ->cc($cc_list)
                                 ->send(new ReminderDueToday($details));
 //                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                         }
@@ -776,9 +775,9 @@ class NotifyController extends Controller
                             $cc_list = array();
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
-                            $cc_list[] = 'jilee2@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($joah_team_leader['email'])
-                                ->cc($cc_list)
+//                                ->cc($cc_list)
                                 ->send(new ReminderDueBefore($details));
 //                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                         }
@@ -800,9 +799,9 @@ class NotifyController extends Controller
                             $cc_list = array();
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
-                            $cc_list[] = 'jilee2@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($creative_leader['email'])
-                                ->cc($cc_list)
+//                                ->cc($cc_list)
                                 ->send(new ReminderDueBefore($details));
 //                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                         }
@@ -829,7 +828,7 @@ class NotifyController extends Controller
                             $cc_list[] = 'haejin.chang@kissusa.com';
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
-                            $cc_list[] = 'jilee2@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($joah_team_leader['email'])
                                 ->cc($cc_list)
                                 ->send(new ReminderDueAfter($details));
@@ -859,7 +858,7 @@ class NotifyController extends Controller
                             $cc_list[] = 'flori.ohm@kissusa.com';
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
-                            $cc_list[] = 'jilee2@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($creative_leader['email'])
                                 ->cc($cc_list)
                                 ->send(new ReminderDueAfter($details));
@@ -920,9 +919,9 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($designer[0]->email)
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueToday($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
@@ -944,9 +943,9 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($designer[0]->email)
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
@@ -971,7 +970,7 @@ class NotifyController extends Controller
                         $cc_list[] = 'geunho.kang@kissusa.com';
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-                        $cc_list[] = 'jilee2@kissusa.com';
+//                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($designer[0]->email)
                             ->cc($cc_list)
                             ->send(new ReminderDueAfter($details));
@@ -984,7 +983,7 @@ class NotifyController extends Controller
                         $cc_list[] = 'hojung@kissusa.com';
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-                        $cc_list[] = 'jilee2@kissusa.com';
+//                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($designer[0]->email)
                             ->cc($cc_list)
                             ->send(new ReminderDueAfter($details));
@@ -1043,9 +1042,9 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueToday($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
                 }
@@ -1068,9 +1067,9 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
+//                        ->cc($cc_list)
                         ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                 }
@@ -1092,7 +1091,7 @@ class NotifyController extends Controller
                     $cc_list = array();
                     $cc_list[] = 'frank.russo@kissusa.com';
                     $cc_list[] = 'motuhin@kissusa.com';
-                    $cc_list[] = 'jilee2@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
                     // Send email to director
                     Mail::to($item->asset_author_email)
                         ->cc($cc_list)
