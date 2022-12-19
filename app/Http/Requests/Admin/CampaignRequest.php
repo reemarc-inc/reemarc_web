@@ -45,6 +45,7 @@ class CampaignRequest extends FormRequest
             'primary_message' => ['required', 'string', 'max:255'],
             'products_featured' => ['required', 'string', 'max:255'],
             'secondary_message' => ['required', 'string', 'max:255'],
+            'asset_type' => ['required'],
             'campaign_notes' => ['required', 'string']
         ];
     }
