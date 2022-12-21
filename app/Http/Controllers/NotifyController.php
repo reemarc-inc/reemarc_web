@@ -421,7 +421,7 @@ class NotifyController extends Controller
 
         $cc_list = array();
         $cc_list[] = 'frank.russo@kissusa.com';
-        $cc_list[] = 'jilee2@kissusa.com';
+//        $cc_list[] = 'jilee2@kissusa.com';
         Mail::to('motuhin@kissusa.com')
             ->cc($cc_list)
             ->send(new NewProject($details));

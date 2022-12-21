@@ -211,7 +211,8 @@ class ArchivesController extends Controller
             'Homepage Main Banners',
             'Homepage Portal Banners',
             'Category Ad',
-            'Pop up Banners'
+            'Pop up Banners',
+            'Retailer Banners'
         ];
 
         // Campaign_notes
