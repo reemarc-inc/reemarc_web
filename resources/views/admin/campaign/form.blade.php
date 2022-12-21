@@ -426,7 +426,7 @@
                                                     <option value="email_blast">Email Blast</option>
                                                     <option value="social_ad">Social Ad</option>
                                                     <option value="website_banners">Website Banners</option>
-                                                    <option value="website_changes">Website Changes</option>
+{{--                                                    <option value="website_changes">Website Changes</option>--}}
                                                     <option value="landing_page">Landing Page</option>
                                                     <option value="misc">Misc</option>
                                                     <option value="topcategories_copy">Top Categories Copy</option>
@@ -453,9 +453,9 @@
                                             <div id="new_website_banners" style="display: none;">
                                                 @include('admin.campaign.asset.new.website_banners')
                                             </div>
-                                            <div id="new_website_changes" style="display: none;">
-                                                @include('admin.campaign.asset.new.website_changes')
-                                            </div>
+{{--                                            <div id="new_website_changes" style="display: none;">--}}
+{{--                                                @include('admin.campaign.asset.new.website_changes')--}}
+{{--                                            </div>--}}
                                             <div id="new_topcategories_copy" style="display: none;">
                                                 @include('admin.campaign.asset.new.topcategories_copy')
                                             </div>
@@ -814,7 +814,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -829,7 +829,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -844,7 +844,7 @@
                 $("#new_misc").show();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -859,7 +859,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").show();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -874,7 +874,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").show();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -882,21 +882,21 @@
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
             }
-            if(add_asset_type == 'website_changes'){
-                $("#asset_type_name").text('Website Changes');
-                $("#new_email_blast").hide();
-                $("#new_landing_page").hide();
-                $("#new_misc").hide();
-                $("#new_social_ad").hide();
-                $("#new_website_banners").hide();
-                $("#new_website_changes").show();
-                $("#new_topcategories_copy").hide();
-                $("#new_programmatic_banners").hide();
-                $("#new_image_request").hide();
-                $("#new_roll_over").hide();
-                $("#new_store_front").hide();
-                $("#new_a_content").hide();
-            }
+            // if(add_asset_type == 'website_changes'){
+            //     $("#asset_type_name").text('Website Changes');
+            //     $("#new_email_blast").hide();
+            //     $("#new_landing_page").hide();
+            //     $("#new_misc").hide();
+            //     $("#new_social_ad").hide();
+            //     $("#new_website_banners").hide();
+            //     $("#new_website_changes").show();
+            //     $("#new_topcategories_copy").hide();
+            //     $("#new_programmatic_banners").hide();
+            //     $("#new_image_request").hide();
+            //     $("#new_roll_over").hide();
+            //     $("#new_store_front").hide();
+            //     $("#new_a_content").hide();
+            // }
             if(add_asset_type == 'topcategories_copy'){
                 $("#asset_type_name").text('TopCategories Copy');
                 $("#new_email_blast").hide();
@@ -904,7 +904,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").show();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -919,7 +919,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").show();
                 $("#new_image_request").hide();
@@ -934,7 +934,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").show();
@@ -949,7 +949,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -964,7 +964,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
@@ -979,7 +979,7 @@
                 $("#new_misc").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
-                $("#new_website_changes").hide();
+                // $("#new_website_changes").hide();
                 $("#new_topcategories_copy").hide();
                 $("#new_programmatic_banners").hide();
                 $("#new_image_request").hide();
