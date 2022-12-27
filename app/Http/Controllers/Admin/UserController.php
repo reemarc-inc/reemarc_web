@@ -61,13 +61,17 @@ class UserController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
+            'Copywriter' => 'copywriter',
             'Ecommerce Specialist' => 'ecommerce specialist',
-            'Marketing' => 'marketing',
             'Social Media Manager' => 'social media manager',
-            'Graphic Designer' => 'graphic designer',
-            'Videographer' => 'videographer',
+            'Marketing' => 'marketing',
             'Creative Director' => 'creative director',
-            'Copywriter' => 'copywriter'
+            'Graphic Designer' => 'graphic designer',
+            'Content Manager' => 'content manager',
+            'Content Creator' => 'content creator',
+            'Web Production Manager' => 'web production manager',
+            'Web Production' => 'web production',
+            'Videographer' => 'videographer',
         ];
         $this->data['team_'] = !empty($params['team']) ? $params['team'] : '';
         $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
@@ -91,17 +95,17 @@ class UserController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
-
+            'Copywriter' => 'copywriter',
             'Ecommerce Specialist' => 'ecommerce specialist',
-            'Marketing' => 'marketing',
             'Social Media Manager' => 'social media manager',
-
-            'Graphic Designer' => 'graphic designer',
-            'Videographer' => 'videographer',
-
+            'Marketing' => 'marketing',
             'Creative Director' => 'creative director',
-
-            'Copywriter' => 'copywriter'
+            'Graphic Designer' => 'graphic designer',
+            'Content Manager' => 'content manager',
+            'Content Creator' => 'content creator',
+            'Web Production Manager' => 'web production manager',
+            'Web Production' => 'web production',
+            'Videographer' => 'videographer',
         ];
         $this->data['access_levels'] = [
             'Affiliate',
@@ -188,17 +192,17 @@ class UserController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
-
+            'Copywriter' => 'copywriter',
             'Ecommerce Specialist' => 'ecommerce specialist',
-            'Marketing' => 'marketing',
             'Social Media Manager' => 'social media manager',
-
-            'Graphic Designer' => 'graphic designer',
-            'Videographer' => 'videographer',
-
+            'Marketing' => 'marketing',
             'Creative Director' => 'creative director',
-
-            'Copywriter' => 'copywriter'
+            'Graphic Designer' => 'graphic designer',
+            'Content Manager' => 'content manager',
+            'Content Creator' => 'content creator',
+            'Web Production Manager' => 'web production manager',
+            'Web Production' => 'web production',
+            'Videographer' => 'videographer',
         ];
         return view('admin.users.form', $this->data);
     }
