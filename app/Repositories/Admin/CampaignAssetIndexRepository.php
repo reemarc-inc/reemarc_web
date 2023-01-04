@@ -130,6 +130,105 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             where cai.status = "copy_complete"
+            and cai.team_to = "creative"
+            ' . $filter_1 . $filter_2 . $filter_3 . '
+            order by due asc');
+    }
+
+    public function get_complete_assets_list_content($str, $asset_id, $campaign_id)
+    {
+        $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
+        $filter_2 = !empty($asset_id) ? ' and a_id ='.$asset_id : '';
+        $filter_3 = !empty($campaign_id) ? ' and c_id ='.$campaign_id : '';
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    cai.status
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            where cai.status = "copy_complete"
+            and cai.team_to = "content"
+            ' . $filter_1 . $filter_2 . $filter_3 . '
+            order by due asc');
+    }
+
+    public function get_complete_assets_list_web($str, $asset_id, $campaign_id)
+    {
+        $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
+        $filter_2 = !empty($asset_id) ? ' and a_id ='.$asset_id : '';
+        $filter_3 = !empty($campaign_id) ? ' and c_id ='.$campaign_id : '';
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    cai.status
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            where cai.status = "copy_complete"
+            and cai.team_to = "web production"
             ' . $filter_1 . $filter_2 . $filter_3 . '
             order by due asc');
     }
@@ -269,7 +368,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_finish_creative($str, $brand_id, $asset_id)
+    public function get_asset_jira_finish_creative($str, $brand_id, $asset_id, $team_to = null)
     {
 
         if($brand_id != '') {
@@ -282,6 +381,12 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             $asset_id_filter = ' and cai.id =' . $asset_id . ' ';
         }else{
             $asset_id_filter = ' ';
+        }
+
+        if($team_to != null) {
+            $team_to_filter = ' and cai.team_to ="' . $team_to . '" ';
+        }else{
+            $team_to_filter = ' ';
         }
 
         return DB::select(
@@ -330,6 +435,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status = "final_approval"
               ' . $brand_filter . '
               ' . $asset_id_filter . '
+              ' . $team_to_filter . '
             and cai.assignee like "%'.$str.'%"
             and cai.updated_at >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
             order by updated_at asc');
@@ -639,7 +745,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_to_do_creative($str, $brand_id, $asset_id)
+    public function get_asset_jira_to_do_creative($str, $brand_id, $asset_id, $team_to = null)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
@@ -651,6 +757,12 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             $asset_id_filter = ' and cai.id =' . $asset_id . ' ';
         }else{
             $asset_id_filter = ' ';
+        }
+
+        if($team_to != null) {
+            $team_to_filter = ' and cai.team_to ="' . $team_to . '" ';
+        }else{
+            $team_to_filter = ' ';
         }
 
         return DB::select(
@@ -700,6 +812,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and ci.name is not null
               ' . $brand_filter . '
               ' . $asset_id_filter . '
+              ' . $team_to_filter . '
             and cai.assignee like "%'.$str.'%"
             order by due asc');
     }
@@ -769,7 +882,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_in_progress_creative($str, $brand_id, $asset_id)
+    public function get_asset_jira_in_progress_creative($str, $brand_id, $asset_id, $team_to = null)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
@@ -781,6 +894,12 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             $asset_id_filter = ' and cai.id =' . $asset_id . ' ';
         }else{
             $asset_id_filter = ' ';
+        }
+
+        if($team_to != null) {
+            $team_to_filter = ' and cai.team_to ="' . $team_to . '" ';
+        }else{
+            $team_to_filter = ' ';
         }
 
         return DB::select(
@@ -830,6 +949,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and ci.name is not null
               ' . $brand_filter . '
               ' . $asset_id_filter . '
+              ' . $team_to_filter . '
             and cai.assignee like "%'.$str.'%"
             order by due asc');
     }
@@ -899,7 +1019,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_waiting_final_approval_creative($str, $brand_id, $asset_id)
+    public function get_asset_jira_waiting_final_approval_creative($str, $brand_id, $asset_id, $team_to = null)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
@@ -911,6 +1031,12 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             $asset_id_filter = ' and cai.id =' . $asset_id . ' ';
         }else{
             $asset_id_filter = ' ';
+        }
+
+        if($team_to != null) {
+            $team_to_filter = ' and cai.team_to ="' . $team_to . '" ';
+        }else{
+            $team_to_filter = ' ';
         }
 
         return DB::select(
@@ -960,6 +1086,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and ci.name is not null
               ' . $brand_filter . '
               ' . $asset_id_filter . '
+              ' . $team_to_filter . '
             and cai.assignee like "%'.$str.'%"
             order by due asc');
     }

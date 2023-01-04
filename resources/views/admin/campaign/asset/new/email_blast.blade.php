@@ -8,6 +8,24 @@
     <input type="hidden" name="{{ $asset_type }}_brand" value="{{ $campaign->campaign_brand }}" />
 
     <div class="form-group">
+        <label class="form-label">Team:</label>
+        <div class="selectgroup w-100">
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="creative" class="selectgroup-input" checked="">
+                <span class="selectgroup-button">Creative</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="content" class="selectgroup-input">
+                <span class="selectgroup-button">Content</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="web production" class="selectgroup-input">
+                <span class="selectgroup-button">Web Production</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label>Main Concept:</label>
         <textarea class="form-control" id="{{ $asset_type }}_concept" name="{{ $asset_type }}_concept" rows="5" cols="100"></textarea>
     </div>

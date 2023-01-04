@@ -162,14 +162,9 @@ class ArchivesController extends Controller
         $this->data['retailer'] = $campaign->retailer;
         $this->data['author_name'] = $campaign->author_name;
 
-        $params_['role'] = 'graphic designer';
-        $options_ = [
-            'order' => [
-                'first_name' => 'asc',
-            ],
-            'filter' => $params_,
-        ];
-        $this->data['assignees'] = $this->userRepository->findAll($options_);
+        $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
+        $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
+        $this->data['assignees_web'] = $this->userRepository->getWebAssignee();
 
         $this->data['kiss_users'] = $this->userRepository->getKissUsers();
 

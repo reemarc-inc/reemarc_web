@@ -6,6 +6,24 @@
     <input type="hidden" name="{{ $asset_type }}_asset_type" value="{{ $asset_type }}" />
     <input type="hidden" name="{{ $asset_type }}_author_id" value="{{ Auth::user()->id }}" />
 
+    <div class="form-group">
+        <label class="form-label">Team:</label>
+        <div class="selectgroup w-100">
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="creative" class="selectgroup-input" checked="">
+                <span class="selectgroup-button">Creative</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="content" class="selectgroup-input">
+                <span class="selectgroup-button">Content</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="web production" class="selectgroup-input">
+                <span class="selectgroup-button">Web Production</span>
+            </label>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">

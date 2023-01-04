@@ -1,6 +1,9 @@
 <?php $asset_id = $data[0][0]->asset_id; $c_id = $data[0][0]->id; $a_type = $data[0][0]->type; ?>
 
-<?php if(!empty($data[6]) && (auth()->user()->role == 'admin' || auth()->user()->role == 'creative director')) { ?>
+<?php if(!empty($data[6]) && (auth()->user()->role == 'admin'
+    || auth()->user()->role == 'creative director'
+    || auth()->user()->role == 'content manager'
+    || auth()->user()->role == 'web production manager' )) { ?>
 <div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 3px;">
     <form method="POST" action="{{ route('asset.assign') }}" enctype="multipart/form-data">
         @csrf
@@ -8,11 +11,25 @@
             <label>Assignee</label>
             <select class="form-control" name="assignee">
                 <option value="">Select</option>
-                @foreach ($assignees as $designer)
+                <?php if($data[7] == 'content'){ ?>
+                @foreach ($assignees_content as $designer)
                     <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
                         {{ $designer->first_name }}
                     </option>
                 @endforeach
+                <?php }else if($data[7] == 'web production'){ ?>
+                @foreach ($assignees_web as $designer)
+                    <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
+                        {{ $designer->first_name }}
+                    </option>
+                @endforeach
+                <?php }else{ ?>
+                @foreach ($assignees_creative as $designer)
+                    <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
+                        {{ $designer->first_name }}
+                    </option>
+                @endforeach
+                <?php } ?>
             </select>
         </div>
         <input type="hidden" name="a_id" value="{{ $asset_id }}">
@@ -37,7 +54,7 @@
 
     <?php if (!empty($data[3])) { ?>
     <div class="form-group" style="padding-left: 10px;">
-        <label style="color: #a50018; font-size: medium;"> * Decline Reason from Creative:</label>
+        <label style="color: #a50018; font-size: medium;"> * Decline Reason from Creator:</label>
         <textarea class="form-control" id="concept" name="concept" readonly style="height: 100px;">{{ $data[3] }}</textarea>
     </div>
     <?php } ?>
@@ -48,6 +65,24 @@
         <textarea class="form-control" id="concept" name="concept" readonly style="height: 100px;">{{ $data[4] }}</textarea>
     </div>
     <?php } ?>
+
+    <div class="form-group">
+        <label class="form-label">Team:</label>
+        <div class="selectgroup w-100">
+            <label class="selectgroup-item">
+                <input type="radio" name="team_to" value="creative" class="selectgroup-input" disabled <?php echo ($data[7] == 'creative') ? "checked" : ""; ?> >
+                <span class="selectgroup-button">Creative</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="team_to" value="content" class="selectgroup-input" disabled <?php echo ($data[7] == 'content') ? "checked" : ""; ?>>
+                <span class="selectgroup-button">Content</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="team_to" value="web production" class="selectgroup-input" disabled <?php echo ($data[7] == 'web production') ? "checked" : ""; ?>>
+                <span class="selectgroup-button">Web Production</span>
+            </label>
+        </div>
+    </div>
 
     <div class="form-group">
         <label>Launch Date: </label>

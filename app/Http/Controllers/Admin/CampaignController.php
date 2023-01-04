@@ -392,14 +392,9 @@ class CampaignController extends Controller
         $this->data['retailer'] = $campaign->retailer;
         $this->data['author_name'] = $campaign->author_name;
 
-        $params_['role'] = 'graphic designer';
-        $options_ = [
-            'order' => [
-                'first_name' => 'asc',
-            ],
-            'filter' => $params_,
-        ];
-        $this->data['assignees'] = $this->userRepository->findAll($options_);
+        $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
+        $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
+        $this->data['assignees_web'] = $this->userRepository->getWebAssignee();
 
         $this->data['kiss_users'] = $this->userRepository->getKissUsers();
 
@@ -924,6 +919,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['email_blast_c_id'];
         $campaignAssetIndex['type'] = $request['email_blast_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['email_blast_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1050,6 +1046,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['social_ad_c_id'];
         $campaignAssetIndex['type'] = $request['social_ad_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['social_ad_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1177,6 +1174,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['website_banners_c_id'];
         $campaignAssetIndex['type'] = $request['website_banners_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['website_banners_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1401,6 +1399,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['landing_page_c_id'];
         $campaignAssetIndex['type'] = $request['landing_page_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['landing_page_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1506,6 +1505,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['misc_c_id'];
         $campaignAssetIndex['type'] = $request['misc_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['misc_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1612,6 +1612,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['topcategories_copy_c_id'];
         $campaignAssetIndex['type'] = $request['topcategories_copy_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['topcategories_copy_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1715,6 +1716,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['programmatic_banners_c_id'];
         $campaignAssetIndex['type'] = $request['programmatic_banners_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['programmatic_banners_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1835,6 +1837,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['image_request_c_id'];
         $campaignAssetIndex['type'] = $request['image_request_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['image_request_team_to'];
         $campaignAssetIndex['status'] = 'copy_complete';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -1935,6 +1938,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['roll_over_c_id'];
         $campaignAssetIndex['type'] = $request['roll_over_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['roll_over_team_to'];
         $campaignAssetIndex['status'] = 'copy_complete';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -2029,6 +2033,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['store_front_c_id'];
         $campaignAssetIndex['type'] = $request['store_front_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['store_front_team_to'];
         $campaignAssetIndex['status'] = 'copy_complete';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
@@ -2124,6 +2129,7 @@ class CampaignController extends Controller
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['a_content_c_id'];
         $campaignAssetIndex['type'] = $request['a_content_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['a_content_team_to'];
         $campaignAssetIndex['status'] = 'copy_requested';
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;

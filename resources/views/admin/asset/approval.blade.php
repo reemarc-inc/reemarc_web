@@ -12,7 +12,7 @@
 
     <div class="section-body">
 
-        <h2 class="section-title">Asset Approval List</h2>
+        <h2 class="section-title">Asset Approval List [{{ $team }}]</h2>
 
         @include('admin.asset.approval_filter')
         @include('admin.asset.flash')

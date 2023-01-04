@@ -4,16 +4,16 @@
 
     <section class="section">
         <div class="section-header">
-            <h1>Asset Status Board (Creative)</h1>
+            <h1>Asset Status Board (Content)</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Asset Status Board (Creative)</div>
+                <div class="breadcrumb-item">Asset Status Board (Content)</div>
             </div>
         </div>
 
         <div class="section-body">
 
-            @include('admin.asset.jira_filter')
+            @include('admin.asset.jira_content_filter')
             @include('admin.asset.flash')
 
             <div class="row">

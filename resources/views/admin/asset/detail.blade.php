@@ -18,7 +18,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p style="float: right">Asset Creator : {{ $asset_creator }}</p>
-                            <?php $data = [$asset_detail, $asset_files]; ?>
+                            <?php $data = [$asset_detail, $asset_files, $asset_obj['status'], $asset_obj['decline_creative'], $asset_obj['decline_kec'], $asset_obj['decline_copy'], $asset_obj['assignee'], $asset_obj['team_to']]; ?>
                             @include('admin.campaign.asset.'.$a_type, $data)
                         </div>
                     </div>
@@ -30,14 +30,28 @@
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Assignee</label>
+                                    <label>Assignee {{ $asset_obj['team_to'] }}</label>
                                     <select class="form-control" name="assignee">
                                         <option value="">Select</option>
-                                        @foreach ($assignees as $designer)
-                                            <option value="{{ $designer->first_name }}">
-                                                {{ $designer->first_name }}
-                                            </option>
-                                        @endforeach
+                                        <?php if($asset_obj['team_to'] == 'content'){?>
+                                            @foreach ($assignees_content as $designer)
+                                                <option value="{{ $designer->first_name }}">
+                                                    {{ $designer->first_name }}
+                                                </option>
+                                            @endforeach
+                                        <?php }else if($asset_obj['team_to'] == 'web production'){?>
+                                            @foreach ($assignees_web as $designer)
+                                                <option value="{{ $designer->first_name }}">
+                                                    {{ $designer->first_name }}
+                                                </option>
+                                            @endforeach
+                                        <?php }else{?>
+                                            @foreach ($assignees_designer as $designer)
+                                                <option value="{{ $designer->first_name }}">
+                                                    {{ $designer->first_name }}
+                                                </option>
+                                            @endforeach
+                                        <?php } ?>
                                     </select>
                                 </div>
                             </div>
@@ -57,7 +71,7 @@
                             @csrf
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Decline Reason from Creative:</label>
+                                    <label>Decline Reason from Creator:</label>
                                     <textarea class="form-control" id="decline_creative" name="decline_creative" rows="15" cols="100" style="min-height: 200px;"></textarea>
                                 </div>
                             </div>

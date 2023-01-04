@@ -41,7 +41,7 @@ class UserRepository implements UserRepositoryInterface
         }
 
         if (!empty($options['filter']['role'])) {
-            $users = $users->Where('role', 'LIKE', "%{$options['filter']['role']}%");
+            $users = $users->Where('role', '=', "{$options['filter']['role']}");
         }
 
         if ($perPage) {
@@ -163,6 +163,35 @@ class UserRepository implements UserRepositoryInterface
         ');
     }
 
+    public function getCreativeAssignee()
+    {
+        $users = new User();
+        $users = $users
+            ->Where('role', '=', "graphic designer")
+            ->orWhere('role', '=', 'creative director')
+            ->orderBy('first_name', 'asc');
+        return $users->get();
+    }
+
+    public function getContentAssignee()
+    {
+        $users = new User();
+        $users = $users
+            ->Where('role', '=', "content creator")
+            ->orWhere('role', '=', 'content manager')
+            ->orderBy('first_name', 'asc');
+        return $users->get();
+    }
+
+    public function getWebAssignee()
+    {
+        $users = new User();
+        $users = $users
+            ->Where('role', '=', "web production")
+            ->orWhere('role', '=', 'web production manager')
+            ->orderBy('first_name', 'asc');
+        return $users->get();
+    }
 
 
 //    /**
