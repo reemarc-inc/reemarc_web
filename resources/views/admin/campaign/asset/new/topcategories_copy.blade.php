@@ -7,6 +7,24 @@
     <input type="hidden" name="{{ $asset_type }}_author_id" value="{{ Auth::user()->id }}" />
 
     <div class="form-group">
+        <label class="form-label">Team:</label>
+        <div class="selectgroup w-100">
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="creative" class="selectgroup-input" checked="">
+                <span class="selectgroup-button">Creative</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="content" class="selectgroup-input">
+                <span class="selectgroup-button">Content</span>
+            </label>
+            <label class="selectgroup-item">
+                <input type="radio" name="{{ $asset_type }}_team_to" value="web production" class="selectgroup-input">
+                <span class="selectgroup-button">Web Production</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
     <label>Deadline Date: (Lead Time 5 Days)</label>
     <input type="text" name="{{ $asset_type }}_launch_date" id="launch_date"
            class="form-control @error($asset_type.'_launch_date') is-invalid @enderror @if (!$errors->has($asset_type.'_launch_date') && old($asset_type.'_launch_date')) is-valid @endif"

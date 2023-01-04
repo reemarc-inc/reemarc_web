@@ -17,6 +17,7 @@ class CampaignAssetIndex extends Model
         'campaign_id',
         'author_id',
         'type',
+        'team_to',
         'status',
         'assignee',
         'decline_copy',

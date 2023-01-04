@@ -385,7 +385,7 @@
                                             <div id="asset-id-{{$asset->a_id}}" class="box-body form_creator" data-asset-id="{{ $asset->a_id }}" style="display: none">
                                                 <section>
                                                     <div class="inner_box">
-                                                        <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy, $asset->assignee]; ?>
+                                                        <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy, $asset->assignee, $asset->team_to]; ?>
                                                         @include('admin.campaign.asset.'.$asset->a_type, $data)
                                                     </div>
                                                 </section>
@@ -436,6 +436,7 @@
                                                     <option value="store_front">Store Front</option>
                                                     <option value="a_content">A+ Content</option>
                                                 </select>
+
                                             </div>
 
                                             <div id="new_email_blast" style="display: none;">

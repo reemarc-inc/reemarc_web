@@ -151,31 +151,65 @@ class AssetController extends Controller
 
         $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_complete_assets_list($str, $asset_id, $campaign_id);
         $this->data['filter'] = $params;
+        $this->data['team'] = 'Creative';
+
+        return view('admin.asset.approval', $this->data);
+    }
+
+    public function asset_approval_content(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'asset_approval_content';
+        $params = $request->all();
+        $str = !empty($params['q']) ? $params['q'] : '';
+        $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
+        $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_complete_assets_list_content($str, $asset_id, $campaign_id);
+        $this->data['filter'] = $params;
+        $this->data['team'] = 'Content';
+
+        return view('admin.asset.approval', $this->data);
+    }
+
+    public function asset_approval_web(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'asset_approval_web';
+        $params = $request->all();
+        $str = !empty($params['q']) ? $params['q'] : '';
+        $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
+        $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_complete_assets_list_web($str, $asset_id, $campaign_id);
+        $this->data['filter'] = $params;
+        $this->data['team'] = 'Web Production';
 
         return view('admin.asset.approval', $this->data);
     }
 
     public function asset_detail($a_id, $c_id, $a_type)
     {
-        $this->data['currentAdminMenu'] = 'asset_approval';
+        $this->data['asset_obj'] = $asset_obj = $this->campaignAssetIndexRepository->findById($a_id);
+        if($asset_obj['team_to'] == 'content'){
+            $this->data['currentAdminMenu'] = 'asset_approval_content';
+        }else if($asset_obj['team_to'] == 'web production'){
+            $this->data['currentAdminMenu'] = 'asset_approval_web';
+        }else{
+            $this->data['currentAdminMenu'] = 'asset_approval';
+        }
+
         $this->data['asset_id'] = $a_id;
         $this->data['a_type'] = $a_type;
         $this->data['c_id'] = $c_id;
         $this->data['asset_detail'] = $asset_detail = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
         $author_id = $asset_detail[0]->author_id;
+
         $user_obj = $this->userRepository->findById($author_id);
         $this->data['asset_creator'] = $user_obj->first_name . ' ' . $user_obj->last_name;
         $this->data['asset_files'] = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
 
-        $params['role'] = 'graphic designer';
-        $options = [
-            'order' => [
-                'first_name' => 'asc',
-            ],
-            'filter' => $params,
-        ];
-
-        $this->data['assignees'] = $this->userRepository->findAll($options);
+        $this->data['assignees_designer'] = $this->userRepository->getCreativeAssignee();
+        $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
+        $this->data['assignees_web'] = $this->userRepository->getWebAssignee();
 
         return view('admin.asset.detail', $this->data);
     }
@@ -202,10 +236,23 @@ class AssetController extends Controller
         $notify->to_do($c_id, $param['a_id'], $param['assignee']);
 //        Log::info('email sent!!');
         ////////////
+
+        $asset_obj = $this->campaignAssetIndexRepository->findById($param['a_id']);
+        if($asset_obj['team_to'] == 'content'){
+            $this->data['currentAdminMenu'] = 'asset_approval_content';
+            $addr = 'asset_approval_content';
+        }else if($asset_obj['team_to'] == 'web production'){
+            $this->data['currentAdminMenu'] = 'asset_approval_web';
+            $addr = 'asset_approval_web';
+        }else{
+            $this->data['currentAdminMenu'] = 'asset_approval';
+            $addr = 'asset_approval';
+        }
+
         $this->data['currentAdminMenu'] = 'asset_assign';
 
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
-        return redirect('admin/asset_approval')
+        return redirect('admin/'.$addr)
             ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Approved and Assigned to '.$param['assignee'].'.'));
     }
 
@@ -277,7 +324,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Decline from Creative', $params['decline_creative']);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Decline from Creator', $params['decline_creative']);
 
         // TODO notification
         // Send notification to task creator via email
@@ -336,16 +383,7 @@ class AssetController extends Controller
 //            $str = !empty($param['q']) ? $param['q'] : '';
 //        }
 
-
-        $params['role'] = 'graphic designer';
-        $options = [
-            'order' => [
-                'first_name' => 'asc',
-            ],
-            'filter' => $params,
-        ];
-
-        $this->data['designers'] = $this->userRepository->findAll($options);
+        $this->data['designers'] = $this->userRepository->getCreativeAssignee();
 
         if(isset($_GET['designer'])){
             $designer = $param['designer'];
@@ -371,10 +409,10 @@ class AssetController extends Controller
 
         $this->data['filter'] = $param;
 
-        $this->data['asset_list_todo'] = $this->campaignAssetIndexRepository->get_asset_jira_to_do_creative($designer, $brand_id, $asset_id);
-        $this->data['asset_list_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress_creative($designer, $brand_id, $asset_id);
-        $this->data['asset_list_done'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval_creative($designer, $brand_id, $asset_id);
-        $this->data['asset_list_finish'] = $this->campaignAssetIndexRepository->get_asset_jira_finish_creative($designer, $brand_id, $asset_id);
+        $this->data['asset_list_todo'] = $this->campaignAssetIndexRepository->get_asset_jira_to_do_creative($designer, $brand_id, $asset_id, 'creative');
+        $this->data['asset_list_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress_creative($designer, $brand_id, $asset_id, 'creative');
+        $this->data['asset_list_done'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval_creative($designer, $brand_id, $asset_id, 'creative');
+        $this->data['asset_list_finish'] = $this->campaignAssetIndexRepository->get_asset_jira_finish_creative($designer, $brand_id, $asset_id, 'creative');
 
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 
@@ -426,6 +464,86 @@ class AssetController extends Controller
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 
         return view('admin.asset.jira_kec', $this->data);
+    }
+
+    public function asset_jira_content(Request $request)
+    {
+        $param = $request->all();
+        $this->data['currentAdminMenu'] = 'asset_jira_content';
+        $this->data['content_creators'] = $this->userRepository->getContentAssignee();
+
+        if(isset($_GET['content_creator'])){
+            $content_creator = $param['content_creator'];
+        }else{
+            $content_creator = '';
+        }
+
+        if(isset($_GET['brand'])) {
+            $brand_id = $param['brand'];
+        }else{
+            $brand_id = !empty($param['brand']) ? $param['brand'] : '';
+        }
+
+        if(isset($_GET['asset_id'])) {
+            $asset_id = $param['asset_id'];
+        }else{
+            $asset_id = !empty($param['asset_id']) ? $param['asset_id'] : '';
+        }
+
+        $this->data['brand'] = $brand_id;
+        $this->data['content_creator'] = $content_creator;
+        $this->data['asset_id'] = $asset_id;
+
+        $this->data['filter'] = $param;
+
+        $this->data['asset_list_todo'] = $this->campaignAssetIndexRepository->get_asset_jira_to_do_creative($content_creator, $brand_id, $asset_id, 'content');
+        $this->data['asset_list_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress_creative($content_creator, $brand_id, $asset_id, 'content');
+        $this->data['asset_list_done'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval_creative($content_creator, $brand_id, $asset_id, 'content');
+        $this->data['asset_list_finish'] = $this->campaignAssetIndexRepository->get_asset_jira_finish_creative($content_creator, $brand_id, $asset_id, 'content');
+
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+
+        return view('admin.asset.jira_content', $this->data);
+    }
+
+    public function asset_jira_web(Request $request)
+    {
+        $param = $request->all();
+        $this->data['currentAdminMenu'] = 'asset_jira_web';
+        $this->data['web_productions'] = $this->userRepository->getWebAssignee();
+
+        if(isset($_GET['web_production'])){
+            $web_production = $param['web_production'];
+        }else{
+            $web_production = '';
+        }
+
+        if(isset($_GET['brand'])) {
+            $brand_id = $param['brand'];
+        }else{
+            $brand_id = !empty($param['brand']) ? $param['brand'] : '';
+        }
+
+        if(isset($_GET['asset_id'])) {
+            $asset_id = $param['asset_id'];
+        }else{
+            $asset_id = !empty($param['asset_id']) ? $param['asset_id'] : '';
+        }
+
+        $this->data['brand'] = $brand_id;
+        $this->data['web_production'] = $web_production;
+        $this->data['asset_id'] = $asset_id;
+
+        $this->data['filter'] = $param;
+
+        $this->data['asset_list_todo'] = $this->campaignAssetIndexRepository->get_asset_jira_to_do_creative($web_production, $brand_id, $asset_id, 'web production');
+        $this->data['asset_list_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress_creative($web_production, $brand_id, $asset_id, 'web production');
+        $this->data['asset_list_done'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval_creative($web_production, $brand_id, $asset_id, 'web production');
+        $this->data['asset_list_finish'] = $this->campaignAssetIndexRepository->get_asset_jira_finish_creative($web_production, $brand_id, $asset_id, 'web production');
+
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+
+        return view('admin.asset.jira_web', $this->data);
     }
 
     public function asset_jira_copywriter(Request $request)
