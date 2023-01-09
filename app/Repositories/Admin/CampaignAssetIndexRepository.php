@@ -466,7 +466,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    cai.team_to
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -572,7 +573,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    cai.team_to
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -638,7 +640,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    cai.team_to
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -704,7 +707,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    cai.team_to
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -841,7 +845,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    cai.team_to
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -978,7 +983,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    cai.team_to
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1094,7 +1100,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
     public function get_asset_jira_asset_completed($str)
     {
         return DB::select(
-            'select  c_id as campaign_id,
+            'select c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
@@ -1102,9 +1108,10 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.status,
                     cai.assignee,
                     cai.author_id,
-                    u.first_name as asset_author,
+                    u.first_name as author_name,
                     cb.campaign_name,
-                    cai.updated_at
+                    cai.updated_at,
+                    cai.team_to
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all

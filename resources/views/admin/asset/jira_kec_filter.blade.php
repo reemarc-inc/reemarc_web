@@ -1,5 +1,12 @@
 <form method="GET" action="{{ route('asset.jira_kec') }}">
     <div class="form-row">
+
+        <div class="form-group col-md-2" style="max-width: 12.666%;">
+            <div class="text-small font-600-bold" style="color: #a50018;"><i class="fas fa-circle"></i> Creative</div>
+            <div class="text-small font-600-bold" style="color: #018d1d;"><i class="fas fa-circle"></i> Content</div>
+            <div class="text-small font-600-bold" style="color: #230084;"><i class="fas fa-circle"></i> Web Production</div>
+        </div>
+
         <div class="form-group col-md-2">
             <input type="text" name="q" class="form-control" id="q" placeholder="Search by Author Name" value="{{ !empty($filter['q']) ? $filter['q'] : '' }}">
         </div>
@@ -23,5 +30,6 @@
         <div class="form-group col-md-2">
             <button class="btn btn-block btn-primary btn-filter"><i class="fas fa-search"></i> {{ __('general.btn_search_label') }}</button>
         </div>
+
     </div>
 </form>
