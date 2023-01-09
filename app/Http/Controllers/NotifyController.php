@@ -167,36 +167,70 @@ class NotifyController extends Controller
         $campaign_brand = $campaign_rs['campaign_brand'];
         $user_obj = new UserRepository();
 
-        if($campaign_brand == 5){ // if Joah -> Joah Director
-            $user_rs = $user_obj->getJoahDirector();
-            if($user_rs) {
-                foreach ($user_rs as $user){
+        if($asset_index_rs['team_to'] == 'content'){
+            $user_rs = $user_obj->getContentManager();
+            if($user_rs){
+                foreach ($user_rs as $user) {
                     $details = [
-                        'who'           => $user['first_name'],
-                        'c_id'          => $c_id,
-                        'a_id'          => $a_id,
-                        'task_name'     => $campaign_rs['name'],
-                        'asset_type'    => $asset_type,
-                        'asset_status'  => $asset_status,
-                        'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+                        'who' => $user['first_name'],
+                        'c_id' => $c_id,
+                        'a_id' => $a_id,
+                        'task_name' => $campaign_rs['name'],
+                        'asset_type' => $asset_type,
+                        'asset_status' => $asset_status,
+                        'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
                     ];
                     Mail::to($user['email'])->send(new CopyComplete($details));
                 }
             }
-        }else{ // others -> Creative Director
-            $user_rs = $user_obj->getCreativeDirector();
-            if($user_rs) {
-                foreach ($user_rs as $user){
+        }elseif ($asset_index_rs['team_to'] == 'web production'){
+            $user_rs = $user_obj->getWebProductionManager();
+            if($user_rs){
+                foreach ($user_rs as $user) {
                     $details = [
-                        'who'           => $user['first_name'],
-                        'c_id'          => $c_id,
-                        'a_id'          => $a_id,
-                        'task_name'     => $campaign_rs['name'],
-                        'asset_type'    => $asset_type,
-                        'asset_status'  => $asset_status,
-                        'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+                        'who' => $user['first_name'],
+                        'c_id' => $c_id,
+                        'a_id' => $a_id,
+                        'task_name' => $campaign_rs['name'],
+                        'asset_type' => $asset_type,
+                        'asset_status' => $asset_status,
+                        'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
                     ];
                     Mail::to($user['email'])->send(new CopyComplete($details));
+                }
+            }
+        }else{
+            if ($campaign_brand == 5) { // if Joah -> Joah Director
+                $user_rs = $user_obj->getJoahDirector();
+                if ($user_rs) {
+                    foreach ($user_rs as $user) {
+                        $details = [
+                            'who' => $user['first_name'],
+                            'c_id' => $c_id,
+                            'a_id' => $a_id,
+                            'task_name' => $campaign_rs['name'],
+                            'asset_type' => $asset_type,
+                            'asset_status' => $asset_status,
+                            'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                        ];
+                        Mail::to($user['email'])->send(new CopyComplete($details));
+                    }
+                }
+            } else { // others -> Creative Director
+                $user_rs = $user_obj->getCreativeDirector();
+                if ($user_rs) {
+                    foreach ($user_rs as $user) {
+                        $details = [
+                            'who' => $user['first_name'],
+                            'c_id' => $c_id,
+                            'a_id' => $a_id,
+                            'task_name' => $campaign_rs['name'],
+                            'asset_type' => $asset_type,
+                            'asset_status' => $asset_status,
+                            'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                        ];
+                        Mail::to($user['email'])->send(new CopyComplete($details));
+                    }
                 }
             }
         }
