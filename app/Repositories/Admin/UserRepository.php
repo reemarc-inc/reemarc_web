@@ -119,6 +119,20 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
+    public function getContentManager()
+    {
+        $users = new User();
+        $users = $users->Where('role', '=', "content manager");
+        return $users->get();
+    }
+
+    public function getWebProductionManager()
+    {
+        $users = new User();
+        $users = $users->Where('role', '=', "web production manager");
+        return $users->get();
+    }
+
     public function getWriterByBrandName($brand_name)
     {
         $users = new User();

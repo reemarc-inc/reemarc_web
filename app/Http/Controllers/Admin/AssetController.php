@@ -459,7 +459,7 @@ class AssetController extends Controller
         $this->data['asset_list_in_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress($str, $brand_id, $asset_id);
         $this->data['asset_list_waiting_final_approval'] = $this->campaignAssetIndexRepository->get_asset_jira_waiting_final_approval($str, $brand_id, $asset_id);
 
-//        $this->data['asset_list_waiting_asset_completed'] = $this->campaignAssetIndexRepository->get_asset_jira_asset_completed($str, $brand_id);
+        $this->data['asset_list_waiting_asset_completed'] = $this->campaignAssetIndexRepository->get_asset_jira_asset_completed($str, $brand_id);
 
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 
