@@ -509,8 +509,14 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_copy_request_copywriter()
+    public function get_asset_jira_copy_request_copywriter($brand_id)
     {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
         return DB::select(
             'select  c_id as campaign_id,
                     a_id as asset_id,
@@ -544,8 +550,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_requested"
+              ' . $brand_filter . '
             and ci.name is not null
-            and due > "2022-10-01 00:00:00"
             order by due asc');
     }
 
@@ -1097,8 +1103,20 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_asset_completed($str)
+    public function get_asset_jira_asset_completed($str, $brand_id, $asset_id)
     {
+        if($brand_id != '') {
+            $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
+        }else{
+            $brand_filter = ' ';
+        }
+
+        if($asset_id != '') {
+            $asset_id_filter = ' and cai.id =' . $asset_id . ' ';
+        }else{
+            $asset_id_filter = ' ';
+        }
+
         return DB::select(
             'select c_id as campaign_id,
                     a_id as asset_id,
@@ -1143,8 +1161,10 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "final_approval"
+               ' . $brand_filter . '
+              ' . $asset_id_filter . '
             and u.first_name like "%'.$str.'%"
-            and cai.updated_at >= DATE_ADD(CURDATE(), INTERVAL -7 DAY)
+            and cai.updated_at >= DATE_ADD(CURDATE(), INTERVAL -14 DAY)
             order by updated_at asc');
     }
 

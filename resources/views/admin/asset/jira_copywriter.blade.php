@@ -13,8 +13,8 @@
 
         <div class="section-body">
 
-{{--            @include('admin.asset.jira_copywriter_filter')--}}
-{{--            @include('admin.asset.flash')--}}
+            @include('admin.asset.jira_copywriter_filter')
+            @include('admin.asset.flash')
 
             <div class="row">
 
@@ -24,11 +24,7 @@
 
                         <?php
                             $start_css = '';
-//                            $start_late_css =
-//                                "style=background-color:#f1d2d2;"
-//                            ;
-
-                            $start_late_css = "blink-bg" ;
+//                            $start_late_css = "style=background-color:#f1d2d2;";
 
                             if($asset->asset_type == 'email_blast'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
@@ -75,7 +71,7 @@
                             }
                         ?>
 
-                            <div class="card {{ $start_css }}">
+                            <div class="card" {{ $start_css }}>
                                 <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
                                     <div class="card-body" style="padding-top: 7px; padding-bottom: 0px;">
                                         <div class="media" style="padding-bottom: 0px;">
