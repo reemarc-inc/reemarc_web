@@ -24,7 +24,7 @@
 
                         <?php
                             $start_css = '';
-//                            $start_late_css = "style=background-color:#f1d2d2;";
+                            $start_late_css = "style=background-color:#f1d2d2;";
 
                             if($asset->asset_type == 'email_blast'){
                                 $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
