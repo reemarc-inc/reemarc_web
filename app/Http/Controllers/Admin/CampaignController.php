@@ -1068,14 +1068,22 @@ class CampaignController extends Controller
         }
         $campaignTypeSocialAd['include_formats'] = $request['social_ad_include_formats'];
 
-        $campaignTypeSocialAd['text'] = $request['social_ad_text'];
-        $campaignTypeSocialAd['headline'] = $request['social_ad_headline'];
         $campaignTypeSocialAd['note'] = $request['social_ad_note'];
+        $campaignTypeSocialAd['text'] = $request['social_ad_text'];
+        $campaignTypeSocialAd['text_2'] = $request['social_ad_text_2'];
+        $campaignTypeSocialAd['text_3'] = $request['social_ad_text_3'];
+        $campaignTypeSocialAd['headline'] = $request['social_ad_headline'];
+        $campaignTypeSocialAd['headline_2'] = $request['social_ad_headline_2'];
+        $campaignTypeSocialAd['headline_3'] = $request['social_ad_headline_3'];
         $campaignTypeSocialAd['newsfeed'] = $request['social_ad_newsfeed'];
+        $campaignTypeSocialAd['newsfeed_2'] = $request['social_ad_newsfeed_2'];
+        $campaignTypeSocialAd['newsfeed_3'] = $request['social_ad_newsfeed_3'];
         $campaignTypeSocialAd['products_featured'] = $request['social_ad_products_featured'];
+        $campaignTypeSocialAd['copy_inside_graphic'] = $request['social_ad_copy_inside_graphic'];
         $campaignTypeSocialAd['click_through_links'] = $request['social_ad_click_through_links'];
         $campaignTypeSocialAd['utm_code'] = $request['social_ad_utm_code'];
         $campaignTypeSocialAd['promo_code'] = $request['social_ad_promo_code'];
+        $campaignTypeSocialAd['budget_code'] = $request['social_ad_budget_code'];
         $campaignTypeSocialAd['date_created'] = Carbon::now();
         $campaignTypeSocialAd['asset_id'] = $asset_id;
         $campaignTypeSocialAd->save();
@@ -2286,9 +2294,11 @@ class CampaignController extends Controller
                 'note' => $data['note'],
                 'newsfeed' => $data['newsfeed'],
                 'products_featured' => $data['products_featured'],
+                'copy_inside_graphic' => $data['copy_inside_graphic'],
                 'click_through_links' => $data['click_through_links'],
                 'utm_code' => $data['utm_code'],
                 'promo_code' => $data['promo_code'],
+                'budget_code' => $data['budget_code'],
             );
             return $new;
         }else if($asset_type == 'website_banners'){
