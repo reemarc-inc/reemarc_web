@@ -245,7 +245,7 @@
     </div>
 
     <div style="background-color: #eae9e9">
-        <i id="arrow-two" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad_edit(this, 2, {{$asset->a_id}})" >
+        <i id="arrow-two" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad_edit(this, 2, {{$asset_id}})" >
             <label style="font-family: Helvetica;">Ver 2.</label>
         </i>
         <div id="version-2-{{$asset_id}}" style="margin: 20px; padding-bottom: 10px; display: none;" >
@@ -268,7 +268,7 @@
     </div>
 
     <div style="background-color: #eae9e9">
-        <i id="arrow-three" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad_edit(this, 3, {{$asset->a_id}})">
+        <i id="arrow-three" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad_edit(this, 3, {{$asset_id}})">
             <label style="font-family: Helvetica;">Ver 3.</label>
         </i>
         <div id="version-3-{{$asset_id}}" style="margin: 20px; padding-bottom: 10px; display: none;" >
