@@ -57,7 +57,7 @@
 
     <div class="form-group checkboxes">
         <label>Include Formats: </label>
-        <div class="awareness" hidden>
+        <div class="awareness" hidden style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Ad"/>&nbsp;<span>FB/IG Video Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG GIF Ad"/>&nbsp;<span>FB/IG GIF Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Image Ad"/>&nbsp;<span>FB/IG Image Ad</span></br>
@@ -66,7 +66,7 @@
             <input type="checkbox" name="social_ad_include_formats[]" value="SC Video Ad"/>&nbsp;<span>SC Video Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="Other Ad"/>&nbsp;<span>Other Ad</span></br>
         </div>
-        <div class="traffic" hidden>
+        <div class="traffic" hidden style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Trfc Ad"/>&nbsp;<span>FB/IG Video Trfc Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG GIF Trfc Ad"/>&nbsp;<span>FB/IG GIF Trfc Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Image Trfc Ad"/>&nbsp;<span>FB/IG Image Trfc Ad</span></br>
@@ -75,7 +75,7 @@
             <input type="checkbox" name="social_ad_include_formats[]" value="SC Video Trfc Ad"/>&nbsp;<span>SC Video Trfc Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="Other Trfc Ad"/>&nbsp;<span>Other Trfc Ad</span></br>
         </div>
-        <div class="conversion" hidden>
+        <div class="conversion" hidden style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Conv Ad"/>&nbsp;<span>FB/IG Video Conv Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Stories Conv Ad"/>&nbsp;<span>FB/IG Stories Conv Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG GIF Conv Ad"/>&nbsp;<span>FB/IG GIF Conv Ad</span></br>
@@ -86,7 +86,7 @@
             <input type="checkbox" name="social_ad_include_formats[]" value="SC Video Conv Ad"/>&nbsp;<span>SC Video Conv Ad</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="Other Conv Ad"/>&nbsp;<span>Other Conv Ad</span></br>
         </div>
-        <div class="organic" hidden>
+        <div class="organic" hidden style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Video Organ Post"/>&nbsp;<span>FB/IG Video Organ Post</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="FB/IG Stories Organ Post"/>&nbsp;<span>FB/IG Stories Organ Post</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="IG Reels Organ Post"/>&nbsp;<span>IG Reels Organ Post</span></br>
@@ -104,36 +104,110 @@
     </div>
 
     <div class="form-group">
-        <label>Text:</label>
-        <input type="text" name="{{ $asset_type }}_text" class="form-control" value="">
-        <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
-        <label style="color: #98a6ad">Request Copy</label>
+        <label>Upload Visual References:</label>
+        <input type="file" data-asset="default" name="{{ $asset_type }}_c_attachment[]" class="form-control c_attachment last_upload" multiple="multiple"/>
+        <a href="javascript:void(0);" onclick="another_upload($(this))" class="another_upload">[ Upload Another ]</a>
     </div>
 
     <div class="form-group">
-        <label>Headline: <b style="color: #b91d19">(Max 40 characters)</b></label>
-        <input type="text" name="{{ $asset_type }}_headline" class="form-control" value="">
-        <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
-        <label style="color: #98a6ad">Request Copy</label>
-    </div>
-
-    <div class="form-group">
-        <label>Note:</label>
+        <label>Notes:</label>
         <textarea class="form-control" id="{{ $asset_type }}_note" name="{{ $asset_type }}_note" rows="5" cols="100" style="height:100px;"></textarea>
-    </div>
-
-    <div class="form-group">
-        <label>Newsfeed:</label>
-        <input type="text" name="{{ $asset_type }}_newsfeed" class="form-control" value="">
-        <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
-        <label style="color: #98a6ad">Request Copy</label>
     </div>
 
     <div class="form-group">
         <label>Products Featured:</label>
         <textarea class="form-control" name="{{ $asset_type }}_products_featured" rows="5" cols="100" style="height:100px;"></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Copy Inside Graphic:</label>
+        <textarea class="form-control" name="{{ $asset_type }}_copy_inside_graphic" rows="5" cols="100"></textarea>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>
+    </div>
+
+    <div style="background-color: #eae9e9">
+        <i id="arrow-one" class="dropdown fa fa-angle-up" style="margin-left: 20px;">
+            <label style="font-family: Helvetica;">Ver 1.</label>
+        </i>
+        <div class="social-ad-ver-one" style="margin: 20px;">
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 characters)</b></label>
+                <input type="text" name="{{ $asset_type }}_text" class="form-control" value="">
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 characters / Max 40 characters)</b></label>
+                <textarea class="form-control" name="{{ $asset_type }}_headline" rows="5" cols="100"></textarea>
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 characters)</b></label>
+                <input type="text" name="{{ $asset_type }}_newsfeed" class="form-control" value="">
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+        </div>
+    </div>
+
+    <div style="background-color: #eae9e9">
+        <i id="arrow-two" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad(this, 2)" >
+            <label style="font-family: Helvetica;">Ver 2.</label>
+        </i>
+        <div id="social-ad-ver-2" style="margin: 20px; display: none;">
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 characters)</b></label>
+                <input type="text" name="{{ $asset_type }}_text_2" class="form-control" value="">
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 characters / Max 40 characters)</b></label>
+                <textarea class="form-control" name="{{ $asset_type }}_headline_2" rows="5" cols="100"></textarea>
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 characters)</b></label>
+                <input type="text" name="{{ $asset_type }}_newsfeed_2" class="form-control" value="">
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+        </div>
+    </div>
+
+    <div style="background-color: #eae9e9">
+        <i id="arrow-three" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad(this, 3)">
+            <label style="font-family: Helvetica;">Ver 3.</label>
+        </i>
+        <div id="social-ad-ver-3" style="margin: 20px; display: none;">
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 characters)</b></label>
+                <input type="text" name="{{ $asset_type }}_text_3" class="form-control" value="">
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 characters / Max 40 characters)</b></label>
+                <textarea class="form-control" name="{{ $asset_type }}_headline_3" rows="5" cols="100"></textarea>
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+
+            <div class="form-group">
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 characters)</b></label>
+                <input type="text" name="{{ $asset_type }}_newsfeed_3" class="form-control" value="">
+                <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+                <label style="color: #98a6ad">Request Copy</label>
+            </div>
+        </div>
     </div>
 
     <div class="form-group">
@@ -153,11 +227,9 @@
         <input type="text" name="{{ $asset_type }}_promo_code" class="form-control" value="">
     </div>
 
-
     <div class="form-group">
-        <label>Upload Visual References:</label>
-        <input type="file" data-asset="default" name="{{ $asset_type }}_c_attachment[]" class="form-control c_attachment last_upload" multiple="multiple"/>
-        <a href="javascript:void(0);" onclick="another_upload($(this))" class="another_upload">[ Upload Another ]</a>
+        <label>Budget Code(s):</label>
+        <input type="text" name="{{ $asset_type }}_budget_code" class="form-control" value="">
     </div>
 
     <div class="form-group">
@@ -209,6 +281,20 @@
             $('.organic').removeAttr('hidden');
         }
 
+    }
+
+    function click_arrow_social_ad(el,num){
+
+        if($(el).hasClass('fa-angle-up')){
+            $(el).toggleClass('with-border');
+            $(el).removeClass('fa-angle-up');
+            $(el).addClass('fa-angle-down');
+            $('#social-ad-ver-'+num).slideUp();
+        }else{
+            $(el).removeClass('fa-angle-down');
+            $(el).addClass('fa-angle-up');
+            $('#social-ad-ver-'+num).slideDown();
+        }
     }
 
 </script>
