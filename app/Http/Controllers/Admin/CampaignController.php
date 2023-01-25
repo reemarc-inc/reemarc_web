@@ -38,6 +38,7 @@ use App\Models\CampaignTypeStoreFront;
 use App\Models\CampaignTypeTopcategoriesCopy;
 use App\Models\CampaignTypeWebsiteBanners;
 use App\Models\CampaignTypeWebsiteChanges;
+use App\Models\CampaignTypeYoutubeCopy;
 use App\Repositories\Admin\AssetNotificationUserRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
 use App\Repositories\Admin\CampaignNotesRepository;
@@ -56,6 +57,7 @@ use App\Repositories\Admin\CampaignTypeStoreFrontRepository;
 use App\Repositories\Admin\CampaignTypeTopcategoriesCopyRepository;
 use App\Repositories\Admin\CampaignTypeWebsiteBannersRepository;
 use App\Repositories\Admin\CampaignTypeWebsiteChangesRepository;
+use App\Repositories\Admin\CampaignTypeYoutubeCopyRepository;
 use App\Repositories\Admin\Interfaces\CampaignAssetIndexRepositoryInterface;
 use App\Repositories\Admin\PermissionRepository;
 
@@ -92,6 +94,7 @@ class CampaignController extends Controller
     private $campaignTypeRollOverRepository;
     private $campaignTypeStoreFrontRepository;
     private $campaignTypeAContentRepository;
+    private $campaignTypeYoutubeCopyRepository;
     private $campaignAssetIndexRepository;
     private $assetNotificationUserRepository;
     private $userRepository;
@@ -112,6 +115,7 @@ class CampaignController extends Controller
                                 CampaignTypeRollOverRepository $campaignTypeRollOverRepository,
                                 CampaignTypeStoreFrontRepository $campaignTypeStoreFrontRepository,
                                 CampaignTypeAContentRepository $campaignTypeAContentRepository,
+                                CampaignTypeYoutubeCopyRepository $campaignTypeYoutubeCopyRepository,
                                 CampaignAssetIndexRepository $campaignAssetIndexRepository,
                                 AssetNotificationUserRepository $assetNotificationUserRepository,
                                 UserRepository $userRepository,
@@ -135,6 +139,7 @@ class CampaignController extends Controller
         $this->campaignTypeRollOverRepository = $campaignTypeRollOverRepository;
         $this->campaignTypeStoreFrontRepository = $campaignTypeStoreFrontRepository;
         $this->campaignTypeAContentRepository = $campaignTypeAContentRepository;
+        $this->campaignTypeYoutubeCopyRepository = $campaignTypeYoutubeCopyRepository;
         $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
         $this->assetNotificationUserRepository = $assetNotificationUserRepository;
         $this->userRepository = $userRepository;
@@ -2227,6 +2232,104 @@ class CampaignController extends Controller
             ->with('error', __('Update Failed'));
     }
 
+    public function add_youtube_copy(AssetAContentRequest $request){
+
+        $campaignAssetIndex = new CampaignAssetIndex();
+        $campaignAssetIndex['campaign_id'] = $request['youtube_copy_c_id'];
+        $campaignAssetIndex['type'] = $request['youtube_copy_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['youtube_copy_team_to'];
+        $campaignAssetIndex['status'] = 'copy_requested';
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
+        $campaignAssetIndex->save();
+
+        $asset_id = $campaignAssetIndex->id;
+
+        $campaignTypeYoutubeCopy = new CampaignTypeYoutubeCopy();
+        $campaignTypeYoutubeCopy['id'] = $request['youtube_copy_c_id']; //campaing_id
+        $campaignTypeYoutubeCopy['author_id'] = $request['youtube_copy_author_id'];
+        $campaignTypeYoutubeCopy['type'] = $request['youtube_copy_asset_type'];
+        $campaignTypeYoutubeCopy['launch_date'] = $request['youtube_copy_launch_date'];
+        $campaignTypeYoutubeCopy['information'] = $request['youtube_copy_information'];
+        $campaignTypeYoutubeCopy['url_preview'] = $request['youtube_copy_url_preview'];
+        $campaignTypeYoutubeCopy['title'] = $request['youtube_copy_title'];
+        $campaignTypeYoutubeCopy['description'] = $request['youtube_copy_description'];
+        $campaignTypeYoutubeCopy['tags'] = $request['youtube_copy_tags'];
+        $campaignTypeYoutubeCopy['date_created'] = Carbon::now();
+        $campaignTypeYoutubeCopy['asset_id'] = $asset_id;
+
+        $campaignTypeYoutubeCopy->save();
+
+        // insert note for adding asset
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Copy Complete');
+
+        if($request->file('a_content_c_attachment')){
+            foreach ($request->file('a_content_c_attachment') as $file) {
+                $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
+                $fileName = $this->file_exist_check($file, $request['youtube_copy_c_id'], $asset_id);
+                $campaign_type_asset_attachments['id'] = $request['youtube_copy_c_id'];
+                $campaign_type_asset_attachments['asset_id'] = $asset_id;
+                $campaign_type_asset_attachments['type'] = 'attachment_file_' . $file->getMimeType();
+                $campaign_type_asset_attachments['author_id'] = $request['youtube_copy_author_id'];
+                $campaign_type_asset_attachments['attachment'] = '/' . $fileName;
+                $campaign_type_asset_attachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                $campaign_type_asset_attachments['file_type'] = $file->getMimeType();
+                $campaign_type_asset_attachments['file_size'] = $file->getSize();
+                $campaign_type_asset_attachments['date_created'] = Carbon::now();
+                $campaign_type_asset_attachments->save();
+            }
+        }
+
+        return redirect('admin/campaign/'.$request['youtube_copy_c_id'].'/edit')
+            ->with('success', __('Added the YouTube Copy Asset : ' . $asset_id));
+    }
+
+    public function edit_youtube_copy(Request $request, $asset_id){
+
+        $youtube_copy = $this->campaignTypeYoutubeCopyRepository->findById($asset_id);
+
+        $param = $request->request->all();
+
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $youtube_copy->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
+        if($this->campaignTypeYoutubeCopyRepository->update($asset_id, $param)){
+            $user = auth()->user();
+            // insert into campaign note for correspondence
+            $this->add_correspondence('youtube_copy', $param, $youtube_copy, $user);
+            if($request->file('c_attachment')){
+                $user = auth()->user();
+                foreach ($request->file('c_attachment') as $file) {
+                    $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
+
+//                    $fileName = $file->store('campaigns/'.$image_request->id.'/'.$asset_id);
+                    $fileName = $this->file_exist_check($file, $youtube_copy->id, $asset_id);
+
+                    $campaign_type_asset_attachments['id'] = $youtube_copy->id;
+                    $campaign_type_asset_attachments['asset_id'] = $asset_id;
+                    $campaign_type_asset_attachments['type'] = 'attachment_file_' . $file->getMimeType();
+                    $campaign_type_asset_attachments['author_id'] = $user->id;
+                    $campaign_type_asset_attachments['attachment'] = '/' . $fileName;
+                    $campaign_type_asset_attachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $campaign_type_asset_attachments['file_type'] = $file->getMimeType();
+                    $campaign_type_asset_attachments['file_size'] = $file->getSize();
+                    $campaign_type_asset_attachments['date_created'] = Carbon::now();
+                    $campaign_type_asset_attachments->save();
+
+                    // insert file attachment on asset correspondence
+                    $this->add_file_correspondence_for_asset($youtube_copy, $user, $fileName, 'youtube_copy');
+                }
+            }
+            return redirect('admin/campaign/'.$youtube_copy->id.'/edit')
+                ->with('success', __('YouTube Copy ('.$asset_id.') - Update Success'));
+        }
+        return redirect('admin/campaign/'.$youtube_copy->id.'/edit')
+            ->with('error', __('Update Failed'));
+    }
+
 
     public function add_correspondence($asset_type, $new_param, $origin_param, $user)
     {
@@ -2388,6 +2491,16 @@ class CampaignController extends Controller
                 'product_line' => $data['product_line'],
             );
             return $new;
+        }else if($asset_type == 'youtube_copy'){
+            $new = array(
+                'launch_date' => $data['launch_date'],
+                'information' => $data['information'],
+                'url_preview' => $data['url_preview'],
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'tags' => $data['tags'],
+            );
+            return $new;
         }
 
     }
@@ -2432,7 +2545,13 @@ class CampaignController extends Controller
             $user_role = $user->role;
 
             if($param['status'] == 'in_progress'){
-                if($user_role != 'graphic designer' && $user_role != 'creative director' && $user_role != 'admin'){
+                if($user_role != 'graphic designer'
+                    && $user_role != 'creative director'
+                    && $user_role != 'content creator'
+                    && $user_role != 'content manager'
+                    && $user_role != 'web production'
+                    && $user_role != 'web production manager'
+                    && $user_role != 'admin'){
                     return false;
                 }
             }else{

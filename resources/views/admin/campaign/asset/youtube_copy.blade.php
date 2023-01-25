@@ -42,7 +42,7 @@
 </div>
 <?php } ?>
 
-<form method="POST" action="{{ route('campaign.edit_store_front', $asset_id) }}" enctype="multipart/form-data">
+<form method="POST" action="{{ route('campaign.edit_youtube_copy', $asset_id) }}" enctype="multipart/form-data">
     @csrf
 
     <?php if (!empty($data[5])) { ?>
@@ -95,11 +95,11 @@
         <table class="reminder_table">
             <tr>
                 <td><span class="lead-time"><b>&nbspCopyWriters Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b>N/A</b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -34 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopy Review Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b>N/A</b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -32 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Assign Start&nbsp</b></span></td>
@@ -115,7 +115,7 @@
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspDevelopment Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b>N/A</b></span></td>
+                <td style="color: #b91d19"><span>N/A</span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspE-Commerce Start&nbsp</b></span></td>
@@ -126,18 +126,13 @@
 
 
     <div class="form-group">
-        <label>Client:</label>
-        <input type="text" name="client" class="form-control" value="<?php echo $data[0][0]->client; ?>">
+        <label>Information:</label>
+        <input type="text" name="information" class="form-control" value="<?php echo $data[0][0]->information; ?>">
     </div>
 
     <div class="form-group">
-        <label>Notes</label>
-        {!! Form::textarea('notes', !empty($data[0][0]) ? $data[0][0]->notes : null, ['class' => 'form-control summernote']) !!}
-    </div>
-
-    <div class="form-group">
-        <label>Invision Link:</label>
-        <input type="text" name="invision_link" class="form-control" value="<?php echo $data[0][0]->invision_link; ?>">
+        <label>URL Preview:</label>
+        <input type="text" name="url_preview" class="form-control" value="<?php echo $data[0][0]->url_preview; ?>">
     </div>
 
     <?php if (!empty($data[1])): ?>
@@ -189,6 +184,21 @@
         <label>Upload Visual References:</label>
         <input type="file" data-asset="default" name="c_attachment[]" class="form-control c_attachment last_upload" multiple="multiple"/>
         <a href="javascript:void(0);" onclick="another_upload($(this))" class="another_upload">[ Upload Another ]</a>
+    </div>
+
+    <div class="form-group">
+        <label>Tilte:</label>
+        <textarea class="form-control" id="title" name="title" rows="5" cols="100"><?php echo $data[0][0]->title; ?></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Description:</label>
+        <textarea class="form-control" id="description" name="description" rows="5" cols="100"><?php echo $data[0][0]->description; ?></textarea>
+    </div>
+
+    <div class="form-group">
+        <label>Tags:</label>
+        <textarea class="form-control" id="tags" name="tags" rows="5" cols="100"><?php echo $data[0][0]->tags; ?></textarea>
     </div>
 
     <div class="form-group">
@@ -372,7 +382,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +30 days - Store Front
+    // Lead time +34 days - A+ Content
     $(function() {
         var lead_time = "<?php echo $data[0][0]->launch_date; ?>"
 

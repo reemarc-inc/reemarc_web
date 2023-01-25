@@ -116,6 +116,8 @@ class CampaignRepository implements CampaignRepositoryInterface
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
+                   union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
                     ) b where b.c_id=:id order by due desc', [
                     'id' => $id
         ]);

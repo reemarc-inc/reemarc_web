@@ -435,6 +435,7 @@
                                                     <option value="roll_over">Roll Over</option>
                                                     <option value="store_front">Store Front</option>
                                                     <option value="a_content">A+ Content</option>
+                                                    <option value="youtube_copy">YouTube Copy</option>
                                                 </select>
 
                                             </div>
@@ -474,6 +475,9 @@
                                             </div>
                                             <div id="new_a_content" style="display: none;">
                                                 @include('admin.campaign.asset.new.a_content')
+                                            </div>
+                                            <div id="new_youtube_copy" style="display: none;">
+                                                @include('admin.campaign.asset.new.youtube_copy')
                                             </div>
 
                                         </div>
@@ -822,6 +826,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'landing_page'){
                 $("#asset_type_name").text('Landing Page');
@@ -837,6 +842,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'misc'){
                 $("#asset_type_name").text('Misc');
@@ -852,6 +858,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'social_ad'){
                 $("#asset_type_name").text('Social Ad');
@@ -867,6 +874,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'website_banners'){
                 $("#asset_type_name").text('Website Banners');
@@ -882,6 +890,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             // if(add_asset_type == 'website_changes'){
             //     $("#asset_type_name").text('Website Changes');
@@ -912,6 +921,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'programmatic_banners'){
                 $("#asset_type_name").text('Programmatic Banners');
@@ -927,6 +937,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'image_request'){
                 $("#asset_type_name").text('Image Request');
@@ -942,6 +953,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'roll_over'){
                 $("#asset_type_name").text('Roll Over');
@@ -957,6 +969,7 @@
                 $("#new_roll_over").show();
                 $("#new_store_front").hide();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'store_front'){
                 $("#asset_type_name").text('Store Front');
@@ -972,6 +985,7 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").show();
                 $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
             }
             if(add_asset_type == 'a_content'){
                 $("#asset_type_name").text('A+ Content');
@@ -987,6 +1001,23 @@
                 $("#new_roll_over").hide();
                 $("#new_store_front").hide();
                 $("#new_a_content").show();
+                $("#new_youtube_copy").hide();
+            }
+            if(add_asset_type == 'youtube_copy'){
+                $("#asset_type_name").text('YouTube Copy');
+                $("#new_email_blast").hide();
+                $("#new_landing_page").hide();
+                $("#new_misc").hide();
+                $("#new_social_ad").hide();
+                $("#new_website_banners").hide();
+                // $("#new_website_changes").hide();
+                $("#new_topcategories_copy").hide();
+                $("#new_programmatic_banners").hide();
+                $("#new_image_request").hide();
+                $("#new_roll_over").hide();
+                $("#new_store_front").hide();
+                $("#new_a_content").hide();
+                $("#new_youtube_copy").show();
             }
 
         }

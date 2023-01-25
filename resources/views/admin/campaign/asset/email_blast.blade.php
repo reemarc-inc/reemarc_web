@@ -288,7 +288,13 @@
         <?php }?>
 
         <?php if (!empty($data[2]) && $data[2] == 'to_do') { ?>
-            <?php if(auth()->user()->role == 'graphic designer' || auth()->user()->role == 'admin') { ?>
+            <?php if(auth()->user()->role == 'graphic designer'
+            || auth()->user()->role == 'content creator'
+            || auth()->user()->role == 'web production'
+            || auth()->user()->role == 'creative director'
+            || auth()->user()->role == 'content manager'
+            || auth()->user()->role == 'web production manager'
+            || auth()->user()->role == 'admin') { ?>
                 <input type="button"
                        value="Start Asset"
                        onclick="work_start($(this))"
@@ -299,7 +305,13 @@
         <?php }?>
 
         <?php if (!empty($data[2]) && $data[2] == 'in_progress') { ?>
-            <?php if(auth()->user()->role == 'graphic designer' || auth()->user()->role == 'admin') { ?>
+            <?php if(auth()->user()->role == 'graphic designer'
+            || auth()->user()->role == 'content creator'
+            || auth()->user()->role == 'web production'
+            || auth()->user()->role == 'creative director'
+            || auth()->user()->role == 'content manager'
+            || auth()->user()->role == 'web production manager'
+            || auth()->user()->role == 'admin') { ?>
                 <input type="button"
                        value="Submit for Approval"
                        onclick="work_done($(this))"
