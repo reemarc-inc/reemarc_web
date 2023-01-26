@@ -207,6 +207,18 @@
     </div>
 
     <div class="form-group">
+        <label>Google Drive Link:</label>
+        <div class="input-group" title="">
+            <div class="input-group-addon">
+                <a href="{{ $data[0][0]->google_drive_link }}" target="_blank">
+                    <i class="fas fa-external-link-alt" title="Open link in a new tab"></i>
+                </a>
+            </div>
+            <input type="text" name="google_drive_link" class="form-control" placeholder="https://www.example.com" value="{{ $data[0][0]->google_drive_link }}"/>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label>Notes:</label>
         <textarea class="form-control" id="note" name="note" rows="5" cols="100" style="height:100px;">{{ $data[0][0]->note }}</textarea>
     </div>
@@ -214,6 +226,15 @@
     <div class="form-group">
         <label>Products Featured:</label>
         <textarea class="form-control" id="products_featured" name="products_featured" style="height:100px;">{{ $data[0][0]->products_featured }}</textarea>
+    </div>
+
+    <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="no_copy_necessary" class="custom-switch-input" <?php echo ($data[0][0]->no_copy_necessary == 'on') ? "checked" : ""; ?>>
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
     </div>
 
     <div class="form-group">

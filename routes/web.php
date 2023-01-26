@@ -72,6 +72,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('asset_approval', [AdminAsset::class, 'asset_approval'])->name('asset.approval');
     Route::get('asset_approval_content', [AdminAsset::class, 'asset_approval_content'])->name('asset.approval_content');
     Route::get('asset_approval_web', [AdminAsset::class, 'asset_approval_web'])->name('asset.approval_web');
+    Route::get('asset_approval_content', [AdminAsset::class, 'asset_approval_content'])->name('asset.approval_content');
+    Route::get('asset_approval_web', [AdminAsset::class, 'asset_approval_web'])->name('asset.approval_web');
     Route::get('asset_assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
     Route::get('asset_jira', [AdminAsset::class, 'asset_jira'])->name('asset.jira');
     Route::get('asset_jira_content', [AdminAsset::class, 'asset_jira_content'])->name('asset.jira_content');

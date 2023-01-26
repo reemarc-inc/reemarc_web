@@ -1047,12 +1047,15 @@ class CampaignController extends Controller
 
     public function add_social_ad(AssetSocialAdRequest $request){
 
-//        ddd($request);
         $campaignAssetIndex = new CampaignAssetIndex();
         $campaignAssetIndex['campaign_id'] = $request['social_ad_c_id'];
         $campaignAssetIndex['type'] = $request['social_ad_asset_type'];
         $campaignAssetIndex['team_to'] = $request['social_ad_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+        if(isset($request['social_ad_no_copy_necessary']) && $request['social_ad_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -1066,6 +1069,7 @@ class CampaignController extends Controller
         $campaignTypeSocialAd['date_from'] = $request['social_ad_date_from'];
         $campaignTypeSocialAd['date_to'] = $request['social_ad_date_to'];
 
+        // check if no copy necessary!
         if (isset($request['social_ad_include_formats'])) {
             $request['social_ad_include_formats'] = implode(', ', $request['social_ad_include_formats']);
         } else {
@@ -1084,8 +1088,10 @@ class CampaignController extends Controller
         $campaignTypeSocialAd['newsfeed_2'] = $request['social_ad_newsfeed_2'];
         $campaignTypeSocialAd['newsfeed_3'] = $request['social_ad_newsfeed_3'];
         $campaignTypeSocialAd['products_featured'] = $request['social_ad_products_featured'];
+        $campaignTypeSocialAd['no_copy_necessary'] = $request['social_ad_no_copy_necessary'];
         $campaignTypeSocialAd['copy_inside_graphic'] = $request['social_ad_copy_inside_graphic'];
         $campaignTypeSocialAd['click_through_links'] = $request['social_ad_click_through_links'];
+        $campaignTypeSocialAd['google_drive_link'] = $request['social_ad_google_drive_link'];
         $campaignTypeSocialAd['utm_code'] = $request['social_ad_utm_code'];
         $campaignTypeSocialAd['promo_code'] = $request['social_ad_promo_code'];
         $campaignTypeSocialAd['budget_code'] = $request['social_ad_budget_code'];
@@ -1117,8 +1123,10 @@ class CampaignController extends Controller
         // TODO notification
         // Send notification to copywriter(brand check) via email
         // Do action - copy request
-        $notify = new NotifyController();
-        $notify->copy_request($request['social_ad_c_id'], $asset_id);
+        if($campaignAssetIndex['status'] == 'copy_requested'){ // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['social_ad_c_id'], $asset_id);
+        }
         ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['social_ad_c_id'].'/edit')
@@ -2399,6 +2407,7 @@ class CampaignController extends Controller
                 'products_featured' => $data['products_featured'],
                 'copy_inside_graphic' => $data['copy_inside_graphic'],
                 'click_through_links' => $data['click_through_links'],
+                'google_drive_link' => $data['google_drive_link'],
                 'utm_code' => $data['utm_code'],
                 'promo_code' => $data['promo_code'],
                 'budget_code' => $data['budget_code'],

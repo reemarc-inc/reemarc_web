@@ -14,7 +14,14 @@
 
         <h2 class="section-title">Asset Approval List [{{ $team }}]</h2>
 
-        @include('admin.asset.approval_filter')
+        <?php if($team == 'Content'){ ?>
+            @include('admin.asset.approval_filter_content')
+        <?php }else if($team == 'Web Production'){ ?>
+            @include('admin.asset.approval_filter_web')
+        <?php } else { ?>
+            @include('admin.asset.approval_filter')
+        <?php } ?>
+
         @include('admin.asset.flash')
 
         <div class="row">

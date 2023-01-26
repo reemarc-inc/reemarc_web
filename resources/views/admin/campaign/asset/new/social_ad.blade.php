@@ -110,6 +110,13 @@
     </div>
 
     <div class="form-group">
+        <label>Google Drive Link:</label>
+        <div class="input-group" title="">
+            <input type="text" name="{{ $asset_type }}_google_drive_link" class="form-control" placeholder="https://www.example.com" value=""/>
+        </div>
+    </div>
+
+    <div class="form-group">
         <label>Notes:</label>
         <textarea class="form-control" id="{{ $asset_type }}_note" name="{{ $asset_type }}_note" rows="5" cols="100" style="height:100px;"></textarea>
     </div>
@@ -117,6 +124,15 @@
     <div class="form-group">
         <label>Products Featured:</label>
         <textarea class="form-control" name="{{ $asset_type }}_products_featured" rows="5" cols="100" style="height:100px;"></textarea>
+    </div>
+
+    <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
     </div>
 
     <div class="form-group">
