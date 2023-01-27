@@ -554,6 +554,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
