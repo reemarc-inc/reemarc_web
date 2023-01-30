@@ -449,13 +449,19 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by updated_at asc');
     }
 
-    public function get_asset_jira_copy_request($str, $brand_id, $asset_id)
+    public function get_asset_jira_copy_request($str, $brand_id, $asset_id, $team)
     {
 
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
         }else{
             $brand_filter = ' ';
+        }
+
+        if($team != '') {
+            $team_filter = ' and team_to ="' . $team . '" ';
+        }else{
+            $team_filter = ' ';
         }
 
         if($asset_id != '') {
@@ -513,6 +519,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status = "copy_requested"
             and ci.name is not null
               ' . $brand_filter . '
+              ' . $team_filter . '
               ' . $asset_id_filter . '
             and date_created > "2022-01-01 00:00:00"
             and u.first_name like "%'.$str.'%"
@@ -569,12 +576,18 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_copy_review($str, $brand_id, $asset_id)
+    public function get_asset_jira_copy_review($str, $brand_id, $asset_id, $team)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
         }else{
             $brand_filter = ' ';
+        }
+
+        if($team != '') {
+            $team_filter = ' and team_to ="' . $team . '" ';
+        }else{
+            $team_filter = ' ';
         }
 
         if($asset_id != '') {
@@ -632,18 +645,25 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status = "copy_review"
             and ci.name is not null
               ' . $brand_filter . '
+              ' . $team_filter . '
               ' . $asset_id_filter . '
             and date_created > "2021-01-01 00:00:00"
             and u.first_name like "%'.$str.'%"
             order by due asc');
     }
 
-    public function get_asset_jira_copy_complete($str, $brand_id, $asset_id)
+    public function get_asset_jira_copy_complete($str, $brand_id, $asset_id, $team)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
         }else{
             $brand_filter = ' ';
+        }
+
+        if($team != '') {
+            $team_filter = ' and team_to ="' . $team . '" ';
+        }else{
+            $team_filter = ' ';
         }
 
         if($asset_id != '') {
@@ -701,18 +721,25 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status = "copy_complete"
             and ci.name is not null
               ' . $brand_filter . '
+              ' . $team_filter . '
               ' . $asset_id_filter . '
             and date_created > "2022-03-01 00:00:00"
             and u.first_name like "%'.$str.'%"
             order by due asc');
     }
 
-    public function get_asset_jira_to_do($str, $brand_id, $asset_id)
+    public function get_asset_jira_to_do($str, $brand_id, $asset_id, $team)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
         }else{
             $brand_filter = ' ';
+        }
+
+        if($team != '') {
+            $team_filter = ' and team_to ="' . $team . '" ';
+        }else{
+            $team_filter = ' ';
         }
 
         if($asset_id != '') {
@@ -770,6 +797,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status in ("to_do")
             and ci.name is not null
               ' . $brand_filter . '
+              ' . $team_filter . '
               ' . $asset_id_filter . '
             and u.first_name like "%'.$str.'%"
             order by due asc');
@@ -849,12 +877,18 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_in_progress($str, $brand_id, $asset_id)
+    public function get_asset_jira_in_progress($str, $brand_id, $asset_id, $team)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
         }else{
             $brand_filter = ' ';
+        }
+
+        if($team != '') {
+            $team_filter = ' and team_to ="' . $team . '" ';
+        }else{
+            $team_filter = ' ';
         }
 
         if($asset_id != '') {
@@ -912,6 +946,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status in ("in_progress")
             and ci.name is not null
               ' . $brand_filter . '
+              ' . $team_filter . '
               ' . $asset_id_filter . '
             and u.first_name like "%'.$str.'%"
             order by due asc');
@@ -991,12 +1026,18 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_waiting_final_approval($str, $brand_id, $asset_id)
+    public function get_asset_jira_waiting_final_approval($str, $brand_id, $asset_id, $team)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
         }else{
             $brand_filter = ' ';
+        }
+
+        if($team != '') {
+            $team_filter = ' and team_to ="' . $team . '" ';
+        }else{
+            $team_filter = ' ';
         }
 
         if($asset_id != '') {
@@ -1054,6 +1095,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             where cai.status = "done"
             and ci.name is not null
               ' . $brand_filter . '
+              ' . $team_filter . '
               ' . $asset_id_filter . '
             and u.first_name like "%'.$str.'%"
             order by due asc');
@@ -1133,12 +1175,18 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_asset_jira_asset_completed($str, $brand_id, $asset_id)
+    public function get_asset_jira_asset_completed($str, $brand_id, $asset_id, $team)
     {
         if($brand_id != '') {
             $brand_filter = ' and ci.campaign_brand =' . $brand_id . ' ';
         }else{
             $brand_filter = ' ';
+        }
+
+        if($team != '') {
+            $team_filter = ' and team_to ="' . $team . '" ';
+        }else{
+            $team_filter = ' ';
         }
 
         if($asset_id != '') {
@@ -1193,8 +1241,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "final_approval"
-               ' . $brand_filter . '
-              ' . $asset_id_filter . '
+                ' . $brand_filter . '
+                ' . $team_filter . '
+                ' . $asset_id_filter . '
             and u.first_name like "%'.$str.'%"
             and cai.updated_at >= DATE_ADD(CURDATE(), INTERVAL -14 DAY)
             order by updated_at asc');
