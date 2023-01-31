@@ -192,7 +192,11 @@ class CampaignController extends Controller
     public function create()
     {
         $this->data['currentAdminMenu'] = 'campaign';
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+        $params['bejour'] = 'no';
+        $options = [
+            'filter' => $params,
+        ];
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll($options)->pluck('campaign_name', 'id');
         $this->data['promotions'] = [
             'KDO',
             'Global Marketing'
@@ -339,7 +343,11 @@ class CampaignController extends Controller
     public function edit($id)
     {
         $this->data['currentAdminMenu'] = 'campaign';
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+        $params['bejour'] = 'no';
+        $options = [
+            'filter' => $params,
+        ];
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll($options)->pluck('campaign_name', 'id');
 
         $this->data['users'] = $this->userRepository->findAll([
             'order' => [

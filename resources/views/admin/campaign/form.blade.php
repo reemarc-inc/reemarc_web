@@ -238,12 +238,12 @@
                                             <?php if (isset($asset_list)): ?>
                                                 <?php foreach($asset_list as $asset_type_item): ?>
                                                 <?php $checkbox_fields = explode(', ', $asset_type); ?>
-                                                <input  <?php if (in_array($asset_type_item->type, $checkbox_fields)) echo "checked" ?>
+                                                <input  <?php if (in_array($asset_type_item->asset_name, $checkbox_fields)) echo "checked" ?>
                                                         type="checkbox"
                                                         name="asset_type[]"
-                                                        value="<?php echo $asset_type_item->type ?>"
+                                                        value="<?php echo $asset_type_item->asset_name ?>"
                                                 />
-                                                <span> <?php echo $asset_type_item->type; ?></span><br/>
+                                                <span> <?php echo $asset_type_item->asset_name; ?></span><br/>
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
                                         </div>
@@ -675,7 +675,7 @@
                             <input type="hidden" name="a_id" value="{{ $asset->a_id }}">
                             <input type="hidden" name="c_id" value="{{ $campaign->id }}">
                             <div class="modal-header">
-                                <h4 class="modal-title" id="myModalLabel">Assign Asset Owner - {{ ucwords(str_replace('_', ' ', $asset->a_type)) }} #{{ $asset->a_id }} </h4>
+                                <h4 class="modal-title" id="myModalLabel">Change Asset Creator - {{ ucwords(str_replace('_', ' ', $asset->a_type)) }} #{{ $asset->a_id }} </h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                             </div>
                             <div class="modal-body">

@@ -52,7 +52,8 @@
         <li class="menu-header">Account</li>
         <li class="{{ ($currentAdminMenu == 'users') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/users')}}"><i class="fas fa-user"></i> <span>Users</span></a></li>
         <li class="menu-header">Settings</li>
-        <li class="{{ ($currentAdminMenu == 'brands') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/brands')}}"><i class="fas fa-user"></i> <span>Brand</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'brands') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_owners')}}"><i class="fas fa-user"></i> <span>Asset Owners</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'brands') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/brands')}}"><i class="fas fa-user"></i> <span>Brands</span></a></li>
         <?php } ?>
     </ul>
 </aside>

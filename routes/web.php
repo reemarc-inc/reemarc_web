@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
+use App\Http\Controllers\Admin\AssetOwnerController as AdminAssetOwner;
 use App\Http\Controllers\Admin\SettingController as AdminSetting;
 use App\Http\Controllers\HomeController as HomeController;
 use App\Http\Controllers\NotifyController as NotifyController;
@@ -56,6 +57,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('users', AdminUser::class);
     Route::resource('brands', AdminBrand::class);
+    Route::resource('asset_owners', AdminAssetOwner::class);
 
     Route::get('settings/remove/{id}', [AdminSetting::class, 'remove'])->name('settings.update');
 
