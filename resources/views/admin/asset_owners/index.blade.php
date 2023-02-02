@@ -45,14 +45,14 @@
                         <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#impress-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['impress'])}}</div></td>
                         <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#joah-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['joah'])}}</div></td>
                         <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#color_care-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['color_care'])}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_mass_market-{{$asset['id']}}">{{ $asset['kiss_mass_market']}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_international-{{$asset['id']}}">{{ $asset['kiss_international']}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#retailer_support-{{$asset['id']}}">{{ $asset['retailer_support']}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_beauty_supply-{{$asset['id']}}">{{ $asset['kiss_beauty_supply']}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#falscara-{{$asset['id']}}">{{ $asset['falscara']}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#myedit-{{$asset['id']}}">{{ $asset['myedit']}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#meamora-{{$asset['id']}}">{{ $asset['meamora']}}</div></td>
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#beautify_tips-{{$asset['id']}}">{{ $asset['beautify_tips']}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_mass_market-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_mass_market'])}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_international-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_international'])}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#retailer_support-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['retailer_support'])}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_beauty_supply-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_beauty_supply'])}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#falscara-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['falscara'])}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#myedit-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['myedit'])}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#meamora-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['meamora'])}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#beautify_tips-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['beautify_tips'])}}</div></td>
                     </tr>
                 @endforeach
                 </tbody>
