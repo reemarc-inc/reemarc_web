@@ -177,6 +177,13 @@ class UserRepository implements UserRepositoryInterface
         ');
     }
 
+    public static function getAssetOwnerNameById($id)
+    {
+        return DB::select('
+            select first_name from users where id ='.$id.'
+        ');
+    }
+
     public function getCreativeAssignee()
     {
         $users = new User();

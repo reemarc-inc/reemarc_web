@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
@@ -17,14 +18,18 @@ class AssetOwnerController extends Controller
 {
     private $assetOwnerAssetsRepository;
     private $campaignBrandsRepository;
+    private $userRepository;
+
 
     public function __construct(AssetOwnerAssetsRepository $assetOwnerAssetsRepository,
-                                CampaignBrandsRepository $campaignBrandsRepository) // phpcs:ignore
+                                CampaignBrandsRepository $campaignBrandsRepository,
+                                UserRepository $userRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->assetOwnerAssetsRepository = $assetOwnerAssetsRepository;
         $this->campaignBrandsRepository = $campaignBrandsRepository;
+        $this->userRepository = $userRepository;
 
         $this->data['currentAdminMenu'] = 'asset_owners';
     }
@@ -35,6 +40,8 @@ class AssetOwnerController extends Controller
      */
     public function index(Request $request)
     {
+        $this->data['currentAdminMenu'] = 'asset_owners';
+
         $params['bejour'] = 'no';
         $options = [
             'filter' => $params,
@@ -48,6 +55,13 @@ class AssetOwnerController extends Controller
         ];
         $this->data['asset_owner_assets'] = $this->assetOwnerAssetsRepository->findAll($options);
 
+        $params['team'] = 'KDO';
+        $this->data['users'] = $this->userRepository->findAll([
+            'filter' => $params,
+            'order' => [
+                'first_name' => 'asc',
+            ]
+        ]);
 
         return view('admin.asset_owners.index', $this->data);
     }

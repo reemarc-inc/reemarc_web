@@ -40,7 +40,7 @@ class AssetOwnerAssetsRepository implements AssetOwnerAssetsRepositoryInterface
 
     public function update($id, $params = [])
     {
-        $assetOwnerAssets = Campaign::findOrFail($id);
+        $assetOwnerAssets = AssetOwnerAssets::findOrFail($id);
 
         return DB::transaction(function () use ($params, $assetOwnerAssets) {
             $assetOwnerAssets->update($params);

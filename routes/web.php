@@ -92,6 +92,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::post('asset/asset_notification_user', [AdminAsset::class, 'asset_notification_user'])->name('asset.asset_notification_user');
     Route::post('asset/asset_owner_change', [AdminAsset::class, 'asset_owner_change'])->name('asset.asset_owner_change');
+    Route::post('asset/asset_owner_change_mapping', [AdminAsset::class, 'asset_owner_change_mapping'])->name('asset.asset_owner_change_mapping');
     Route::post('asset/asset_add_note', [AdminAsset::class, 'asset_add_note'])->name('asset.asset_add_note');
 
     Route::get('asset/copyReview/{id}', [AdminAsset::class, 'copyReview'])->name('campaign.copyReview');
