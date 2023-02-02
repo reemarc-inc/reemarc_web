@@ -62,6 +62,7 @@ class AssetOwnerController extends Controller
                 'first_name' => 'asc',
             ]
         ]);
+        ddd($this->data);
 
         return view('admin.asset_owners.index', $this->data);
     }
