@@ -39,7 +39,7 @@
 {{--                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#myedit-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetController::get_owner_name_by_id($asset['myedit']) }}</div></td>--}}
 {{--                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#meamora-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetController::get_owner_name_by_id($asset['meamora']) }}</div></td>--}}
 {{--                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#beautify_tips-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetController::get_owner_name_by_id($asset['beautify_tips']) }}</div></td>--}}
-                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_nails-{{$asset['id']}}">{{ $asset['kiss_nails']}}</div></td>
+                        <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_nails-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_nails']) }}</div></td>
                         <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_lashes-{{$asset['id']}}">{{ $asset['kiss_lashes']}}</div></td>
                         <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#kiss_hair-{{$asset['id']}}">{{ $asset['kiss_hair']}}</div></td>
                         <td style="padding: 0 10px;"><div class="btn btn-light" data-toggle="modal" data-target="#impress-{{$asset['id']}}">{{ $asset['impress']}}</div></td>

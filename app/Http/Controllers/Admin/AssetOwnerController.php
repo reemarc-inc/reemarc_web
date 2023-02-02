@@ -189,4 +189,15 @@ class AssetOwnerController extends Controller
         return redirect('admin/asset_owners')
                 ->with('error', __('users.fail_to_delete_message', ['first_name' => $user->first_name]));
     }
+
+    public static function get_owner_name_by_id($id)
+    {
+        if($id != 'N/A') {
+            $rs = UserRepository::getAssetOwnerNameById($id);
+            $rs = $rs[0]->first_name;
+        }else{
+            return 'N/A';
+        }
+        return $rs;
+    }
 }
