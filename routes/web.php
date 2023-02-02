@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
+use App\Http\Controllers\Admin\AssetOwnerController as AdminAssetOwner;
 use App\Http\Controllers\Admin\SettingController as AdminSetting;
 use App\Http\Controllers\HomeController as HomeController;
 use App\Http\Controllers\NotifyController as NotifyController;
@@ -56,6 +57,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('users', AdminUser::class);
     Route::resource('brands', AdminBrand::class);
+    Route::resource('asset_owners', AdminAssetOwner::class);
 
     Route::get('settings/remove/{id}', [AdminSetting::class, 'remove'])->name('settings.update');
 
@@ -90,6 +92,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::post('asset/asset_notification_user', [AdminAsset::class, 'asset_notification_user'])->name('asset.asset_notification_user');
     Route::post('asset/asset_owner_change', [AdminAsset::class, 'asset_owner_change'])->name('asset.asset_owner_change');
+    Route::post('asset/asset_owner_change_mapping', [AdminAsset::class, 'asset_owner_change_mapping'])->name('asset.asset_owner_change_mapping');
     Route::post('asset/asset_add_note', [AdminAsset::class, 'asset_add_note'])->name('asset.asset_add_note');
 
     Route::get('asset/copyReview/{id}', [AdminAsset::class, 'copyReview'])->name('campaign.copyReview');

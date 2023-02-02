@@ -73,7 +73,7 @@ class CampaignRepository implements CampaignRepositoryInterface
 
     public function getAssetTypeList()
     {
-        return DB::select('select type from campaign_type');
+        return DB::select('select asset_name from asset_owner_assets order by order_no asc');
     }
 
     public function getAssetListById($id)

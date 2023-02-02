@@ -15,6 +15,10 @@ class CampaignBrandsRepository implements CampaignBrandsRepositoryInterface
     {
         $campaignBrands = new CampaignBrands();
 
+        if (!empty($options['filter']['bejour'])) {
+            $campaignBrands = $campaignBrands->whereNotIn('campaign_name', ['Bejour']);
+        }
+
         $campaignBrands = $campaignBrands->get();
 
         return $campaignBrands;

@@ -30,6 +30,7 @@ use App\Models\CampaignTypeTopcategoriesCopy;
 use App\Models\CampaignTypeWebsiteBanners;
 use App\Models\CampaignTypeWebsiteChanges;
 use App\Repositories\Admin\AssetNotificationUserRepository;
+use App\Repositories\Admin\AssetOwnerAssetsRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
 use App\Repositories\Admin\CampaignNotesRepository;
 use App\Repositories\Admin\CampaignRepository;
@@ -87,6 +88,7 @@ class AssetController extends Controller
     private $campaignTypeAContentRepository;
     private $userRepository;
     private $assetNotificationUserRepository;
+    private $assetOwnerAssetsRepository;
     private $campaignAssetIndexRepository;
 
     public function __construct(CampaignRepository $campaignRepository,
@@ -108,6 +110,7 @@ class AssetController extends Controller
                                 CampaignAssetIndexRepository $campaignAssetIndexRepository,
                                 UserRepository $userRepository,
                                 AssetNotificationUserRepository $assetNotificationUserRepository,
+                                AssetOwnerAssetsRepository $assetOwnerAssetsRepository,
                                 PermissionRepository $permissionRepository)
     {
         parent::__construct();
@@ -131,6 +134,7 @@ class AssetController extends Controller
         $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
         $this->userRepository = $userRepository;
         $this->assetNotificationUserRepository =$assetNotificationUserRepository;
+        $this->assetOwnerAssetsRepository = $assetOwnerAssetsRepository;
         $this->permissionRepository = $permissionRepository;
 
     }
@@ -587,6 +591,17 @@ class AssetController extends Controller
         return $list;
     }
 
+    public static function get_owner_name_by_id($id)
+    {
+        if($id != 'N/A') {
+            $rs = UserRepository::getAssetOwnerNameById($id);
+            $rs = $rs[0]->first_name;
+        }else{
+            return 'N/A';
+        }
+        return $rs;
+    }
+
     public function copyReview($id)
     {
         $campaignAssetIndex = $this->campaignAssetIndexRepository->findById($id);
@@ -807,6 +822,24 @@ class AssetController extends Controller
         $this->data['currentAdminMenu'] = 'campaign';
 
         return redirect('admin/campaign/'.$c_id.'/edit')
+            ->with('success', __('Data has been Updated.'));
+
+    }
+
+    public function asset_owner_change_mapping(Request $request)
+    {
+        $param = $request->all();
+
+        // {{ $user->id }},kiss_nails,{{$asset['id']}}
+        $temp = explode(',', $param['asset_owner_id']);
+        $params[$temp[1]] = $temp[0];
+        $params['id'] = $temp[2];
+        $params['updated_at'] = Carbon::now();
+        $this->assetOwnerAssetsRepository->update($params['id'], $params);
+
+        $this->data['currentAdminMenu'] = 'asset_owners';
+
+        return redirect('admin/asset_owners')
             ->with('success', __('Data has been Updated.'));
 
     }
