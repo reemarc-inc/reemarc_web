@@ -56,4 +56,12 @@ class AssetOwnerAssetsRepository implements AssetOwnerAssetsRepositoryInterface
         return $role->delete();
     }
 
+    public function getByAssetName($asset_name)
+    {
+        $assetOwnerAssets = new AssetOwnerAssets();
+        $obj = $assetOwnerAssets->where('asset_name', $asset_name)->get();
+        return $obj;
+
+    }
+
 }

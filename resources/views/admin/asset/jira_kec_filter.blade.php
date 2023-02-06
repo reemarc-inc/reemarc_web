@@ -2,9 +2,9 @@
     <div class="form-row">
 
         <div class="form-group col-md-2" style="max-width: 12.666%;">
-            <div class="text-small font-600-bold" style="color: #a50018;"><i class="fas fa-circle"></i> Creative</div>
-            <div class="text-small font-600-bold" style="color: #018d1d;"><i class="fas fa-circle"></i> Content</div>
-            <div class="text-small font-600-bold" style="color: #230084;"><i class="fas fa-circle"></i> Web Production</div>
+            <div class="text-small font-600-bold" style="color: #03b06d;"><i class="fas fa-circle"></i> Creative</div>
+            <div class="text-small font-600-bold" style="color: #9f76c2;"><i class="fas fa-circle"></i> Content</div>
+            <div class="text-small font-600-bold" style="color: #017cc2;"><i class="fas fa-circle"></i> Web Production</div>
         </div>
 
         <div class="form-group col-md-2">

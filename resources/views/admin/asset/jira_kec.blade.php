@@ -18,7 +18,7 @@
 
             <div class="row" style="margin-right: -100px;">
 
-                <div class="col-lg-2" style="flex: 0 0 13.555%; max-width: 13.555%;">
+                <div class="col-lg-6" style="flex: 0 0 13.555%; max-width: 13.555%;">
                     <h2 class="section-title">Copy Request</h2>
                         @foreach ($asset_list_copy_request as $asset)
 
@@ -196,7 +196,7 @@
                 </div>
 
                 <div class="col-lg-2" style="flex: 0 0 13.555%; max-width: 13.555%;">
-                    <h2 class="section-title">Creative Assign</h2>
+                    <h2 class="section-title">Creator Assign</h2>
                     @foreach ($asset_list_copy_complete as $asset)
                         <?php
                         $start_css = '';
@@ -454,7 +454,7 @@
                 </div>
 
                 <div class="col-lg-2" style="flex: 0 0 13.555%; max-width: 13.555%;">
-                    <h2 class="section-title">Creative Review</h2>
+                    <h2 class="section-title">Creation Review</h2>
                     @foreach ($asset_list_waiting_final_approval as $asset)
                         <?php
                         $start_css = '';

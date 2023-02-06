@@ -140,7 +140,7 @@
                 </div>
 
                 <div class="col-lg-3">
-                    <h2 class="section-title">Creative Review</h2>
+                    <h2 class="section-title">Creation Review</h2>
                     @foreach ($asset_list_done as $asset)
                         <?php
                         $start_css = '';

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AssetOwner;
 use App\Mail\AssignToDo;
 use App\Mail\CopyComplete;
 use App\Mail\CopyRequest;
@@ -459,6 +460,25 @@ class NotifyController extends Controller
         Mail::to('motuhin@kissusa.com')
             ->cc($cc_list)
             ->send(new NewProject($details));
+    }
+
+    public function new_project_asset_owners($asset_owner_user_obj, $campaign, $asset_name)
+    {
+        $user_obj = new UserRepository();
+        $project_creator = $user_obj->findById($campaign->author_id); // task creator
+
+        $details = [
+            'who'       => $asset_owner_user_obj['first_name'],
+            'creator'   => $project_creator['first_name'],
+            'c_id'      => $campaign->id,
+            'task_name' => $campaign->name,
+            'asset_type'=> ucwords(str_replace('_', ' ', $asset_name)),
+            'url'       => '/admin/campaign/' . $campaign->id . '/edit',
+
+        ];
+//        $cc_list[] = 'jilee2@kissusa.com';
+        Mail::to($asset_owner_user_obj['email'])
+            ->send(new AssetOwner($details));
     }
 
     public static function reminder_email()
