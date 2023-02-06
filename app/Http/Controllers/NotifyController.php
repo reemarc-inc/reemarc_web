@@ -517,644 +517,650 @@ class NotifyController extends Controller
 //
 //        ddd("here");
 
-        $obj = new AssetNotificationUserRepository();
-        $user_obj = new UserRepository();
+        //
+        // Only Sending on WEEKDAYS!
+        //
+        if(date('N') <= 5) {
 
-        $today = date('Y-m-d');
-        $day_after_tomorrow = date('Y-m-d', strtotime($today . '2 day'));
+            $obj = new AssetNotificationUserRepository();
+            $user_obj = new UserRepository();
 
-        // copy_request for copy writer!!!
-        $result_copy_request = $obj->getCopyRequestStatus();
-        foreach ($result_copy_request as $item) {
+            $today = date('Y-m-d');
+            $day_after_tomorrow = date('Y-m-d', strtotime($today . '2 day'));
 
-            $asset_type = $item->asset_type;
-            $copywriter_start_due = date('Y-m-d');
+            // copy_request for copy writer!!!
+            $result_copy_request = $obj->getCopyRequestStatus();
+            foreach ($result_copy_request as $item) {
 
-            if($asset_type == 'email_blast'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
-            }else if($asset_type == 'social_ad'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
-            }else if($asset_type == 'website_banners'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
-            }else if($asset_type == 'landing_page'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
-            }else if($asset_type == 'misc'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-            }else if($asset_type == 'topcategories_copy'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
-            }else if($asset_type == 'programmatic_banners'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
-            }else if($asset_type == 'a_content'){
-                $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-34 weekday'));
-            }
+                $asset_type = $item->asset_type;
+                $copywriter_start_due = date('Y-m-d');
 
-            if($copywriter_start_due == $today){
-                // sending 'today is due' email => send to copy writers
-                $brand_name = $item->brand_name;
-                $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
-                foreach ($copy_writers as $person){
-                    $details = [
-                        'due' => $copywriter_start_due,
-                        'who' => $person['first_name'],
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Copy Request',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-                    // Email to asset creator!
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
-                    Mail::to($person['email'])
+                if ($asset_type == 'email_blast') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                } else if ($asset_type == 'social_ad') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                } else if ($asset_type == 'website_banners') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                } else if ($asset_type == 'landing_page') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
+                } else if ($asset_type == 'misc') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                } else if ($asset_type == 'topcategories_copy') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
+                } else if ($asset_type == 'programmatic_banners') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-34 weekday'));
+                }
+
+                if ($copywriter_start_due == $today) {
+                    // sending 'today is due' email => send to copy writers
+                    $brand_name = $item->brand_name;
+                    $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
+                    foreach ($copy_writers as $person) {
+                        $details = [
+                            'due' => $copywriter_start_due,
+                            'who' => $person['first_name'],
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy Request',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Email to asset creator!
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
+                        Mail::to($person['email'])
 //                        ->cc($cc_list)
-                        ->send(new ReminderDueToday($details));
+                            ->send(new ReminderDueToday($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
-                }
+                    }
 
-            }else if($copywriter_start_due == $day_after_tomorrow){
-                // sending 'tomorrow is due' email => send to copy writers
-                $brand_name = $item->brand_name;
-                $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
-                foreach ($copy_writers as $person) {
-                    $details = [
-                        'due' => $copywriter_start_due,
-                        'who' => $person['first_name'],
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Copy Request',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-                    // Email to asset creator!
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
+                } else if ($copywriter_start_due == $day_after_tomorrow) {
+                    // sending 'tomorrow is due' email => send to copy writers
+                    $brand_name = $item->brand_name;
+                    $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
+                    foreach ($copy_writers as $person) {
+                        $details = [
+                            'due' => $copywriter_start_due,
+                            'who' => $person['first_name'],
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy Request',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Email to asset creator!
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
 //                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($person['email'])
+                        Mail::to($person['email'])
 //                        ->cc($cc_list)
-                        ->send(new ReminderDueBefore($details));
+                            ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
-                }
-            }else if(strtotime($copywriter_start_due) < strtotime($today)){
-                // sending 'past due date' email => send to copy writers and directors
-                $brand_name = $item->brand_name;
-                $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
-                foreach ($copy_writers as $person) {
-                    $details = [
-                        'due' => $copywriter_start_due,
-                        'who' => $person['first_name'],
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Copy Request',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-                    // Email to copy writer! and director Frank and Mo
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
+                    }
+                } else if (strtotime($copywriter_start_due) < strtotime($today)) {
+                    // sending 'past due date' email => send to copy writers and directors
+                    $brand_name = $item->brand_name;
+                    $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
+                    foreach ($copy_writers as $person) {
+                        $details = [
+                            'due' => $copywriter_start_due,
+                            'who' => $person['first_name'],
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy Request',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Email to copy writer! and director Frank and Mo
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
 //                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($person['email'])
-                        ->cc($cc_list)
-                        ->send(new ReminderDueAfter($details));
+                        Mail::to($person['email'])
+                            ->cc($cc_list)
+                            ->send(new ReminderDueAfter($details));
 //                    Mail::to('jilee2@kissusa.com')
 //                        ->cc('jinsunglee.8033@gmail.com', 'jinsunglee.8033@gmail.com')
 //                        ->send(new ReminderDueAfter($details));
 
+                    }
                 }
             }
-        }
 
-        // copy_review for Asset Creator!!!
-        $result_copy_review = $obj->getCopyReviewStatus();
-        foreach ($result_copy_review as $item) {
+            // copy_review for Asset Creator!!!
+            $result_copy_review = $obj->getCopyReviewStatus();
+            foreach ($result_copy_review as $item) {
 
-            $asset_type = $item->asset_type;
-            $copyreview_start_due = date('Y-m-d');
+                $asset_type = $item->asset_type;
+                $copyreview_start_due = date('Y-m-d');
 
-            if($asset_type == 'email_blast'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
-            }else if($asset_type == 'social_ad'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
-            }else if($asset_type == 'website_banners'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-            }else if($asset_type == 'landing_page'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
-            }else if($asset_type == 'misc'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
-            }else if($asset_type == 'topcategories_copy'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
-            }else if($asset_type == 'programmatic_banners'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
-            }else if($asset_type == 'a_content'){
-                $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-32 weekday'));
-            }
+                if ($asset_type == 'email_blast') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                } else if ($asset_type == 'social_ad') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                } else if ($asset_type == 'website_banners') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                } else if ($asset_type == 'landing_page') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
+                } else if ($asset_type == 'misc') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+                } else if ($asset_type == 'topcategories_copy') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                } else if ($asset_type == 'programmatic_banners') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-32 weekday'));
+                }
 
-            if($copyreview_start_due == $today){
-                // sending 'today is due' email => to asset creator
-                if(isset($item->asset_author_id)){
-                    $details = [
-                        'due' => $copyreview_start_due,
-                        'who' => $item->asset_author_name,
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Copy Review',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-                    // Eamil to asset creator!
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
+                if ($copyreview_start_due == $today) {
+                    // sending 'today is due' email => to asset creator
+                    if (isset($item->asset_author_id)) {
+                        $details = [
+                            'due' => $copyreview_start_due,
+                            'who' => $item->asset_author_name,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy Review',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Eamil to asset creator!
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
 //                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($item->asset_author_email)
+                        Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
-                        ->send(new ReminderDueToday($details));
+                            ->send(new ReminderDueToday($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
-                }
-            }else if($copyreview_start_due == $day_after_tomorrow){
-                // sending 'tomorrow is due' email => to asset creator (okay)
-                if(isset($item->asset_author_id)){
-                    $details = [
-                        'due' => $copyreview_start_due, // tomorrow date!
-                        'who' => $item->asset_author_name,
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Copy Review',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-                    // Eamil to asset creator
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
+                    }
+                } else if ($copyreview_start_due == $day_after_tomorrow) {
+                    // sending 'tomorrow is due' email => to asset creator (okay)
+                    if (isset($item->asset_author_id)) {
+                        $details = [
+                            'due' => $copyreview_start_due, // tomorrow date!
+                            'who' => $item->asset_author_name,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy Review',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Eamil to asset creator
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
 //                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($item->asset_author_email)
+                        Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
-                        ->send(new ReminderDueBefore($details));
+                            ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
-                }
-            }else if(strtotime($copyreview_start_due) < strtotime($today)){
-                // sending 'over due' email => to asset creator and directors (okay)
-                if(isset($item->asset_author_id)){
-                    $details = [
-                        'due' => $copyreview_start_due,
-                        'who' => $item->asset_author_name,
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Copy Review',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
+                    }
+                } else if (strtotime($copyreview_start_due) < strtotime($today)) {
+                    // sending 'over due' email => to asset creator and directors (okay)
+                    if (isset($item->asset_author_id)) {
+                        $details = [
+                            'due' => $copyreview_start_due,
+                            'who' => $item->asset_author_name,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy Review',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
 
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
 //                    $cc_list[] = 'jilee2@kissusa.com';
-                    //Send email to director
-                    Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
-                        ->send(new ReminderDueAfter($details));
+                        //Send email to director
+                        Mail::to($item->asset_author_email)
+                            ->cc($cc_list)
+                            ->send(new ReminderDueAfter($details));
 //                    Mail::to('jilee2@kissusa.com')
 //                        ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
 //                        ->send(new ReminderDueAfter($details));
 
+                    }
                 }
             }
-        }
 
-        // copy_complete for Creative Director!!! (Creative Assign start)
-        $result_copy_complete = $obj->getCopyCompleteStatus();
-        foreach ($result_copy_complete as $item) {
+            // copy_complete for Creative Director!!! (Creative Assign start)
+            $result_copy_complete = $obj->getCopyCompleteStatus();
+            foreach ($result_copy_complete as $item) {
 
-            $asset_type = $item->asset_type;
-            $creative_assign_start_due = date('Y-m-d');
+                $asset_type = $item->asset_type;
+                $creative_assign_start_due = date('Y-m-d');
 
-            if($asset_type == 'email_blast'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
-            }else if($asset_type == 'social_ad'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
-            }else if($asset_type == 'website_banners'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
-            }else if($asset_type == 'landing_page'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
-            }else if($asset_type == 'misc'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
-            }else if($asset_type == 'programmatic_banners'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-            }else if($asset_type == 'a_content'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
-            }else if($asset_type == 'image_request'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
-            }else if($asset_type == 'roll_over'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
-            }else if($asset_type == 'store_front'){
-                $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
-            }
-
-            if($creative_assign_start_due == $today){
-                // sending 'today is due' email => Hong, Geunho
-                if($item->brand_id == 5){ // If Joah.. => Geunho
-                    $joah_team_leaders = $user_obj->getJoahDirector();
-                    if(isset($joah_team_leaders)) {
-                        foreach ($joah_team_leaders as $joah_team_leader){
-                            $details = [
-                                'due'           => $creative_assign_start_due,
-                                'who'           => $joah_team_leader['first_name'],
-                                'c_id'          => $item->campaign_id,
-                                'a_id'          => $item->asset_id,
-                                'task_name'     => $item->project_name,
-                                'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                'asset_status'  => 'Creative Assign',
-                                'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                            ];
-                            $cc_list = array();
-                            $cc_list[] = 'frank.russo@kissusa.com';
-                            $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                            Mail::to($joah_team_leader['email'])
-//                                ->cc($cc_list)
-                                ->send(new ReminderDueToday($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
-                        }
-                    }
-                }else{ // If NOT Joah.. => Hong Jung
-                    $creative_leaders = $user_obj->getCreativeDirector();
-                    if(isset($creative_leaders)) {
-                        foreach ($creative_leaders as $creative_leader){
-                            $details = [
-                                'due'           => $creative_assign_start_due,
-                                'who'           => $creative_leader['first_name'],
-                                'c_id'          => $item->campaign_id,
-                                'a_id'          => $item->asset_id,
-                                'task_name'     => $item->project_name,
-                                'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                'asset_status'  => 'Creative Assign',
-                                'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                            ];
-                            $cc_list = array();
-                            $cc_list[] = 'frank.russo@kissusa.com';
-                            $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                            Mail::to($creative_leader['email'])
-//                                ->cc($cc_list)
-                                ->send(new ReminderDueToday($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
-                        }
-                    }
+                if ($asset_type == 'email_blast') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
+                } else if ($asset_type == 'social_ad') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
+                } else if ($asset_type == 'website_banners') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+                } else if ($asset_type == 'landing_page') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
+                } else if ($asset_type == 'misc') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
+                } else if ($asset_type == 'programmatic_banners') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
+                } else if ($asset_type == 'image_request') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+                } else if ($asset_type == 'roll_over') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
+                } else if ($asset_type == 'store_front') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
                 }
-            }else if($creative_assign_start_due == $day_after_tomorrow){
-                // sending 'tomorrow is due' email => send to hong, geunho
-                if($item->brand_id == 5){ // If Joah.. => Geunho
-                    $joah_team_leaders = $user_obj->getJoahDirector();
-                    if(isset($joah_team_leaders)) {
-                        foreach ($joah_team_leaders as $joah_team_leader){
-                            $details = [
-                                'due'           => $creative_assign_start_due,
-                                'who'           => $joah_team_leader['first_name'],
-                                'c_id'          => $item->campaign_id,
-                                'a_id'          => $item->asset_id,
-                                'task_name'     => $item->project_name,
-                                'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                'asset_status'  => 'Creative Assign',
-                                'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                            ];
-                            $cc_list = array();
-                            $cc_list[] = 'frank.russo@kissusa.com';
-                            $cc_list[] = 'motuhin@kissusa.com';
+
+                if ($creative_assign_start_due == $today) {
+                    // sending 'today is due' email => Hong, Geunho
+                    if ($item->brand_id == 5) { // If Joah.. => Geunho
+                        $joah_team_leaders = $user_obj->getJoahDirector();
+                        if (isset($joah_team_leaders)) {
+                            foreach ($joah_team_leaders as $joah_team_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $joah_team_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creative Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                $cc_list = array();
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
 //                            $cc_list[] = 'jilee2@kissusa.com';
-                            Mail::to($joah_team_leader['email'])
+                                Mail::to($joah_team_leader['email'])
 //                                ->cc($cc_list)
-                                ->send(new ReminderDueBefore($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                                    ->send(new ReminderDueToday($details));
+//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                            }
+                        }
+                    } else { // If NOT Joah.. => Hong Jung
+                        $creative_leaders = $user_obj->getCreativeDirector();
+                        if (isset($creative_leaders)) {
+                            foreach ($creative_leaders as $creative_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $creative_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creative Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                $cc_list = array();
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
+                                Mail::to($creative_leader['email'])
+//                                ->cc($cc_list)
+                                    ->send(new ReminderDueToday($details));
+//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                            }
                         }
                     }
-                }else{ // If NOT Joah.. => Hong Jung
-                    $creative_leaders = $user_obj->getCreativeDirector();
-                    if(isset($creative_leaders)) {
-                        foreach ($creative_leaders as $creative_leader){
-                            $details = [
-                                'due'           => $creative_assign_start_due,
-                                'who'           => $creative_leader['first_name'],
-                                'c_id'          => $item->campaign_id,
-                                'a_id'          => $item->asset_id,
-                                'task_name'     => $item->project_name,
-                                'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                'asset_status'  => 'Creative Assign',
-                                'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                            ];
-                            $cc_list = array();
-                            $cc_list[] = 'frank.russo@kissusa.com';
-                            $cc_list[] = 'motuhin@kissusa.com';
+                } else if ($creative_assign_start_due == $day_after_tomorrow) {
+                    // sending 'tomorrow is due' email => send to hong, geunho
+                    if ($item->brand_id == 5) { // If Joah.. => Geunho
+                        $joah_team_leaders = $user_obj->getJoahDirector();
+                        if (isset($joah_team_leaders)) {
+                            foreach ($joah_team_leaders as $joah_team_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $joah_team_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creative Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                $cc_list = array();
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
 //                            $cc_list[] = 'jilee2@kissusa.com';
-                            Mail::to($creative_leader['email'])
+                                Mail::to($joah_team_leader['email'])
 //                                ->cc($cc_list)
-                                ->send(new ReminderDueBefore($details));
+                                    ->send(new ReminderDueBefore($details));
 //                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                            }
+                        }
+                    } else { // If NOT Joah.. => Hong Jung
+                        $creative_leaders = $user_obj->getCreativeDirector();
+                        if (isset($creative_leaders)) {
+                            foreach ($creative_leaders as $creative_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $creative_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creative Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                $cc_list = array();
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
+//                            $cc_list[] = 'jilee2@kissusa.com';
+                                Mail::to($creative_leader['email'])
+//                                ->cc($cc_list)
+                                    ->send(new ReminderDueBefore($details));
+//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                            }
                         }
                     }
-                }
-            }else if(strtotime($creative_assign_start_due) < strtotime($today)){
-                // sending 'past due date' if late, email to => hong, geunho and Flori, Haejin (their directors)
-                if($item->brand_id == 5){ // If Joah.. => Geunho
-                    $joah_team_leaders = $user_obj->getJoahDirector();
-                    if(isset($joah_team_leaders)) {
-                        foreach ($joah_team_leaders as $joah_team_leader){
-                            $details = [
-                                'due'           => $creative_assign_start_due,
-                                'who'           => $joah_team_leader['first_name'],
-                                'c_id'          => $item->campaign_id,
-                                'a_id'          => $item->asset_id,
-                                'task_name'     => $item->project_name,
-                                'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                'asset_status'  => 'Creative Assign',
-                                'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                            ];
-                            // Send to director Haejin
-                            $cc_list = array();
-                            $cc_list[] = 'haejin.chang@kissusa.com';
-                            $cc_list[] = 'frank.russo@kissusa.com';
-                            $cc_list[] = 'motuhin@kissusa.com';
+                } else if (strtotime($creative_assign_start_due) < strtotime($today)) {
+                    // sending 'past due date' if late, email to => hong, geunho and Flori, Haejin (their directors)
+                    if ($item->brand_id == 5) { // If Joah.. => Geunho
+                        $joah_team_leaders = $user_obj->getJoahDirector();
+                        if (isset($joah_team_leaders)) {
+                            foreach ($joah_team_leaders as $joah_team_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $joah_team_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creative Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                // Send to director Haejin
+                                $cc_list = array();
+                                $cc_list[] = 'haejin.chang@kissusa.com';
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
 //                            $cc_list[] = 'jilee2@kissusa.com';
-                            Mail::to($joah_team_leader['email'])
-                                ->cc($cc_list)
-                                ->send(new ReminderDueAfter($details));
+                                Mail::to($joah_team_leader['email'])
+                                    ->cc($cc_list)
+                                    ->send(new ReminderDueAfter($details));
 
 //                            Mail::to('jilee2@kissusa.com')
 //                                ->cc('jinsunglee.8033@gmail.com','33.jinsunglee@gmail.com')
 //                                ->send(new ReminderDueAfter($details));
 
+                            }
                         }
-                    }
-                }else{ // If NOT Joah.. => Hong Jung
-                    $creative_leaders = $user_obj->getCreativeDirector();
-                    if(isset($creative_leaders)) {
-                        foreach ($creative_leaders as $creative_leader){
-                            $details = [
-                                'due'           => $creative_assign_start_due,
-                                'who'           => $creative_leader['first_name'],
-                                'c_id'          => $item->campaign_id,
-                                'a_id'          => $item->asset_id,
-                                'task_name'     => $item->project_name,
-                                'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                'asset_status'  => 'Creative Assign',
-                                'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                            ];
-                            // Send to director Flori
-                            $cc_list = array();
-                            $cc_list[] = 'flori.ohm@kissusa.com';
-                            $cc_list[] = 'frank.russo@kissusa.com';
-                            $cc_list[] = 'motuhin@kissusa.com';
+                    } else { // If NOT Joah.. => Hong Jung
+                        $creative_leaders = $user_obj->getCreativeDirector();
+                        if (isset($creative_leaders)) {
+                            foreach ($creative_leaders as $creative_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $creative_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creative Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                // Send to director Flori
+                                $cc_list = array();
+                                $cc_list[] = 'flori.ohm@kissusa.com';
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
 //                            $cc_list[] = 'jilee2@kissusa.com';
-                            Mail::to($creative_leader['email'])
-                                ->cc($cc_list)
-                                ->send(new ReminderDueAfter($details));
+                                Mail::to($creative_leader['email'])
+                                    ->cc($cc_list)
+                                    ->send(new ReminderDueAfter($details));
 
 //                            Mail::to('jilee2@kissusa.com')
 //                                ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
 //                                ->send(new ReminderDueAfter($details));
+                            }
+                        }
+                    }
+                }
+
+            }
+
+//         to_do for designer!!! (Creative Work start)
+            $result_to_do = $obj->getToDoStatus();
+            foreach ($result_to_do as $item) {
+
+                $asset_type = $item->asset_type;
+                $creative_work_start_due = date('Y-m-d');
+
+                if ($asset_type == 'email_blast') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
+                } else if ($asset_type == 'social_ad') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
+                } else if ($asset_type == 'website_banners') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
+                } else if ($asset_type == 'landing_page') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+                } else if ($asset_type == 'misc') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
+                } else if ($asset_type == 'programmatic_banners') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+                } else if ($asset_type == 'image_request') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+                } else if ($asset_type == 'roll_over') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+                } else if ($asset_type == 'store_front') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+                }
+
+                if ($creative_work_start_due == $today) {
+                    // sending 'today is due' email => send to designer
+                    $designer = $user_obj->getDesignerByFirstName($item->assignee);
+                    if (isset($designer[0])) {
+                        $details = [
+                            'due' => $creative_work_start_due,
+                            'who' => $item->assignee,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Creative Work',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
+                        Mail::to($designer[0]->email)
+//                        ->cc($cc_list)
+                            ->send(new ReminderDueToday($details));
+//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                    }
+
+                } else if ($creative_work_start_due == $day_after_tomorrow) {
+                    // sending 'tomorrow is due' email => send to designer
+                    $designer = $user_obj->getDesignerByFirstName($item->assignee);
+                    if (isset($designer[0])) {
+                        $details = [
+                            'due' => $creative_work_start_due,
+                            'who' => $item->assignee,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Creative Work',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
+                        Mail::to($designer[0]->email)
+//                        ->cc($cc_list)
+                            ->send(new ReminderDueBefore($details));
+//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                    }
+
+                } else if (strtotime($creative_work_start_due) < strtotime($today)) {
+                    // sending 'past due date' if late, email to => Hong, Geunho
+                    $designer = $user_obj->getDesignerByFirstName($item->assignee);
+                    if (isset($designer[0])) {
+                        $details = [
+                            'due' => $creative_work_start_due,
+                            'who' => $item->assignee,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Creative Work',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Send to leader .. Hong, Geunho-joah
+                        if ($item->brand_id == 5) { // if joah, Geunho
+                            $cc_list = array();
+                            $cc_list[] = 'geunho.kang@kissusa.com';
+                            $cc_list[] = 'frank.russo@kissusa.com';
+                            $cc_list[] = 'motuhin@kissusa.com';
+//                        $cc_list[] = 'jilee2@kissusa.com';
+                            Mail::to($designer[0]->email)
+                                ->cc($cc_list)
+                                ->send(new ReminderDueAfter($details));
+
+//                        Mail::to('jilee2@kissusa.com')
+//                            ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
+//                            ->send(new ReminderDueAfter($details));
+                        } else { // others, Hong
+                            $cc_list = array();
+                            $cc_list[] = 'hojung@kissusa.com';
+                            $cc_list[] = 'frank.russo@kissusa.com';
+                            $cc_list[] = 'motuhin@kissusa.com';
+//                        $cc_list[] = 'jilee2@kissusa.com';
+                            Mail::to($designer[0]->email)
+                                ->cc($cc_list)
+                                ->send(new ReminderDueAfter($details));
+//                        Mail::to('jilee2@kissusa.com')
+//                            ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
+//                            ->send(new ReminderDueAfter($details));
+
                         }
                     }
                 }
             }
 
-        }
+            // waiting_approval (creative review) for asset creator!!! (Final Review start)
+            $result_done = $obj->getDoneStatus();
+            foreach ($result_done as $item) {
 
-//         to_do for designer!!! (Creative Work start)
-        $result_to_do = $obj->getToDoStatus();
-        foreach ($result_to_do as $item) {
+                $asset_type = $item->asset_type;
+                $final_review_start_due = date('Y-m-d');
 
-            $asset_type = $item->asset_type;
-            $creative_work_start_due = date('Y-m-d');
+                if ($asset_type == 'email_blast') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+                } else if ($asset_type == 'social_ad') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+                } else if ($asset_type == 'website_banners') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+                } else if ($asset_type == 'landing_page') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
+                } else if ($asset_type == 'misc') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+                } else if ($asset_type == 'programmatic_banners') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+                } else if ($asset_type == 'image_request') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
+                } else if ($asset_type == 'roll_over') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+                } else if ($asset_type == 'store_front') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+                }
 
-            if($asset_type == 'email_blast'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
-            }else if($asset_type == 'social_ad'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
-            }else if($asset_type == 'website_banners'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
-            }else if($asset_type == 'landing_page'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
-            }else if($asset_type == 'misc'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
-            }else if($asset_type == 'programmatic_banners'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
-            }else if($asset_type == 'a_content'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
-            }else if($asset_type == 'image_request'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
-            }else if($asset_type == 'roll_over'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-            }else if($asset_type == 'store_front'){
-                $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
-            }
-
-            if($creative_work_start_due == $today){
-                // sending 'today is due' email => send to designer
-                $designer = $user_obj->getDesignerByFirstName($item->assignee);
-                if(isset($designer[0])) {
-                    $details = [
-                        'due'           => $creative_work_start_due,
-                        'who'           => $item->assignee,
-                        'c_id'          => $item->campaign_id,
-                        'a_id'          => $item->asset_id,
-                        'task_name'     => $item->project_name,
-                        'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status'  => 'Creative Work',
-                        'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                    ];
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
+                if ($final_review_start_due == $today) {
+                    // sending 'today is due' email => asset creator
+                    if (isset($item->asset_author_id)) {
+                        $details = [
+                            'due' => $final_review_start_due,
+                            'who' => $item->asset_author_name,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Final Review',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Eamil to asset creator!
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
 //                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($designer[0]->email)
+                        Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
-                        ->send(new ReminderDueToday($details));
+                            ->send(new ReminderDueToday($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
-                }
+                    }
 
-            }else if($creative_work_start_due == $day_after_tomorrow){
-                // sending 'tomorrow is due' email => send to designer
-                $designer = $user_obj->getDesignerByFirstName($item->assignee);
-                if(isset($designer[0])) {
-                    $details = [
-                        'due'           => $creative_work_start_due,
-                        'who'           => $item->assignee,
-                        'c_id'          => $item->campaign_id,
-                        'a_id'          => $item->asset_id,
-                        'task_name'     => $item->project_name,
-                        'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status'  => 'Creative Work',
-                        'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                    ];
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
+
+                } else if ($final_review_start_due == $day_after_tomorrow) {
+                    // sending 'tomorrow is due' email => send to asset creator
+                    if (isset($item->asset_author_id)) {
+                        $details = [
+                            'due' => $final_review_start_due, // tomorrow date!
+                            'who' => $item->asset_author_name,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Final Review',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+                        // Eamil to asset creator
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
 //                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($designer[0]->email)
+                        Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
-                        ->send(new ReminderDueBefore($details));
+                            ->send(new ReminderDueBefore($details));
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
-                }
+                    }
 
-            }else if(strtotime($creative_work_start_due) < strtotime($today)){
-                // sending 'past due date' if late, email to => Hong, Geunho
-                $designer = $user_obj->getDesignerByFirstName($item->assignee);
-                if(isset($designer[0])) {
-                    $details = [
-                        'due'           => $creative_work_start_due,
-                        'who'           => $item->assignee,
-                        'c_id'          => $item->campaign_id,
-                        'a_id'          => $item->asset_id,
-                        'task_name'     => $item->project_name,
-                        'asset_type'    => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status'  => 'Creative Work',
-                        'url'           => '/admin/campaign/'.$item->campaign_id.'/edit#'.$item->asset_id,
-                    ];
-                    // Send to leader .. Hong, Geunho-joah
-                    if($item->brand_id == 5){ // if joah, Geunho
+                } else if (strtotime($final_review_start_due) < strtotime($today)) {
+                    // sending 'past due date' if late, email to => asset creator and directors. same as copy_review
+                    if (isset($item->asset_author_id)) {
+                        $details = [
+                            'due' => $final_review_start_due,
+                            'who' => $item->asset_author_name,
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Final Review',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                        ];
+
                         $cc_list = array();
-                        $cc_list[] = 'geunho.kang@kissusa.com';
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                        $cc_list[] = 'jilee2@kissusa.com';
-                        Mail::to($designer[0]->email)
+//                    $cc_list[] = 'jilee2@kissusa.com';
+                        // Send email to director
+                        Mail::to($item->asset_author_email)
                             ->cc($cc_list)
                             ->send(new ReminderDueAfter($details));
 
-//                        Mail::to('jilee2@kissusa.com')
-//                            ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
-//                            ->send(new ReminderDueAfter($details));
-                    }else{ // others, Hong
-                        $cc_list = array();
-                        $cc_list[] = 'hojung@kissusa.com';
-                        $cc_list[] = 'frank.russo@kissusa.com';
-                        $cc_list[] = 'motuhin@kissusa.com';
-//                        $cc_list[] = 'jilee2@kissusa.com';
-                        Mail::to($designer[0]->email)
-                            ->cc($cc_list)
-                            ->send(new ReminderDueAfter($details));
 //                        Mail::to('jilee2@kissusa.com')
 //                            ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
 //                            ->send(new ReminderDueAfter($details));
 
                     }
-                }
-            }
-        }
-
-        // waiting_approval (creative review) for asset creator!!! (Final Review start)
-        $result_done = $obj->getDoneStatus();
-        foreach ($result_done as $item) {
-
-            $asset_type = $item->asset_type;
-            $final_review_start_due = date('Y-m-d');
-
-            if($asset_type == 'email_blast'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-            }else if($asset_type == 'social_ad'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-            }else if($asset_type == 'website_banners'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
-            }else if($asset_type == 'landing_page'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
-            }else if($asset_type == 'misc'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
-            }else if($asset_type == 'programmatic_banners'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-            }else if($asset_type == 'a_content'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
-            }else if($asset_type == 'image_request'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
-            }else if($asset_type == 'roll_over'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
-            }else if($asset_type == 'store_front'){
-                $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
-            }
-
-            if($final_review_start_due == $today){
-                // sending 'today is due' email => asset creator
-                if(isset($item->asset_author_id)){
-                    $details = [
-                        'due' => $final_review_start_due,
-                        'who' => $item->asset_author_name,
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Final Review',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-                    // Eamil to asset creator!
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($item->asset_author_email)
-//                        ->cc($cc_list)
-                        ->send(new ReminderDueToday($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
-                }
-
-
-            }else if($final_review_start_due == $day_after_tomorrow){
-                // sending 'tomorrow is due' email => send to asset creator
-                if(isset($item->asset_author_id)){
-                    $details = [
-                        'due' => $final_review_start_due, // tomorrow date!
-                        'who' => $item->asset_author_name,
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Final Review',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-                    // Eamil to asset creator
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
-                    Mail::to($item->asset_author_email)
-//                        ->cc($cc_list)
-                        ->send(new ReminderDueBefore($details));
-//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
-                }
-
-            }else if(strtotime($final_review_start_due) < strtotime($today)){
-                // sending 'past due date' if late, email to => asset creator and directors. same as copy_review
-                if(isset($item->asset_author_id)){
-                    $details = [
-                        'due' => $final_review_start_due,
-                        'who' => $item->asset_author_name,
-                        'c_id' => $item->campaign_id,
-                        'a_id' => $item->asset_id,
-                        'task_name' => $item->project_name,
-                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                        'asset_status' => 'Final Review',
-                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                    ];
-
-                    $cc_list = array();
-                    $cc_list[] = 'frank.russo@kissusa.com';
-                    $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
-                    // Send email to director
-                    Mail::to($item->asset_author_email)
-                        ->cc($cc_list)
-                        ->send(new ReminderDueAfter($details));
-
-//                        Mail::to('jilee2@kissusa.com')
-//                            ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
-//                            ->send(new ReminderDueAfter($details));
-
                 }
             }
         }
