@@ -22,6 +22,7 @@ use App\Http\Requests\Admin\UserRequest;
 use App\Mail\MyDemoMail;
 use App\Mail\NewProject;
 use App\Mail\SendMail;
+use App\Models\AssetOwnerAssets;
 use App\Models\CampaignAssetIndex;
 use App\Models\CampaignNotes;
 
@@ -40,6 +41,7 @@ use App\Models\CampaignTypeWebsiteBanners;
 use App\Models\CampaignTypeWebsiteChanges;
 use App\Models\CampaignTypeYoutubeCopy;
 use App\Repositories\Admin\AssetNotificationUserRepository;
+use App\Repositories\Admin\AssetOwnerAssetsRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
 use App\Repositories\Admin\CampaignNotesRepository;
 use App\Repositories\Admin\CampaignRepository;
@@ -96,6 +98,7 @@ class CampaignController extends Controller
     private $campaignTypeAContentRepository;
     private $campaignTypeYoutubeCopyRepository;
     private $campaignAssetIndexRepository;
+    private $assetOwnerAssetsRepository;
     private $assetNotificationUserRepository;
     private $userRepository;
 
@@ -118,6 +121,7 @@ class CampaignController extends Controller
                                 CampaignTypeYoutubeCopyRepository $campaignTypeYoutubeCopyRepository,
                                 CampaignAssetIndexRepository $campaignAssetIndexRepository,
                                 AssetNotificationUserRepository $assetNotificationUserRepository,
+                                AssetOwnerAssetsRepository $assetOwnerAssetsRepository,
                                 UserRepository $userRepository,
                                 PermissionRepository $permissionRepository)
     {
@@ -142,6 +146,7 @@ class CampaignController extends Controller
         $this->campaignTypeYoutubeCopyRepository = $campaignTypeYoutubeCopyRepository;
         $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
         $this->assetNotificationUserRepository = $assetNotificationUserRepository;
+        $this->assetOwnerAssetsRepository = $assetOwnerAssetsRepository;
         $this->userRepository = $userRepository;
         $this->permissionRepository = $permissionRepository;
 
@@ -268,17 +273,6 @@ class CampaignController extends Controller
 
         if ($campaign) {
 
-            $campaign_note = new CampaignNotes();
-            $campaign_note['id'] = $campaign->id;
-            $campaign_note['user_id'] = $params['author_id'];
-            $campaign_note['asset_id'] = NULL;
-            $campaign_note['type'] = 'campaign';
-            $campaign_note['note'] = $params['author_name'] . " Created a new Project";
-
-            $campaign_note['date_created'] = Carbon::now();
-
-            $campaign_note->save();
-
             if($request->file('c_attachment')){
 
                 foreach ($request->file('c_attachment') as $file) {
@@ -325,6 +319,41 @@ class CampaignController extends Controller
             // send notification to Frank and Mo when new project
             $notify = new NotifyController();
             $notify->new_project($campaign);
+
+            // send notifications to asset owners
+            $asset_note = '';
+            if(isset($params['asset_type'])){
+                $asset_type_array = explode(', ', $params['asset_type']);
+                foreach ($asset_type_array as $asset){
+                    $rs = $this->assetOwnerAssetsRepository->getByAssetName($asset);
+                    if(isset($rs)){
+                        foreach ($rs as $raw){
+                            $brand_name_obj = $this->campaignBrandsRepository->getBrandNameById($params['campaign_brand']);
+                            $brand_name = $brand_name_obj[0]['field_name'];
+                            $user_id = $raw->$brand_name;
+                            $asset_name = $raw->asset_name;
+                            $asset_owner_user_obj = $this->userRepository->findById($user_id);
+                            if(isset($asset_owner_user_obj)){
+                                $notify->new_project_asset_owners($asset_owner_user_obj, $campaign, $asset_name);
+                                $asset_owner_first_name = $asset_owner_user_obj['first_name'];
+                                $asset_note .= "<p>$asset_owner_first_name - Please create <b>$asset_name</b></p>";
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Correspondence
+            $campaign_note = new CampaignNotes();
+            $campaign_note['id'] = $campaign->id;
+            $campaign_note['user_id'] = $params['author_id'];
+            $campaign_note['asset_id'] = NULL;
+            $campaign_note['type'] = 'campaign';
+            $campaign_note['note'] = $params['author_name'] . " Created a new Project";
+            $campaign_note['note'] .= $asset_note;
+            $campaign_note['date_created'] = Carbon::now();
+
+            $campaign_note->save();
 
             return redirect('admin/campaign')
                 ->with('success', __('New Project has been created. ID : ' . $campaign->id));

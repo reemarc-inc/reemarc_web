@@ -31,16 +31,28 @@ class SendMail extends Mailable
     {
         $details = [
             'due'           => '10-28-2022',
-            'who'           => 'Wendy',
+            'who'           => 'Rory',
+            'creator'       => 'Trang',
+            'team'          => 'Creative',
             'c_id'          => '1229',
             'a_id'          => '3993',
-            'task_name'     => 'imPRESS | E-Comm | Saving Bundle: Decorated Nails',
-            'asset_type'    => 'email_blast',
+            'task_name'     => 'imPRESS | Memorial Day | 2023',
+            'asset_type'    => ucwords(str_replace('_', ' ', 'email_blast')),
             'asset_status'  => 'copy_request',
             'url' => '/admin/campaign/1229/edit#3993'
         ];
 
-        return $this->markdown('emails.due.due_date_after')->with('details', $details);
+        $details = [
+            'who'       => 'Rory',
+            'creator'   => 'Trang',
+            'c_id'      => 1645,
+            'task_name' => 'imPRESS Falsies FAQ + Hacks Organic Videos',
+            'asset_type'=> ucwords(str_replace('_', ' ', 'email_blast')),
+            'url'       => '/admin/campaign/' . 1645 . '/edit',
+
+        ];
+
+        return $this->markdown('emails.new_project_asset_owner')->with('details', $details);
     }
 
     public function email_send()

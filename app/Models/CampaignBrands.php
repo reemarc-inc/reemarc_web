@@ -16,6 +16,7 @@ class CampaignBrands extends Model
     protected $fillable = [
         'id',
         'campaign_name',
+        'field_name',
         'color',
         'logo_path',
     ];
