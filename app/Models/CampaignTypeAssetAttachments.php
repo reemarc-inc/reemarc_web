@@ -39,6 +39,7 @@ class CampaignTypeAssetAttachments extends Model
         return $this->belongsTo(User::class, 'author_id', 'id');
     }
 
+
 //    protected $primaryKey = 'attachment_id';
 //    protected $keyType = 'int';
 //    public $incrementing = true;

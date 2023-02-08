@@ -701,13 +701,16 @@ class CampaignController extends Controller
                 $change_line = "<p>$user->first_name removed a attachment ($file_type) on campaign</p>";
                 $campaign_note['type'] = 'campaign';
             }
-            $campaign_note = new CampaignNotes();
-            $campaign_note['id'] = $campaign_id;
-            $campaign_note['user_id'] = $user->id;
-            $campaign_note['asset_id'] = $asset_id;
-            $campaign_note['note'] = $change_line;
-            $campaign_note['date_created'] = Carbon::now();
-            $campaign_note->save();
+
+            if ($campaignTypeAssetAttachment->type != 'qr_code') {
+                $campaign_note = new CampaignNotes();
+                $campaign_note['id'] = $campaign_id;
+                $campaign_note['user_id'] = $user->id;
+                $campaign_note['asset_id'] = $asset_id;
+                $campaign_note['note'] = $change_line;
+                $campaign_note['date_created'] = Carbon::now();
+                $campaign_note->save();
+            }
             echo 'success';
         }else{
             echo 'fail';

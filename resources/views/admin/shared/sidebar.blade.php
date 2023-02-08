@@ -12,6 +12,14 @@
 
         <li class="{{ ($currentAdminMenu == 'dashboard') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/dashboard') }}"><i class="fas fa-fire"></i> <span>Dashboard</span></a></li>
 
+        <?php if(auth()->user()->role == 'admin'){ ?>
+        <li class="menu-header">Form Request</li>
+        <li class="{{ ($currentAdminMenu == 'qr_code') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/create_qr_code') }}"><i class="fas fa-qrcode"></i> <span>QR Code</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'index_qr_code') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/index_qr_code') }}"><i class="fas fa-qrcode"></i> <span>QR Code Management</span></a></li>
+{{--        <li class="{{ ($currentAdminMenu == 'coupon_code') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/campaign') }}"><i class="fas fa-shopping-bag"></i> <span>Coupon Code</span></a></li>--}}
+{{--        <li class="{{ ($currentAdminMenu == 'analytic_report') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/campaign') }}"><i class="fas fa-server"></i> <span>Analytic Report</span></a></li>--}}
+        <?php } ?>
+
         <li class="menu-header">Projects</li>
         <li class="{{ ($currentAdminMenu == 'campaign') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/campaign') }}"><i class="fas fa-calendar"></i> <span>Project Manager</span></a></li>
         <li class="{{ ($currentAdminMenu == 'archives') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/archives') }}"><i class="fas fa-archive"></i> <span>Project Archives</span></a></li>
