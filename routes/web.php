@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
+use App\Http\Controllers\Admin\FormController as AdminForm;
 use App\Http\Controllers\Admin\AssetOwnerController as AdminAssetOwner;
 use App\Http\Controllers\Admin\SettingController as AdminSetting;
 use App\Http\Controllers\HomeController as HomeController;
@@ -58,6 +59,14 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('users', AdminUser::class);
     Route::resource('brands', AdminBrand::class);
     Route::resource('asset_owners', AdminAssetOwner::class);
+//    Route::resource('form', AdminForm::class);
+
+    Route::get('create_qr_code', [AdminForm::class, 'create_qr_code'])->name('form.create_qr_code');
+    Route::get('index_qr_code', [AdminForm::class, 'index_qr_code'])->name('form.index_qr_code');
+    Route::get('edit_qr_code/{id}', [AdminForm::class, 'edit_qr_code'])->name('form.edit_qr_code');
+    Route::post('update_qr_code/{id}', [AdminForm::class, 'update_qr_code'])->name('form.update_qr_code');
+
+    Route::post('store_qr_code', [AdminForm::class, 'store_qr_code'])->name('form.store_qr_code');
 
     Route::get('settings/remove/{id}', [AdminSetting::class, 'remove'])->name('settings.update');
 

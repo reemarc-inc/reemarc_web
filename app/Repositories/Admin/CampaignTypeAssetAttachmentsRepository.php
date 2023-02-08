@@ -35,6 +35,18 @@ class CampaignTypeAssetAttachmentsRepository implements CampaignTypeAssetAttachm
         return $campaignTypeAssetAttachments->where('asset_id', $asset_id)->orderBy('attachment', 'desc')->get();
     }
 
+    public function findAllQrCode()
+    {
+        $campaignTypeAssetAttachments = new CampaignTypeAssetAttachments();
+        return $campaignTypeAssetAttachments->where('type', 'qr_code')->orderBy('created_at', 'desc')->get();
+    }
+
+    public function findQrCodeById($qr_code_id)
+    {
+        $campaignTypeAssetAttachments = new CampaignTypeAssetAttachments();
+        return $campaignTypeAssetAttachments->where('type', 'qr_code')->where('id', $qr_code_id)->orderBy('attachment', 'desc')->get();
+    }
+
     public function findById($id)
     {
         return campaignTypeAssetAttachments::findOrFail($id);
