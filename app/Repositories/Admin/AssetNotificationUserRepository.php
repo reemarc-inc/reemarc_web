@@ -149,6 +149,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     due,
                     ci.name as project_name,
                     cai.status,
+                    cai.team_to,
                     cb.campaign_name as brand_name,
                     cb.id as brand_id
             from

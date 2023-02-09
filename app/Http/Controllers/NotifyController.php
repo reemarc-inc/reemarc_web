@@ -551,6 +551,8 @@ class NotifyController extends Controller
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
                 } else if ($asset_type == 'a_content') {
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-34 weekday'));
+                } else if ($asset_type == 'youtube_copy') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
                 }
 
                 if ($copywriter_start_due == $today) {
@@ -657,6 +659,8 @@ class NotifyController extends Controller
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
                 } else if ($asset_type == 'a_content') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-32 weekday'));
+                } else if ($asset_type == 'youtube_copy') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
                 }
 
                 if ($copyreview_start_due == $today) {
@@ -735,11 +739,12 @@ class NotifyController extends Controller
                 }
             }
 
-            // copy_complete for Creative Director!!! (Creative Assign start)
+            // copy_complete for Creative Director!!! (Creator Assign start)
             $result_copy_complete = $obj->getCopyCompleteStatus();
             foreach ($result_copy_complete as $item) {
 
                 $asset_type = $item->asset_type;
+                $team_to = $item->team_to;
                 $creative_assign_start_due = date('Y-m-d');
 
                 if ($asset_type == 'email_blast') {
@@ -762,172 +767,291 @@ class NotifyController extends Controller
                     $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
                 } else if ($asset_type == 'store_front') {
                     $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
+                } else if ($asset_type == 'youtube_copy') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
                 }
 
                 if ($creative_assign_start_due == $today) {
                     // sending 'today is due' email => Hong, Geunho
-                    if ($item->brand_id == 5) { // If Joah.. => Geunho
-                        $joah_team_leaders = $user_obj->getJoahDirector();
-                        if (isset($joah_team_leaders)) {
-                            foreach ($joah_team_leaders as $joah_team_leader) {
-                                $details = [
-                                    'due' => $creative_assign_start_due,
-                                    'who' => $joah_team_leader['first_name'],
-                                    'c_id' => $item->campaign_id,
-                                    'a_id' => $item->asset_id,
-                                    'task_name' => $item->project_name,
-                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                    'asset_status' => 'Creative Assign',
-                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                                ];
-                                $cc_list = array();
-                                $cc_list[] = 'frank.russo@kissusa.com';
-                                $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                                Mail::to($joah_team_leader['email'])
-//                                ->cc($cc_list)
-                                    ->send(new ReminderDueToday($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                    if($team_to == 'creative') {
+
+                        if ($item->brand_id == 5) { // If Joah.. => Geunho
+                            $joah_team_leaders = $user_obj->getJoahDirector();
+                            if (isset($joah_team_leaders)) {
+                                foreach ($joah_team_leaders as $joah_team_leader) {
+                                    $details = [
+                                        'due' => $creative_assign_start_due,
+                                        'who' => $joah_team_leader['first_name'],
+                                        'c_id' => $item->campaign_id,
+                                        'a_id' => $item->asset_id,
+                                        'task_name' => $item->project_name,
+                                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                        'asset_status' => 'Creator Assign',
+                                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                    ];
+                                    $cc_list = array();
+                                    $cc_list[] = 'frank.russo@kissusa.com';
+                                    $cc_list[] = 'motuhin@kissusa.com';
+                                    Mail::to($joah_team_leader['email'])
+                                        ->send(new ReminderDueToday($details));
+                                }
+                            }
+                        } else { // If NOT Joah.. => Hong Jung
+                            $creative_leaders = $user_obj->getCreativeDirector();
+                            if (isset($creative_leaders)) {
+                                foreach ($creative_leaders as $creative_leader) {
+                                    $details = [
+                                        'due' => $creative_assign_start_due,
+                                        'who' => $creative_leader['first_name'],
+                                        'c_id' => $item->campaign_id,
+                                        'a_id' => $item->asset_id,
+                                        'task_name' => $item->project_name,
+                                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                        'asset_status' => 'Creator Assign',
+                                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                    ];
+                                    $cc_list = array();
+                                    $cc_list[] = 'frank.russo@kissusa.com';
+                                    $cc_list[] = 'motuhin@kissusa.com';
+                                    Mail::to($creative_leader['email'])
+                                        ->send(new ReminderDueToday($details));
+                                }
                             }
                         }
-                    } else { // If NOT Joah.. => Hong Jung
-                        $creative_leaders = $user_obj->getCreativeDirector();
-                        if (isset($creative_leaders)) {
-                            foreach ($creative_leaders as $creative_leader) {
+                    } else if ($team_to == 'content') {
+                        $content_leaders = $user_obj->getContentManager();
+                        if (isset($content_leaders)) {
+                            foreach ($content_leaders as $content_leader) {
                                 $details = [
                                     'due' => $creative_assign_start_due,
-                                    'who' => $creative_leader['first_name'],
+                                    'who' => $content_leader['first_name'],
                                     'c_id' => $item->campaign_id,
                                     'a_id' => $item->asset_id,
                                     'task_name' => $item->project_name,
                                     'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                    'asset_status' => 'Creative Assign',
+                                    'asset_status' => 'Creator Assign',
                                     'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                                 ];
                                 $cc_list = array();
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                                Mail::to($creative_leader['email'])
-//                                ->cc($cc_list)
+                                Mail::to($content_leader['email'])
                                     ->send(new ReminderDueToday($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                            }
+                        }
+                    } else if ($team_to == 'web production') {
+                        $web_leaders = $user_obj->getWebProductionManager();
+                        if (isset($web_leaders)) {
+                            foreach ($web_leaders as $web_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $web_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creator Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                $cc_list = array();
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
+                                Mail::to($web_leader['email'])
+                                    ->send(new ReminderDueToday($details));
                             }
                         }
                     }
                 } else if ($creative_assign_start_due == $day_after_tomorrow) {
-                    // sending 'tomorrow is due' email => send to hong, geunho
-                    if ($item->brand_id == 5) { // If Joah.. => Geunho
-                        $joah_team_leaders = $user_obj->getJoahDirector();
-                        if (isset($joah_team_leaders)) {
-                            foreach ($joah_team_leaders as $joah_team_leader) {
-                                $details = [
-                                    'due' => $creative_assign_start_due,
-                                    'who' => $joah_team_leader['first_name'],
-                                    'c_id' => $item->campaign_id,
-                                    'a_id' => $item->asset_id,
-                                    'task_name' => $item->project_name,
-                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                    'asset_status' => 'Creative Assign',
-                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                                ];
-                                $cc_list = array();
-                                $cc_list[] = 'frank.russo@kissusa.com';
-                                $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                                Mail::to($joah_team_leader['email'])
-//                                ->cc($cc_list)
-                                    ->send(new ReminderDueBefore($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                    if($team_to == 'creative') {
+                        // sending 'tomorrow is due' email => send to hong, geunho
+                        if ($item->brand_id == 5) { // If Joah.. => Geunho
+                            $joah_team_leaders = $user_obj->getJoahDirector();
+                            if (isset($joah_team_leaders)) {
+                                foreach ($joah_team_leaders as $joah_team_leader) {
+                                    $details = [
+                                        'due' => $creative_assign_start_due,
+                                        'who' => $joah_team_leader['first_name'],
+                                        'c_id' => $item->campaign_id,
+                                        'a_id' => $item->asset_id,
+                                        'task_name' => $item->project_name,
+                                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                        'asset_status' => 'Creator Assign',
+                                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                    ];
+                                    $cc_list = array();
+                                    $cc_list[] = 'frank.russo@kissusa.com';
+                                    $cc_list[] = 'motuhin@kissusa.com';
+                                    Mail::to($joah_team_leader['email'])
+                                        ->send(new ReminderDueBefore($details));
+                                }
+                            }
+                        } else { // If NOT Joah.. => Hong Jung
+                            $creative_leaders = $user_obj->getCreativeDirector();
+                            if (isset($creative_leaders)) {
+                                foreach ($creative_leaders as $creative_leader) {
+                                    $details = [
+                                        'due' => $creative_assign_start_due,
+                                        'who' => $creative_leader['first_name'],
+                                        'c_id' => $item->campaign_id,
+                                        'a_id' => $item->asset_id,
+                                        'task_name' => $item->project_name,
+                                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                        'asset_status' => 'Creator Assign',
+                                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                    ];
+                                    $cc_list = array();
+                                    $cc_list[] = 'frank.russo@kissusa.com';
+                                    $cc_list[] = 'motuhin@kissusa.com';
+                                    Mail::to($creative_leader['email'])
+                                        ->send(new ReminderDueBefore($details));
+                                }
                             }
                         }
-                    } else { // If NOT Joah.. => Hong Jung
-                        $creative_leaders = $user_obj->getCreativeDirector();
-                        if (isset($creative_leaders)) {
-                            foreach ($creative_leaders as $creative_leader) {
+                    } else if ($team_to == 'content') {
+                        $content_leaders = $user_obj->getContentManager();
+                        if (isset($content_leaders)) {
+                            foreach ($content_leaders as $content_leader) {
                                 $details = [
                                     'due' => $creative_assign_start_due,
-                                    'who' => $creative_leader['first_name'],
+                                    'who' => $content_leader['first_name'],
                                     'c_id' => $item->campaign_id,
                                     'a_id' => $item->asset_id,
                                     'task_name' => $item->project_name,
                                     'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                    'asset_status' => 'Creative Assign',
+                                    'asset_status' => 'Creator Assign',
                                     'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                                 ];
                                 $cc_list = array();
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                                Mail::to($creative_leader['email'])
-//                                ->cc($cc_list)
+                                Mail::to($content_leader['email'])
                                     ->send(new ReminderDueBefore($details));
-//                            Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                            }
+                        }
+                    } else if ($team_to == 'web production') {
+                        $web_leaders = $user_obj->getWebProductionManager();
+                        if (isset($web_leaders)) {
+                            foreach ($web_leaders as $web_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $web_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creator Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                $cc_list = array();
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
+                                Mail::to($web_leader['email'])
+                                    ->send(new ReminderDueBefore($details));
                             }
                         }
                     }
+
                 } else if (strtotime($creative_assign_start_due) < strtotime($today)) {
-                    // sending 'past due date' if late, email to => hong, geunho and Flori, Haejin (their directors)
-                    if ($item->brand_id == 5) { // If Joah.. => Geunho
-                        $joah_team_leaders = $user_obj->getJoahDirector();
-                        if (isset($joah_team_leaders)) {
-                            foreach ($joah_team_leaders as $joah_team_leader) {
-                                $details = [
-                                    'due' => $creative_assign_start_due,
-                                    'who' => $joah_team_leader['first_name'],
-                                    'c_id' => $item->campaign_id,
-                                    'a_id' => $item->asset_id,
-                                    'task_name' => $item->project_name,
-                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                    'asset_status' => 'Creative Assign',
-                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
-                                ];
-                                // Send to director Haejin
-                                $cc_list = array();
-                                $cc_list[] = 'haejin.chang@kissusa.com';
-                                $cc_list[] = 'frank.russo@kissusa.com';
-                                $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                                Mail::to($joah_team_leader['email'])
-                                    ->cc($cc_list)
-                                    ->send(new ReminderDueAfter($details));
 
-//                            Mail::to('jilee2@kissusa.com')
-//                                ->cc('jinsunglee.8033@gmail.com','33.jinsunglee@gmail.com')
-//                                ->send(new ReminderDueAfter($details));
-
+                    if($team_to == 'creative') {
+                        // sending 'past due date' if late, email to => hong, geunho and Flori, Haejin (their directors)
+                        if ($item->brand_id == 5) { // If Joah.. => Geunho
+                            $joah_team_leaders = $user_obj->getJoahDirector();
+                            if (isset($joah_team_leaders)) {
+                                foreach ($joah_team_leaders as $joah_team_leader) {
+                                    $details = [
+                                        'due' => $creative_assign_start_due,
+                                        'who' => $joah_team_leader['first_name'],
+                                        'c_id' => $item->campaign_id,
+                                        'a_id' => $item->asset_id,
+                                        'task_name' => $item->project_name,
+                                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                        'asset_status' => 'Creator Assign',
+                                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                    ];
+                                    // Send to director Haejin
+                                    $cc_list = array();
+                                    $cc_list[] = 'haejin.chang@kissusa.com';
+                                    $cc_list[] = 'frank.russo@kissusa.com';
+                                    $cc_list[] = 'motuhin@kissusa.com';
+                                    Mail::to($joah_team_leader['email'])
+                                        ->cc($cc_list)
+                                        ->send(new ReminderDueAfter($details));
+                                }
+                            }
+                        } else { // If NOT Joah.. => Hong Jung
+                            $creative_leaders = $user_obj->getCreativeDirector();
+                            if (isset($creative_leaders)) {
+                                foreach ($creative_leaders as $creative_leader) {
+                                    $details = [
+                                        'due' => $creative_assign_start_due,
+                                        'who' => $creative_leader['first_name'],
+                                        'c_id' => $item->campaign_id,
+                                        'a_id' => $item->asset_id,
+                                        'task_name' => $item->project_name,
+                                        'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                        'asset_status' => 'Creator Assign',
+                                        'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                    ];
+                                    // Send to director Flori
+                                    $cc_list = array();
+                                    $cc_list[] = 'flori.ohm@kissusa.com';
+                                    $cc_list[] = 'frank.russo@kissusa.com';
+                                    $cc_list[] = 'motuhin@kissusa.com';
+                                    Mail::to($creative_leader['email'])
+                                        ->cc($cc_list)
+                                        ->send(new ReminderDueAfter($details));
+                                }
                             }
                         }
-                    } else { // If NOT Joah.. => Hong Jung
-                        $creative_leaders = $user_obj->getCreativeDirector();
-                        if (isset($creative_leaders)) {
-                            foreach ($creative_leaders as $creative_leader) {
+                    } else if ($team_to == 'content') {
+                        $content_leaders = $user_obj->getContentManager();
+                        if (isset($content_leaders)) {
+                            foreach ($content_leaders as $content_leader) {
                                 $details = [
                                     'due' => $creative_assign_start_due,
-                                    'who' => $creative_leader['first_name'],
+                                    'who' => $content_leader['first_name'],
                                     'c_id' => $item->campaign_id,
                                     'a_id' => $item->asset_id,
                                     'task_name' => $item->project_name,
                                     'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                                    'asset_status' => 'Creative Assign',
+                                    'asset_status' => 'Creator Assign',
                                     'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                                 ];
                                 // Send to director Flori
                                 $cc_list = array();
-                                $cc_list[] = 'flori.ohm@kissusa.com';
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
-//                            $cc_list[] = 'jilee2@kissusa.com';
-                                Mail::to($creative_leader['email'])
+                                Mail::to($content_leader['email'])
                                     ->cc($cc_list)
                                     ->send(new ReminderDueAfter($details));
-
-//                            Mail::to('jilee2@kissusa.com')
-//                                ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
-//                                ->send(new ReminderDueAfter($details));
+                            }
+                        }
+                    } else if ($team_to == 'web production') {
+                        $web_leaders = $user_obj->getWebProductionManager();
+                        if (isset($web_leaders)) {
+                            foreach ($web_leaders as $web_leader) {
+                                $details = [
+                                    'due' => $creative_assign_start_due,
+                                    'who' => $web_leader['first_name'],
+                                    'c_id' => $item->campaign_id,
+                                    'a_id' => $item->asset_id,
+                                    'task_name' => $item->project_name,
+                                    'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                                    'asset_status' => 'Creator Assign',
+                                    'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                                ];
+                                // Send to director Flori
+                                $cc_list = array();
+                                $cc_list[] = 'frank.russo@kissusa.com';
+                                $cc_list[] = 'motuhin@kissusa.com';
+                                Mail::to($web_leader['email'])
+                                    ->cc($cc_list)
+                                    ->send(new ReminderDueAfter($details));
                             }
                         }
                     }
+
                 }
 
             }
@@ -959,6 +1083,8 @@ class NotifyController extends Controller
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
                 } else if ($asset_type == 'store_front') {
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+                } else if ($asset_type == 'youtube_copy') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
                 }
 
                 if ($creative_work_start_due == $today) {
