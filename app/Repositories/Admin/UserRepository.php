@@ -150,7 +150,10 @@ class UserRepository implements UserRepositoryInterface
     public function getDesignerByFirstName($first_name)
     {
         $users = new User();
-        $users = $users->Where('role', '=', "graphic designer")->Where('first_name', '=', "$first_name");
+        $users = $users->Where('role', '=', "graphic designer")
+            ->orWhere('role', '=', 'content creator')
+            ->orWhere('role', '=', 'web production')
+            ->Where('first_name', '=', "$first_name");
         return $users->get();
     }
 
