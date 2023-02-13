@@ -31,6 +31,15 @@
     </div>
 
     <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
+    </div>
+
+    <div class="form-group">
         <label>Main Subject Line: <span class="req" title="Required">*</span></label>
         <input required type="text" name="{{ $asset_type }}_main_subject_line" id="{{ $asset_type }}_main_subject_line" class="form-control" value=""/>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
@@ -45,14 +54,14 @@
     </div>
 
     <div class="form-group">
-        <label>Remail Subject Line:</label>
+        <label>Email Subject Line:</label>
         <input type="text" name="{{ $asset_type }}_alt_subject_line" class="form-control" value=""/>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>
     </div>
 
     <div class="form-group">
-        <label>Remail Preheader Line:</label>
+        <label>Email Preheader Line:</label>
         <input type="text" name="{{ $asset_type }}_alt_preheader_line" class="form-control" value=""/>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>

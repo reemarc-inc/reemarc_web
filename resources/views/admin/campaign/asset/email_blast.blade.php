@@ -90,6 +90,15 @@
     </div>
 
     <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="no_copy_necessary" class="custom-switch-input" <?php echo ($data[0][0]->no_copy_necessary == 'on') ? "checked" : ""; ?>>
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
+    </div>
+
+    <div class="form-group">
         <label>Main Subject Line: <span class="req" title="Required">*</span></label>
         <a href="javascript:void(0)" class="kiss-info-icon" tabindex="-1" title="Use 8 words or less"></a>
         <input required type="text" name="main_subject_line" class="form-control" value="{{ $data[0][0]->main_subject_line }}"/>

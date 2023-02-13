@@ -21,6 +21,7 @@ class CampaignTypeWebsiteBanners extends Model
         'banner_homepage',
         'banner_sidebar',
         'details',
+        'no_copy_necessary',
         'copy',
         'products_featured',
         'click_through_links',

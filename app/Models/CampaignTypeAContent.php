@@ -19,6 +19,8 @@ class CampaignTypeAContent extends Model
         'launch_date',
         'product_line',
         'invision_link',
+        'no_copy_necessary',
+        'note',
         'date_created',
         'asset_id'
     ];

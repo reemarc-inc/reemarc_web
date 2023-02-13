@@ -52,6 +52,15 @@
     </div>
 
     <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
+    </div>
+
+    <div class="form-group">
         <label>Title:</label>
         <textarea class="form-control" id="{{ $asset_type }}_title" name="{{ $asset_type }}_title" rows="5" cols="100"></textarea>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>

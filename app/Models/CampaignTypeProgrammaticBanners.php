@@ -20,6 +20,7 @@ class CampaignTypeProgrammaticBanners extends Model
         'date_to',
         'include_formats',
         'display_dimension',
+        'no_copy_necessary',
         'copy',
         'products_featured',
         'click_through_links',

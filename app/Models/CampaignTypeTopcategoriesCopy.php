@@ -17,6 +17,7 @@ class CampaignTypeTopcategoriesCopy extends Model
         'author_id',
         'type',
         'launch_date',
+        'no_copy_necessary',
         'copy',
         'click_through_links',
         'date_created',

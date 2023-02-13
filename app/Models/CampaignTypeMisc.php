@@ -20,6 +20,7 @@ class CampaignTypeMisc extends Model
         'launch_date',
         'details',
         'products_featured',
+        'no_copy_necessary',
         'copy',
         'developer_url',
         'date_created',
