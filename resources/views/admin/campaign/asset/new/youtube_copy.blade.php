@@ -51,14 +51,14 @@
         <a href="javascript:void(0);" onclick="another_upload($(this))" class="another_upload">[ Upload Another ]</a>
     </div>
 
-    <div class="form-group">
-        <hr>
-        <label style="display: inline-flex; align-items: center;">
-            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">
-            <span class="custom-switch-indicator"></span>
-            <span class="custom-switch-description">No Copy Necessary</span>
-        </label>
-    </div>
+{{--    <div class="form-group">--}}
+{{--        <hr>--}}
+{{--        <label style="display: inline-flex; align-items: center;">--}}
+{{--            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">--}}
+{{--            <span class="custom-switch-indicator"></span>--}}
+{{--            <span class="custom-switch-description">No Copy Necessary</span>--}}
+{{--        </label>--}}
+{{--    </div>--}}
 
     <div class="form-group">
         <label>Title:</label>
