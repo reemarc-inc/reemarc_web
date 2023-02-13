@@ -31,14 +31,14 @@
            value="{{ old($asset_type.'_launch_date', null) }}">
     </div>
 
-    <div class="form-group">
-        <hr>
-        <label style="display: inline-flex; align-items: center;">
-            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">
-            <span class="custom-switch-indicator"></span>
-            <span class="custom-switch-description">No Copy Necessary</span>
-        </label>
-    </div>
+{{--    <div class="form-group">--}}
+{{--        <hr>--}}
+{{--        <label style="display: inline-flex; align-items: center;">--}}
+{{--            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">--}}
+{{--            <span class="custom-switch-indicator"></span>--}}
+{{--            <span class="custom-switch-description">No Copy Necessary</span>--}}
+{{--        </label>--}}
+{{--    </div>--}}
 
     <div class="form-group">
         <label>Copy: (if applicable)</label>
