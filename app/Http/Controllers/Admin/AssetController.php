@@ -634,7 +634,7 @@ class AssetController extends Controller
     {
         $campaignAssetIndex = $this->campaignAssetIndexRepository->findById($id);
 
-        if($campaignAssetIndex->type == 'topcategories_copy'){ // Top Category Copy should not go to Creative. -> go to Done.
+        if($campaignAssetIndex->type == 'topcategories_copy' || $campaignAssetIndex->type == 'youtube_copy'){ // Top Category Copy should not go to Creative. -> go to Done.
             $this->finalApproval($id);
             return;
         }else{
