@@ -18,6 +18,7 @@ class CampaignTypeLandingPage extends Model
         'type',
         'launch_date',
         'details',
+        'no_copy_necessary',
         'copy',
         'products_featured',
         'landing_url',

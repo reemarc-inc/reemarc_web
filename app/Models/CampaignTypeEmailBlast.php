@@ -17,6 +17,7 @@ class CampaignTypeEmailBlast extends Model
         'author_id',
         'type',
         'concept',
+        'no_copy_necessary',
         'main_subject_line',
         'main_preheader_line',
         'alt_subject_line',

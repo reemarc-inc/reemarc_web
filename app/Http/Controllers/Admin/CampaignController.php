@@ -965,7 +965,12 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['email_blast_c_id'];
         $campaignAssetIndex['type'] = $request['email_blast_asset_type'];
         $campaignAssetIndex['team_to'] = $request['email_blast_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+
+        if(isset($request['email_blast_no_copy_necessary']) && $request['email_blast_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -978,6 +983,7 @@ class CampaignController extends Controller
         $campaignTypeEmailBlast['type'] = $request['email_blast_asset_type'];
         $campaignTypeEmailBlast['concept'] = $request['email_blast_concept'];
         $campaignTypeEmailBlast['main_subject_line'] = $request['email_blast_main_subject_line'];
+        $campaignTypeEmailBlast['no_copy_necessary'] = $request['email_blast_no_copy_necessary'];
         $campaignTypeEmailBlast['main_preheader_line'] = $request['email_blast_main_preheader_line'];
         $campaignTypeEmailBlast['alt_subject_line'] = $request['email_blast_alt_subject_line'];
         $campaignTypeEmailBlast['alt_preheader_line'] = $request['email_blast_alt_preheader_line'];
@@ -1024,8 +1030,10 @@ class CampaignController extends Controller
         // TODO notification
         // Send notification to copywriter(brand check) via email
         // Do action - copy request
-        $notify = new NotifyController();
-        $notify->copy_request($request['email_blast_c_id'], $asset_id);
+        if($campaignAssetIndex['status'] == 'copy_requested') {
+            $notify = new NotifyController();
+            $notify->copy_request($request['email_blast_c_id'], $asset_id);
+        }
         ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['email_blast_c_id'].'/edit')
@@ -1236,7 +1244,11 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['website_banners_c_id'];
         $campaignAssetIndex['type'] = $request['website_banners_asset_type'];
         $campaignAssetIndex['team_to'] = $request['website_banners_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+        if(isset($request['website_banners_no_copy_necessary']) && $request['website_banners_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -1257,6 +1269,7 @@ class CampaignController extends Controller
         $campaignTypeWebsiteBanners['banner'] = $request['website_banners_banner'];
 
         $campaignTypeWebsiteBanners['details'] = $request['website_banners_details'];
+        $campaignTypeWebsiteBanners['no_copy_necessary'] = $request['website_banners_no_copy_necessary'];
         $campaignTypeWebsiteBanners['copy'] = $request['website_banners_copy'];
         $campaignTypeWebsiteBanners['products_featured'] = $request['website_banners_products_featured'];
         $campaignTypeWebsiteBanners['click_through_links'] = $request['website_banners_click_through_links'];
@@ -1289,8 +1302,10 @@ class CampaignController extends Controller
         // TODO notification
         // Send notification to copywriter(brand check) via email
         // Do action - copy request
-        $notify = new NotifyController();
-        $notify->copy_request($request['website_banners_c_id'], $asset_id);
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['website_banners_c_id'], $asset_id);
+        }
         ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['website_banners_c_id'].'/edit')
@@ -1461,7 +1476,11 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['landing_page_c_id'];
         $campaignAssetIndex['type'] = $request['landing_page_asset_type'];
         $campaignAssetIndex['team_to'] = $request['landing_page_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+        if(isset($request['landing_page_no_copy_necessary']) && $request['landing_page_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -1474,6 +1493,7 @@ class CampaignController extends Controller
         $campaignTypeLandingPage['type'] = $request['landing_page_asset_type'];
         $campaignTypeLandingPage['launch_date'] = $request['landing_page_launch_date'];
         $campaignTypeLandingPage['details'] = $request['landing_page_details'];
+        $campaignTypeLandingPage['no_copy_necessary'] = $request['landing_page_no_copy_necessary'];
         $campaignTypeLandingPage['copy'] = $request['landing_page_copy'];
         $campaignTypeLandingPage['products_featured'] = $request['landing_page_products_featured'];
         $campaignTypeLandingPage['landing_url'] = $request['landing_page_landing_url'];
@@ -1506,8 +1526,10 @@ class CampaignController extends Controller
         // TODO notification
         // Send notification to copywriter(brand check) via email
         // Do action - copy request
-        $notify = new NotifyController();
-        $notify->copy_request($request['landing_page_c_id'], $asset_id);
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['landing_page_c_id'], $asset_id);
+        }
         ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['landing_page_c_id'].'/edit')
@@ -1567,7 +1589,11 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['misc_c_id'];
         $campaignAssetIndex['type'] = $request['misc_asset_type'];
         $campaignAssetIndex['team_to'] = $request['misc_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+        if(isset($request['misc_no_copy_necessary']) && $request['misc_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -1582,6 +1608,7 @@ class CampaignController extends Controller
         $campaignTypeMisc['launch_date'] = $request['misc_launch_date'];
         $campaignTypeMisc['details'] = $request['misc_details'];
         $campaignTypeMisc['products_featured'] = $request['misc_products_featured'];
+        $campaignTypeMisc['no_copy_necessary'] = $request['misc_no_copy_necessary'];
         $campaignTypeMisc['copy'] = $request['misc_copy'];
         $campaignTypeMisc['developer_url'] = $request['misc_developer_url'];
         $campaignTypeMisc['date_created'] = Carbon::now();
@@ -1613,8 +1640,10 @@ class CampaignController extends Controller
         // TODO notification
         // Send notification to copywriter(brand check) via email
         // Do action - copy request
-        $notify = new NotifyController();
-        $notify->copy_request($request['misc_c_id'], $asset_id);
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['misc_c_id'], $asset_id);
+        }
         ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['misc_c_id'].'/edit')
@@ -1674,7 +1703,11 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['topcategories_copy_c_id'];
         $campaignAssetIndex['type'] = $request['topcategories_copy_asset_type'];
         $campaignAssetIndex['team_to'] = $request['topcategories_copy_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+        if(isset($request['topcategories_copy_no_copy_necessary']) && $request['topcategories_copy_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -1686,6 +1719,7 @@ class CampaignController extends Controller
         $campaignTypeTopcategoriesCopy['author_id'] = $request['topcategories_copy_author_id'];
         $campaignTypeTopcategoriesCopy['type'] = $request['topcategories_copy_asset_type'];
         $campaignTypeTopcategoriesCopy['launch_date'] = $request['topcategories_copy_launch_date'];
+        $campaignTypeTopcategoriesCopy['no_copy_necessary'] = $request['topcategories_copy_no_copy_necessary'];
         $campaignTypeTopcategoriesCopy['copy'] = $request['topcategories_copy_copy'];
         $campaignTypeTopcategoriesCopy['click_through_links'] = $request['topcategories_copy_click_through_links'];
         $campaignTypeTopcategoriesCopy['date_created'] = Carbon::now();
@@ -1717,8 +1751,10 @@ class CampaignController extends Controller
         // TODO notification
         // Send notification to copywriter(brand check) via email
         // Do action - copy request
-        $notify = new NotifyController();
-        $notify->copy_request($request['topcategories_copy_c_id'], $asset_id);
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['topcategories_copy_c_id'], $asset_id);
+        }
         ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['topcategories_copy_c_id'].'/edit')
@@ -1778,7 +1814,11 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['programmatic_banners_c_id'];
         $campaignAssetIndex['type'] = $request['programmatic_banners_asset_type'];
         $campaignAssetIndex['team_to'] = $request['programmatic_banners_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+        if(isset($request['programmatic_banners_no_copy_necessary']) && $request['programmatic_banners_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -1800,6 +1840,7 @@ class CampaignController extends Controller
         $campaignTypeProgrammaticBanners['include_formats'] = $request['programmatic_banners_include_formats'];
 
         $campaignTypeProgrammaticBanners['display_dimension'] = $request['programmatic_banners_display_dimension'];
+        $campaignTypeProgrammaticBanners['no_copy_necessary'] = $request['programmatic_banners_no_copy_necessary'];
         $campaignTypeProgrammaticBanners['copy'] = $request['programmatic_banners_copy'];
         $campaignTypeProgrammaticBanners['products_featured'] = $request['programmatic_banners_products_featured'];
         $campaignTypeProgrammaticBanners['promo_code'] = $request['programmatic_banners_promo_code'];
@@ -1833,8 +1874,10 @@ class CampaignController extends Controller
         // TODO notification
         // Send notification to copywriter(brand check) via email
         // Do action - copy request
-        $notify = new NotifyController();
-        $notify->copy_request($request['programmatic_banners_c_id'], $asset_id);
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['programmatic_banners_c_id'], $asset_id);
+        }
         ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['programmatic_banners_c_id'].'/edit')
@@ -2191,7 +2234,12 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['a_content_c_id'];
         $campaignAssetIndex['type'] = $request['a_content_asset_type'];
         $campaignAssetIndex['team_to'] = $request['a_content_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+
+        if(isset($request['a_content_no_copy_necessary']) && $request['a_content_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -2205,6 +2253,8 @@ class CampaignController extends Controller
         $campaignTypeAContent['launch_date'] = $request['a_content_launch_date'];
         $campaignTypeAContent['product_line'] = $request['a_content_product_line'];
         $campaignTypeAContent['invision_link'] = $request['a_content_invision_link'];
+        $campaignTypeAContent['no_copy_necessary'] = $request['a_content_no_copy_necessary'];
+        $campaignTypeAContent['note'] = $request['a_content_note'];
         $campaignTypeAContent['date_created'] = Carbon::now();
         $campaignTypeAContent['asset_id'] = $asset_id;
 
@@ -2229,6 +2279,15 @@ class CampaignController extends Controller
                 $campaign_type_asset_attachments->save();
             }
         }
+
+        // TODO notification
+        // Send notification to copywriter(brand check) via email
+        // Do action - copy request
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['a_content_c_id'], $asset_id);
+        }
+        ///////////////////////////////////////////////////////////////
 
         return redirect('admin/campaign/'.$request['a_content_c_id'].'/edit')
             ->with('success', __('Added the A+ Content Asset : ' . $asset_id));
@@ -2286,7 +2345,12 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['youtube_copy_c_id'];
         $campaignAssetIndex['type'] = $request['youtube_copy_asset_type'];
         $campaignAssetIndex['team_to'] = $request['youtube_copy_team_to'];
-        $campaignAssetIndex['status'] = 'copy_requested';
+
+        if(isset($request['youtube_copy_no_copy_necessary']) && $request['youtube_copy_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
         $user = auth()->user(); // asset_author_id
         $campaignAssetIndex['author_id'] = $user->id;
         $campaignAssetIndex->save();
@@ -2300,6 +2364,7 @@ class CampaignController extends Controller
         $campaignTypeYoutubeCopy['launch_date'] = $request['youtube_copy_launch_date'];
         $campaignTypeYoutubeCopy['information'] = $request['youtube_copy_information'];
         $campaignTypeYoutubeCopy['url_preview'] = $request['youtube_copy_url_preview'];
+        $campaignTypeYoutubeCopy['no_copy_necessary'] = $request['youtube_copy_no_copy_necessary'];
         $campaignTypeYoutubeCopy['title'] = $request['youtube_copy_title'];
         $campaignTypeYoutubeCopy['description'] = $request['youtube_copy_description'];
         $campaignTypeYoutubeCopy['tags'] = $request['youtube_copy_tags'];
@@ -2311,8 +2376,8 @@ class CampaignController extends Controller
         // insert note for adding asset
         $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Copy Complete');
 
-        if($request->file('a_content_c_attachment')){
-            foreach ($request->file('a_content_c_attachment') as $file) {
+        if($request->file('youtube_copy_c_attachment')){
+            foreach ($request->file('youtube_copy_c_attachment') as $file) {
                 $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
                 $fileName = $this->file_exist_check($file, $request['youtube_copy_c_id'], $asset_id);
                 $campaign_type_asset_attachments['id'] = $request['youtube_copy_c_id'];
@@ -2326,6 +2391,14 @@ class CampaignController extends Controller
                 $campaign_type_asset_attachments['date_created'] = Carbon::now();
                 $campaign_type_asset_attachments->save();
             }
+        }
+
+        // TODO notification
+        // Send notification to copywriter(brand check) via email
+        // Do action - copy request
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['youtube_copy_c_id'], $asset_id);
         }
 
         return redirect('admin/campaign/'.$request['youtube_copy_c_id'].'/edit')

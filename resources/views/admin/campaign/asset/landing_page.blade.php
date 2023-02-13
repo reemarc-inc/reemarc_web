@@ -130,6 +130,15 @@
     </div>
 
     <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="no_copy_necessary" class="custom-switch-input" <?php echo ($data[0][0]->no_copy_necessary == 'on') ? "checked" : ""; ?>>
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
+    </div>
+
+    <div class="form-group">
         <label>Copy Needed:</label>
         <textarea class="form-control" id="copy" name="copy" rows="5" cols="100"><?php echo $data[0][0]->copy; ?></textarea>
     </div>

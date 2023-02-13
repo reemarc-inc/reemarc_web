@@ -19,6 +19,7 @@ class CampaignTypeYoutubeCopy extends Model
         'launch_date',
         'information',
         'url_preview',
+        'no_copy_necessary',
         'title',
         'description',
         'tags',

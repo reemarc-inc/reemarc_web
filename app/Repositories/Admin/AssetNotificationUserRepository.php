@@ -191,6 +191,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     u.first_name as author_name,
                     cai.status,
                     cai.assignee,
+                    cai.team_to,
                     cb.campaign_name as brand_name,
                     cb.id as brand_id
             from

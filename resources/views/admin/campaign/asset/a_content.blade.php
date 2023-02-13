@@ -135,6 +135,20 @@
         <input type="text" name="invision_link" class="form-control" value="<?php echo $data[0][0]->invision_link; ?>">
     </div>
 
+    <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="no_copy_necessary" class="custom-switch-input" <?php echo ($data[0][0]->no_copy_necessary == 'on') ? "checked" : ""; ?>>
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label>Note</label>
+        {!! Form::textarea('note', !empty($data[0][0]) ? $data[0][0]->note : null, ['class' => 'form-control summernote']) !!}
+    </div>
+
     <?php if (!empty($data[1])): ?>
     <label>Attachments: </label>
     <br/>

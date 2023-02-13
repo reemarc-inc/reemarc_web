@@ -46,6 +46,22 @@
     </div>
 
     <div class="form-group">
+        <hr>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">No Copy Necessary</span>
+        </label>
+    </div>
+
+    <div class="form-group">
+        <label>Note: </label>
+        {!! Form::textarea($asset_type.'_note', null, ['class' => 'form-control summernote']) !!}
+        <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
+        <label style="color: #98a6ad">Request Copy</label>
+    </div>
+    
+    <div class="form-group">
         <label>SKUs / Description (File Attachment):</label>
         <input type="file" data-asset="default" name="{{ $asset_type }}_c_attachment[]" class="form-control c_attachment last_upload" multiple="multiple"/>
         <a href="javascript:void(0);" onclick="another_upload($(this))" class="another_upload">[ Upload Another ]</a>
