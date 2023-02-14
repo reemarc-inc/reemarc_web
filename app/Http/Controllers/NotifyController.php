@@ -1091,10 +1091,13 @@ class NotifyController extends Controller
 
                 if ($item->team_to == 'content') {
                     $assignee_obj = $user_obj->getContentByFirstName($assignee_first_name);
+                    $team_manager = 'miyi@kissusa.com';
                 } else if ($item->team_to == 'web production') {
                     $assignee_obj = $user_obj->getWebByFirstName($assignee_first_name);
+                    $team_manager = 'watalhami@kissusa.com';
                 } else {
                     $assignee_obj = $user_obj->getDesignerByFirstName($assignee_first_name);
+                    $team_manager = 'hojung@kissusa.com';
                 }
 
                 if(isset($assignee_obj[0])) {
@@ -1165,7 +1168,7 @@ class NotifyController extends Controller
 
                             } else { // others, Hong
                                 $cc_list = array();
-                                $cc_list[] = 'hojung@kissusa.com';
+                                $cc_list[] = $team_manager;
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
                                 Mail::to($creator_email)
