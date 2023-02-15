@@ -189,6 +189,19 @@ class CampaignController extends Controller
         return view('admin.campaign.archives', $this->data);
     }
 
+    public function sendArchive($project_id)
+    {
+        $this->campaignRepository->findById($project_id);
+        $param['status'] = 'archived';
+        $param['updated_at'] = Carbon::now();
+
+        if($this->campaignRepository->update($project_id, $param)){
+            echo '/admin/campaign';
+        }else{
+            echo 'fail';
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
