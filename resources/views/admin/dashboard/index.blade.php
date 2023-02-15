@@ -17,10 +17,10 @@
                         </div>
                         <div class="card-wrap">
                             <div class="card-header">
-                                <h4>Project</h4>
+                                <h4>KPM</h4>
                             </div>
                             <div class="card-body">
-                                KPM Project Manager
+                                Project Manager
                             </div>
                         </div>
                     </div>
@@ -39,7 +39,7 @@
                             <h4>Form Request</h4>
                         </div>
                         <div class="card-body">
-                            QR Code
+                            QR Code Form
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                             <h4>Form Request</h4>
                         </div>
                         <div class="card-body">
-                            Coupon Code
+                            Coupon Code Form
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                             <h4>Form Request</h4>
                         </div>
                         <div class="card-body">
-                            Analytic Report
+                            Analytic Report Request Form
                         </div>
                     </div>
                 </div>
