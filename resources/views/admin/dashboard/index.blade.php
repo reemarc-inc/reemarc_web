@@ -94,7 +94,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label style="color: #b91d19; font-size: medium"></label>
+                            <label style="color: #b91d19; font-size: medium">QR Code Form Link - https://app.smartsheet.com/b/form/e0c97cdbdc7b4ecaaebb269ca32e79e1</label>
                         <div class="row">
                             <div class="col-sm-3">
                                 <iframe id="cartoonVideo" width="1080" height="1000" src="https://app.smartsheet.com/b/form/e0c97cdbdc7b4ecaaebb269ca32e79e1" frameborder="0" allowfullscreen></iframe>
@@ -118,7 +118,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label style="color: #b91d19; font-size: medium"></label>
+                        <label style="color: #b91d19; font-size: medium">Coupon Code Form Link - https://app.smartsheet.com/b/form/fc883f81ce8e40d5b58c68c636998f37</label>
                         <div class="row">
                             <div class="col-sm-3">
                                 <iframe id="cartoonVideo" width="1080" height="1000" src="https://app.smartsheet.com/b/form/fc883f81ce8e40d5b58c68c636998f37" frameborder="0" allowfullscreen></iframe>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
-                        <label style="color: #b91d19; font-size: medium"></label>
+                        <label style="color: #b91d19; font-size: medium">Analytic Report Request Form Link - https://app.smartsheet.com/b/form/38e9b1c33c914b14904eebc0f133b33c</label>
                         <div class="row">
                             <div class="col-sm-3">
                                 <iframe id="cartoonVideo" width="1080" height="1000" src="https://app.smartsheet.com/b/form/38e9b1c33c914b14904eebc0f133b33c" frameborder="0" allowfullscreen></iframe>
