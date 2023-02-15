@@ -43,7 +43,6 @@
 
         <div class="section-body">
             <h2 class="section-title">{{ $third }}</h2>
-
             <div class="row">
                 <div class="col-lg-6">
                     @if (empty($campaign))
@@ -57,6 +56,13 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h4>{{ $third }}</h4>
+                                    @if ( ($third == 'Update Project') && (auth()->user()->role == 'admin') )
+
+                                        <div class="text-right">
+                                            <button class="btn btn-primary" id="send_archive" onclick="send_archive_project({{ $campaign->id }})">Send Archive</button>
+                                        </div>
+
+                                    @endif
                                 </div>
                                 <div class="card-body">
                                     @include('admin.shared.flash')
@@ -1126,6 +1132,26 @@
                     box.removeAttr('readonly');
                     box.val('');
                 }
+            }
+        }
+
+        function send_archive_project(project_id){
+
+            if (confirm("Are you sure to Send Archive?") == true) {
+
+                $.ajax({
+                    url: "<?php echo url('/admin/campaign/send_archive'); ?>"+"/"+project_id,
+                    type: "GET",
+                    datatype: "json",
+                    success: function(response) {
+                        if(response != 'fail'){
+                            alert("Success. This Project moved to Archives Folder.")
+                            window.location.reload(response);
+                        }else{
+                            alert('Error!');
+                        }
+                    },
+                })
             }
         }
 

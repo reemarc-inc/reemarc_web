@@ -77,6 +77,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('campaign', AdminCampaign::class);
     Route::get('campaign/archives', [AdminCampaign::class, 'archives'])->name('campaign.archives');
 
+    Route::get('campaign/send_archive/{id}', [AdminCampaign::class, 'sendArchive'])->name('campaign.sendArchive');
+
     Route::get('archives', [AdminArchives::class, 'index'])->name('archives.index');
     Route::resource('archives', AdminArchives::class);
 
