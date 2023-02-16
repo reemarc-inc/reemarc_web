@@ -345,17 +345,18 @@ class CampaignController extends Controller
                             $brand_name = $brand_name_obj[0]['field_name'];
                             $user_id = $raw->$brand_name;
                             $asset_name = $raw->asset_name;
-                            $asset_owner_user_obj = $this->userRepository->findById($user_id);
-                            if(isset($asset_owner_user_obj)){
-                                $notify->new_project_asset_owners($asset_owner_user_obj, $campaign, $asset_name);
-                                $asset_owner_first_name = $asset_owner_user_obj['first_name'];
-                                $asset_note .= "<p>$asset_owner_first_name - Please create <b>$asset_name</b></p>";
+                            if($user_id != "N/A") {
+                                $asset_owner_user_obj = $this->userRepository->findById($user_id);
+                                if (isset($asset_owner_user_obj)) {
+                                    $notify->new_project_asset_owners($asset_owner_user_obj, $campaign, $asset_name);
+                                    $asset_owner_first_name = $asset_owner_user_obj['first_name'];
+                                    $asset_note .= "<p>$asset_owner_first_name - Please create <b>$asset_name</b></p>";
+                                }
                             }
                         }
                     }
                 }
             }
-
             // Correspondence
             $campaign_note = new CampaignNotes();
             $campaign_note['id'] = $campaign->id;
