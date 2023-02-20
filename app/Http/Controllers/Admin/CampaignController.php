@@ -196,6 +196,15 @@ class CampaignController extends Controller
         $param['updated_at'] = Carbon::now();
 
         if($this->campaignRepository->update($project_id, $param)){
+            // Correspondence
+            $campaign_note = new CampaignNotes();
+            $campaign_note['id'] = $project_id;
+            $user = auth()->user();
+            $campaign_note['user_id'] = $user->id;
+            $campaign_note['type'] = 'campaign';
+            $campaign_note['note'] = $user->first_name . " Sent this Project to Archive";
+            $campaign_note['date_created'] = Carbon::now();
+            $campaign_note->save();
             echo '/admin/campaign';
         }else{
             echo 'fail';
