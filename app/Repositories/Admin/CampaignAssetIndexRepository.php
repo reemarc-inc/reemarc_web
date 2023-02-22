@@ -106,6 +106,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -157,6 +159,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -207,6 +211,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
@@ -413,6 +419,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -488,6 +496,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
@@ -615,6 +625,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -690,6 +702,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
@@ -767,6 +781,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -840,6 +856,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
@@ -916,6 +934,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -989,6 +1009,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
@@ -1065,6 +1087,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -1138,6 +1162,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
@@ -1214,6 +1240,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all

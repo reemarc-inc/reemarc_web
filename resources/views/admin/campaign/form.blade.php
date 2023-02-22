@@ -435,6 +435,7 @@
 {{--                                                    <option value="website_changes">Website Changes</option>--}}
                                                     <option value="landing_page">Landing Page</option>
                                                     <option value="misc">Misc</option>
+                                                    <option value="sms_request">SMS Request</option>
                                                     <option value="topcategories_copy">Top Categories Copy</option>
                                                     <option value="programmatic_banners">Programmatic Banners</option>
                                                     <option value="image_request">Image Request</option>
@@ -454,6 +455,9 @@
                                             </div>
                                             <div id="new_misc" style="display: none;">
                                                 @include('admin.campaign.asset.new.misc')
+                                            </div>
+                                            <div id="new_sms_request" style="display: none;">
+                                                @include('admin.campaign.asset.new.sms_request')
                                             </div>
                                             <div id="new_social_ad" style="display: none;">
                                                 @include('admin.campaign.asset.new.social_ad')
@@ -823,6 +827,7 @@
                 $("#new_email_blast").show();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -839,6 +844,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").show();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -855,6 +861,24 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").show();
+                $("#new_sms_request").hide();
+                $("#new_social_ad").hide();
+                $("#new_website_banners").hide();
+                // $("#new_website_changes").hide();
+                $("#new_topcategories_copy").hide();
+                $("#new_programmatic_banners").hide();
+                $("#new_image_request").hide();
+                $("#new_roll_over").hide();
+                $("#new_store_front").hide();
+                $("#new_a_content").hide();
+                $("#new_youtube_copy").hide();
+            }
+            if(add_asset_type == 'sms_request'){
+                $("#asset_type_name").text('SMS Request');
+                $("#new_email_blast").hide();
+                $("#new_landing_page").hide();
+                $("#new_misc").hide();
+                $("#new_sms_request").show();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -871,6 +895,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").show();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -887,6 +912,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").show();
                 // $("#new_website_changes").hide();
@@ -918,6 +944,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -934,6 +961,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -950,6 +978,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -966,6 +995,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -982,6 +1012,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -998,6 +1029,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();
@@ -1014,6 +1046,7 @@
                 $("#new_email_blast").hide();
                 $("#new_landing_page").hide();
                 $("#new_misc").hide();
+                $("#new_sms_request").hide();
                 $("#new_social_ad").hide();
                 $("#new_website_banners").hide();
                 // $("#new_website_changes").hide();

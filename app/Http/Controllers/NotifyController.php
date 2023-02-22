@@ -545,6 +545,8 @@ class NotifyController extends Controller
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
                 } else if ($asset_type == 'misc') {
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                } else if ($asset_type == 'sms_request') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
                 } else if ($asset_type == 'topcategories_copy') {
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
@@ -652,6 +654,8 @@ class NotifyController extends Controller
                 } else if ($asset_type == 'landing_page') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
                 } else if ($asset_type == 'misc') {
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+                } else if ($asset_type == 'sms_request') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
                 } else if ($asset_type == 'topcategories_copy') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
@@ -1073,6 +1077,8 @@ class NotifyController extends Controller
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
                 } else if ($asset_type == 'misc') {
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
+                } else if ($asset_type == 'sms_request') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
                 } else if ($asset_type == 'a_content') {
@@ -1196,6 +1202,8 @@ class NotifyController extends Controller
                 } else if ($asset_type == 'landing_page') {
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
                 } else if ($asset_type == 'misc') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+                } else if ($asset_type == 'sms_request') {
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
