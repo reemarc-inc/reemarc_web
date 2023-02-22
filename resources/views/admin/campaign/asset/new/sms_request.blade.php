@@ -56,10 +56,11 @@
     </div>
 
     <div class="form-group">
-        <label>Note / Copy:</label>
-        {!! Form::textarea($asset_type.'_copy', null, ['class' => 'form-control summernote']) !!}
+        <label>Note / Copy: <b style="color: #b91d19">(160 characters Maximum)</b></label>
+        <textarea class="form-control" name="{{ $asset_type }}_copy" style="height:100px;" onkeyup="new_sms_request_limit(this)"></textarea>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>
+        <p id="new_sms_request_charsLeft"></p>
     </div>
 
     <div class="form-group">
@@ -68,7 +69,7 @@
     </div>
 
     <div class="form-group">
-        <label>Upload Visual References:</label>
+        <label>Upload Visual References: <b style="color: #b91d19">(5mb in size)</b></label>
         <input type="file" data-asset="default" name="{{ $asset_type }}_c_attachment[]" class="form-control c_attachment last_upload" multiple="multiple"/>
         <a href="javascript:void(0);" onclick="another_upload($(this))" class="another_upload">[ Upload Another ]</a>
     </div>
@@ -104,4 +105,17 @@
             },
         });
     });
+
+    var max_chars = 160;
+    // var charsLeftDisplay = document.getElementById("charsLeft");
+
+    function new_sms_request_limit(element) {
+        if (element.value.length > max_chars) {
+            element.value = element.value.slice(0, -1);
+            return false;
+        }
+        var charsLeftDisplay = document.getElementById("new_sms_request_charsLeft");
+        charsLeftDisplay.innerHTML = (max_chars - element.value.length) + " characters left...";
+    }
+
 </script>
