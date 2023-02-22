@@ -43,6 +43,7 @@ use App\Repositories\Admin\CampaignTypeLandingPageRepository;
 use App\Repositories\Admin\CampaignTypeMiscRepository;
 use App\Repositories\Admin\CampaignTypeProgrammaticBannersRepository;
 use App\Repositories\Admin\CampaignTypeRollOverRepository;
+use App\Repositories\Admin\CampaignTypeSmsRequestRepository;
 use App\Repositories\Admin\CampaignTypeSocialAdRepository;
 use App\Repositories\Admin\CampaignTypeStoreFrontRepository;
 use App\Repositories\Admin\CampaignTypeTopcategoriesCopyRepository;
@@ -80,6 +81,7 @@ class AssetController extends Controller
     private $campaignTypeWebsiteChangesRepository;
     private $campaignTypeLandingPageRepository;
     private $campaignTypeMiscRepository;
+    private $campaignTypeSmsRequestRepository;
     private $campaignTypeTopcategoriesCopyRepository;
     private $campaignTypeProgrammaticBannersRepository;
     private $campaignTypeImageRequestRepository;
@@ -101,6 +103,7 @@ class AssetController extends Controller
                                 CampaignTypeWebsiteChangesRepository $campaignTypeWebsiteChangesRepository,
                                 CampaignTypeLandingPageRepository $campaignTypeLandingPageRepository,
                                 CampaignTypeMiscRepository $campaignTypeMiscRepository,
+                                CampaignTypeSmsRequestRepository $campaignTypeSmsRequestRepository,
                                 CampaignTypeTopcategoriesCopyRepository $campaignTypeTopcategoriesCopyRepository,
                                 CampaignTypeProgrammaticBannersRepository $campaignTypeProgrammaticBannersRepository,
                                 CampaignTypeImageRequestRepository $campaignTypeImageRequestRepository,
@@ -125,6 +128,7 @@ class AssetController extends Controller
         $this->campaignTypeWebsiteChangesRepository = $campaignTypeWebsiteChangesRepository;
         $this->campaignTypeLandingPageRepository = $campaignTypeLandingPageRepository;
         $this->campaignTypeMiscRepository = $campaignTypeMiscRepository;
+        $this->campaignTypeSmsRequestRepository = $campaignTypeSmsRequestRepository;
         $this->campaignTypeTopcategoriesCopyRepository = $campaignTypeTopcategoriesCopyRepository;
         $this->campaignTypeProgrammaticBannersRepository = $campaignTypeProgrammaticBannersRepository;
         $this->campaignTypeImageRequestRepository = $campaignTypeImageRequestRepository;

@@ -123,6 +123,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('campaign/add_website_changes', [AdminCampaign::class, 'add_website_changes'])->name('campaign.add_website_changes');
     Route::post('campaign/add_landing_page', [AdminCampaign::class, 'add_landing_page'])->name('campaign.add_landing_page');
     Route::post('campaign/add_misc', [AdminCampaign::class, 'add_misc'])->name('campaign.add_misc');
+    Route::post('campaign/add_sms_request', [AdminCampaign::class, 'add_sms_request'])->name('campaign.add_sms_request');
     Route::post('campaign/add_topcategories_copy', [AdminCampaign::class, 'add_topcategories_copy'])->name('campaign.add_topcategories_copy');
     Route::post('campaign/add_programmatic_banners', [AdminCampaign::class, 'add_programmatic_banners'])->name('campaign.add_programmatic_banners');
     Route::post('campaign/add_image_request', [AdminCampaign::class, 'add_image_request'])->name('campaign.add_image_request');
@@ -137,6 +138,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('campaign/edit_website_changes/{asset_id}', [AdminCampaign::class, 'edit_website_changes'])->name('campaign.edit_website_changes');
     Route::post('campaign/edit_landing_page/{asset_id}', [AdminCampaign::class, 'edit_landing_page'])->name('campaign.edit_landing_page');
     Route::post('campaign/edit_misc/{asset_id}', [AdminCampaign::class, 'edit_misc'])->name('campaign.edit_misc');
+    Route::post('campaign/edit_sms_request/{asset_id}', [AdminCampaign::class, 'edit_sms_request'])->name('campaign.edit_sms_request');
     Route::post('campaign/edit_topcategories_copy/{asset_id}', [AdminCampaign::class, 'edit_topcategories_copy'])->name('campaign.edit_topcategories_copy');
     Route::post('campaign/edit_programmatic_banners/{asset_id}', [AdminCampaign::class, 'edit_programmatic_banners'])->name('campaign.edit_programmatic_banners');
     Route::post('campaign/edit_image_request/{asset_id}', [AdminCampaign::class, 'edit_image_request'])->name('campaign.edit_image_request');

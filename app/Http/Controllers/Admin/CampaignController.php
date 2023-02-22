@@ -12,6 +12,7 @@ use App\Http\Requests\Admin\AssetLandingPageRequest;
 use App\Http\Requests\Admin\AssetMiscRequest;
 use App\Http\Requests\Admin\AssetProgrammaticBannersRequest;
 use App\Http\Requests\Admin\AssetRollOverRequest;
+use App\Http\Requests\Admin\AssetSmsRequestRequest;
 use App\Http\Requests\Admin\AssetSocialAdRequest;
 use App\Http\Requests\Admin\AssetStoreFrontRequest;
 use App\Http\Requests\Admin\AssetTopcategoriesCopyRequest;
@@ -34,6 +35,7 @@ use App\Models\CampaignTypeLandingPage;
 use App\Models\CampaignTypeMisc;
 use App\Models\CampaignTypeProgrammaticBanners;
 use App\Models\CampaignTypeRollOver;
+use App\Models\CampaignTypeSmsRequest;
 use App\Models\CampaignTypeSocialAd;
 use App\Models\CampaignTypeStoreFront;
 use App\Models\CampaignTypeTopcategoriesCopy;
@@ -54,6 +56,7 @@ use App\Repositories\Admin\CampaignTypeLandingPageRepository;
 use App\Repositories\Admin\CampaignTypeMiscRepository;
 use App\Repositories\Admin\CampaignTypeProgrammaticBannersRepository;
 use App\Repositories\Admin\CampaignTypeRollOverRepository;
+use App\Repositories\Admin\CampaignTypeSmsRequestRepository;
 use App\Repositories\Admin\CampaignTypeSocialAdRepository;
 use App\Repositories\Admin\CampaignTypeStoreFrontRepository;
 use App\Repositories\Admin\CampaignTypeTopcategoriesCopyRepository;
@@ -90,6 +93,7 @@ class CampaignController extends Controller
     private $campaignTypeWebsiteChangesRepository;
     private $campaignTypeLandingPageRepository;
     private $campaignTypeMiscRepository;
+    private $campaignTypeSmsRequestRepository;
     private $campaignTypeTopcategoriesCopyRepository;
     private $campaignTypeProgrammaticBannersRepository;
     private $campaignTypeImageRequestRepository;
@@ -112,6 +116,7 @@ class CampaignController extends Controller
                                 CampaignTypeWebsiteChangesRepository $campaignTypeWebsiteChangesRepository,
                                 CampaignTypeLandingPageRepository $campaignTypeLandingPageRepository,
                                 CampaignTypeMiscRepository $campaignTypeMiscRepository,
+                                CampaignTypeSmsRequestRepository $campaignTypeSmsRequestRepository,
                                 CampaignTypeTopcategoriesCopyRepository $campaignTypeTopcategoriesCopyRepository,
                                 CampaignTypeProgrammaticBannersRepository $campaignTypeProgrammaticBannersRepository,
                                 CampaignTypeImageRequestRepository $campaignTypeImageRequestRepository,
@@ -137,6 +142,7 @@ class CampaignController extends Controller
         $this->campaignTypeWebsiteChangesRepository = $campaignTypeWebsiteChangesRepository;
         $this->campaignTypeLandingPageRepository = $campaignTypeLandingPageRepository;
         $this->campaignTypeMiscRepository = $campaignTypeMiscRepository;
+        $this->campaignTypeSmsRequestRepository = $campaignTypeSmsRequestRepository;
         $this->campaignTypeTopcategoriesCopyRepository = $campaignTypeTopcategoriesCopyRepository;
         $this->campaignTypeProgrammaticBannersRepository = $campaignTypeProgrammaticBannersRepository;
         $this->campaignTypeImageRequestRepository = $campaignTypeImageRequestRepository;
@@ -794,6 +800,13 @@ class CampaignController extends Controller
                     return false;
                 }
             }
+        }else if($type == 'sms_request'){
+            $rs = $this->campaignTypeSmsRequestRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
+            }
         }else if($type == 'topcategories_copy'){
             $rs = $this->campaignTypeTopcategoriesCopyRepository->findAllByAssetId($a_id);
             if(!empty($rs[0])) {
@@ -884,6 +897,12 @@ class CampaignController extends Controller
                 }
             }else if($type == 'misc'){
                 if($this->campaignTypeMiscRepository->deleteByAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'sms_request'){
+                if($this->campaignTypeSmsRequestRepository->deleteByAssetId($a_id)){
                     echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
                 }else{
                     echo 'fail';
@@ -1027,7 +1046,7 @@ class CampaignController extends Controller
         $campaignTypeEmailBlast->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         // add campaign_type_asset_attachments
         if($request->file('email_blast_c_attachment')){
@@ -1171,7 +1190,7 @@ class CampaignController extends Controller
         $campaignTypeSocialAd->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('social_ad_c_attachment')){
             foreach ($request->file('social_ad_c_attachment') as $file) {
@@ -1302,7 +1321,7 @@ class CampaignController extends Controller
         $campaignTypeWebsiteBanners->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('website_banners_c_attachment')){
             foreach ($request->file('website_banners_c_attachment') as $file) {
@@ -1415,7 +1434,7 @@ class CampaignController extends Controller
         $campaignTypeWebsiteChanges->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('website_changes_c_attachment')){
             foreach ($request->file('website_changes_c_attachment') as $file) {
@@ -1526,7 +1545,7 @@ class CampaignController extends Controller
         $campaignTypeLandingPage->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('landing_page_c_attachment')){
             foreach ($request->file('landing_page_c_attachment') as $file) {
@@ -1640,7 +1659,7 @@ class CampaignController extends Controller
         $campaignTypeMisc->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('misc_c_attachment')){
             foreach ($request->file('misc_c_attachment') as $file) {
@@ -1718,6 +1737,120 @@ class CampaignController extends Controller
             ->with('error', __('Update Failed'));
     }
 
+    public function add_sms_request(AssetSmsRequestRequest $request){
+
+//        ddd($request);
+
+        $campaignAssetIndex = new CampaignAssetIndex();
+        $campaignAssetIndex['campaign_id'] = $request['sms_request_c_id'];
+        $campaignAssetIndex['type'] = $request['sms_request_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['sms_request_team_to'];
+        if(isset($request['sms_request_no_copy_necessary']) && $request['sms_request_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
+        $campaignAssetIndex->save();
+
+        $asset_id = $campaignAssetIndex->id;
+
+        $campaignTypeSmsRequest = new CampaignTypeSmsRequest();
+        $campaignTypeSmsRequest['title'] = $request['sms_request_title'];
+        $campaignTypeSmsRequest['id'] = $request['sms_request_c_id']; //campaing_id
+        $campaignTypeSmsRequest['author_id'] = $request['sms_request_author_id'];
+        $campaignTypeSmsRequest['type'] = $request['sms_request_asset_type'];
+        $campaignTypeSmsRequest['launch_date'] = $request['sms_request_launch_date'];
+        $campaignTypeSmsRequest['details'] = $request['sms_request_details'];
+        $campaignTypeSmsRequest['products_featured'] = $request['sms_request_products_featured'];
+        $campaignTypeSmsRequest['no_copy_necessary'] = $request['sms_request_no_copy_necessary'];
+        $campaignTypeSmsRequest['copy'] = $request['sms_request_copy'];
+        $campaignTypeSmsRequest['developer_url'] = $request['sms_request_developer_url'];
+        $campaignTypeSmsRequest['date_created'] = Carbon::now();
+        $campaignTypeSmsRequest['asset_id'] = $asset_id;
+
+        $campaignTypeSmsRequest->save();
+
+        // insert note for adding asset
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
+
+        if($request->file('sms_request_c_attachment')){
+            foreach ($request->file('sms_request_c_attachment') as $file) {
+                $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
+//                $fileName = $file->store('campaigns/'.$request['sms_request_c_id'].'/'.$asset_id);
+                $fileName = $this->file_exist_check($file, $request['sms_request_c_id'], $asset_id);
+                $campaign_type_asset_attachments['id'] = $request['sms_request_c_id'];
+                $campaign_type_asset_attachments['asset_id'] = $asset_id;
+                $campaign_type_asset_attachments['type'] = 'attachment_file_' . $file->getMimeType();
+                $campaign_type_asset_attachments['author_id'] = $request['sms_request_author_id'];
+                $campaign_type_asset_attachments['attachment'] = '/' . $fileName;
+                $campaign_type_asset_attachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                $campaign_type_asset_attachments['file_type'] = $file->getMimeType();
+                $campaign_type_asset_attachments['file_size'] = $file->getSize();
+                $campaign_type_asset_attachments['date_created'] = Carbon::now();
+                $campaign_type_asset_attachments->save();
+            }
+        }
+
+        // TODO notification
+        // Send notification to copywriter(brand check) via email
+        // Do action - copy request
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['sms_request_c_id'], $asset_id);
+        }
+        ///////////////////////////////////////////////////////////////
+
+        return redirect('admin/campaign/'.$request['sms_request_c_id'].'/edit')
+            ->with('success', __('Added the SMS Request Asset : ' . $asset_id));
+    }
+
+    public function edit_sms_request(Request $request, $asset_id){
+
+        $sms_request = $this->campaignTypeSmsRequestRepository->findById($asset_id);
+
+        $param = $request->request->all();
+
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $sms_request->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
+        if($this->campaignTypeSmsRequestRepository->update($asset_id, $param)){
+            $user = auth()->user();
+            // insert into campaign note for correspondence
+            $this->add_correspondence('sms_request', $param, $sms_request, $user);
+            if($request->file('c_attachment')){
+                foreach ($request->file('c_attachment') as $file) {
+                    $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
+
+//                    $fileName = $file->store('campaigns/'.$sms_request->id.'/'.$asset_id);
+                    $fileName = $this->file_exist_check($file, $sms_request->id, $asset_id);
+
+                    $campaign_type_asset_attachments['id'] = $sms_request->id;
+                    $campaign_type_asset_attachments['asset_id'] = $asset_id;
+                    $campaign_type_asset_attachments['type'] = 'attachment_file_' . $file->getMimeType();
+                    $campaign_type_asset_attachments['author_id'] = $user->id;
+                    $campaign_type_asset_attachments['attachment'] = '/' . $fileName;
+                    $campaign_type_asset_attachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $campaign_type_asset_attachments['file_type'] = $file->getMimeType();
+                    $campaign_type_asset_attachments['file_size'] = $file->getSize();
+                    $campaign_type_asset_attachments['date_created'] = Carbon::now();
+                    $campaign_type_asset_attachments->save();
+
+                    // insert file attachment on asset correspondence
+                    $this->add_file_correspondence_for_asset($sms_request, $user, $fileName, 'sms_request');
+                }
+            }
+            return redirect('admin/campaign/'.$sms_request->id.'/edit')
+                ->with('success', __('SMS Request ('.$asset_id.') - Update Success'));
+        }
+        return redirect('admin/campaign/'.$sms_request->id.'/edit')
+            ->with('error', __('Update Failed'));
+    }
+
     public function add_topcategories_copy(AssetTopcategoriesCopyRequest $request){
 
 //        ddd($request);
@@ -1751,7 +1884,7 @@ class CampaignController extends Controller
         $campaignTypeTopcategoriesCopy->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('topcategories_copy_c_attachment')){
             foreach ($request->file('topcategories_copy_c_attachment') as $file) {
@@ -1874,7 +2007,7 @@ class CampaignController extends Controller
         $campaignTypeProgrammaticBanners->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Requested Copy');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('programmatic_banners_c_attachment')){
             foreach ($request->file('programmatic_banners_c_attachment') as $file) {
@@ -2578,6 +2711,16 @@ class CampaignController extends Controller
             );
             return $new;
         }else if($asset_type == 'misc'){
+            $new = array(
+                'title' => $data['title'],
+                'launch_date' => $data['launch_date'],
+                'details' => $data['details'],
+                'products_featured' => $data['products_featured'],
+                'copy' => $data['copy'],
+                'developer_url' => $data['developer_url'],
+            );
+            return $new;
+        }else if($asset_type == 'sms_request'){
             $new = array(
                 'title' => $data['title'],
                 'launch_date' => $data['launch_date'],

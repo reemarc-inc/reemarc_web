@@ -95,6 +95,8 @@ class CampaignRepository implements CampaignRepositoryInterface
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_search_ad
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
@@ -191,7 +193,9 @@ class CampaignRepository implements CampaignRepositoryInterface
             select type, launch_date from campaign_type_image_request where id=:id11 union all
             select type, launch_date from campaign_type_roll_over where id=:id12 union all
             select type, launch_date from campaign_type_store_front where id=:id13 union all
-            select type, launch_date from campaign_type_a_content where id=:id14
+            select type, launch_date from campaign_type_a_content where id=:id14 union all
+            select type, launch_date from campaign_type_youtube_copy where id=:id15 union all
+            select type, launch_date from campaign_type_sms_request where id=:id16
             order by due desc', [
             'id1' => $id,
             'id2' => $id,
@@ -206,7 +210,9 @@ class CampaignRepository implements CampaignRepositoryInterface
             'id11' => $id,
             'id12' => $id,
             'id13' => $id,
-            'id14' => $id
+            'id14' => $id,
+            'id15' => $id,
+            'id16' => $id
         ]);
     }
 }
