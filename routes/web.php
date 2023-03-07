@@ -93,7 +93,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('asset_jira_kec', [AdminAsset::class, 'asset_jira_kec'])->name('asset.jira_kec');
     Route::get('asset_jira_copywriter', [AdminAsset::class, 'asset_jira_copywriter'])->name('asset.jira_copywriter');
     Route::get('asset/{a_id}/{c_id}/{a_type}/detail', [AdminAsset::class, 'asset_detail'])->name('asset.detail');
-    Route::get('asset/{a_id}/{c_id}/{a_type}/detail_copy', [AdminAsset::class, 'asset_detail_copy'])->name('asset.detail_copy');
+    Route::get('asset/{a_id}/{c_id}/{a_type}/{brand}/detail_copy', [AdminAsset::class, 'asset_detail_copy'])->name('asset.detail_copy');
 
     Route::post('asset/assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
     Route::post('asset/assign_copy', [AdminAsset::class, 'asset_assign_copy'])->name('asset.assign_copy');
