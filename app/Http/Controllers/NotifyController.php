@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\AssetOwner;
 use App\Mail\AssignToDo;
+use App\Mail\CopyAssignToDo;
 use App\Mail\CopyComplete;
 use App\Mail\CopyRequest;
 use App\Mail\CopyReview;
@@ -49,14 +50,8 @@ class NotifyController extends Controller
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
 
-        $campaign_brand_id = $campaign_rs['campaign_brand'];
-
-        $brand_obj = new CampaignBrandsRepository();
-        $brand = $brand_obj->findById($campaign_brand_id);
-        $brand_name = $brand['campaign_name'];
-
         $user_obj = new UserRepository();
-        $user_rs = $user_obj->getWriterByBrandName($brand_name); // copywriters who has that brand
+        $user_rs = $user_obj->getCopyWriterManager(); // get copy writer manager
 
         if($user_rs) {
             foreach ($user_rs as $user){
@@ -67,7 +62,7 @@ class NotifyController extends Controller
                     'task_name'     => $campaign_rs['name'],
                     'asset_type'    => $asset_type,
                     'asset_status'  => $asset_status,
-                    'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+                    'url'           => '/admin/asset/'.$a_id.'/'.$c_id.'/'.$asset_type.'/detail_copy',
                 ];
 
                 Mail::to($user['email'])->send(new CopyRequest($details));
@@ -263,6 +258,35 @@ class NotifyController extends Controller
             ];
 //            Mail::to($name['email'])->send(new Todo($details));
             Mail::to($name['email'])->send(new AssignToDo($details));
+        }
+    }
+
+    public function copy_to_do($c_id, $a_id, $assignee)
+    {
+        $asset_index_obj = new CampaignAssetIndexRepository();
+        $asset_index_rs = $asset_index_obj->findById($a_id);
+
+        $asset_type = $asset_index_rs['type'];
+        $asset_status = $asset_index_rs['status'];
+
+        $campaign_obj = new CampaignRepository();
+        $campaign_rs = $campaign_obj->findById($c_id);
+
+        $user_obj = new UserRepository();
+        $names = $user_obj->getEmailByCopyWriterName($assignee);
+
+        foreach ($names as $name){
+            $details = [
+                'who'           => $name['first_name'],
+                'c_id'          => $c_id,
+                'a_id'          => $a_id,
+                'task_name'     => $campaign_rs['name'],
+                'asset_type'    => $asset_type,
+                'asset_status'  => $asset_status,
+                'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
+            ];
+//            Mail::to($name['email'])->send(new Todo($details));
+            Mail::to($name['email'])->send(new CopyAssignToDo($details));
         }
     }
 
@@ -528,7 +552,7 @@ class NotifyController extends Controller
             $today = date('Y-m-d');
             $day_after_tomorrow = date('Y-m-d', strtotime($today . '2 day'));
 
-            // copy_request for copy writer!!!
+            // copy_request for copy writer manager!!!
             $result_copy_request = $obj->getCopyRequestStatus();
             foreach ($result_copy_request as $item) {
 
@@ -536,32 +560,32 @@ class NotifyController extends Controller
                 $copywriter_start_due = date('Y-m-d');
 
                 if ($asset_type == 'email_blast') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
                 } else if ($asset_type == 'social_ad') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
                 } else if ($asset_type == 'website_banners') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
-                } else if ($asset_type == 'landing_page') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
-                } else if ($asset_type == 'misc') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-                } else if ($asset_type == 'sms_request') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-                } else if ($asset_type == 'topcategories_copy') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
-                } else if ($asset_type == 'programmatic_banners') {
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+                } else if ($asset_type == 'landing_page') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-39 weekday'));
+                } else if ($asset_type == 'misc') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                } else if ($asset_type == 'sms_request') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                } else if ($asset_type == 'topcategories_copy') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-7 weekday'));
+                } else if ($asset_type == 'programmatic_banners') {
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
                 } else if ($asset_type == 'a_content') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-34 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-36 weekday'));
                 } else if ($asset_type == 'youtube_copy') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
                 }
 
                 if ($copywriter_start_due == $today) {
-                    // sending 'today is due' email => send to copy writers
-                    $brand_name = $item->brand_name;
-                    $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
-                    foreach ($copy_writers as $person) {
+                    // sending 'today is due' email => send to copy writer Manager
+
+                    $copy_writer_managers = $user_obj->getCopyWriterManager(); // get copywriter manager
+                    foreach ($copy_writer_managers as $person) {
                         $details = [
                             'due' => $copywriter_start_due,
                             'who' => $person['first_name'],
@@ -569,8 +593,8 @@ class NotifyController extends Controller
                             'a_id' => $item->asset_id,
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
-                            'asset_status' => 'Copy Request',
-                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                            'asset_status' => 'Copy Requested',
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
                         ];
                         // Email to asset creator!
                         $cc_list = array();
@@ -583,10 +607,10 @@ class NotifyController extends Controller
                     }
 
                 } else if ($copywriter_start_due == $day_after_tomorrow) {
-                    // sending 'tomorrow is due' email => send to copy writers
-                    $brand_name = $item->brand_name;
-                    $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
-                    foreach ($copy_writers as $person) {
+                    // sending 'tomorrow is due' email => send to copy writer manager
+
+                    $copy_writer_managers = $user_obj->getCopyWriterManager(); // get copywriter manager
+                    foreach ($copy_writer_managers as $person) {
                         $details = [
                             'due' => $copywriter_start_due,
                             'who' => $person['first_name'],
@@ -595,7 +619,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy Request',
-                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
                         ];
                         // Email to asset creator!
                         $cc_list = array();
@@ -608,10 +632,9 @@ class NotifyController extends Controller
 //                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
                     }
                 } else if (strtotime($copywriter_start_due) < strtotime($today)) {
-                    // sending 'past due date' email => send to copy writers and directors
-                    $brand_name = $item->brand_name;
-                    $copy_writers = $user_obj->getWriterByBrandName($brand_name); // get copywriters belong to that brand
-                    foreach ($copy_writers as $person) {
+                    // sending 'past due date' email => send to copy writer manager and directors
+                    $copy_writer_managers = $user_obj->getCopyWriterManager();
+                    foreach ($copy_writer_managers as $person) {
                         $details = [
                             'due' => $copywriter_start_due,
                             'who' => $person['first_name'],
@@ -620,7 +643,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy Request',
-                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
                         ];
                         // Email to copy writer! and director Frank and Mo
                         $cc_list = array();
@@ -636,6 +659,116 @@ class NotifyController extends Controller
 
                     }
                 }
+            }
+
+            // for copy writer
+            $result_copy_to_do = $obj->getCopyToDoStatus();
+            foreach ($result_copy_to_do as $item) {
+
+                $asset_type = $item->asset_type;
+                $copy_to_do_start_due = date('Y-m-d');
+
+                if ($asset_type == 'email_blast') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                } else if ($asset_type == 'social_ad') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                } else if ($asset_type == 'website_banners') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                } else if ($asset_type == 'landing_page') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
+                } else if ($asset_type == 'misc') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                } else if ($asset_type == 'sms_request') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                } else if ($asset_type == 'topcategories_copy') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
+                } else if ($asset_type == 'programmatic_banners') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-34 weekday'));
+                } else if ($asset_type == 'youtube_copy') {
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
+                }
+
+                if ($copy_to_do_start_due == $today) {
+                    // sending 'today is due' email => send to copy writer
+
+                    $copy_writer = $user_obj->getCopywriterByFirstName($item->copy_writer); // get copywriter
+                    foreach ($copy_writer as $person) {
+                        $details = [
+                            'due' => $copy_to_do_start_due,
+                            'who' => $person['first_name'],
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy To Do',
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                        ];
+                        // Email to Assigned Copywriter
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
+                        Mail::to($person['email'])
+//                        ->cc($cc_list)
+                            ->send(new ReminderDueToday($details));
+//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueToday($details));
+                    }
+
+                } else if ($copy_to_do_start_due == $day_after_tomorrow) {
+                    // sending 'tomorrow is due' email => send to copy writer manager
+
+                    $copy_writer = $user_obj->getCopywriterByFirstName($item->copy_writer); // get copywriter manager
+                    foreach ($copy_writer as $person) {
+                        $details = [
+                            'due' => $copy_to_do_start_due,
+                            'who' => $person['first_name'],
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy To Do',
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                        ];
+                        // Email to asset creator!
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
+                        Mail::to($person['email'])
+//                        ->cc($cc_list)
+                            ->send(new ReminderDueBefore($details));
+//                    Mail::to('jilee2@kissusa.com')->send(new ReminderDueBefore($details));
+                    }
+                } else if (strtotime($copy_to_do_start_due) < strtotime($today)) {
+                    // sending 'past due date' email => send to copy writer manager and directors
+                    $copy_writer = $user_obj->getCopywriterByFirstName($item->copy_writer);
+                    foreach ($copy_writer as $person) {
+                        $details = [
+                            'due' => $copy_to_do_start_due,
+                            'who' => $person['first_name'],
+                            'c_id' => $item->campaign_id,
+                            'a_id' => $item->asset_id,
+                            'task_name' => $item->project_name,
+                            'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
+                            'asset_status' => 'Copy To Do',
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                        ];
+                        // Email to copy writer! and director Frank and Mo
+                        $cc_list = array();
+                        $cc_list[] = 'frank.russo@kissusa.com';
+                        $cc_list[] = 'motuhin@kissusa.com';
+//                    $cc_list[] = 'jilee2@kissusa.com';
+                        Mail::to($person['email'])
+                            ->cc($cc_list)
+                            ->send(new ReminderDueAfter($details));
+//                    Mail::to('jilee2@kissusa.com')
+//                        ->cc('jinsunglee.8033@gmail.com', 'jinsunglee.8033@gmail.com')
+//                        ->send(new ReminderDueAfter($details));
+
+                    }
+                }
+
             }
 
             // copy_review for Asset Creator!!!
@@ -664,7 +797,7 @@ class NotifyController extends Controller
                 } else if ($asset_type == 'a_content') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-32 weekday'));
                 } else if ($asset_type == 'youtube_copy') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
                 }
 
                 if ($copyreview_start_due == $today) {
@@ -772,7 +905,7 @@ class NotifyController extends Controller
                 } else if ($asset_type == 'store_front') {
                     $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
                 } else if ($asset_type == 'youtube_copy') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-8 weekday'));
                 }
 
                 if ($creative_assign_start_due == $today) {
@@ -1089,8 +1222,6 @@ class NotifyController extends Controller
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
                 } else if ($asset_type == 'store_front') {
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
-                } else if ($asset_type == 'youtube_copy') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
                 }
 
                 $assignee_first_name = $item->assignee;
@@ -1207,13 +1338,13 @@ class NotifyController extends Controller
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
                 } else if ($asset_type == 'image_request') {
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
                 } else if ($asset_type == 'roll_over') {
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
                 } else if ($asset_type == 'store_front') {
+                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+                } else if ($asset_type == 'a_content') {
                     $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
                 }
 

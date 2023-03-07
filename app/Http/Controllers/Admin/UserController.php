@@ -61,6 +61,7 @@ class UserController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
+            'Copywriter Manager' => 'copywriter manager',
             'Copywriter' => 'copywriter',
             'Ecommerce Specialist' => 'ecommerce specialist',
             'Social Media Manager' => 'social media manager',
@@ -95,6 +96,7 @@ class UserController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
+            'Copywriter Manager' => 'copywriter manager',
             'Copywriter' => 'copywriter',
             'Ecommerce Specialist' => 'ecommerce specialist',
             'Social Media Manager' => 'social media manager',
@@ -192,6 +194,7 @@ class UserController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
+            'Copywriter Manager' => 'copywriter manager',
             'Copywriter' => 'copywriter',
             'Ecommerce Specialist' => 'ecommerce specialist',
             'Social Media Manager' => 'social media manager',

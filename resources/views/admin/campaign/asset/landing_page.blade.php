@@ -94,7 +94,11 @@
     <div class="form-group">
         <table class="reminder_table">
             <tr>
-                <td><span class="lead-time"><b>&nbspCopyWriters Start&nbsp</b></span></td>
+                <td><span class="lead-time"><b>&nbspCopywriter Assign Start&nbsp</b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -39 weekday')); ?></b></span></td>
+            </tr>
+            <tr>
+                <td><span class="lead-time"><b>&nbspCopy Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -37 weekday')); ?></b></span></td>
             </tr>
             <tr>
@@ -102,7 +106,7 @@
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -33 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><span class="lead-time"><b>&nbspCreative Assign Start&nbsp</b></span></td>
+                <td><span class="lead-time"><b>&nbspCreator Assign Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -30 weekday')); ?></b></span></td>
             </tr>
             <tr>
@@ -212,8 +216,24 @@
     </div>
 
     <div class="form-group">
-        <?php if (!empty($data[2]) && $data[2] == 'copy_requested') { ?>
-        <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin') { ?>
+        <?php if (!empty($data[2]) && $data[2] == 'copy_to_do') { ?>
+        <?php if(auth()->user()->role == 'copywriter'
+        || auth()->user()->role == 'copywriter manager'
+        || auth()->user()->role == 'admin') { ?>
+        <input type="button"
+               name="copy start"
+               value="Copy Start"
+               onclick="copy_work_start($(this))"
+               data-asset-id="<?php echo $asset_id; ?>"
+               style="margin-top:10px;"
+               class="btn btn-success submit"/>
+        <?php } ?>
+        <?php }?>
+
+        <?php if (!empty($data[2]) && $data[2] == 'copy_in_progress') { ?>
+        <?php if(auth()->user()->role == 'copywriter'
+        || auth()->user()->role == 'copywriter manager'
+        || auth()->user()->role == 'admin') { ?>
         <input type="button"
                value="Copy Review"
                onclick="change_to_copy_review($(this))"
@@ -239,14 +259,13 @@
 
         <?php if (!empty($data[2]) && $data[2] == 'to_do') { ?>
         <?php if(auth()->user()->role == 'graphic designer'
-            || auth()->user()->role == 'content creator'
-            || auth()->user()->role == 'web production'
-            || auth()->user()->role == 'creative director'
-            || auth()->user()->role == 'content manager'
-            || auth()->user()->role == 'web production manager'
-            || auth()->user()->role == 'admin') { ?>
+        || auth()->user()->role == 'content creator'
+        || auth()->user()->role == 'web production'
+        || auth()->user()->role == 'creative director'
+        || auth()->user()->role == 'content manager'
+        || auth()->user()->role == 'web production manager'
+        || auth()->user()->role == 'admin') { ?>
         <input type="button"
-               name="start"
                value="Start Asset"
                onclick="work_start($(this))"
                data-asset-id="<?php echo $asset_id; ?>"
@@ -257,12 +276,12 @@
 
         <?php if (!empty($data[2]) && $data[2] == 'in_progress') { ?>
         <?php if(auth()->user()->role == 'graphic designer'
-            || auth()->user()->role == 'content creator'
-            || auth()->user()->role == 'web production'
-            || auth()->user()->role == 'creative director'
-            || auth()->user()->role == 'content manager'
-            || auth()->user()->role == 'web production manager'
-            || auth()->user()->role == 'admin') { ?>
+        || auth()->user()->role == 'content creator'
+        || auth()->user()->role == 'web production'
+        || auth()->user()->role == 'creative director'
+        || auth()->user()->role == 'content manager'
+        || auth()->user()->role == 'web production manager'
+        || auth()->user()->role == 'admin') { ?>
         <input type="button"
                value="Submit for Approval"
                onclick="work_done($(this))"
@@ -286,9 +305,9 @@
         <?php } ?>
         <?php }?>
 
-        <?php if (!empty($data[2]) && $data[2] != 'final_approval') { ?>
-            <input type="submit" name="submit" value="Save Changes" style="margin-top:10px;" class="btn btn-primary submit"/>
-            <input type="hidden" name="status" value="{{ $data[2] }}"/>
+        <?php if (!empty($data[2]) && ( $data[2] != 'final_approval' && $data[2] != 'copy_requested' && $data[2] != 'copy_to_do' ) ) { ?>
+        <input type="submit" name="submit" value="Save Changes" style="margin-top:10px;" class="btn btn-primary submit"/>
+        <input type="hidden" name="status" value="{{ $data[2] }}"/>
         <?php }?>
     </div>
 </form>

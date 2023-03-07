@@ -2127,7 +2127,7 @@ pre code {
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
-  border-radius: 0.25rem;
+  border-radius: 2.25rem;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
 
@@ -2188,6 +2188,11 @@ input[type=month].form-control {
 select.form-control:focus::-ms-value {
   color: #495057;
   background-color: #fff;
+}
+
+
+.form-control .round {
+    border-radius: 2.25em;
 }
 
 .form-control-file,

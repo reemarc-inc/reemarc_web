@@ -3,19 +3,18 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>KEC Project</h1>
+        <h1>Project Archives List</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
             <div class="breadcrumb-item active">Project Archives</div>
         </div>
     </div>
     <div class="section-body">
-        <h2 class="section-title">Project Archives List</h2>
 
         @include('admin.campaign.flash')
         @include('admin.campaign.archives_filter')
 
-        <div class="row">
+        <div class="row" style="margin-top: 15px;">
 
             @foreach ($campaigns as $campaign)
 

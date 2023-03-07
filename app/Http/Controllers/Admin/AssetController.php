@@ -164,6 +164,20 @@ class AssetController extends Controller
         return view('admin.asset.approval', $this->data);
     }
 
+    public function asset_approval_copy(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'asset_approval_copy';
+        $params = $request->all();
+        $str = !empty($params['q']) ? $params['q'] : '';
+        $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
+        $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_request_assets_list_copy($str, $asset_id, $campaign_id);
+        $this->data['filter'] = $params;
+        $this->data['team'] = 'Copy';
+
+        return view('admin.asset.approval_copy', $this->data);
+    }
     public function asset_approval_content(Request $request)
     {
         $this->data['currentAdminMenu'] = 'asset_approval_content';
@@ -220,6 +234,53 @@ class AssetController extends Controller
         $this->data['assignees_web'] = $this->userRepository->getWebAssignee();
 
         return view('admin.asset.detail', $this->data);
+    }
+
+    public function asset_detail_copy($a_id, $c_id, $a_type)
+    {
+        $this->data['asset_obj'] = $this->campaignAssetIndexRepository->findById($a_id);
+        $this->data['currentAdminMenu'] = 'asset_approval_copy';
+        $this->data['asset_id'] = $a_id;
+        $this->data['a_type'] = $a_type;
+        $this->data['c_id'] = $c_id;
+        $this->data['asset_detail'] = $asset_detail = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
+        $author_id = $asset_detail[0]->author_id;
+
+        $user_obj = $this->userRepository->findById($author_id);
+        $this->data['asset_creator'] = $user_obj->first_name . ' ' . $user_obj->last_name;
+        $this->data['asset_files'] = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
+
+        $this->data['assignees_copywriter'] = $this->userRepository->getCopyWriterAssignee();
+
+        return view('admin.asset.detail_copy', $this->data);
+    }
+
+    public function asset_assign_copy(Request $request)
+    {
+        $param = $request->all();
+        $params['id'] = $param['a_id'];
+        $c_id = $param['c_id'];
+        $a_type = $param['a_type'];
+        $params['campaign_id'] = $param['c_id'];
+        $params['type'] = $param['a_type'];
+        $params['status'] = 'copy_to_do';
+        $params['copy_writer'] = $param['copy_writer'];
+        $params['updated_at'] = Carbon::now();
+
+        $this->campaignAssetIndexRepository->update($param['a_id'], $params);
+
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' has been Assigned to Copy Writer ' . $params['copy_writer'] , null);
+
+        // TODO notification
+        $notify = new NotifyController();
+        $notify->copy_to_do($c_id, $param['a_id'], $param['copy_writer']);
+//        Log::info('email sent!!');
+        ////////////
+
+        $this->data['currentAdminMenu'] = 'asset_approval_copy';
+        $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
+        return redirect('admin/asset_approval_copy')
+            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Assigned to '.$param['copy_writer'].'.'));
     }
 
     public function asset_assign(Request $request)
@@ -468,7 +529,10 @@ class AssetController extends Controller
 
         $this->data['filter'] = $param;
         $this->data['asset_list_copy_request'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_request($str, $brand_id, $asset_id, $team);
+        $this->data['asset_list_copy_to_do'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_to_do($str, $brand_id, $asset_id, $team);
+        $this->data['asset_list_copy_in_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_in_progress($str, $brand_id, $asset_id, $team);
         $this->data['asset_list_copy_review'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_review($str, $brand_id, $asset_id, $team);
+
         $this->data['asset_list_copy_complete'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_complete($str, $brand_id, $asset_id, $team);
         $this->data['asset_list_to_do'] = $this->campaignAssetIndexRepository->get_asset_jira_to_do($str, $brand_id, $asset_id, $team);
         $this->data['asset_list_in_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_in_progress($str, $brand_id, $asset_id, $team);
@@ -483,6 +547,53 @@ class AssetController extends Controller
         ];
 
         return view('admin.asset.jira_kec', $this->data);
+    }
+
+    public function asset_jira_copywriter(Request $request)
+    {
+        $param = $request->all();
+
+        $str = !empty($param['q']) ? $param['q'] : '';
+
+        if(isset($_GET['copy_writer'])){
+            $copy_writer = $param['copy_writer'];
+        }else{
+            $copy_writer = !empty($param['copy_writer']) ? $param['copy_writer'] : '';
+        }
+
+        if(isset($_GET['brand'])) {
+            $brand_id = $param['brand'];
+        }else{
+            $brand_id = !empty($param['brand']) ? $param['brand'] : '';
+        }
+
+        if(isset($_GET['team'])) {
+            $team = $param['team'];
+        }else{
+            $team = !empty($param['team']) ? $param['team'] : '';
+        }
+
+        if(isset($_GET['asset_id'])) {
+            $asset_id = $param['asset_id'];
+        }else{
+            $asset_id = !empty($param['asset_id']) ? $param['asset_id'] : '';
+        }
+
+        $this->data['brand_'] = $brand_id;
+        $this->data['copy_writer'] = $copy_writer;
+        $this->data['asset_id'] = $asset_id;
+        $this->data['currentAdminMenu'] = 'asset_jira_copywriter';
+        $this->data['filter'] = $param;
+        $this->data['asset_list_copy_request'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_request($str, $brand_id, $asset_id, $team, $copy_writer);
+        $this->data['asset_list_copy_to_do'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_to_do($str, $brand_id, $asset_id, $team, $copy_writer);
+        $this->data['asset_list_copy_in_progress'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_in_progress($str, $brand_id, $asset_id, $team, $copy_writer);
+        $this->data['asset_list_copy_review'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_review($str, $brand_id, $asset_id, $team, $copy_writer);
+
+        $this->data['all_copywriters'] = $this->userRepository->getAllCopyWriters();
+
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+
+        return view('admin.asset.jira_copywriter', $this->data);
     }
 
     public function asset_jira_content(Request $request)
@@ -563,26 +674,6 @@ class AssetController extends Controller
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 
         return view('admin.asset.jira_web', $this->data);
-    }
-
-    public function asset_jira_copywriter(Request $request)
-    {
-        $param = $request->all();
-
-        if(isset($_GET['brand'])) {
-            $brand_id = $param['brand'];
-        }else{
-            $brand_id = !empty($param['brand']) ? $param['brand'] : '';
-        }
-        $this->data['brand_'] = $brand_id;
-
-        $this->data['currentAdminMenu'] = 'asset_jira_copywriter';
-        $this->data['asset_list_copy_request'] = $this->campaignAssetIndexRepository->get_asset_jira_copy_request_copywriter($brand_id);
-        $this->data['brands_assigned_copywriters'] = $this->userRepository->getBrandsAssignedWriters();
-
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
-
-        return view('admin.asset.jira_copywriter', $this->data);
     }
 
     public static function get_writers_by_brand($brand)
@@ -685,6 +776,27 @@ class AssetController extends Controller
         $campaign_note['note'] = $change_line;
         $campaign_note['date_created'] = Carbon::now();
         $campaign_note->save();
+    }
+
+    public function copyInProgress($id)
+    {
+        $campaignAssetIndex = $this->campaignAssetIndexRepository->findById($id);
+
+        $param['status'] = 'copy_in_progress';
+        $param['updated_at'] = Carbon::now();
+
+        $c_id = $campaignAssetIndex->campaign_id;
+        $a_id = $campaignAssetIndex->id;
+
+        if($this->campaignAssetIndexRepository->update($id, $param)){
+
+            $this->add_asset_correspondence($c_id, $campaignAssetIndex['type'], $a_id, 'Copy In Progress', null);
+
+            echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+        }else{
+            echo 'fail';
+        }
+
     }
 
     public function inProgress($id)

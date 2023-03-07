@@ -105,6 +105,14 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
+    public function getEmailByCopyWriterName($first_name)
+    {
+        $users = new User();
+        $users = $users->Where('first_name', '=', "$first_name")
+            ->WhereIn('role', array('copywriter', 'copywriter manager'));
+        return $users->get();
+    }
+
     public function getJoahDirector()
     {
         $users = new User();
@@ -138,6 +146,28 @@ class UserRepository implements UserRepositoryInterface
         $users = new User();
         $users = $users->Where('role', '=', "copywriter")->Where('user_brand', 'LIKE', "%$brand_name%");
         return $users->get();
+    }
+
+    public function getCopyWriterManager()
+    {
+        $users = new User();
+        $users = $users->Where('role', '=', "copywriter manager");
+        return $users->get();
+    }
+
+    public function getCopywriterByFirstName($first_name)
+    {
+        $users = new User();
+        $users = $users->Where('first_name', '=', "$first_name")
+            ->WhereIn('role', array('copywriter', 'copywriter manager'));
+        return $users->get();
+    }
+
+    public function getAllCopyWriters()
+    {
+        return DB::select('
+            select * from users where role in ("copywriter", "copywriter manager") order by first_name desc
+        ');
     }
 
     public function getBrandsAssignedWriters()
@@ -217,6 +247,16 @@ class UserRepository implements UserRepositoryInterface
         $users = $users
             ->Where('role', '=', "content creator")
             ->orWhere('role', '=', 'content manager')
+            ->orderBy('first_name', 'asc');
+        return $users->get();
+    }
+
+    public function getCopyWriterAssignee()
+    {
+        $users = new User();
+        $users = $users
+            ->Where('role', '=', "copywriter")
+            ->orWhere('role', '=', 'copywriter manager')
             ->orderBy('first_name', 'asc');
         return $users->get();
     }

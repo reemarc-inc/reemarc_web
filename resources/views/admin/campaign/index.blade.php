@@ -10,12 +10,11 @@
         </div>
     </div>
     <div class="section-body">
-        <h2 class="section-title">Project List</h2>
 
         @include('admin.campaign.flash')
         @include('admin.campaign._filter')
 
-        <div class="row">
+        <div class="row" style="margin-top: 15px;">
 
             @foreach ($campaigns as $campaign)
 

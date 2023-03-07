@@ -1230,6 +1230,27 @@
             }
         }
 
+        function copy_work_start(el){
+
+            if (confirm("Are you sure to Copy In Progress?") == true) {
+                let id = $(el).attr('data-asset-id');
+                $.ajax({
+                    url: "<?php echo url('/admin/asset/copyInProgress'); ?>"+"/"+id,
+                    type: "GET",
+                    datatype: "json",
+                    success: function(response) {
+                        if(response != 'fail'){
+                            alert('Success!');
+                            window.location.reload(response);
+                            $(el).remove();
+                        }else{
+                            alert('Error!');
+                        }
+                    },
+                })
+            }
+        }
+
         function work_start(el){
 
             if (confirm("Are you sure to In Progress?") == true) {

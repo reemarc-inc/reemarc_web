@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group">
-        <label>Launch Date: (Lead Time 34 Days)</label>
+        <label>Launch Date: (Lead Time 36 Days)</label>
         <input type="text" name="{{ $asset_type }}_launch_date" id="{{ $asset_type }}_launch_date"
                class="form-control @error($asset_type.'_launch_date') is-invalid @enderror @if (!$errors->has($asset_type.'_launch_date') && old($asset_type.'_launch_date')) is-valid @endif"
                value="{{ old($asset_type.'_launch_date', null) }}">
@@ -60,7 +60,7 @@
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>
     </div>
-    
+
     <div class="form-group">
         <label>SKUs / Description (File Attachment):</label>
         <input type="file" data-asset="default" name="{{ $asset_type }}_c_attachment[]" class="form-control c_attachment last_upload" multiple="multiple"/>
@@ -74,9 +74,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +34 days - A+ Content (exclude weekend)
+    // Lead time +36 days - A+ Content (exclude weekend)
     $(function() {
-        var count = 34;
+        var count = 36;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

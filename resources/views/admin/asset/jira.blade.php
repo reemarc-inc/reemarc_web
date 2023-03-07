@@ -16,16 +16,24 @@
             @include('admin.asset.jira_filter')
             @include('admin.asset.flash')
 
-            <div class="row">
+            <div class="row" style="margin-top: 15px;">
 
-                <div class="col-lg-3">
-                    <h2 class="section-title">To Do</h2>
-                        @foreach ($asset_list_todo as $asset)
+                <div class="col-md-3">
+                    <div class="card status_title">
+                        <h5 class="status_name">TO DO</h5>
+                    </div>
+
+                    @foreach ($asset_list_todo as $asset)
 
                         <?php
-                        $start_css = '';
-                        $start_late_css = "style=background-color:#f1d2d2;";
+                        $start_css = 'color:#98a6ad;';
+                        $start_late_css = "color:#a50018;";
                         if($asset->asset_type == 'email_blast'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -17 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'social_ad'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -17 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
@@ -35,42 +43,42 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'social_ad'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -17 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
                         }else if($asset->asset_type == 'landing_page'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -28 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'misc'){
-                            $start_date =  date('m/d/Y', strtotime($asset->due . ' -16 weekday'));
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -16 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'a_content'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -28 weekday'));
+                        }else if($asset->asset_type == 'sms_request'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -16 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if ($asset->asset_type == 'programmatic_banners'){
+                        }else if($asset->asset_type == 'programmatic_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -20 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if ($asset->asset_type == 'image_request'){
+                        }else if($asset->asset_type == 'image_request'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if ($asset->asset_type == 'roll_over'){
+                        }else if($asset->asset_type == 'roll_over'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if ($asset->asset_type == 'store_front'){
+                        }else if($asset->asset_type == 'store_front'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -28 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'a_content'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -28 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
@@ -80,57 +88,103 @@
                         }
                         ?>
 
-                            <div class="card" {{ $start_css }}>
-                                <div class="card-body">
-                                    <div class="media" style="padding-bottom: 0px;">
-                                        <div class="form-group" style="width: 100%">
-                                            <div class="media-right" >{{$asset->campaign_name}}</div>
-                                            <div class="media-title mb-1">
-                                            <a href="">
-                                                {{$asset->author_name}}
-                                            </a>
+                            <div class="card">
+                                <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
+                                    <div class="card-body" style="margin: 0px -5px -20px -5px;">
+                                        <div class="media" style="padding-bottom: 0px;">
+                                            <div class="form-group" style="width: 100%;">
+
+                                                <div style="color: #8b8a8a; font-weight: 600; float:left; font-size: 13px;">
+                                                    {{$asset->campaign_name}}
+                                                </div>
+                                                <div style="float: right;">
+                                                    <figure class="avatar mr-2 avatar-sm text-white"
+                                                            style="background-color: #848484; font-size: 15px; margin-left: -15px; z-index: 1; border: 1px solid white;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-original-title="{{ $asset->assignee }}"
+                                                            data-initial="{{ substr($asset->assignee, 0, 1) }}">
+                                                    </figure>
+                                                </div>
+                                                <div style="float: right;">
+                                                    <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #b6b6b6; font-size: 15px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-original-title="{{ $asset->author_name }}"
+                                                            data-initial="{{ substr($asset->author_name, 0, 1) }}">
+                                                    </figure>
+                                                </div>
+                                                <div class="media-title" style="clear:both; font-size: large;">
+                                                    {{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}
+                                                </div>
+                                                <div class="text-md-left text-muted" style="margin-top: -8px;">
+                                                    {{ mb_strimwidth($asset->name, 0,50, '...') }}
+                                                </div>
+                                                <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
+                                                            height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
+
+                                                <div class="text-sm-left text-muted" style="float:left; margin-top: -1px;">
+                                                    <figure class="avatar sm-2 text-white" style="width: 15px; height: 15px; background-color: #03b06d; font-size: small;" data-initial=""></figure>
+                                                </div>
+                                                <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
+                                                    {{$asset->asset_id}}
+                                                </div>
+                                                <div style="float: right; {{ $start_css }}" >
+                                                    {{ $start_date }}
+                                                </div>
+
                                             </div>
-                                            <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
-                                                <div class="text-time">{{ $start_date }}
-                                                    <span style="color:#ffffff; font-size: small;background-color: #314190FF;border-radius: 8px; float: right;">
-                                                       &nbsp {{ $asset->assignee }} &nbsp
-                                                    </span>
-                                                </div>
-                                                <div class="media-description text-muted">{{ mb_strimwidth($asset->name, 0,50, '...') }}</div>
-                                                <div class="media-links">
-                                                    <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #fc544b" data-initial="{{$asset->asset_id}}"></figure>
-                                                    <div class="bullet"></div>
-                                                    {{ ucwords(str_replace('_', ' ', $asset->asset_type))}}
-                                                </div>
-                                            </a>
                                         </div>
                                     </div>
-                                </div>
+                                </a>
                             </div>
-                        @endforeach
+
+                    @endforeach
                 </div>
 
-                <div class="col-lg-3">
-                    <h2 class="section-title">In Progress</h2>
+                <div class="col-md-3">
+                    <div class="card status_title">
+                        <h5 class="status_name">IN PROGRESS</h5>
+                    </div>
                     @foreach ($asset_list_progress as $asset)
                         <div class="card">
                             <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
-                                <div class="card-body">
+                                <div class="card-body" style="margin: 0px -5px -20px -5px;">
                                     <div class="media" style="padding-bottom: 0px;">
-                                        <div class="form-group" style="width: 100%">
-                                            <div class="media-right" >{{$asset->campaign_name}}</div>
-                                            <div class="media-title mb-1">{{$asset->author_name}}</div>
-                                            <div class="text-time">&nbsp
-                                                <span style="color:#ffffff; font-size: small;background-color: #314190FF;border-radius: 8px; float: right;">
-                                                   &nbsp {{ $asset->assignee }} &nbsp
-                                                </span>
+                                        <div class="form-group" style="width: 100%;">
+
+                                            <div style="color: #8b8a8a; font-weight: 600; float:left; font-size: 13px;">
+                                                {{$asset->campaign_name}}
                                             </div>
-                                            <div class="media-description text-muted">{{ mb_strimwidth($asset->name, 0,50, '...') }}</div>
-                                            <div class="media-links">
-                                                <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #66874e" data-initial="{{$asset->asset_id}}"></figure>
-                                                <div class="bullet"></div>
-                                                {{ ucwords(str_replace('_', ' ', $asset->asset_type))}}
+                                            <div style="float: right;">
+                                                <figure class="avatar mr-2 avatar-sm text-white"
+                                                        style="background-color: #848484; font-size: 15px; margin-left: -15px; z-index: 1; border: 1px solid white;"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-original-title="{{ $asset->assignee }}"
+                                                        data-initial="{{ substr($asset->assignee, 0, 1) }}">
+                                                </figure>
                                             </div>
+                                            <div style="float: right;">
+                                                <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #b6b6b6; font-size: 15px;"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-original-title="{{ $asset->author_name }}"
+                                                        data-initial="{{ substr($asset->author_name, 0, 1) }}">
+                                                </figure>
+                                            </div>
+                                            <div class="media-title" style="clear:both; font-size: large;">
+                                                {{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}
+                                            </div>
+                                            <div class="text-md-left text-muted" style="margin-top: -8px;">
+                                                {{ mb_strimwidth($asset->name, 0,50, '...') }}
+                                            </div>
+                                            <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
+                                                            height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
+
+                                            <div class="text-sm-left text-muted" style="float:left; margin-top: -1px;">
+                                                <figure class="avatar sm-2 text-white" style="width: 15px; height: 15px; background-color: #03b06d; font-size: small;" data-initial=""></figure>
+                                            </div>
+                                            <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
+                                                {{$asset->asset_id}}
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -139,13 +193,20 @@
                     @endforeach
                 </div>
 
-                <div class="col-lg-3">
-                    <h2 class="section-title">Creation Review</h2>
+                <div class="col-md-3">
+                    <div class="card status_title">
+                        <h5 class="status_name">CREATION REVIEW</h5>
+                    </div>
                     @foreach ($asset_list_done as $asset)
                         <?php
-                        $start_css = '';
-                        $start_late_css = "style=background-color:#f1d2d2;";
+                        $start_css = 'color:#98a6ad;';
+                        $start_late_css = "color:#a50018;";
                         if($asset->asset_type == 'email_blast'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'social_ad'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
@@ -155,28 +216,23 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'social_ad'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
                         }else if($asset->asset_type == 'landing_page'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -18 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'a_content'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -13 weekday'));
+                        }else if($asset->asset_type == 'misc'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'sms_request'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'programmatic_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
-                        }else if($asset->asset_type == 'misc'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -195,61 +251,116 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
+                        }else if($asset->asset_type == 'a_content'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -13 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'youtube_copy'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -9 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
                         }else{
                             $start_date = 'N/A';
                         }
                         ?>
-                        <div class="card" {{ $start_css }}>
-                            <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
-                                <div class="card-body">
-                                    <div class="media" style="padding-bottom: 0px;">
-                                        <div class="form-group" style="width: 100%">
-                                            <div class="media-right" >{{$asset->campaign_name}}</div>
-                                            <div class="media-title mb-1">{{$asset->author_name}}</div>
-                                            <div class="text-time">{{ $start_date }}
-                                                <span style="color:#ffffff; font-size: small;background-color: #314190FF;border-radius: 8px; float: right;">
-                                                   &nbsp {{ $asset->assignee }} &nbsp
-                                                </span>
-                                            </div>
-                                            <div class="media-description text-muted">{{ mb_strimwidth($asset->name, 0,50, '...') }}</div>
-                                            <div class="media-links">
-                                                <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #3392af" data-initial="{{$asset->asset_id}}"></figure>
-                                                <div class="bullet"></div>
-                                                {{ ucwords(str_replace('_', ' ', $asset->asset_type))}}
+                            <div class="card">
+                                <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
+                                    <div class="card-body" style="margin: 0px -5px -20px -5px;">
+                                        <div class="media" style="padding-bottom: 0px;">
+                                            <div class="form-group" style="width: 100%;">
+
+                                                <div style="color: #8b8a8a; font-weight: 600; float:left; font-size: 13px;">
+                                                    {{$asset->campaign_name}}
+                                                </div>
+                                                <div style="float: right;">
+                                                    <figure class="avatar mr-2 avatar-sm text-white"
+                                                            style="background-color: #848484; font-size: 15px; margin-left: -15px; z-index: 1; border: 1px solid white;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-original-title="{{ $asset->assignee }}"
+                                                            data-initial="{{ substr($asset->assignee, 0, 1) }}">
+                                                    </figure>
+                                                </div>
+                                                <div style="float: right;">
+                                                    <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #b6b6b6; font-size: 15px;"
+                                                            data-toggle="tooltip" data-placement="top"
+                                                            data-original-title="{{ $asset->author_name }}"
+                                                            data-initial="{{ substr($asset->author_name, 0, 1) }}">
+                                                    </figure>
+                                                </div>
+                                                <div class="media-title" style="clear:both; font-size: large;">
+                                                    {{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}
+                                                </div>
+                                                <div class="text-md-left text-muted" style="margin-top: -8px;">
+                                                    {{ mb_strimwidth($asset->name, 0,50, '...') }}
+                                                </div>
+                                                <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
+                                                            height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
+
+                                                <div class="text-sm-left text-muted" style="float:left; margin-top: -1px;">
+                                                    <figure class="avatar sm-2 text-white" style="width: 15px; height: 15px; background-color: #03b06d; font-size: small;" data-initial=""></figure>
+                                                </div>
+                                                <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
+                                                    {{$asset->asset_id}}
+                                                </div>
+                                                <div style="float: right; {{ $start_css }}" >
+                                                    {{ $start_date }}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
                     @endforeach
                 </div>
 
-                <div class="col-lg-3">
-                    <h2 class="section-title">Asset Completed (Within a Week)</h2>
+                <div class="col-md-3">
+                    <div class="card status_title">
+                        <h5 class="status_name">ASSET COMPLETED</h5>
+                    </div>
                     @foreach ($asset_list_finish as $asset)
                         <div class="card">
                             <a href="{{ url('admin/campaign/'. $asset->campaign_id .'/edit#'.$asset->asset_id)}}" style="text-decoration: none;">
-                                <div class="card-body">
+                                <div class="card-body" style="margin: 0px -5px -20px -5px;">
                                     <div class="media" style="padding-bottom: 0px;">
-                                        <div class="form-group" style="width: 100%">
-                                            <div class="media-right" >{{$asset->campaign_name}}</div>
-                                            <div class="media-title mb-1">{{$asset->author_name}}</div>
-                                            <div class="text-time">{{ date('m/d/Y', strtotime($asset->due))}}
-                                                <span style="color:#ffffff; font-size: small;background-color: #314190FF;border-radius: 8px; float: right;">
-                                                   &nbsp {{ $asset->assignee }} &nbsp
-                                                </span>
+
+                                        <div class="form-group" style="width: 100%;">
+
+                                            <div style="color: #8b8a8a; font-weight: 600; float:left; font-size: 13px;">
+                                                {{$asset->campaign_name}}
                                             </div>
-                                            <div class="media-description text-muted">{{ mb_strimwidth($asset->name, 0,50, '...') }}</div>
-                                            <div class="media-links">
-                                                <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #050a61" data-initial="{{$asset->asset_id}}"></figure>
-                                                <div class="bullet"></div>
-                                                {{ ucwords(str_replace('_', ' ', $asset->asset_type))}}
+                                            <div style="float: right;">
+                                                <figure class="avatar mr-2 avatar-sm text-white"
+                                                        style="background-color: #848484; font-size: 15px; margin-left: -15px; z-index: 1; border: 1px solid white;"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-original-title="{{ $asset->assignee }}"
+                                                        data-initial="{{ substr($asset->assignee, 0, 1) }}">
+                                                </figure>
                                             </div>
-                                            <div class="media-links">
-                                                Approved
-                                                <div class="bullet"></div>
-                                                {{ date('m/d/Y h:i:s', strtotime($asset->updated_at)) }}
+                                            <div style="float: right;">
+                                                <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #b6b6b6; font-size: 15px;"
+                                                        data-toggle="tooltip" data-placement="top"
+                                                        data-original-title="{{ $asset->author_name }}"
+                                                        data-initial="{{ substr($asset->author_name, 0, 1) }}">
+                                                </figure>
+                                            </div>
+                                            <div class="media-title" style="clear:both; font-size: large;">
+                                                {{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}
+                                            </div>
+                                            <div class="text-md-left text-muted" style="margin-top: -8px;">
+                                                {{ mb_strimwidth($asset->name, 0,50, '...') }}
+                                            </div>
+                                            <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
+                                                            height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
+                                            <div class="text-sm-left text-muted" style="float:left; margin-top: -1px;">
+                                                <figure class="avatar sm-2 text-white" style="width: 15px; height: 15px; background-color: #03b06d; font-size: small;" data-initial=""></figure>
+                                            </div>
+                                            <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
+                                                {{$asset->asset_id}}
+                                            </div>
+                                            <div style="float: right; color: #1a1a1a;" >
+                                                {{ date('m/d/Y g:ia', strtotime($asset->updated_at)) }}
                                             </div>
                                         </div>
                                     </div>

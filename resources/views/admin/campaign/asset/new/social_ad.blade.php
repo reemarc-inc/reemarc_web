@@ -27,7 +27,7 @@
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
-                <label>Run From: (Lead Time 23 Days)</label>
+                <label>Run From: (Lead Time 25 Days)</label>
                 <input type="text" name="{{ $asset_type }}_date_from" id="date_from" placeholder="Start date"
                        class="form-control @error('date_from') is-invalid @enderror @if (!$errors->has('date_from') && old('date_from')) is-valid @endif"
                        value="{{ old('date_from', null) }}">
@@ -255,9 +255,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +23 days - Social Ads (exclude weekend)
+    // Lead time +25 days - Social Ads (exclude weekend)
     $(function() {
-        var count = 23;
+        var count = 25;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

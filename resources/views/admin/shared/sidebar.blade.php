@@ -26,7 +26,11 @@
 
         <li class="{{ ($currentAdminMenu == 'asset_jira_kec') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_kec') }}"><i class="fas fa-th"></i> <span>All Status Board</span></a></li>
 
-        <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin'){ ?>
+        <li class="menu-header">Copy Dept</li>
+        <?php if(auth()->user()->role == 'copywriter manager' || auth()->user()->role == 'admin'){ ?>
+        <li class="{{ ($currentAdminMenu == 'asset_approval_copy') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_approval_copy') }}"><i class="fas fa-th-list"></i> <span>Copy List</span></a></li>
+        <?php } ?>
+        <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'copywriter manager' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira_copywriter') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_copywriter') }}"><i class="fas fa-th"></i> <span>Status Board (Copy)</span></a></li>
         <?php } ?>
 
