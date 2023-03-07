@@ -609,7 +609,7 @@ select.form-control:not([size]):not([multiple]) {
       color: #666666;
       vertical-align: middle;
       background-color: white;
-      background: url('/storage/down-arrow.svg'), white;
+      background: url('/storage/down-arrow-56-128.png'), white;
       background-repeat: no-repeat;
       background-position: calc(100% - 10px) center ;
       background-size: 35px;
