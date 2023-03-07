@@ -171,10 +171,14 @@ class AssetController extends Controller
         $str = !empty($params['q']) ? $params['q'] : '';
         $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
         $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+        $brand_id = !empty($params['brand_id']) ? $params['brand_id'] : '';
 
-        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_request_assets_list_copy($str, $asset_id, $campaign_id);
+        $this->data['brand_id'] = $brand_id;
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_request_assets_list_copy($str, $asset_id, $campaign_id, $brand_id);
         $this->data['filter'] = $params;
         $this->data['team'] = 'Copy';
+
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
 
         return view('admin.asset.approval_copy', $this->data);
     }
@@ -236,13 +240,14 @@ class AssetController extends Controller
         return view('admin.asset.detail', $this->data);
     }
 
-    public function asset_detail_copy($a_id, $c_id, $a_type)
+    public function asset_detail_copy($a_id, $c_id, $a_type, $brand)
     {
         $this->data['asset_obj'] = $this->campaignAssetIndexRepository->findById($a_id);
         $this->data['currentAdminMenu'] = 'asset_approval_copy';
         $this->data['asset_id'] = $a_id;
         $this->data['a_type'] = $a_type;
         $this->data['c_id'] = $c_id;
+        $this->data['brand'] = $brand;
         $this->data['asset_detail'] = $asset_detail = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
         $author_id = $asset_detail[0]->author_id;
 

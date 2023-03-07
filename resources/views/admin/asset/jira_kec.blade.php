@@ -928,7 +928,7 @@
                                         <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
                                             {{$asset->asset_id}}
                                         </div>
-                                        <div style="float: right; color: #1a1a1a;" >
+                                        <div style="float: right; color: #1a1a1a; word-spacing: 5px;" >
                                             {{ date('m/d/Y g:ia', strtotime($asset->updated_at)) }}
                                         </div>
                                     </div>
@@ -937,9 +937,10 @@
                         </a>
                     </div>
                 @endforeach
-            </div>
+                </div>
 
             </div>
+
         </div>
 
 

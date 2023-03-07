@@ -12,7 +12,7 @@
         </div>
 
         <div class="section-body">
-            <h2 class="section-title">Asset Detail | Project ID : {{ $c_id }} | Asset ID : {{ $asset_id }} | {{ ucwords(str_replace('_', ' ', $a_type)) }}</h2>
+            <h2 class="section-title">Asset Detail | Project ID : {{ $c_id }} | Asset ID : {{ $asset_id }} | {{ ucwords(str_replace('_', ' ', $a_type)) }} | {{ $brand }}</h2>
             <div class="row">
                 <div class="col-lg-6">
                     <div class="card">

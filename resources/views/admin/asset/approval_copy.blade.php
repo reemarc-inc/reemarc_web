@@ -26,6 +26,7 @@
                                         <th>Due Date</th>
                                         <th>Team</th>
                                         <th>Asset Type</th>
+                                        <th>Brand</th>
                                         <th>Project ID</th>
                                         <th>Asset ID</th>
                                         <th>Project Name</th>
@@ -37,6 +38,7 @@
                                             <td>{{ date('m/d/Y', strtotime($asset->due)) }}</td>
                                             <td>{{ $asset->team_to }}</td>
                                             <td>{{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}</td>
+                                            <td>{{$asset->brand}}</td>
                                             <td>
                                                 {{$asset->campaign_id}}
                                             </td>
@@ -47,7 +49,7 @@
                                             </td>
                                             <td>{{ $asset->name }}</td>
                                             <td>
-                                                <a href="{{ url('admin/asset/'. $asset->asset_id .'/'. $asset->campaign_id . '/' . $asset->asset_type . '/detail_copy')}}" class="btn btn-secondary">
+                                                <a href="{{ url('admin/asset/'. $asset->asset_id .'/'. $asset->campaign_id . '/' . $asset->asset_type . '/' . $asset->brand . '/detail_copy')}}" class="btn btn-secondary">
                                                     Detail
                                                 </a>
                                             </td>

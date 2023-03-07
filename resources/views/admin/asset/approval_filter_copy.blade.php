@@ -5,6 +5,16 @@
             <input type="text" name="q" class="design-field" id="q" placeholder="Search by Project Name" value="{{ !empty($filter['q']) ? $filter['q'] : '' }}">
         </div>
         <div class="form-group col-md-2">
+            <select class="design-select" name="brand_id">
+                <option value="">Select Brand</option>
+                @foreach ($brands as $key => $value)
+                    <option value="{{ $key }}" @if( $key == $brand_id) selected="selected" @endif >
+                        {{$value}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group col-md-2">
             <input type="text" name="campaign_id" class="design-field" id="q" placeholder="Search by Project ID" value="{{ !empty($filter['campaign_id']) ? $filter['campaign_id'] : '' }}">
         </div>
         <div class="form-group col-md-2">

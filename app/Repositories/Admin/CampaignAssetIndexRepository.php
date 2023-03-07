@@ -139,16 +139,19 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_request_assets_list_copy($str, $asset_id, $campaign_id)
+    public function get_request_assets_list_copy($str, $asset_id, $campaign_id, $brand_id)
     {
         $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
         $filter_2 = !empty($asset_id) ? ' and a_id ='.$asset_id : '';
         $filter_3 = !empty($campaign_id) ? ' and c_id ='.$campaign_id : '';
+        $filter_4 = !empty($brand_id) ? ' and ci.campaign_brand ='.$brand_id : '';
 
         return DB::select(
             'select  c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
+                    cb.campaign_name as brand,
+                    ci.campaign_brand as brand_id,
                     due,
                     ci.name as name,
                     cai.team_to,
@@ -187,8 +190,9 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
+            left join campaign_brands cb on cb.id = ci.campaign_brand
             where cai.status = "copy_requested"
-            ' . $filter_1 . $filter_2 . $filter_3 . '
+            ' . $filter_1 . $filter_2 . $filter_3 . $filter_4 . '
             order by due asc');
     }
 

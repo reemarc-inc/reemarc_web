@@ -28,42 +28,52 @@
                         $start_css = 'color:#98a6ad;';
                         $start_late_css = "color:#a50018;";
                         if($asset->asset_type == 'email_blast'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
-                        }else if($asset->asset_type == 'website_banners'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -25 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
                         }else if($asset->asset_type == 'social_ad'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -25 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'landing_page'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -37 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
-                        }else if($asset->asset_type == 'topcategories_copy'){
-                            $start_date =  date('m/d/Y', strtotime($asset->due . ' -5 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
-                        }else if($asset->asset_type == 'a_content'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -34 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
-                        }else if ($asset->asset_type == 'programmatic_banners'){
+                        }else if($asset->asset_type == 'website_banners'){
                             $start_date = date('m/d/Y', strtotime($asset->due . ' -26 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
+                        }else if($asset->asset_type == 'landing_page'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -39 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
                         }else if($asset->asset_type == 'misc'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -22 weekday'));
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'sms_request'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'topcategories_copy'){
+                            $start_date =  date('m/d/Y', strtotime($asset->due . ' -7 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if ($asset->asset_type == 'programmatic_banners'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -28 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'a_content'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -36 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'youtube_copy'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -14 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -109,7 +119,7 @@
                                             <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
                                                 {{$asset->asset_id}}
                                             </div>
-                                            <div style="float: right;" >
+                                            <div style="float: right; {{ $start_css }}" >
                                                 {{ $start_date }}
                                             </div>
 
@@ -135,13 +145,13 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'website_banners'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
+                        }else if($asset->asset_type == 'social_ad'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'social_ad'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -23 weekday'));
+                        }else if($asset->asset_type == 'website_banners'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -150,13 +160,18 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'topcategories_copy'){
-                            $start_date =  date('m/d/Y', strtotime($asset->due . ' -5 weekday'));
+                        }else if($asset->asset_type == 'misc'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -22 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'a_content'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -34 weekday'));
+                        }else if($asset->asset_type == 'sms_request'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -22 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'topcategories_copy'){
+                            $start_date =  date('m/d/Y', strtotime($asset->due . ' -5 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -165,8 +180,13 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'misc'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -22 weekday'));
+                        }else if($asset->asset_type == 'a_content'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -34 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'youtube_copy'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -12 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -220,7 +240,7 @@
                                             <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
                                                 {{$asset->asset_id}}
                                             </div>
-                                            <div style="float: right;" >
+                                            <div style="float: right; {{ $start_css }}" >
                                                 {{ $start_date }}
                                             </div>
 
@@ -307,13 +327,13 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'website_banners'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -22 weekday'));
+                        }else if($asset->asset_type == 'social_ad'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'social_ad'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -21 weekday'));
+                        }else if($asset->asset_type == 'website_banners'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -22 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -322,8 +342,23 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
+                        }else if($asset->asset_type == 'misc'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -20 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if($asset->asset_type == 'sms_request'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -20 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
                         }else if($asset->asset_type == 'topcategories_copy'){
                             $start_date =  date('m/d/Y', strtotime($asset->due . ' -3 weekday'));
+                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
+                                $start_css = $start_late_css;
+                            }
+                        }else if ($asset->asset_type == 'programmatic_banners'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -332,13 +367,8 @@
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
-                        }else if($asset->asset_type == 'programmatic_banners'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
-                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
-                                $start_css = $start_late_css;
-                            }
-                        }else if($asset->asset_type == 'misc'){
-                            $start_date = date('m/d/Y', strtotime($asset->due . ' -20 weekday'));
+                        }else if($asset->asset_type == 'youtube_copy'){
+                            $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));
                             if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
                                 $start_css = $start_late_css;
                             }
@@ -393,7 +423,7 @@
                                             <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
                                                 {{$asset->asset_id}}
                                             </div>
-                                            <div style="float: right;" >
+                                            <div style="float: right; {{ $start_css }}" >
                                                 {{ $start_date }}
                                             </div>
 
