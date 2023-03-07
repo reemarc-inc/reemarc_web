@@ -1,7 +1,19 @@
 <form method="GET" action="{{ route('asset.jira_copywriter') }}">
-    <div class="form-row">
+    <div class="form-row" style="background-color: white; margin: -16px 0px 0px 0px; padding: 0px 0px 0px 12px;">
+        <hr width="99%" />
         <div class="form-group col-md-2">
-            <select class="form-control" name="brand">
+            <select class="design-select" name="copy_writer" id="copy_writer">
+                <option value="">Select Copy Writer</option>
+                @foreach ($all_copywriters as $value)
+                    <option value="{{ $value->first_name }}" @if( $value->first_name == $copy_writer) selected="selected" @endif >
+                        {{ $value->first_name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+
+        <div class="form-group col-md-2">
+            <select class="design-select" name="brand">
                 <option value="">Select Brand</option>
                 @foreach ($brands as $key => $value)
                     <option value="{{ $key }}" @if( $key == $brand_) selected="selected" @endif >
@@ -10,8 +22,13 @@
                 @endforeach
             </select>
         </div>
+
         <div class="form-group col-md-2">
-            <button class="btn btn-block btn-primary btn-filter"><i class="fas fa-search"></i> {{ __('general.btn_search_label') }}</button>
+            <input type="text" name="asset_id" class="design-field" id="asset_id" placeholder="Asset ID" value="{{ !empty($filter['asset_id']) ? $filter['asset_id'] : '' }}">
+        </div>
+
+        <div class="form-group col-md-2">
+            <button class="design-btn">Apply</button>
         </div>
     </div>
 </form>

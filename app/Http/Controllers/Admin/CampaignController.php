@@ -2842,11 +2842,18 @@ class CampaignController extends Controller
                     && $user_role != 'admin'){
                     return false;
                 }
-            }else{
+            } else if ($param['status'] == 'copy_in_progress') {
+                if ($user_role != 'copywriter'
+                    && $user_role != 'copywriter manager'
+                    && $user_role != 'admin') {
+                    return false;
+                }
+            } else {
                 if ($user_role != 'admin') {
                     return false;
                 }
             }
+
         }
         return true;
     }

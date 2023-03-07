@@ -3,25 +3,16 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Approval List [{{$team}}]</h1>
+        <h1>Copy List</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
-            <div class="breadcrumb-item">Asset Approval</div>
+            <div class="breadcrumb-item">Copy List</div>
         </div>
     </div>
 
     <div class="section-body">
 
-        <?php if($team == 'Content'){ ?>
-            @include('admin.asset.approval_filter_content')
-        <?php }else if($team == 'Web Production'){ ?>
-            @include('admin.asset.approval_filter_web')
-        <?php }else if($team == 'Copy'){ ?>
-            @include('admin.asset.approval_filter_copy')
-        <?php } else { ?>
-            @include('admin.asset.approval_filter')
-        <?php } ?>
-
+        @include('admin.asset.approval_filter_copy')
         @include('admin.asset.flash')
 
         <div class="row" style="margin-top: 15px;">
@@ -33,6 +24,7 @@
                                 <tbody>
                                     <tr>
                                         <th>Due Date</th>
+                                        <th>Team</th>
                                         <th>Asset Type</th>
                                         <th>Project ID</th>
                                         <th>Asset ID</th>
@@ -43,15 +35,19 @@
                                     @foreach ($asset_list as $asset)
                                         <tr>
                                             <td>{{ date('m/d/Y', strtotime($asset->due)) }}</td>
+                                            <td>{{ $asset->team_to }}</td>
                                             <td>{{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}</td>
-                                            <td>{{$asset->campaign_id}}</td>
-                                            <td><a href="{{ url('admin/campaign/'.$asset->campaign_id.'/edit#'.$asset->asset_id) }}">
+                                            <td>
+                                                {{$asset->campaign_id}}
+                                            </td>
+                                            <td>
+                                                <a href="{{ url('admin/campaign/'.$asset->campaign_id.'/edit#'.$asset->asset_id) }}">
                                                     <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #767676" data-initial="{{$asset->asset_id}}"></figure>
                                                 </a>
                                             </td>
                                             <td>{{ $asset->name }}</td>
                                             <td>
-                                                <a href="{{ url('admin/asset/'. $asset->asset_id .'/'. $asset->campaign_id . '/' . $asset->asset_type . '/detail')}}" class="btn btn-secondary">
+                                                <a href="{{ url('admin/asset/'. $asset->asset_id .'/'. $asset->campaign_id . '/' . $asset->asset_type . '/detail_copy')}}" class="btn btn-secondary">
                                                     Detail
                                                 </a>
                                             </td>

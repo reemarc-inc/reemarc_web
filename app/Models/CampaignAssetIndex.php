@@ -20,6 +20,7 @@ class CampaignAssetIndex extends Model
         'team_to',
         'status',
         'assignee',
+        'copy_writer',
         'decline_copy',
         'decline_creative',
         'decline_kec'

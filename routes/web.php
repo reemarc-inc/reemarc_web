@@ -83,8 +83,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('archives', AdminArchives::class);
 
     Route::get('asset_approval', [AdminAsset::class, 'asset_approval'])->name('asset.approval');
-    Route::get('asset_approval_content', [AdminAsset::class, 'asset_approval_content'])->name('asset.approval_content');
-    Route::get('asset_approval_web', [AdminAsset::class, 'asset_approval_web'])->name('asset.approval_web');
+    Route::get('asset_approval_copy', [AdminAsset::class, 'asset_approval_copy'])->name('asset.approval_copy');
     Route::get('asset_approval_content', [AdminAsset::class, 'asset_approval_content'])->name('asset.approval_content');
     Route::get('asset_approval_web', [AdminAsset::class, 'asset_approval_web'])->name('asset.approval_web');
     Route::get('asset_assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
@@ -94,8 +93,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('asset_jira_kec', [AdminAsset::class, 'asset_jira_kec'])->name('asset.jira_kec');
     Route::get('asset_jira_copywriter', [AdminAsset::class, 'asset_jira_copywriter'])->name('asset.jira_copywriter');
     Route::get('asset/{a_id}/{c_id}/{a_type}/detail', [AdminAsset::class, 'asset_detail'])->name('asset.detail');
+    Route::get('asset/{a_id}/{c_id}/{a_type}/detail_copy', [AdminAsset::class, 'asset_detail_copy'])->name('asset.detail_copy');
 
     Route::post('asset/assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
+    Route::post('asset/assign_copy', [AdminAsset::class, 'asset_assign_copy'])->name('asset.assign_copy');
     Route::post('asset/assign_change', [AdminAsset::class, 'asset_assign_change'])->name('asset.assign_change');
     Route::post('asset/decline_copy', [AdminAsset::class, 'asset_decline_copy'])->name('asset.decline_copy');
     Route::post('asset/decline_creative', [AdminAsset::class, 'asset_decline_creative'])->name('asset.decline_creative');
@@ -108,6 +109,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::get('asset/copyReview/{id}', [AdminAsset::class, 'copyReview'])->name('campaign.copyReview');
     Route::get('asset/copyComplete/{id}', [AdminAsset::class, 'copyComplete'])->name('campaign.copyComplete');
+    Route::get('asset/copyInProgress/{id}', [AdminAsset::class, 'copyInProgress'])->name('campaign.copyInProgress');
     Route::get('asset/inProgress/{id}', [AdminAsset::class, 'inProgress'])->name('campaign.inProgress');
     Route::get('asset/done/{id}', [AdminAsset::class, 'done'])->name('campaign.done');
     Route::get('asset/finalApproval/{id}', [AdminAsset::class, 'finalApproval'])->name('campaign.finalApproval');

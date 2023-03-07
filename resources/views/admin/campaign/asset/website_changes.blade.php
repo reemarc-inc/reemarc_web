@@ -171,8 +171,24 @@
     </div>
 
     <div class="form-group">
-        <?php if (!empty($data[2]) && $data[2] == 'copy_requested') { ?>
-        <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin') { ?>
+        <?php if (!empty($data[2]) && $data[2] == 'copy_to_do') { ?>
+        <?php if(auth()->user()->role == 'copywriter'
+        || auth()->user()->role == 'copywriter manager'
+        || auth()->user()->role == 'admin') { ?>
+        <input type="button"
+               name="copy start"
+               value="Copy Start"
+               onclick="copy_work_start($(this))"
+               data-asset-id="<?php echo $asset_id; ?>"
+               style="margin-top:10px;"
+               class="btn btn-success submit"/>
+        <?php } ?>
+        <?php }?>
+
+        <?php if (!empty($data[2]) && $data[2] == 'copy_in_progress') { ?>
+        <?php if(auth()->user()->role == 'copywriter'
+        || auth()->user()->role == 'copywriter manager'
+        || auth()->user()->role == 'admin') { ?>
         <input type="button"
                value="Copy Review"
                onclick="change_to_copy_review($(this))"
@@ -198,14 +214,13 @@
 
         <?php if (!empty($data[2]) && $data[2] == 'to_do') { ?>
         <?php if(auth()->user()->role == 'graphic designer'
-            || auth()->user()->role == 'content creator'
-            || auth()->user()->role == 'web production'
-            || auth()->user()->role == 'creative director'
-            || auth()->user()->role == 'content manager'
-            || auth()->user()->role == 'web production manager'
-            || auth()->user()->role == 'admin') { ?>
+        || auth()->user()->role == 'content creator'
+        || auth()->user()->role == 'web production'
+        || auth()->user()->role == 'creative director'
+        || auth()->user()->role == 'content manager'
+        || auth()->user()->role == 'web production manager'
+        || auth()->user()->role == 'admin') { ?>
         <input type="button"
-               name="start"
                value="Start Asset"
                onclick="work_start($(this))"
                data-asset-id="<?php echo $asset_id; ?>"
@@ -214,41 +229,41 @@
         <?php } ?>
         <?php }?>
 
-            <?php if (!empty($data[2]) && $data[2] == 'in_progress') { ?>
-            <?php if(auth()->user()->role == 'graphic designer'
-            || auth()->user()->role == 'content creator'
-            || auth()->user()->role == 'web production'
-            || auth()->user()->role == 'creative director'
-            || auth()->user()->role == 'content manager'
-            || auth()->user()->role == 'web production manager'
-            || auth()->user()->role == 'admin') { ?>
-            <input type="button"
-                   value="Submit for Approval"
-                   onclick="work_done($(this))"
-                   data-asset-id="<?php echo $asset_id; ?>"
-                   style="margin-top:10px;"
-                   class="btn btn-info submit"/>
-            <?php } ?>
-            <?php }?>
+        <?php if (!empty($data[2]) && $data[2] == 'in_progress') { ?>
+        <?php if(auth()->user()->role == 'graphic designer'
+        || auth()->user()->role == 'content creator'
+        || auth()->user()->role == 'web production'
+        || auth()->user()->role == 'creative director'
+        || auth()->user()->role == 'content manager'
+        || auth()->user()->role == 'web production manager'
+        || auth()->user()->role == 'admin') { ?>
+        <input type="button"
+               value="Submit for Approval"
+               onclick="work_done($(this))"
+               data-asset-id="<?php echo $asset_id; ?>"
+               style="margin-top:10px;"
+               class="btn btn-info submit"/>
+        <?php } ?>
+        <?php }?>
 
-            <?php if (!empty($data[2]) && $data[2] == 'done') { ?>
-                <?php if(auth()->user()->role == 'ecommerce specialist'
-                || auth()->user()->role == 'marketing'
-                || auth()->user()->role == 'social media manager'
-                || auth()->user()->role == 'admin') { ?>
-                    <input type="button"
-                           value="Final Approval"
-                           onclick="final_approval($(this))"
-                           data-asset-id="<?php echo $asset_id; ?>"
-                           style="margin-top:10px;"
-                           class="btn btn-dark submit"/>
-                <?php } ?>
-            <?php }?>
+        <?php if (!empty($data[2]) && $data[2] == 'done') { ?>
+        <?php if(auth()->user()->role == 'ecommerce specialist'
+        || auth()->user()->role == 'marketing'
+        || auth()->user()->role == 'social media manager'
+        || auth()->user()->role == 'admin') { ?>
+        <input type="button"
+               value="Final Approval"
+               onclick="final_approval($(this))"
+               data-asset-id="<?php echo $asset_id; ?>"
+               style="margin-top:10px;"
+               class="btn btn-dark submit"/>
+        <?php } ?>
+        <?php }?>
 
-            <?php if (!empty($data[2]) && $data[2] != 'final_approval') { ?>
-                <input type="submit" name="submit" value="Save Changes" style="margin-top:10px;" class="btn btn-primary submit"/>
-                <input type="hidden" name="status" value="{{ $data[2] }}"/>
-            <?php }?>
+        <?php if (!empty($data[2]) && ( $data[2] != 'final_approval' && $data[2] != 'copy_requested' && $data[2] != 'copy_to_do' ) ) { ?>
+        <input type="submit" name="submit" value="Save Changes" style="margin-top:10px;" class="btn btn-primary submit"/>
+        <input type="hidden" name="status" value="{{ $data[2] }}"/>
+        <?php }?>
     </div>
 </form>
 

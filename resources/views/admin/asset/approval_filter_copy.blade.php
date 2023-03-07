@@ -1,4 +1,4 @@
-<form method="GET" action="{{ route('asset.approval_web') }}">
+<form method="GET" action="{{ route('asset.approval_copy') }}">
     <div class="form-row" style="background-color: white; margin: -16px 0px 0px 0px; padding: 0px 0px 0px 12px;">
         <hr width="99%" />
         <div class="form-group col-md-2">
@@ -15,7 +15,7 @@
 {{--        <div class="form-group col-md-2">--}}
 {{--        </div>--}}
         <div class="form-group col-md-2">
-            <button class="design-btn"><i class="fas fa-search"></i> {{ __('general.btn_search_label') }}</button>
+            <button class="design-btn">Apply</button>
         </div>
     </div>
 </form>

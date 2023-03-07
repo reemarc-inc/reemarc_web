@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group">
-        <label>Launch Date: (Lead Time 13 Days)</label>
+        <label>Launch Date: (Lead Time 14 Days)</label>
         <input type="text" name="{{ $asset_type }}_launch_date" id="{{ $asset_type }}_launch_date"
                class="form-control @error($asset_type.'_launch_date') is-invalid @enderror @if (!$errors->has($asset_type.'_launch_date') && old($asset_type.'_launch_date')) is-valid @endif"
                value="{{ old($asset_type.'_launch_date', null) }}">
@@ -88,9 +88,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +13 days - YouTube Copy (exclude weekend)
+    // Lead time +14 days - YouTube Copy (exclude weekend)
     $(function() {
-        var count = 13;
+        var count = 14;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

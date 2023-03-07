@@ -94,7 +94,11 @@
     <div class="form-group">
         <table class="reminder_table">
             <tr>
-                <td><span class="lead-time"><b>&nbspCopyWriters Start&nbsp</b></span></td>
+                <td><span class="lead-time"><b>&nbspCopywriter Assign Start&nbsp</b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -36 weekday')); ?></b></span></td>
+            </tr>
+            <tr>
+                <td><span class="lead-time"><b>&nbspCopy Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -34 weekday')); ?></b></span></td>
             </tr>
             <tr>
@@ -102,7 +106,7 @@
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -32 weekday')); ?></b></span></td>
             </tr>
             <tr>
-                <td><span class="lead-time"><b>&nbspCreative Assign Start&nbsp</b></span></td>
+                <td><span class="lead-time"><b>&nbspCreator Assign Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -30 weekday')); ?></b></span></td>
             </tr>
             <tr>
@@ -201,7 +205,7 @@
     </div>
 
     <div class="form-group">
-        <?php if (!empty($data[2]) && $data[2] == 'copy_requested') { ?>
+        <?php if (!empty($data[2]) && $data[2] == 'copy_in_progress') { ?>
         <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin') { ?>
         <input type="button"
                value="Copy Review"
@@ -276,7 +280,7 @@
                 <?php } ?>
             <?php }?>
 
-            <?php if (!empty($data[2]) && $data[2] != 'final_approval') { ?>
+            <?php if (!empty($data[2]) && ( $data[2] != 'final_approval' && $data[2] != 'copy_requested') ) { ?>
                 <input type="submit" name="submit" value="Save Changes" style="margin-top:10px;" class="btn btn-primary submit"/>
                 <input type="hidden" name="status" value="{{ $data[2] }}"/>
             <?php }?>
@@ -381,7 +385,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +34 days - A+ Content
+    // Lead time +36 days - A+ Content
     $(function() {
         var lead_time = "<?php echo $data[0][0]->launch_date; ?>"
 
