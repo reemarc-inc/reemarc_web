@@ -101,8 +101,6 @@ class CampaignRepository implements CampaignRepositoryInterface
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_video_production
-                    union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_changes
