@@ -752,10 +752,11 @@ class CampaignController extends Controller
 
         if( ($user->role == 'admin') || ($user->role == 'creative director') ) return true; // admin okay
 
-        $c_obj = $this->campaignRepository->findById($c_id);
-        if($user->id != $c_obj->author_id){ // project author check
-            return false;
-        }
+//        $c_obj = $this->campaignRepository->findById($c_id);
+//        if($user->id != $c_obj->author_id){ // project author check
+//            return false;
+//        }
+
 
         // asset creator check
         if($type == 'email_blast'){
@@ -844,6 +845,13 @@ class CampaignController extends Controller
             }
         }else if($type == 'a_content'){
             $rs = $this->campaignTypeAContentRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
+            }
+        }else if($type == 'youtube_copy'){
+            $rs = $this->campaignTypeYoutubeCopyRepository->findAllByAssetId($a_id);
             if(!empty($rs[0])) {
                 if($user->id != $rs[0]->author_id){
                     return false;
@@ -939,6 +947,12 @@ class CampaignController extends Controller
                 }
             }else if($type == 'a_content'){
                 if($this->campaignTypeAContentRepository->deletebyAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'youtube_copy'){
+                if($this->campaignTypeYoutubeCopyRepository->deletebyAssetId($a_id)){
                     echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
                 }else{
                     echo 'fail';
