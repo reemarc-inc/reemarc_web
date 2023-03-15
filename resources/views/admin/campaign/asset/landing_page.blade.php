@@ -111,7 +111,7 @@
     </div>
 
     <div class="form-group">
-        <label>Launch Date: {{$data[0][0]->launch_date}}</label>
+        <label>Launch Date:</label>
         <input type="text" name="launch_date" id="{{$asset_id}}_launch_date"
                class="form-control @error('launch_date') is-invalid @enderror @if (!$errors->has('launch_date') && old('launch_date')) is-valid @endif"
                value="{{ old('launch_date', !empty($data[0][0]) ? $data[0][0]->launch_date : null) }}">
