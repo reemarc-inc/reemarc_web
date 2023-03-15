@@ -98,6 +98,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('asset/assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
     Route::post('asset/assign_copy', [AdminAsset::class, 'asset_assign_copy'])->name('asset.assign_copy');
     Route::post('asset/assign_change', [AdminAsset::class, 'asset_assign_change'])->name('asset.assign_change');
+    Route::post('asset/copy_writer_change', [AdminAsset::class, 'asset_copy_writer_change'])->name('asset.copy_writer_change');
     Route::post('asset/decline_copy', [AdminAsset::class, 'asset_decline_copy'])->name('asset.decline_copy');
     Route::post('asset/decline_creative', [AdminAsset::class, 'asset_decline_creative'])->name('asset.decline_creative');
     Route::post('asset/decline_kec', [AdminAsset::class, 'asset_decline_kec'])->name('asset.decline_kec');

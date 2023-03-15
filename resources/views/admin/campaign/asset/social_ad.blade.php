@@ -1,5 +1,32 @@
 <?php $asset_id = $data[0][0]->asset_id; $c_id = $data[0][0]->id; $a_type = $data[0][0]->type; ?>
 
+<?php if(!empty($data[8]) && (auth()->user()->role == 'admin'
+    || auth()->user()->role == 'copywriter manager' )) { ?>
+<div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 3px;">
+    <form method="POST" action="{{ route('asset.copy_writer_change') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="form-group">
+            <label>Copywriter</label>
+            <select class="form-control" name="copy_writer">
+                <option value="">Select</option>
+                @foreach ($copy_writers as $copy_writer)
+                    <option value="{{ $copy_writer->first_name }}" {{ $copy_writer->first_name == $data[8] ? 'selected' : '' }}>
+                        {{ $copy_writer->first_name }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <input type="hidden" name="a_id" value="{{ $asset_id }}">
+        <input type="hidden" name="c_id" value="{{ $c_id }}">
+        <input type="hidden" name="a_type" value="{{ $a_type }}">
+        <div class=" text-right">
+            <button class="btn btn-info">Change</button>
+        </div>
+    </form>
+</div>
+<?php } ?>
+
+
 <?php if(!empty($data[6]) && (auth()->user()->role == 'admin'
     || auth()->user()->role == 'creative director'
     || auth()->user()->role == 'content manager'

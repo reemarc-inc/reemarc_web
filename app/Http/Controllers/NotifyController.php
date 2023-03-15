@@ -594,7 +594,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy Requested',
-                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/' . $item->brand_name . '/detail_copy',
                         ];
                         // Email to asset creator!
                         $cc_list = array();
@@ -619,7 +619,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy Request',
-                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/' . $item->brand_name . '/detail_copy',
                         ];
                         // Email to asset creator!
                         $cc_list = array();
@@ -643,7 +643,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy Request',
-                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/' . $item->brand_name . '/detail_copy',
                         ];
                         // Email to copy writer! and director Frank and Mo
                         $cc_list = array();
@@ -703,7 +703,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy To Do',
-                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                         ];
                         // Email to Assigned Copywriter
                         $cc_list = array();
@@ -728,7 +728,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy To Do',
-                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                         ];
                         // Email to asset creator!
                         $cc_list = array();
@@ -752,7 +752,7 @@ class NotifyController extends Controller
                             'task_name' => $item->project_name,
                             'asset_type' => ucwords(str_replace('_', ' ', $item->asset_type)),
                             'asset_status' => 'Copy To Do',
-                            'url' => '/admin/asset/' . $item->asset_id . '/' . $item->campaign_id . '/' . $item->asset_type . '/detail_copy',
+                            'url' => '/admin/campaign/' . $item->campaign_id . '/edit#' . $item->asset_id,
                         ];
                         // Email to copy writer! and director Frank and Mo
                         $cc_list = array();
