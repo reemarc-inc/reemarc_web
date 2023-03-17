@@ -600,7 +600,7 @@ select.form-control:not([size]):not([multiple]) {
 
   .design-select {
       display: inline-block;
-      width: 95%;
+      width: 100%;
       height: calc(1.6em + 0.75rem + 2px);
       padding: 0.375rem 1.75rem 0.375rem 0.75rem;
       font-size: 1.1rem;
@@ -643,19 +643,18 @@ select.form-control:not([size]):not([multiple]) {
     border-radius: 2.25em;
     padding: .500rem .75rem;
     width: 100%;
-    box-shadow: #6B6464;
+    box-shadow: #ffffff;
 }
 .design-btn:hover {
     color: #000000;
-    background-color: #6B6464;
-    border-color: #6B6464;
-    box-shadow: #6B6464;
-}
-.design-btn.active {
-    background: #000000;
-    color: #5c5c5c;
+    background-color: #ffffff;
     border-color: #000000;
-    box-shadow: #000000;
+    box-shadow: #ffffff;
+}
+
+.design-btn:hover:active {
+    border-color: #000000;
+    outline: none;
 }
 
 
@@ -686,7 +685,7 @@ select.form-control:not([size]):not([multiple]) {
 .status_title{
     background-color: #e4e4e4;
     border-radius: 30px;
-    margin-bottom: 20px;
+    /*margin-bottom: 20px;*/
     box-shadow: #e4e4e4;
 }
 

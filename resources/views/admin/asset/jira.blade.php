@@ -16,7 +16,7 @@
             @include('admin.asset.jira_filter')
             @include('admin.asset.flash')
 
-            <div class="row" style="margin-top: 15px;">
+            <div class="row" style="margin-top: 30px;">
 
                 <div class="col-md-3">
                     <div class="card status_title">
