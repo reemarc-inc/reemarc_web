@@ -1013,6 +1013,7 @@ class AssetController extends Controller
 
         $new_note = preg_replace("/<p[^>]*?>/", "", $param['create_note']);
         $new_note = str_replace("</p>", "\r\n", $new_note);
+        $new_note = html_entity_decode($new_note);
 
         if($email_list){
             $details = [
