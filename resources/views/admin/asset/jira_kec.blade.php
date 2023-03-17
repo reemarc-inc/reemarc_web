@@ -15,7 +15,7 @@
             @include('admin.asset.jira_kec_filter')
             @include('admin.asset.flash')
 
-            <div class="row flex-nowrap" style="overflow-x: scroll; padding-top: 7px;">
+            <div class="row flex-nowrap" style="overflow-x: scroll; padding-top: 17px;">
 
                 <div class="col-md-3" >
                     <div class="card status_title">
@@ -224,7 +224,7 @@
                                                 {{ mb_strimwidth($asset->name, 0,50, '...') }}
                                             </div>
                                             <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
-                                                            height:1px;margin-top: 15px;margin-bottom: 10px;margin-bottom: 5px;width:100%">
+                                                            height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
                                             <?php if($asset->team_to == 'content') {
                                                 $bg_type = '#9f76c2';
                                             }else if($asset->team_to == 'web production'){
@@ -972,6 +972,7 @@
         border-radius: 50%;
         margin-right: 1.0em;
         background-color: #EFEFEF;
+        border: 1px solid #ebebeb;
     }
 
     .left:after {
@@ -989,7 +990,17 @@
     }
 
     .left:hover {
-        background-color: #bbbbbb;
+        background-color: #fdfdfd;
+        border-color: #848484;
+        border: 1px solid #ebebeb;
+    }
+
+    .left:hover:after {
+        border-top: 0.3em solid #2f2f2f;
+        border-right: 0.3em solid #2f2f2f;
+        -moz-transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+        transform: rotate(-135deg);
     }
 
     .right {
@@ -1000,6 +1011,7 @@
         border-radius: 50%;
         margin-left: -0.5em;
         background-color: #EFEFEF;
+        border: 1px solid #ebebeb;
     }
 
     .right:after {
@@ -1017,7 +1029,17 @@
     }
 
     .right:hover {
-        background-color: #bbbbbb;
+        background-color: #fdfdfd;
+        border-color: #848484;
+        border: 1px solid #ebebeb;
+    }
+
+    .right:hover:after {
+        border-top: 0.3em solid #2f2f2f;
+        border-right: 0.3em solid #2f2f2f;
+        -moz-transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+        transform: rotate(45deg);
     }
 
     .follow {
