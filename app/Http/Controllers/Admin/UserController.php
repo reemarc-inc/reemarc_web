@@ -57,7 +57,8 @@ class UserController extends Controller
         $this->data['teams_'] = [
             'KDO',
             'Creative',
-            'Global Marketing'
+            'Global Marketing',
+            'Omni Channel Sales',
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
@@ -92,7 +93,8 @@ class UserController extends Controller
         $this->data['teams'] = [
             'KDO',
             'Creative',
-            'Global Marketing'
+            'Global Marketing',
+            'Omni Channel Sales',
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
@@ -190,7 +192,8 @@ class UserController extends Controller
         $this->data['teams'] = [
             'KDO',
             'Creative',
-            'Global Marketing'
+            'Global Marketing',
+            'Omni Channel Sales',
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
