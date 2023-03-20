@@ -70,13 +70,15 @@ class UserRepository implements UserRepositoryInterface
     {
         $user = User::findOrFail($id);
 
-        if (!$params['password']) {
+        if (!isset($params['password'])) {
             unset($params['password']);
         }
 
         return DB::transaction(function () use ($params, $user) {
 
-            $params['password'] = Hash::make($params['password']);
+            if(isset($params['password'])){
+                $params['password'] = Hash::make($params['password']);
+            }
             $user->update($params);
 //            $this->syncRolesAndPermissions($params, $user);
 
