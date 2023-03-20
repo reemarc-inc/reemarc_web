@@ -223,12 +223,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = $this->userRepository->findById($id);
-
         $param = $request->request->all();
+        $log_user = auth()->user();
 
-        if($param['password'] == null){
-            return redirect('admin/users/'.$id.'/edit')
-                ->with('error', 'Please enter your password to update');
+        if($log_user['role'] != 'admin'){
+            if($param['password'] == null){
+                return redirect('admin/users/'.$id.'/edit')
+                    ->with('error', 'Please enter your password to update');
+            }
         }
 
         if (isset($param['user_brand'])) {
