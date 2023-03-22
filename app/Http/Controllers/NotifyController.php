@@ -67,7 +67,7 @@ class NotifyController extends Controller
                     'asset_type'    => $asset_type,
                     'asset_status'  => $asset_status,
 //                    'url'           => '/admin/asset/'.$a_id.'/'.$c_id.'/'.$asset_type.'/detail_copy',
-                    'url'           => '/admin/asset/'.$a_id.'/'.$c_id.'/'.$asset_type. '/' . $brand_rs['campaign_name'] . '/' . '/detail_copy',
+                    'url'           => '/admin/asset/'.$a_id.'/'.$c_id.'/'.$asset_type. '/' . $brand_rs['campaign_name'] . '/detail_copy',
                 ];
 
                 Mail::to($user['email'])->send(new CopyRequest($details));
