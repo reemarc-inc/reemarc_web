@@ -394,7 +394,7 @@ class AssetController extends Controller
         $params['id'] = $param['a_id'];
         $c_id = $param['c_id'];
         $a_type = $param['a_type'];
-        $params['status'] = 'copy_requested';
+        $params['status'] = 'copy_to_do';
         $params['decline_copy'] = $param['decline_copy'];
         $params['updated_at'] = Carbon::now();
 
