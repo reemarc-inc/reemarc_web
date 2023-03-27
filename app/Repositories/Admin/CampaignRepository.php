@@ -84,7 +84,7 @@ class CampaignRepository implements CampaignRepositoryInterface
                    (select assignee from campaign_asset_index where id= a_id) assignee,
                         (select copy_writer from campaign_asset_index where id= a_id) copy_writer,
                             (select team_to from campaign_asset_index where id= a_id) team_to,
-                                (select first_name from campaign_asset_index join users on users.id = campaign_asset_index.author_id where campaign_asset_index.id= a_id) asset_creator,
+                                (select concat(first_name, " ", last_name) from campaign_asset_index join users on users.id = campaign_asset_index.author_id where campaign_asset_index.id= a_id) asset_creator,
                                     (select users.id from campaign_asset_index join users on users.id = campaign_asset_index.author_id where campaign_asset_index.id= a_id) asset_creator_id,
                                         (select decline_copy from campaign_asset_index where id= a_id) decline_copy,
                                             (select decline_creative from campaign_asset_index where id= a_id) decline_creative,

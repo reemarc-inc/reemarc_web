@@ -42,6 +42,7 @@ use App\Models\CampaignTypeTopcategoriesCopy;
 use App\Models\CampaignTypeWebsiteBanners;
 use App\Models\CampaignTypeWebsiteChanges;
 use App\Models\CampaignTypeYoutubeCopy;
+use App\Models\User;
 use App\Repositories\Admin\AssetNotificationUserRepository;
 use App\Repositories\Admin\AssetOwnerAssetsRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
@@ -461,8 +462,14 @@ class CampaignController extends Controller
         $this->data['promotion'] = $campaign->promotion;
         $this->data['assignee'] = $campaign->assignee;
         $this->data['retailer'] = $campaign->retailer;
-        $this->data['author_name'] = $campaign->author_name;
 
+        $author_obj = User::find($campaign->author_id);
+
+        if($author_obj){
+            $this->data['author_name'] = $author_obj['first_name'] . " " . $author_obj['last_name'];
+        }else{
+            $this->data['author_name'] = 'N/A';
+        }
         $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
         $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
         $this->data['assignees_web'] = $this->userRepository->getWebAssignee();

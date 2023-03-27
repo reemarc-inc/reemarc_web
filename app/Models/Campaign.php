@@ -60,6 +60,11 @@ class Campaign extends Model
         return $this->belongsTo(CampaignBrands::class, 'campaign_brand', 'id');
     }
 
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'author_id', 'id');
+    }
+
     public function asset_email_blasts()
     {
         return $this->hasMany(CampaignTypeEmailBlast::class, 'id', 'id');
