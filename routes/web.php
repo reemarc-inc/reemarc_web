@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AssetOwnerController as AdminAssetOwner;
 use App\Http\Controllers\Admin\SettingController as AdminSetting;
 use App\Http\Controllers\HomeController as HomeController;
 use App\Http\Controllers\NotifyController as NotifyController;
+use App\Http\Controllers\Auth\ForgotPasswordController as ForgotPasswordController;
 use App\Mail\SendMail as SendMail;
 use App\Mail\MyDemoMail as MyDemoMail;
 use Illuminate\Support\Facades\Mail;
@@ -38,6 +39,12 @@ Route::get('/email', function() {
     Mail::to('jinsunglee.8033@gmail.com')->send(new SendMail());
     return new SendMail();
 });
+
+
+Route::get('forget-password', [ForgotPasswordController::class, 'showForgetPasswordForm'])->name('forget.password.get');
+Route::post('forget-password', [ForgotPasswordController::class, 'submitForgetPasswordForm'])->name('forget.password.post');
+Route::get('reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.get');
+Route::post('reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
 
 
 Route::get('/email_test', [SendMail::class, 'email_send'])->name('email_send');
