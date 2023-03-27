@@ -365,7 +365,7 @@ class CampaignController extends Controller
                                 $asset_owner_user_obj = $this->userRepository->findById($user_id);
                                 if (isset($asset_owner_user_obj)) {
                                     $notify->new_project_asset_owners($asset_owner_user_obj, $campaign, $asset_name);
-                                    $asset_owner_first_name = $asset_owner_user_obj['first_name'];
+                                    $asset_owner_first_name = $asset_owner_user_obj['first_name'] . " " . $asset_owner_user_obj['last_name'];
                                     $asset_note .= "<p>$asset_owner_first_name - Please create <b>$asset_name</b></p>";
                                 }
                             }
