@@ -561,10 +561,10 @@
                                         <?php if(!empty($correspondence->users)) { ?>
                                             <?php $role = $correspondence->users->role ?>
                                             <?php $team = $correspondence->users->team ?>
-                                            <?php $first_name = $correspondence->users->first_name ?>
+                                            <?php $first_name = $correspondence->users->first_name . ' ' . $correspondence->users->last_name ?>
                                         <?php }else{  ?>
-                                        <?php $role = 'graphic designer' ?>
-                                        <?php $team = 'Creative' ?>
+                                        <?php $role = '-' ?>
+                                        <?php $team = '-' ?>
                                         <?php $first_name = 'Not Exist User' ?>
                                         <?php } ?>
 

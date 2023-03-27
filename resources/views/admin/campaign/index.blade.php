@@ -48,7 +48,7 @@
                                         </div>
                                         <div>
                                             <b>Created By:</b>
-                                            {{ $campaign->author_name }}
+                                            {{ $campaign->author->first_name }} {{ $campaign->author->last_name }}
                                         </div>
                                         <div>
                                             <b>Status:</b>
