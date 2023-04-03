@@ -26,8 +26,14 @@ class CampaignRepository implements CampaignRepositoryInterface
         if (!empty($options['filter']['q'])) {
             $campaigns = $campaigns->Where('name', 'LIKE', "%{$options['filter']['q']}%");
         }
+        if (!empty($options['filter']['id'])) {
+            $campaigns = $campaigns->Where('id', $options['filter']['id']);
+        }
         if (!empty($options['filter']['status'])) {
             $campaigns = $campaigns->where('status', $options['filter']['status']);
+        }
+        if (!empty($options['filter']['brand'])) {
+            $campaigns = $campaigns->Where('campaign_brand', $options['filter']['brand']);
         }
         if ($perPage) {
             return $campaigns->paginate($perPage);

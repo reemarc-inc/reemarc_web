@@ -41,16 +41,16 @@
 {{--                                            <td>{{ $user->access_level }}</td>--}}
                                             <td>
 {{--                                                @can('edit_users')--}}
-                                                    <a class="btn btn-sm btn-warning" href="{{ url('admin/users/'. $user->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
+                                                    <a class="btn btn-sm" href="{{ url('admin/users/'. $user->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
 {{--                                                @endcan--}}
 
 {{--                                                @can('delete_users')--}}
-                                                    <a href="{{ url('admin/users/'. $user->id) }}" class="btn btn-sm btn-danger" onclick="
+                                                    <a href="{{ url('admin/users/'. $user->id) }}" class="btn btn-sm" onclick="
                                                         event.preventDefault();
                                                         if (confirm('Do you want to remove this User?')) {
                                                             document.getElementById('delete-role-{{ $user->id }}').submit();
                                                         }">
-                                                        <i class="far fa-trash-alt"></i> @lang('general.btn_delete_label')
+                                                        <i class="far fa-trash-alt"></i> Delete
                                                     </a>
                                                     <form id="delete-role-{{ $user->id }}" action="{{ url('admin/users/'. $user->id) }}" method="POST">
                                                         <input type="hidden" name="_method" value="DELETE">
