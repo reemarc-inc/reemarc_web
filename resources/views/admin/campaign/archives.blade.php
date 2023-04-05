@@ -48,7 +48,9 @@
                                         </div>
                                         <div>
                                             <b>Created By:</b>
+                                            <?php if(isset($campaign->author)) { ?>
                                             {{ $campaign->author->first_name }} {{ $campaign->author->last_name }}
+                                            <?php } ?>
                                         </div>
                                         <div>
                                             <b>Status:</b>
