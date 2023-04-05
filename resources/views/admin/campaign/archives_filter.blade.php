@@ -19,12 +19,12 @@
             </select>
         </div>
         <div class="form-group col-md-2">
+            <button class="design-btn"> Apply </button>
+        </div>
+        <div class="form-group col-md-2">
             <a href="{{ url('admin/users/create') }}">
                 <button type="button" class="design-white-btn"><i class="fas fa-plus"></i> Create</button>
             </a>
-        </div>
-        <div class="form-group col-md-2">
-            <button class="design-btn"> Apply </button>
         </div>
     </div>
 </form>

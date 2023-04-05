@@ -171,6 +171,8 @@ class ArchivesController extends Controller
         $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
         $this->data['assignees_web'] = $this->userRepository->getWebAssignee();
 
+        $this->data['copy_writers'] = $this->userRepository->getCopyWriterAssignee();
+
         $this->data['kiss_users'] = $this->userRepository->getKissUsers();
 
         // Campaign_assets
