@@ -18,9 +18,9 @@
 
             @foreach ($campaigns as $campaign)
 
-                <div class="col-md-6">
-                    <div class="card">
-                        <div class="card-header" style="background-color: #e4e4e4;">
+                <div class="col-md-4">
+                    <div class="card" style="border-radius: 30px;background-color: #e2e2e2" >
+                        <div class="card-header" >
                             <h4>{{ $campaign->name }}
                                 <span class="float-right">
                                 <a  href="javascript:void(0);"
@@ -34,7 +34,7 @@
                             </h4>
 
                         </div>
-                        <div class="card-body" style="display: flex; background-color: #e4e4e4;">
+                        <div class="card-body" style="display: flex;">
                             <div class="col-md-6" style="border-right:1px solid #eee">
                                 <div class="form-group">
                                     <div class="input-group info" style="display: block; ">
@@ -56,9 +56,12 @@
                                         </div>
                                     </div>
                                     <div style="padding-top: 15px;">
-                                        <a href="{{ url('admin/archives/'. $campaign->id .'/edit')}}" class="btn btn-block btn-light">
-                                            Open
+                                        <a href="{{ url('admin/archives/'. $campaign->id .'/edit') }}">
+                                            <button type="button" class="btn-sm design-white-project-btn">Open</button>
                                         </a>
+{{--                                        <a href="{{ url('admin/archives/'. $campaign->id .'/edit')}}" class="btn btn-block btn-light">--}}
+{{--                                            Open--}}
+{{--                                        </a>--}}
                                     </div>
                                 </div>
 

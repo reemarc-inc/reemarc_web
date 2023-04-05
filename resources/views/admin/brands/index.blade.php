@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="section-body">
-        <h2 class="section-title">List of Brands</h2>
+        <br><br>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">

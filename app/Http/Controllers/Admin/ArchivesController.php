@@ -95,7 +95,12 @@ class ArchivesController extends Controller
         ];
 
         $this->data['filter'] = $params;
+
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+
         $this->data['campaigns'] = $this->campaignRepository->findAll($options);
+        $this->data['brand'] = !empty($params['brand']) ? $params['brand'] : '';
+        $this->data['id'] = !empty($params['id']) ? $params['id'] : '';
 
         return view('admin.campaign.archives', $this->data);
     }
@@ -165,6 +170,8 @@ class ArchivesController extends Controller
         $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
         $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
         $this->data['assignees_web'] = $this->userRepository->getWebAssignee();
+
+        $this->data['copy_writers'] = $this->userRepository->getCopyWriterAssignee();
 
         $this->data['kiss_users'] = $this->userRepository->getKissUsers();
 

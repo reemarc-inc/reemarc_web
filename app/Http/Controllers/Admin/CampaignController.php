@@ -173,7 +173,12 @@ class CampaignController extends Controller
             'filter' => $params,
         ];
         $this->data['filter'] = $params;
+
+        $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
+
         $this->data['campaigns'] = $this->campaignRepository->findAll($options);
+        $this->data['brand'] = !empty($params['brand']) ? $params['brand'] : '';
+        $this->data['id'] = !empty($params['id']) ? $params['id'] : '';
 
         return view('admin.campaign.index', $this->data);
     }

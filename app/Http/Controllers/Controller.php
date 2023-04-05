@@ -12,7 +12,7 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     protected $data = [];
-    protected $perPage = 20;
+    protected $perPage = 30;
 
     public function __construct()
     {

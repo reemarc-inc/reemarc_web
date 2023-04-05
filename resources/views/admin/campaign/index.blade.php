@@ -18,7 +18,7 @@
 
             @foreach ($campaigns as $campaign)
 
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="card">
                         <div class="card-header">
                             <h4>{{ $campaign->name }}
@@ -56,9 +56,12 @@
                                         </div>
                                     </div>
                                     <div style="padding-top: 15px;">
-                                        <a href="{{ url('admin/campaign/'. $campaign->id .'/edit')}}" class="btn btn-block btn-light">
-                                            Open
+                                        <a href="{{ url('admin/campaign/'. $campaign->id .'/edit') }}">
+                                            <button type="button" class="btn-sm design-white-project-btn">Open</button>
                                         </a>
+{{--                                        <a href="{{ url('admin/campaign/'. $campaign->id .'/edit')}}" class="btn btn-block btn-light">--}}
+{{--                                            Open--}}
+{{--                                        </a>--}}
                                     </div>
                                 </div>
 
@@ -103,7 +106,7 @@
 
     <script>
         function delete_campaign(el) {
-            if (confirm("Are you sure to DELETE?") == true) {
+            if (confirm("Are you sure to DELETE this project?") == true) {
                 let c_id = $(el).attr('data-campaign-id');
                 $.ajax({
                     url: "<?php echo url('/admin/campaign/campaignRemove'); ?>"+"/"+c_id,
