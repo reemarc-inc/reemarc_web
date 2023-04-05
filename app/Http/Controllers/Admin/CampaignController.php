@@ -2445,7 +2445,7 @@ class CampaignController extends Controller
         $campaignTypeAContent->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Copy Complete');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('a_content_c_attachment')){
             foreach ($request->file('a_content_c_attachment') as $file) {
@@ -2558,7 +2558,7 @@ class CampaignController extends Controller
         $campaignTypeYoutubeCopy->save();
 
         // insert note for adding asset
-        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, 'Copy Complete');
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
 
         if($request->file('youtube_copy_c_attachment')){
             foreach ($request->file('youtube_copy_c_attachment') as $file) {
