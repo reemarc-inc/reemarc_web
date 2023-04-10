@@ -8,6 +8,10 @@
             $status = 'archived';
             $second = 'Project Archives';
             $third = 'Show Project';
+        }else if($campaign->status == 'deleted'){
+            $status = 'deleted';
+            $second = 'Project Deleted';
+            $third = 'Deleted Project';
         }else{
             $status = 'active';
             $second = 'Project Manage';
@@ -57,11 +61,13 @@
                                 <div class="card-header">
                                     <h4>{{ $third }}</h4>
                                     @if ( ($third == 'Update Project') && (auth()->user()->role == 'admin') )
-
                                         <div class="text-right">
                                             <button class="btn btn-primary" id="send_archive" onclick="send_archive_project({{ $campaign->id }})">Send Archive</button>
                                         </div>
-
+                                    @elseif ( ($third == 'Deleted Project') && (auth()->user()->role == 'admin') )
+                                        <div class="text-right">
+                                            <button class="btn btn-primary" id="send_active" onclick="send_active_project({{ $campaign->id }})">Send Active Back</button>
+                                        </div>
                                     @endif
                                 </div>
                                 <div class="card-body">
@@ -1179,6 +1185,26 @@
                     success: function(response) {
                         if(response != 'fail'){
                             alert("Success. This Project moved to Archives Folder.")
+                            window.location.reload(response);
+                        }else{
+                            alert('Error!');
+                        }
+                    },
+                })
+            }
+        }
+
+        function send_active_project(project_id){
+
+            if (confirm("Are you sure to Send Active Back?") == true) {
+
+                $.ajax({
+                    url: "<?php echo url('/admin/campaign/send_active'); ?>"+"/"+project_id,
+                    type: "GET",
+                    datatype: "json",
+                    success: function(response) {
+                        if(response != 'fail'){
+                            alert("Success. This Project moved to Active Folder.")
                             window.location.reload(response);
                         }else{
                             alert('Error!');

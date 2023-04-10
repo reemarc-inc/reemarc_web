@@ -8,6 +8,7 @@ use DB;
 use App\Repositories\Admin\Interfaces\CampaignRepositoryInterface;
 
 use App\Models\Campaign;
+use Illuminate\Database\Eloquent\Model;
 
 class CampaignRepository implements CampaignRepositoryInterface
 {
@@ -219,5 +220,13 @@ class CampaignRepository implements CampaignRepositoryInterface
             'id15' => $id,
             'id16' => $id
         ]);
+    }
+
+    public function clean_up_more_than_two_weeks_projects(){
+
+//        return DB::delete('delete from campaign_item where updated_at < DATE(NOW() - INTERVAL 2 WEEK) and status = "deleted"');
+        return DB::delete('delete from users where first_name ="test"');
+//        return $campaign_obj->where('status = "deleted" and updated_at < DATE(NOW() - INTERVAL 2 WEEK)')->delete();
+
     }
 }

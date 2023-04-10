@@ -22,6 +22,9 @@
         <li class="{{ ($currentAdminMenu == 'campaign') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/campaign') }}"><i class="fas fa-calendar"></i> <span>Project Manager</span></a></li>
         <li class="{{ ($currentAdminMenu == 'archives') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/archives') }}"><i class="fas fa-archive"></i> <span>Project Archives</span></a></li>
 
+        <?php if(auth()->user()->role == 'admin'){ ?>
+        <li class="{{ ($currentAdminMenu == 'deleted') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/deleted') }}"><i class="fas fa-archive"></i> <span>Project Deleted</span></a></li>
+        <?php } ?>
         <li class="menu-header">KDO Operations Team</li>
 
         <li class="{{ ($currentAdminMenu == 'asset_jira_kec') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_kec') }}"><i class="fas fa-th"></i> <span>All Status Board</span></a></li>

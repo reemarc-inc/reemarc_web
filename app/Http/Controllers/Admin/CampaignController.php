@@ -223,6 +223,28 @@ class CampaignController extends Controller
         }
     }
 
+    public function sendActive($project_id)
+    {
+        $this->campaignRepository->findById($project_id);
+        $param['status'] = 'active';
+        $param['updated_at'] = Carbon::now();
+
+        if($this->campaignRepository->update($project_id, $param)){
+            // Correspondence
+            $campaign_note = new CampaignNotes();
+            $campaign_note['id'] = $project_id;
+            $user = auth()->user();
+            $campaign_note['user_id'] = $user->id;
+            $campaign_note['type'] = 'campaign';
+            $campaign_note['note'] = $user->first_name . " Sent this Project to Active Back";
+            $campaign_note['date_created'] = Carbon::now();
+            $campaign_note->save();
+            echo '/admin/deleted';
+        }else{
+            echo 'fail';
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -713,7 +735,10 @@ class CampaignController extends Controller
     {
         $this->data['currentAdminMenu'] = 'campaign';
         $campaign = $this->campaignRepository->findById($id);
-        if($this->campaignRepository->delete($id)){
+
+        $data['status'] = 'deleted';
+
+        if ($this->campaignRepository->update($id, $data)) {
             return redirect('admin/campaign')
                 ->with('success', __('Removed the Campaign : ', ['first_name' => $campaign->name]));
         }
@@ -988,8 +1013,22 @@ class CampaignController extends Controller
         $a_id = $c_obj->author_id;
 
         if( ($user->id == $a_id) || ($user->role == 'admin') || ($user->role == 'creative director') ){
-            $this->campaignAssetIndexRepository->deleteByCampaignId($c_id);
-            if($this->campaignRepository->delete($c_id)){
+
+//            $this->campaignAssetIndexRepository->deleteByCampaignId($c_id);
+
+            $data['status'] = 'deleted';
+
+            if($this->campaignRepository->update($c_id, $data)){
+                // add history... for deleted project!!
+                $campaign_note = new CampaignNotes();
+                $campaign_note['id'] = $c_id;
+                $user = auth()->user();
+                $campaign_note['user_id'] = $user->id;
+                $campaign_note['type'] = 'campaign';
+                $campaign_note['note'] = $user->first_name . " Sent this Project to Deleted";
+                $campaign_note['date_created'] = Carbon::now();
+                $campaign_note->save();
+
                 echo 'success';
             }else{
                 echo 'fail';

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\CampaignController as AdminCampaign;
 use App\Http\Controllers\Admin\ArchivesController as AdminArchives;
+use App\Http\Controllers\Admin\DeletedController as AdminDeleted;
 use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
@@ -47,6 +48,7 @@ Route::get('/email_copy_request', [NotifyController::class, 'copy_request']);
 Route::get('/email_copy_review', [NotifyController::class, 'copy_review']);
 
 Route::get('/notification/reminder_email', [NotifyController::class, 'reminder_email']);
+Route::get('/notification/clean_up_projects', [NotifyController::class, 'clean_up_projects']);
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard.index');
@@ -78,9 +80,13 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('campaign/archives', [AdminCampaign::class, 'archives'])->name('campaign.archives');
 
     Route::get('campaign/send_archive/{id}', [AdminCampaign::class, 'sendArchive'])->name('campaign.sendArchive');
+    Route::get('campaign/send_active/{id}', [AdminCampaign::class, 'sendActive'])->name('campaign.sendActive');
 
     Route::get('archives', [AdminArchives::class, 'index'])->name('archives.index');
     Route::resource('archives', AdminArchives::class);
+
+    Route::get('deleted', [AdminDeleted::class, 'index'])->name('deleted.index');
+    Route::resource('deleted', AdminDeleted::class);
 
     Route::get('asset_approval', [AdminAsset::class, 'asset_approval'])->name('asset.approval');
     Route::get('asset_approval_copy', [AdminAsset::class, 'asset_approval_copy'])->name('asset.approval_copy');

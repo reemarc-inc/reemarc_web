@@ -33,6 +33,10 @@ class Kernel extends ConsoleKernel
             ->timezone('America/New_York')
             ->dailyAt('8:30');
 
+        $schedule->call('App\Http\Controllers\NotifyController@clean_up_projects')
+            ->timezone('America/New_York')
+            ->dailyAt('15:50');
+
     }
 
     /**
