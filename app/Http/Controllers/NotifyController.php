@@ -1436,4 +1436,12 @@ class NotifyController extends Controller
     }
 
 
+    public function clean_up_projects(){
+
+        $project_obj = new CampaignRepository();
+        $project_obj->clean_up_more_than_two_weeks_projects();
+
+    }
+
+
 }
