@@ -85,7 +85,7 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" name="submit" value="create asset" style="margin-top:10px;" class="btn btn-primary submit"/>
+        <input type="submit" name="submit" value="Create Asset" style="margin-top:10px;" class="btn btn-primary submit"/>
     </div>
 
 </form>

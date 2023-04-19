@@ -31,7 +31,7 @@
         </div>
 
         <div class="form-group col-md-2">
-            <input type="text" name="q" class="design-field" id="q" placeholder="Search by Author Name" value="{{ !empty($filter['q']) ? $filter['q'] : '' }}">
+            <input type="text" name="q" class="design-field" id="q" placeholder="Author Name" value="{{ !empty($filter['q']) ? $filter['q'] : '' }}">
         </div>
 
         <div class="form-group col-md-2">

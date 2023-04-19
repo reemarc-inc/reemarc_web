@@ -35,6 +35,73 @@
             white-space: pre;
         }
     </style>
+
+    <style>
+
+        .asset--grid-row{
+            --f: arial;
+            --f-size: 15px;
+            --light-steal-blue: #dee7ea;
+            --prim: #ecdbe8;
+            --hosta-flower: #dcdde7;
+            font-family: var(--f);
+            font-size: var(--f-size);
+            background: #fff;
+            border-radius: 20px;
+            padding: 10px 20px;
+            --copy-writer-bg: var(--light-steal-blue);
+            --asset-creator-bg: var(--prim);
+            --assignee-bg: var(--hosta-flower);
+            display: grid;
+            gap: 20px;
+            grid-template-columns: 200px 1fr 38px;
+        }
+
+        .asset--grid-row li{
+            padding: 0px 2px;
+        }
+
+        .asset--grid-row *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .project-info{
+            border-right: 1px solid #ccc;
+        }
+
+        .project-members-list span{
+            border-radius: 5px;
+            padding: 3px 6px;
+        }
+
+        .copy-writer-bg{
+            background-color: var(--copy-writer-bg);
+        }
+
+        .asset-creator-bg{
+            background-color: var(--asset-creator-bg);
+        }
+
+        .assignee-bg{
+            background-color: var(--assignee-bg);
+        }
+
+        .project-action-icons{
+            display: flex;
+            justify-content: flex-end;
+        }
+        .project-icons{
+            display: flex;
+            align-items: center;
+        }
+        .inner_box {
+            margin: 0px 15px 0px 15px;
+        }
+
+    </style>
+
     <section class="section">
         <div class="section-header">
             <h1>Create Project</h1>
@@ -76,7 +143,7 @@
                                         <div class="form-group">
                                             @if($author_name != null)
                                                 <p style="float: right">Project Creator &nbsp
-                                                    <span style="color:#ffffff; font-size: medium;background-color: #933434;border-radius: 6px;">
+                                                    <span style="color:#000000; font-size: medium;background-color: #ecdbe8;border-radius: 6px;">
                                                     &nbsp{{ $author_name }}&nbsp
                                                     </span>
                                                 </p>
@@ -245,19 +312,34 @@
                                             @enderror
                                         </div>
 
-                                        <div class="form-group checkboxes">
-                                            <label>Asset Type: </label><br/>
-                                            <?php if (isset($asset_list)): ?>
-                                                <?php foreach($asset_list as $asset_type_item): ?>
-                                                <?php $checkbox_fields = explode(', ', $asset_type); ?>
-                                                <input  <?php if (in_array($asset_type_item->asset_name, $checkbox_fields)) echo "checked" ?>
-                                                        type="checkbox"
-                                                        name="asset_type[]"
-                                                        value="<?php echo $asset_type_item->asset_name ?>"
-                                                />
-                                                <span> <?php echo $asset_type_item->asset_name; ?></span><br/>
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
+{{--                                        <div class="form-group checkboxes">--}}
+{{--                                            <label>Asset Type: </label><br/>--}}
+{{--                                            <?php if (isset($asset_list)): ?>--}}
+{{--                                                <?php foreach($asset_list as $asset_type_item): ?>--}}
+{{--                                                <?php $checkbox_fields = explode(', ', $asset_type); ?>--}}
+{{--                                                <input  <?php if (in_array($asset_type_item->asset_name, $checkbox_fields)) echo "checked" ?>--}}
+{{--                                                        type="checkbox"--}}
+{{--                                                        name="asset_type[]"--}}
+{{--                                                        value="<?php echo $asset_type_item->asset_name ?>"--}}
+{{--                                                />--}}
+{{--                                                <span> <?php echo $asset_type_item->asset_name; ?></span><br/>--}}
+{{--                                                <?php endforeach; ?>--}}
+{{--                                            <?php endif; ?>--}}
+{{--                                        </div>--}}
+
+                                        <div class="form-group">
+                                            <label class="form-label">Asset Type: </label>
+                                            <div class="selectgroup selectgroup-pills">
+                                                <?php if (isset($asset_list)): ?>
+                                                    <?php foreach($asset_list as $asset_type_item): ?>
+                                                    <?php $checkbox_fields = explode(', ', $asset_type); ?>
+                                                        <label class="selectgroup-item">
+                                                            <input type="checkbox" name="asset_type[]" value="<?php echo $asset_type_item->asset_name ?>" class="selectgroup-input" <?php if (in_array($asset_type_item->asset_name, $checkbox_fields)) echo "checked" ?>>
+                                                            <span class="selectgroup-button"><?php echo $asset_type_item->asset_name; ?></span>
+                                                        </label>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
+                                            </div>
                                         </div>
 
                                         <div class="form-group">
@@ -340,74 +422,92 @@
                         </form>
 
                     @if(!empty($assets))
-                    <div class="card assets_existing">
-                        <p style="display: inline-block; margin: 3px 0px 0px 26px;  float: right;">
-                            <span style="color:#ffffff; font-size: small;background-color: #933434;border-radius: 8px;">
-                                                    &nbsp Asset Creator &nbsp
-                            </span>&nbsp
-                            <span style="color:#ffffff; font-size: small;background-color: #314190FF;border-radius: 8px;">
-                                                   &nbsp Assigned Designer &nbsp
-                            </span>
-                        </p>
+
                         <?php foreach ($assets as $asset): ?>
+
+                            <div class="card assets_existing">
                                 <div class="clearfix" id="{{$asset->a_id}}">
-                                    <div class="card box asset box-primary">
-                                        <div class="card-header">
-                                            <div class="ecommerce_new">
-                                                <h5>{{ ucwords(str_replace('_', ' ', $asset->a_type)) }}
-                                                    <span style="color:#933434">#{{ $asset->a_id }}</span>&nbsp
-                                                    <span style="color:#ffffff; font-size: medium;background-color: #898787;border-radius: 10px;">
-                                                        <?php $temp_status = $asset->status ?>
-                                                        <?php if ($temp_status == 'done') $temp_status = 'creative_review'; ?>
-                                                        &nbsp{{ ucwords(str_replace('_', ' ', $temp_status)) }}&nbsp
-                                                    </span>&nbsp
-                                                    <?php if(!empty($asset->asset_creator)) { ?>
-                                                    <span style="color:#ffffff; font-size: small;background-color: #933434;border-radius: 6px;">
-                                                        &nbsp{{ $asset->asset_creator }}&nbsp
-                                                    </span>&nbsp
+
+                                    <div class="asset--grid-row">
+
+                                        <div class="project-info">
+                                            <ul class="project-info-list">
+                                                <li><strong>{{ ucwords(str_replace('_', ' ', $asset->a_type)) }} #{{ $asset->a_id }}</strong> </li>
+                                                <?php $temp_status = $asset->status ?>
+                                                <?php if ($temp_status == 'done') $temp_status = 'creative_review'; ?>
+                                                <li><strong>Status: </strong> {{ ucwords(str_replace('_', ' ', $temp_status)) }}</li>
+                                                <li><strong>Due: </strong> {{ date('m/d/Y', strtotime($asset->due)) }}</li>
+                                            </ul>
+                                        </div>
+
+                                        <ul class="project-members-list">
+
+                                            <li><strong>Creator : </strong> <span class="asset-creator-bg">{{ $asset->asset_creator }}</span></li>
+                                            <li><strong>Copy :</strong>
+                                                <?php if(!empty($asset->copy_writer)) { ?>
+                                                <span class="copy-writer-bg">{{ $asset->copy_writer }}</span>
+                                                <?php } ?>
+                                            </li>
+                                            <li><strong>Assignee : </strong>
+                                                <?php if(!empty($asset->assignee)) { ?>
+                                                <span class="assignee-bg">
+                                                    {{ $asset->assignee }}
+                                                </span>
+                                                <?php } ?>
+                                            </li>
+                                        </ul>
+
+                                        <div class="col-md-12">
+                                            <div class="project-action-icons">
+                                                <ul class="project-icons">
+                                                    <?php if(auth()->user()->role == 'admin') { ?>
+                                                        <li>
+                                                            <i class="fa fa-spin fa-cog"
+                                                            data-toggle="modal"
+                                                            data-target="#asset-owner-{{$asset->a_id}}"></i>
+                                                        </li>
                                                     <?php } ?>
-                                                    <span style="color:#898787; font-size: medium;">{{ date('m/d/Y', strtotime($asset->due)) }}</span>&nbsp
-                                                    <?php if(!empty($asset->assignee)) { ?>
-                                                    <span style="color:#ffffff; font-size: small;background-color: #314190;border-radius: 6px;">
-                                                        &nbsp{{ $asset->assignee }}&nbsp
-                                                    </span>
-                                                    <?php } ?>
-                                                    <span class="float-right">
-                                                        <?php if(auth()->user()->role == 'admin') { ?>
-                                                        <i class="fa fa-spin fa-cog"
-                                                                data-toggle="modal"
-                                                                data-target="#asset-owner-{{$asset->a_id}}"></i>
-                                                        <?php } ?>
-                                                        <i class="fa fa-address-card"
-                                                           data-toggle="modal"
-                                                           data-target="#myModal-{{$asset->a_id}}"></i>
-                                                        <i id="arrow-{{$asset->a_id}}" class="dropdown fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>
-                                                        <a  href="javascript:void(0);"
+                                                        <li>
+                                                            <i class="fa fa-address-card"
+                                                               data-toggle="modal"
+                                                               data-target="#myModal-{{$asset->a_id}}"></i>
+                                                        </li>
+{{--                                                        <li>--}}
+{{--                                                            <i id="arrow-{{$asset->a_id}}" class="dropdown fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>--}}
+{{--                                                        </li>--}}
+                                                        <li>
+                                                            <a  href="javascript:void(0);"
                                                             class="close"
                                                             data-id=""
                                                             data-asset-id="{{ $asset->a_id }}"
                                                             data-asset-type="{{ $asset->a_type }}"
                                                             onclick="delete_asset($(this));">
                                                             <i class="fa fa-times"></i>
-                                                        </a>
-                                                    </span>
-                                                </h5>
+                                                            </a>
+                                                        </li>
+                                                </ul>
                                             </div>
-
-                                            <div id="asset-id-{{$asset->a_id}}" class="box-body form_creator" data-asset-id="{{ $asset->a_id }}" style="display: none">
-                                                <section>
-                                                    <div class="inner_box">
-                                                        <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy, $asset->assignee, $asset->team_to, $asset->copy_writer]; ?>
-                                                        @include('admin.campaign.asset.'.$asset->a_type, $data)
-                                                    </div>
-                                                </section>
-                                            </div>
-
                                         </div>
                                     </div>
+
+                                    <div style="text-align: center;">
+                                        <i id="arrow-{{$asset->a_id}}" class="dropdown fa-lg fa fa-angle-down" onclick="click_arrow(this, {{$asset->a_id}})"></i>
+                                    </div>
+
+                                    <div id="asset-id-{{$asset->a_id}}" class="box-body form_creator" data-asset-id="{{ $asset->a_id }}" style="display: none">
+                                        <section>
+                                            <div class="inner_box">
+                                                <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy, $asset->assignee, $asset->team_to, $asset->copy_writer]; ?>
+                                                @include('admin.campaign.asset.'.$asset->a_type, $data)
+                                            </div>
+                                        </section>
+                                    </div>
+
                                 </div>
+                            </div>
+
                         <?php endforeach; ?>
-                    </div>
+
                     @endif
 
                     @if(!empty($campaign))
@@ -425,7 +525,7 @@
                                     <section>
                                         <div class="inner_box">
                                             <div class="form-group">
-                                                <label style="color: #a50018; font-size: 1.2rem;">Asset Type: </label>
+                                                <label style="color: #000000; font-size: 1.2rem;">Asset Type: </label>
                                                 <span id="asset_type_name" class="asset_type_name"></span>
                                                 <span class="float-right">
                                                     <a href="{{ url('admin/campaign/'. $campaign->id .'/edit') }}">
@@ -513,7 +613,7 @@
                         <div class="card-header">
                             <h4>CORRESPONDENCE</h4>
                             <div class=" text-right">
-                                <button class="btn btn-success" id="add_note_btn" onclick="click_add_note_btn()">Add Note</button>
+                                <button class="btn btn-primary" id="add_note_btn" onclick="click_add_note_btn()">Add Note</button>
                             </div>
                         </div>
 
@@ -555,7 +655,7 @@
                                                 </div>
                                                 <div class=" text-right">
                                                     <button type="button" class="btn btn-primary" onclick="click_cancel_note_btn()">Cancel</button>
-                                                    <button type="submit" class="btn btn-info">Send Note</button>
+                                                    <button type="submit" class="btn btn-primary">Send Note</button>
                                                 </div>
                                             </form>
                                         </div>
