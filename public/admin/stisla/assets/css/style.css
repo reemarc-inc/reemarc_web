@@ -168,8 +168,10 @@ p, ul:not(.list-unstyled), ol {
 select.form-control:not([size]):not([multiple]),
 .form-control:not(.form-control-sm):not(.form-control-lg) {
   font-size: 14px;
-  padding: 10px 15px;
-  height: 42px; }
+  padding: 7px 15px;
+  height: 42px;
+  border-radius: 1.25rem;
+}
 
 textarea.form-control {
   height: 64px; }
@@ -316,7 +318,7 @@ select.form-control:not([size]):not([multiple]) {
     font-size: 14px; }
 
 .selectgroup-input:checked + .selectgroup-button {
-  background-color: #a50018;
+  background-color: #000000;
   color: #fff;
   z-index: 1; }
 
@@ -817,13 +819,13 @@ select.form-control:not([size]):not([multiple]) {
       margin-top: 1px;
       padding: 2px 15px; }
       .card .card-header .btn:not(.note-btn) {
-        border-radius: .25rem; }
+        border-radius: 1.25rem; }
       .card .card-header .btn:hover {
         box-shadow: none; }
     .card .card-header .form-control {
       /*height: 31px;*/
       /*font-size: 13px;*/
-      border-radius: 0.25rem; }
+      border-radius: 1.25rem; }
       .card .card-header .form-control + .input-group-btn .btn {
         margin-top: -1px; }
     .card .card-header h4 {
@@ -1530,15 +1532,27 @@ h6 .badge {
   color: #fff !important; }
 
 .btn-primary, .btn-primary.disabled {
-  box-shadow: 0 2px 6px #acb5f6;
-  background-color: #a50018;
-  border-color: #a50018; }
+  box-shadow: 0 2px 6px #686868;
+  background-color: #000000;
+  border-color: #000000;
+    border-radius: 1.25rem;
+    }
+
   .btn-primary:focus, .btn-primary.disabled:focus {
-    background-color: #394eea !important; }
+        color: #000000;
+        border-color: #000000;
+        border: #000000 1px solid;
+        background-color: #ffffff !important; }
     .btn-primary:focus:active, .btn-primary.disabled:focus:active {
-      background-color: #394eea !important; }
+        color: #000000;
+        border-color: #000000;
+        border: 1px solid;
+        background-color: #ffffff !important; }
   .btn-primary:active, .btn-primary:hover, .btn-primary.disabled:active, .btn-primary.disabled:hover {
-    background-color: #394eea !important; }
+        color: #000000;
+        border-color: #000000;
+        border: 1px solid;
+        background-color: #ffffff !important; }
 
 .btn-outline-primary, .btn-outline-primary.disabled {
   border-color: #a50018;
@@ -1631,26 +1645,46 @@ h6 .badge {
 .lead-time {
     color:#ffffff;
     font-size: small;
-    background-color: #04a0a0;
+    background-color: #4e4e4e;
     border-radius: 6px;
 }
 
-.ecommerce-specialist{
-    background-color: #f8e4cd; }
-.copywriter{
-    background-color: #d4f8db;}
-.developer {
-    background-color: #acbef1;}
-.social-media-manager {
-     background-color: #f2d2f8;}
-.graphic-designer {
-    background-color: #cff8f5;}
 .admin {
-    background-color: #f6d9d9;}
-.creative-director {
-    background-color: #c3e5f6;}
+    background-color: #dcdde7;
+}
+.copywriter-manager{
+    background-color: #e5e5e5;
+}
+.copywriter{
+    background-color: #ecdbe8;
+}
+.ecommerce-specialist{
+    background-color: #dee7ea;
+}
+.social-media-manager {
+    background-color: #e6e6db;
+}
 .marketing {
-    background-color: #f8ecd2;}
+    background-color: #cef5ce;
+}
+.creative-director {
+    background-color: #f2dbd6;
+}
+.graphic-designer {
+    background-color: #dbece1;
+}
+.content-manager {
+    background-color: #9e7dd1;
+}
+.content-creator {
+    background-color: #d3d3ed;
+}
+.web-production-manager {
+    background-color: #f6cfe4;
+}
+.web-production {
+    background-color: #eeecd5;
+}
 
 .media .media-description {
   line-height: 24px;

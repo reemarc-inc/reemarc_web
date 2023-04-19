@@ -273,70 +273,70 @@
         <textarea class="form-control" id="copy_inside_graphic" name="copy_inside_graphic" style="height:100px;">{{ $data[0][0]->copy_inside_graphic }}</textarea>
     </div>
 
-    <div style="background-color: #eae9e9">
+    <div style="background-color: #efefef; border-radius: 15px;">
         <div id="version-one" style="margin: 20px; padding-top: 12px; padding-bottom: 10px;">
             <i id="arrow-two" class="dropdown fa fa-angle-up">
-                <label style="font-family: Helvetica;">Ver 1.</label>
+                <label style="font-family: Helvetica; color: #979797;">Ver 1.</label>
             </i>
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b>(125 characters)</b></label>
                 <input type="text" name="text" class="form-control" value="<?php echo $data[0][0]->text; ?>">
             </div>
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b>(27 characters / max 40 characters)</b></label>
                 <input type="text" name="headline" class="form-control"
                        onkeyup="limit(this, {{$asset_id}})"
                        value="<?php echo $data[0][0]->headline; ?>">
                 <p id="{{$asset_id}}_charsLeft"></p>
             </div>
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b>(27 characters)</b></label>
                 <input type="text" name="newsfeed" class="form-control" value="<?php echo $data[0][0]->newsfeed; ?>">
             </div>
         </div>
     </div>
 
-    <div style="background-color: #eae9e9">
+    <div style="background-color: #efefef; border-radius: 15px;">
         <i id="arrow-two" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad_edit(this, 2, {{$asset_id}})" >
             <label style="font-family: Helvetica;">Ver 2.</label>
         </i>
         <div id="version-2-{{$asset_id}}" style="margin: 20px; padding-bottom: 10px; display: none;" >
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b>(125 characters)</b></label>
                 <input type="text" name="text_2" class="form-control" value="<?php echo $data[0][0]->text_2; ?>">
             </div>
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b>(27 characters / max 40 characters)</b></label>
                 <input type="text" name="headline_2" class="form-control"
                        onkeyup="limit(this, {{$asset_id}})"
                        value="<?php echo $data[0][0]->headline_2; ?>">
                 <p id="{{$asset_id}}_charsLeft"></p>
             </div>
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b>(27 characters)</b></label>
                 <input type="text" name="newsfeed_2" class="form-control" value="<?php echo $data[0][0]->newsfeed_2; ?>">
             </div>
         </div>
     </div>
 
-    <div style="background-color: #eae9e9">
+    <div style="background-color: #efefef; border-radius: 15px;">
         <i id="arrow-three" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad_edit(this, 3, {{$asset_id}})">
             <label style="font-family: Helvetica;">Ver 3.</label>
         </i>
         <div id="version-3-{{$asset_id}}" style="margin: 20px; padding-bottom: 10px; display: none;" >
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b>(125 characters)</b></label>
                 <input type="text" name="text_3" class="form-control" value="<?php echo $data[0][0]->text_3; ?>">
             </div>
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b>(27 characters / max 40 characters)</b></label>
                 <input type="text" name="headline_3" class="form-control"
                        onkeyup="limit(this, {{$asset_id}})"
                        value="<?php echo $data[0][0]->headline_3; ?>">
                 <p id="{{$asset_id}}_charsLeft"></p>
             </div>
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 Characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b>(27 characters)</b></label>
                 <input type="text" name="newsfeed_3" class="form-control" value="<?php echo $data[0][0]->newsfeed_3; ?>">
             </div>
         </div>

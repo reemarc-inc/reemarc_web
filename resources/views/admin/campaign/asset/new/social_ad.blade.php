@@ -142,27 +142,27 @@
         <label style="color: #98a6ad">Request Copy</label>
     </div>
 
-    <div style="background-color: #eae9e9">
+    <div style="background-color: #efefef; border-radius: 15px;">
         <i id="arrow-one" class="dropdown fa fa-angle-up" style="margin-left: 20px;">
-            <label style="font-family: Helvetica;">Ver 1.</label>
+            <label style="font-family: Helvetica; color: #979797;">Ver 1.</label>
         </i>
         <div class="social-ad-ver-one" style="margin: 20px;">
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b>(125 characters)</b></label>
                 <input type="text" name="{{ $asset_type }}_text" class="form-control" value="">
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
             </div>
 
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 characters / Max 40 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b>(27 characters / Max 40 characters)</b></label>
                 <textarea class="form-control" name="{{ $asset_type }}_headline" rows="5" cols="100"></textarea>
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
             </div>
 
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b>(27 characters)</b></label>
                 <input type="text" name="{{ $asset_type }}_newsfeed" class="form-control" value="">
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
@@ -170,27 +170,27 @@
         </div>
     </div>
 
-    <div style="background-color: #eae9e9">
+    <div style="background-color: #efefef; border-radius: 15px;">
         <i id="arrow-two" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad(this, 2)" >
             <label style="font-family: Helvetica;">Ver 2.</label>
         </i>
         <div id="social-ad-ver-2" style="margin: 20px; display: none;">
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b>(125 characters)</b></label>
                 <input type="text" name="{{ $asset_type }}_text_2" class="form-control" value="">
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
             </div>
 
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 characters / Max 40 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b>(27 characters / max 40 characters)</b></label>
                 <textarea class="form-control" name="{{ $asset_type }}_headline_2" rows="5" cols="100"></textarea>
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
             </div>
 
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b>(27 characters)</b></label>
                 <input type="text" name="{{ $asset_type }}_newsfeed_2" class="form-control" value="">
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
@@ -198,27 +198,27 @@
         </div>
     </div>
 
-    <div style="background-color: #eae9e9">
+    <div style="background-color: #efefef; border-radius: 15px;">
         <i id="arrow-three" class="dropdown fa fa-angle-down" style="margin-left: 20px;" onclick="click_arrow_social_ad(this, 3)">
             <label style="font-family: Helvetica;">Ver 3.</label>
         </i>
         <div id="social-ad-ver-3" style="margin: 20px; display: none;">
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b style="color: #b91d19">(Recommended 125 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Copy that appears above image or video">Primary Text: <b>(125 characters)</b></label>
                 <input type="text" name="{{ $asset_type }}_text_3" class="form-control" value="">
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
             </div>
 
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b style="color: #b91d19">(Recommended 27 characters / Max 40 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Call to action under image or video">Headline: <b>(27 characters / max 40 characters)</b></label>
                 <textarea class="form-control" name="{{ $asset_type }}_headline_3" rows="5" cols="100"></textarea>
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
             </div>
 
             <div class="form-group">
-                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b style="color: #b91d19">(Recommended 27 characters)</b></label>
+                <label data-toggle="tooltip" data-placement="top" data-title="Sub text below headline that provides a short summary of offering/what might see/expect when click thru">Description: <b>(27 characters)</b></label>
                 <input type="text" name="{{ $asset_type }}_newsfeed_3" class="form-control" value="">
                 <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
                 <label style="color: #98a6ad">Request Copy</label>
@@ -249,7 +249,7 @@
     </div>
 
     <div class="form-group">
-        <input type="submit" name="submit" value="create asset" style="margin-top:10px;" class="btn btn-primary submit"/>
+        <input type="submit" name="submit" value="Create Asset" style="margin-top:10px;" class="btn btn-primary submit"/>
     </div>
 
 </form>
