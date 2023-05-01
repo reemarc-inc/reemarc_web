@@ -41,7 +41,7 @@ class CampaignRequest extends FormRequest
             'promotion' => ['required'],
             'name' => ['required','string', 'max:255'],
             'date_from' => ['required'],
-            'date_to' => ['required'],
+//            'date_to' => ['required'],
             'primary_message' => ['required', 'string', 'max:255'],
             'products_featured' => ['required', 'string', 'max:255'],
             'secondary_message' => ['required', 'string', 'max:255'],

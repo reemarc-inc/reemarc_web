@@ -164,6 +164,26 @@ class AssetController extends Controller
         return view('admin.asset.approval', $this->data);
     }
 
+    public function asset_kpi(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'asset_kpi';
+        $params = $request->all();
+        $str = !empty($params['q']) ? $params['q'] : '';
+        $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
+        $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+        if(isset($_GET['designer'])){
+            $designer = $params['designer'];
+        }else{
+            $designer = '';
+        }
+        $this->data['designer'] = $designer;
+        $this->data['designers'] = $this->userRepository->getCreativeAssignee();
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_kpi_assets_list($str, $asset_id, $campaign_id, $designer);
+        $this->data['filter'] = $params;
+
+        return view('admin.asset.kpi', $this->data);
+    }
+
     public function asset_approval_copy(Request $request)
     {
         $this->data['currentAdminMenu'] = 'asset_approval_copy';
@@ -234,6 +254,7 @@ class AssetController extends Controller
         $this->data['asset_files'] = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
 
         $this->data['assignees_designer'] = $this->userRepository->getCreativeAssignee();
+//        $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
         $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
         $this->data['assignees_web'] = $this->userRepository->getWebAssignee();
 
@@ -300,6 +321,12 @@ class AssetController extends Controller
         $params['status'] = 'to_do';
         $params['assignee'] = $param['assignee'];
         $params['updated_at'] = Carbon::now();
+        $params['assigned_at'] = Carbon::now();
+
+        $rs_array = $this->campaignAssetIndexRepository->get_target_date($param['a_id'], $a_type);
+
+        $params['target_at'] = $rs_array[0];
+        $params['delay'] = $rs_array[1];
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
@@ -860,7 +887,9 @@ class AssetController extends Controller
 
         $param['status'] = 'done';
         $param['updated_at'] = Carbon::now();
-
+        if(is_null($campaignAssetIndex->done_at)){ // only add for first time
+            $param['done_at'] = Carbon::now();
+        }
         $c_id = $campaignAssetIndex->campaign_id;
         $a_id = $campaignAssetIndex->id;
 

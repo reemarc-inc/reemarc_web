@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use Carbon\Carbon;
 use DB;
 
 use App\Repositories\Admin\Interfaces\CampaignAssetIndexRepositoryInterface;
@@ -137,6 +138,58 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and cai.team_to = "creative"
             ' . $filter_1 . $filter_2 . $filter_3 . '
             order by due asc');
+    }
+
+    public function get_kpi_assets_list($str, $asset_id, $campaign_id, $designer)
+    {
+        $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
+        $filter_2 = !empty($asset_id) ? ' and a_id ='.$asset_id : '';
+        $filter_3 = !empty($campaign_id) ? ' and c_id ='.$campaign_id : '';
+        $filter_4 = !empty($designer) ? ' and cai.assignee = "'.$designer.'" ' : '';
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    cai.assignee,
+                    cai.assigned_at,
+                    cai.target_at,
+                    cai.delay,
+                    cai.start_at,
+                    cai.done_at,
+                    cai.status
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            where cai.status in ("final_approval")
+            and cai.team_to = "creative"
+            and cai.target_at is not null
+            and cai.assignee is not null
+            ' . $filter_1 . $filter_2 . $filter_3 . $filter_4 . '
+            order by due desc');
     }
 
     public function get_request_assets_list_copy($str, $asset_id, $campaign_id, $brand_id)
@@ -1492,4 +1545,102 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by updated_at asc');
     }
 
+    public function get_target_date($a_id, $asset_type)
+    {
+        $res = DB::select(
+            'select c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+					select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            where cai.id ='.$a_id);
+
+        $due = $res[0]->due;
+
+        // Get Target_At
+        if ($asset_type == 'email_blast') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
+        } else if ($asset_type == 'social_ad') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
+        } else if ($asset_type == 'website_banners') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-11 weekday'));
+        } else if ($asset_type == 'landing_page') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-18 weekday'));
+        } else if ($asset_type == 'misc') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-9 weekday'));
+        } else if ($asset_type == 'sms_request') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-9 weekday'));
+        } else if ($asset_type == 'programmatic_banners') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
+        } else if ($asset_type == 'image_request') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-2 weekday'));
+        } else if ($asset_type == 'roll_over') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-3 weekday'));
+        } else if ($asset_type == 'store_front') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-13 weekday'));
+        } else if ($asset_type == 'a_content') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-13 weekday'));
+        }
+
+        // Check for Assign is late or not..
+        $today = date('Y-m-d');
+        if ($asset_type == 'email_blast') {
+            $assign_due = date('Y-m-d', strtotime($due . '-22 weekday'));
+        } else if ($asset_type == 'social_ad') {
+            $assign_due = date('Y-m-d ', strtotime($due . '-22 weekday'));
+        } else if ($asset_type == 'website_banners') {
+            $assign_due = date('Y-m-d', strtotime($due . '-23 weekday'));
+        } else if ($asset_type == 'landing_page') {
+            $assign_due = date('Y-m-d', strtotime($due . '-40 weekday'));
+        } else if ($asset_type == 'misc') {
+            $assign_due = date('Y-m-d', strtotime($due . '-21 weekday'));
+        } else if ($asset_type == 'sms_request') {
+            $assign_due = date('Y-m-d', strtotime($due . '-21 weekday'));
+        } else if ($asset_type == 'programmatic_banners') {
+            $assign_due = date('Y-m-d', strtotime($due . '-22 weekday'));
+        } else if ($asset_type == 'image_request') {
+            $assign_due = date('Y-m-d', strtotime($due . '-14 weekday'));
+        } else if ($asset_type == 'roll_over') {
+            $assign_due = date('Y-m-d', strtotime($due . '-15 weekday'));
+        } else if ($asset_type == 'store_front') {
+            $assign_due = date('Y-m-d', strtotime($due . '-35 weekday'));
+        } else if ($asset_type == 'a_content') {
+            $assign_due = date('Y-m-d', strtotime($due . '-35 weekday'));
+        }
+
+        $delay = 0;
+
+        if($today >= $assign_due){
+            $from = Carbon::parse($today);
+            $to = Carbon::parse($assign_due);
+            $delay = $to->diffInWeekdays($from);
+        }
+
+        return [$target_at, $delay];
+    }
 }

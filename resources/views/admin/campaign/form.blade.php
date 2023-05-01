@@ -264,19 +264,19 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Run To: </label>
-                                                    <input type="text" name="date_to" id="date_to" placeholder="End date"
-                                                           class="form-control datepicker @error('date_to') is-invalid @enderror @if (!$errors->has('date_to') && old('date_to')) is-valid @endif"
-                                                           value="{{ old('date_to', !empty($campaign) ? $campaign->date_to : null) }}">
-                                                    @error('date_to')
-                                                    <div class="invalid-feedback">
-                                                        {{ $message }}
-                                                    </div>
-                                                    @enderror
-                                                </div>
-                                            </div>
+{{--                                            <div class="col-md-6">--}}
+{{--                                                <div class="form-group">--}}
+{{--                                                    <label>Run To: </label>--}}
+{{--                                                    <input type="text" name="date_to" id="date_to" placeholder="End date"--}}
+{{--                                                           class="form-control datepicker @error('date_to') is-invalid @enderror @if (!$errors->has('date_to') && old('date_to')) is-valid @endif"--}}
+{{--                                                           value="{{ old('date_to', !empty($campaign) ? $campaign->date_to : null) }}">--}}
+{{--                                                    @error('date_to')--}}
+{{--                                                    <div class="invalid-feedback">--}}
+{{--                                                        {{ $message }}--}}
+{{--                                                    </div>--}}
+{{--                                                    @enderror--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
                                         </div>
                                         <div class="form-group">
                                             <label>Primary Message: </label>

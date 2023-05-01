@@ -565,23 +565,23 @@ class NotifyController extends Controller
                 $copywriter_start_due = date('Y-m-d');
 
                 if ($asset_type == 'email_blast') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
                 } else if ($asset_type == 'social_ad') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
                 } else if ($asset_type == 'website_banners') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-29 weekday'));
                 } else if ($asset_type == 'landing_page') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-39 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-49 weekday'));
                 } else if ($asset_type == 'misc') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
                 } else if ($asset_type == 'sms_request') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
                 } else if ($asset_type == 'topcategories_copy') {
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-7 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
                 } else if ($asset_type == 'a_content') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-36 weekday'));
+                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-41 weekday'));
                 } else if ($asset_type == 'youtube_copy') {
                     $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
                 }
@@ -674,23 +674,23 @@ class NotifyController extends Controller
                 $copy_to_do_start_due = date('Y-m-d');
 
                 if ($asset_type == 'email_blast') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
                 } else if ($asset_type == 'social_ad') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
                 } else if ($asset_type == 'website_banners') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
                 } else if ($asset_type == 'landing_page') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-47 weekday'));
                 } else if ($asset_type == 'misc') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
                 } else if ($asset_type == 'sms_request') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
                 } else if ($asset_type == 'topcategories_copy') {
                     $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
                 } else if ($asset_type == 'a_content') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-34 weekday'));
+                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-39 weekday'));
                 } else if ($asset_type == 'youtube_copy') {
                     $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
                 }
@@ -784,23 +784,23 @@ class NotifyController extends Controller
                 $copyreview_start_due = date('Y-m-d');
 
                 if ($asset_type == 'email_blast') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
                 } else if ($asset_type == 'social_ad') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
                 } else if ($asset_type == 'website_banners') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
                 } else if ($asset_type == 'landing_page') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-43 weekday'));
                 } else if ($asset_type == 'misc') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
                 } else if ($asset_type == 'sms_request') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
                 } else if ($asset_type == 'topcategories_copy') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
                 } else if ($asset_type == 'a_content') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-32 weekday'));
+                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
                 } else if ($asset_type == 'youtube_copy') {
                     $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
                 }
@@ -890,25 +890,27 @@ class NotifyController extends Controller
                 $creative_assign_start_due = date('Y-m-d');
 
                 if ($asset_type == 'email_blast') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
                 } else if ($asset_type == 'social_ad') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
                 } else if ($asset_type == 'website_banners') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
                 } else if ($asset_type == 'landing_page') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-40 weekday'));
                 } else if ($asset_type == 'misc') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+                } else if ($asset_type == 'sms_request') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
                 } else if ($asset_type == 'image_request') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
                 } else if ($asset_type == 'roll_over') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-15 weekday'));
                 } else if ($asset_type == 'store_front') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-30 weekday'));
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-35 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-35 weekday'));
                 } else if ($asset_type == 'youtube_copy') {
                     $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-8 weekday'));
                 }
@@ -1206,27 +1208,27 @@ class NotifyController extends Controller
                 $creative_work_start_due = date('Y-m-d');
 
                 if ($asset_type == 'email_blast') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
                 } else if ($asset_type == 'social_ad') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-17 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
                 } else if ($asset_type == 'website_banners') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
                 } else if ($asset_type == 'landing_page') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-38 weekday'));
                 } else if ($asset_type == 'misc') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
                 } else if ($asset_type == 'sms_request') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-16 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
                 } else if ($asset_type == 'programmatic_banners') {
                     $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
                 } else if ($asset_type == 'image_request') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
                 } else if ($asset_type == 'roll_over') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
                 } else if ($asset_type == 'store_front') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
+                } else if ($asset_type == 'a_content') {
+                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
                 }
 
                 $assignee_first_name = $item->assignee;
