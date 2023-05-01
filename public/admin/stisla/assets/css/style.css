@@ -1458,6 +1458,7 @@ h6 .badge {
   box-shadow: 0 2px 6px #81d694;
   background-color: #47c363;
   border-color: #47c363;
+    border-radius: 1.25rem;
   color: #fff; }
   .btn-success:hover, .btn-success:focus, .btn-success:active, .btn-success.disabled:hover, .btn-success.disabled:focus, .btn-success.disabled:active {
     background-color: #3bb557 !important;
@@ -1523,6 +1524,7 @@ h6 .badge {
   box-shadow: 0 2px 6px #82d3f8;
   background-color: #3abaf4;
   border-color: #3abaf4;
+    border-radius: 1.25rem;
   color: #fff; }
   .btn-info:hover, .btn-info:focus, .btn-info:active, .btn-info.disabled:hover, .btn-info.disabled:focus, .btn-info.disabled:active {
     background-color: #0da8ee !important; }

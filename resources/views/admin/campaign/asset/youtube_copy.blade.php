@@ -328,7 +328,7 @@
                onclick="final_approval($(this))"
                data-asset-id="<?php echo $asset_id; ?>"
                style="margin-top:10px;"
-               class="btn btn-dark submit"/>
+               class="btn btn-primary submit"/>
         <?php } ?>
         <?php }?>
 
