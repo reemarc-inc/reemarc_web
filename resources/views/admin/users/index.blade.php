@@ -6,17 +6,20 @@
         <h1>@lang('users.user_management')</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
-            <div class="breadcrumb-item active">Users</div>
+            <div class="breadcrumb-item">Users</div>
         </div>
     </div>
+
     <div class="section-body">
-        <h2 class="section-title">@lang('users.user_list')</h2>
-        <div class="row">
+
+        @include('admin.users._filter')
+        @include('admin.shared.flash')
+
+
+        <div class="row" style="margin-top: 15px;">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        @include('admin.shared.flash')
-                        @include('admin.users._filter')
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-md">
                                 <thead>

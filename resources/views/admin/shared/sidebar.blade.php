@@ -44,6 +44,9 @@
         <?php if(auth()->user()->team == 'Creative' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira') }}"><i class="fas fa-th"></i> <span>Status Board (Creative)</span></a></li>
         <?php } ?>
+        <?php if(auth()->user()->role == 'creative director' || auth()->user()->role == 'admin'){ ?>
+        <li class="{{ ($currentAdminMenu == 'asset_kpi') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi') }}"><i class="fas fa-th-list"></i> <span>KPI</span></a></li>
+        <?php } ?>
 
         <li class="menu-header">KDO Content Team</li>
         <?php if(auth()->user()->role == 'content manager' || auth()->user()->role == 'admin'){ ?>

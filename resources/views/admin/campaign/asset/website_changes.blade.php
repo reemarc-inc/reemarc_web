@@ -1,6 +1,6 @@
 <?php $asset_id = $data[0][0]->asset_id; $c_id = $data[0][0]->id; $a_type = $data[0][0]->type; ?>
 
-<?php if(!empty($data[6]) && (auth()->user()->role == 'admin'
+<?php if(!empty($data[6]) && $data[2] == 'to_do' && (auth()->user()->role == 'admin'
 || auth()->user()->role == 'creative director'
 || auth()->user()->role == 'content manager'
 || auth()->user()->role == 'web production manager' )) { ?>

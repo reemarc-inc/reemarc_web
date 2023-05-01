@@ -89,6 +89,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('deleted', AdminDeleted::class);
 
     Route::get('asset_approval', [AdminAsset::class, 'asset_approval'])->name('asset.approval');
+    Route::get('asset_kpi', [AdminAsset::class, 'asset_kpi'])->name('asset.kpi');
     Route::get('asset_approval_copy', [AdminAsset::class, 'asset_approval_copy'])->name('asset.approval_copy');
     Route::get('asset_approval_content', [AdminAsset::class, 'asset_approval_content'])->name('asset.approval_content');
     Route::get('asset_approval_web', [AdminAsset::class, 'asset_approval_web'])->name('asset.approval_web');

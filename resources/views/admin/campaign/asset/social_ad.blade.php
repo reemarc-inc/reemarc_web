@@ -27,7 +27,7 @@
 <?php } ?>
 
 
-<?php if(!empty($data[6]) && (auth()->user()->role == 'admin'
+<?php if(!empty($data[6]) && $data[2] == 'to_do' && (auth()->user()->role == 'admin'
     || auth()->user()->role == 'creative director'
     || auth()->user()->role == 'content manager'
     || auth()->user()->role == 'web production manager' )) { ?>
@@ -134,23 +134,23 @@
         <table class="reminder_table">
             <tr>
                 <td><span class="lead-time"><b>&nbspCopywriter Assign Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -25 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -28 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopy Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -23 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -26 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopy Review Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -21 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -24 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreator Assign Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -19 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -22 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Work Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -17 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->date_from . ' -20 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Review Start&nbsp</b></span></td>
@@ -567,7 +567,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +23 days - Social Ad
+    // Lead time +28 days - Social Ad
     $(function() {
         var lead_time = "<?php echo $data[0][0]->date_from; ?>"
 

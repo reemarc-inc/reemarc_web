@@ -21,7 +21,7 @@ class Campaign extends Model
         'campaign_brand',
         'promotion',
         'date_from',
-        'date_to',
+//        'date_to',
         'primary_message',
         'secondary_message',
         'products_featured',

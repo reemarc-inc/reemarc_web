@@ -621,7 +621,7 @@ class CampaignController extends Controller
             'id'                => $data['id'],
             'name'              => $data['name'],
             'date_from'         => date('Y-m-d', strtotime($data['date_from'])),
-            'date_to'           => date('Y-m-d', strtotime($data['date_to'])),
+//            'date_to'           => date('Y-m-d', strtotime($data['date_to'])),
             'primary_message'   => $data['primary_message'],
             'products_featured' => $data['products_featured'],
             'secondary_message' => $data['secondary_message'],

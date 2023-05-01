@@ -26,7 +26,7 @@
 </div>
 <?php } ?>
 
-<?php if(!empty($data[6]) && (auth()->user()->role == 'admin'
+<?php if(!empty($data[6]) && $data[2] == 'to_do' && (auth()->user()->role == 'admin'
     || auth()->user()->role == 'creative director'
     || auth()->user()->role == 'content manager'
     || auth()->user()->role == 'web production manager' )) { ?>
@@ -429,7 +429,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +3 days - Top Categories Copy
+    // Lead time +7 days - Top Categories Copy
     $(function() {
         var lead_time = "<?php echo $data[0][0]->launch_date; ?>"
 

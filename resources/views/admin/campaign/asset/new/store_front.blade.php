@@ -32,7 +32,7 @@
     </div>
 
     <div class="form-group">
-        <label>Launch Date: (Lead Time 30 Days)</label>
+        <label>Launch Date: (Lead Time 35 Days)</label>
         <input type="text" name="{{ $asset_type }}_launch_date" id="{{ $asset_type }}_launch_date"
                class="form-control @error($asset_type.'_launch_date') is-invalid @enderror @if (!$errors->has($asset_type.'_launch_date') && old($asset_type.'_launch_date')) is-valid @endif"
                value="{{ old($asset_type.'_launch_date', null) }}">
@@ -63,9 +63,9 @@
 </form>
 
 <script type="text/javascript">
-    // Lead time +30 days - Store Front (exclude weekend)
+    // Lead time +35 days - Store Front (exclude weekend)
     $(function() {
-        var count = 30;
+        var count = 35;
         var today = new Date();
         for (let i = 1; i <= count; i++) {
             today.setDate(today.getDate() + 1);

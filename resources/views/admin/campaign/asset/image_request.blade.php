@@ -1,6 +1,6 @@
 <?php $asset_id = $data[0][0]->asset_id; $c_id = $data[0][0]->id; $a_type = $data[0][0]->type; ?>
 
-<?php if(!empty($data[6]) && (auth()->user()->role == 'admin'
+<?php if(!empty($data[6]) && $data[2] == 'to_do' && (auth()->user()->role == 'admin'
     || auth()->user()->role == 'creative director'
     || auth()->user()->role == 'content manager'
     || auth()->user()->role == 'web production manager' )) { ?>
@@ -95,11 +95,11 @@
         <table class="reminder_table">
             <tr>
                 <td><span class="lead-time"><b>&nbspCreator Assign Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -11 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -14 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Work Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -9 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -12 weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Review Start&nbsp</b></span></td>
@@ -400,7 +400,7 @@
 <?php endif; ?>
 
 <script type="text/javascript">
-    // Lead time +11 days - Image Request
+    // Lead time +14 days - Image Request
     $(function() {
         var lead_time = "<?php echo $data[0][0]->launch_date; ?>"
 
