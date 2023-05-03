@@ -334,7 +334,7 @@ class CampaignController extends Controller
                 foreach ($request->file('c_attachment') as $file) {
 
                     // file size check
-                    if($file->getSize() > 20000000){
+                    if($file->getSize() > 19500000){
                         return redirect('admin/campaign/create')
                             ->with('error', __('You cannot upload files larger than 20 MB. Use google drive link or https://kissftp.kissusa.com:5001/ to upload files. Please add files location link in ticket description/note.'));
                     }
