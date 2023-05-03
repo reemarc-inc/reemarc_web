@@ -563,7 +563,12 @@ class CampaignController extends Controller
             "PIN Cover Image",
             'FB/IG Organic Awareness Post',
             'FB/IG Organic Stories Image Ad',
-            'FB/IG Organic Stories Video Ad'
+            'FB/IG Organic Stories Video Ad',
+            'Video 16 x 9',
+            'Still Image 1 x 1',
+            'Still image 4 x 5',
+            'Still image 1 x 1.91',
+            'Logo'
         ];
 
         // social_ad, website_banners_fileds
