@@ -144,7 +144,7 @@
     </div>
 
     <div class="form-group">
-        <label>Copy Inside Graphic:</label>
+        <label>Meta Copy Inside Graphic / Google Copy: </label>
         <textarea class="form-control" name="{{ $asset_type }}_copy_inside_graphic" rows="5" cols="100"></textarea>
         <input type="checkbox" onchange="copy_requested_toggle($(this))"/>
         <label style="color: #98a6ad">Request Copy</label>

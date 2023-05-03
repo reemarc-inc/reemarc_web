@@ -269,7 +269,7 @@
     </div>
 
     <div class="form-group">
-        <label>Copy Inside Graphic:</label>
+        <label>Meta Copy Inside Graphic / Google Copy:</label>
         <textarea class="form-control" id="copy_inside_graphic" name="copy_inside_graphic" style="height:100px;">{{ $data[0][0]->copy_inside_graphic }}</textarea>
     </div>
 
