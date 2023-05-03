@@ -52,6 +52,7 @@
             <option value="Traffic Social Ad">Traffic Social Ad</option>
             <option value="Conversion Social Ad">Conversion Social Ad</option>
             <option value="Organic Social Ad/Post">Organic Social Ad/Post</option>
+            <option value="Google Ad">Google Ad</option>
         </select>
     </div>
 
@@ -100,6 +101,13 @@
             <input type="checkbox" name="social_ad_include_formats[]" value="YT Cover Image"/>&nbsp;<span>YT Cover Image</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="TW Cover Image"/>&nbsp;<span>TW Cover Image</span></br>
             <input type="checkbox" name="social_ad_include_formats[]" value="PIN Cover Image"/>&nbsp;<span>PIN Cover Image</span></br>
+        </div>
+        <div class="google" hidden style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
+            <input type="checkbox" name="social_ad_include_formats[]" value="Video 16 x 9"/>&nbsp;<span>Video 16 x 9</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Still Image 1 x 1"/>&nbsp;<span>Still Image 1 x 1</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Still image 4 x 5"/>&nbsp;<span>Still image 4 x 5</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Still image 1 x 1.91"/>&nbsp;<span>Still image 1 x 1.91</span></br>
+            <input type="checkbox" name="social_ad_include_formats[]" value="Logo"/>&nbsp;<span>Logo</span></br>
         </div>
     </div>
 
@@ -285,6 +293,7 @@
         $(".traffic").attr("hidden",true);
         $(".conversion").attr("hidden",true);
         $(".organic").attr("hidden",true);
+        $(".google").attr("hidden",true);
 
         let category = $(e).val();
         if(category == 'Awareness Social Ad') {
@@ -295,6 +304,8 @@
             $('.conversion').removeAttr('hidden');
         }else if(category == 'Organic Social Ad/Post'){
             $('.organic').removeAttr('hidden');
+        }else if(category == 'Google Ad'){
+            $('.google').removeAttr('hidden');
         }
 
     }
