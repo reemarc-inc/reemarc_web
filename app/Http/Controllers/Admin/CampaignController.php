@@ -2228,6 +2228,9 @@ class CampaignController extends Controller
             }
         }
 
+        $notify = new NotifyController();
+        $notify->copy_complete($request['image_request_c_id'], $asset_id);
+
         return redirect('admin/campaign/'.$request['image_request_c_id'].'/edit')
             ->with('success', __('Added the Image Request Asset : ' . $asset_id));
     }
@@ -2322,6 +2325,9 @@ class CampaignController extends Controller
                 $campaign_type_asset_attachments->save();
             }
         }
+
+        $notify = new NotifyController();
+        $notify->copy_complete($request['roll_over_c_id'], $asset_id);
 
         return redirect('admin/campaign/'.$request['roll_over_c_id'].'/edit')
             ->with('success', __('Added the Roll Over Asset : ' . $asset_id));
@@ -2418,6 +2424,9 @@ class CampaignController extends Controller
                 $campaign_type_asset_attachments->save();
             }
         }
+
+        $notify = new NotifyController();
+        $notify->copy_complete($request['store_front_c_id'], $asset_id);
 
         return redirect('admin/campaign/'.$request['store_front_c_id'].'/edit')
             ->with('success', __('Added the Store Front Asset : ' . $asset_id));
