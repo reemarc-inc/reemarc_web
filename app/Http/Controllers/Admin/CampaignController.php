@@ -332,6 +332,13 @@ class CampaignController extends Controller
             if($request->file('c_attachment')){
 
                 foreach ($request->file('c_attachment') as $file) {
+
+                    // file size check
+                    if($file->getSize() > 20000000){
+                        return redirect('admin/campaign/create')
+                            ->with('error', __('You cannot upload files larger than 20 MB. Use google drive link or https://kissftp.kissusa.com:5001/ to upload files. Please add files location link in ticket description/note.'));
+                    }
+
                     $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
 
                     // file check if exist.
@@ -669,6 +676,12 @@ class CampaignController extends Controller
             if($request->file('c_attachment')){
                 foreach ($request->file('c_attachment') as $file) {
                     $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
+
+                    // file size check
+                    if($file->getSize() > 20000000){
+                        return redirect('admin/campaign/'.$id.'/edit')
+                            ->with('error', __('You cannot upload files larger than 20 MB. Use google drive link or https://kissftp.kissusa.com:5001/ to upload files. Please add files location link in ticket description/note.'));
+                    }
 
                     // file check if exist.
                     $originalName = $file->getClientOriginalName();
