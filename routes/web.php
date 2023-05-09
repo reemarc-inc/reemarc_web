@@ -102,6 +102,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('asset/{a_id}/{c_id}/{a_type}/detail', [AdminAsset::class, 'asset_detail'])->name('asset.detail');
     Route::get('asset/{a_id}/{c_id}/{a_type}/{brand}/detail_copy', [AdminAsset::class, 'asset_detail_copy'])->name('asset.detail_copy');
 
+    Route::post('asset/team_change', [AdminAsset::class, 'asset_team_change'])->name('asset.team_change');
     Route::post('asset/assign', [AdminAsset::class, 'asset_assign'])->name('asset.assign');
     Route::post('asset/assign_copy', [AdminAsset::class, 'asset_assign_copy'])->name('asset.assign_copy');
     Route::post('asset/assign_change', [AdminAsset::class, 'asset_assign_change'])->name('asset.assign_change');

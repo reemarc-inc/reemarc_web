@@ -6,7 +6,7 @@
     <form method="POST" action="{{ route('asset.copy_writer_change') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label>Copywriter</label>
+            <label style="padding-left: 20px; color: #b91d19;">Copywriter</label>
             <select class="form-control" name="copy_writer">
                 <option value="">Select</option>
                 @foreach ($copy_writers as $copy_writer)
@@ -20,7 +20,7 @@
         <input type="hidden" name="c_id" value="{{ $c_id }}">
         <input type="hidden" name="a_type" value="{{ $a_type }}">
         <div class=" text-right">
-            <button class="btn btn-info">Change</button>
+            <button class="btn btn-primary">Change</button>
         </div>
     </form>
 </div>
@@ -34,7 +34,7 @@
     <form method="POST" action="{{ route('asset.assign_change') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
-            <label>Assignee</label>
+            <label style="padding-left: 20px; color: #b91d19;">Assignee Change</label>
             <select class="form-control" name="assignee">
                 <option value="">Select</option>
                 <?php if($data[7] == 'content'){ ?>
@@ -62,7 +62,32 @@
         <input type="hidden" name="c_id" value="{{ $c_id }}">
         <input type="hidden" name="a_type" value="{{ $a_type }}">
         <div class=" text-right">
-            <button class="btn btn-info">Change</button>
+            <button class="btn btn-primary">Change</button>
+        </div>
+    </form>
+</div>
+<?php } ?>
+
+<?php if( ($data[2] == 'copy_complete' || $data[2] == 'to_do') && (auth()->user()->role == 'admin')) { ?>
+<div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 3px;">
+    <form method="POST" action="{{ route('asset.team_change') }}" enctype="multipart/form-data">
+        @csrf
+        <div class="form-group">
+            <label style="padding-left: 20px; color: #b91d19;">Team Change</label>
+            <select class="form-control" name="team_to_change">
+                <option value="">Select</option>
+                @foreach ($team_to_list as $team_to)
+                    <option value="{{ $team_to }}" {{ $team_to == $data[7] ? 'selected' : '' }}>
+                        {{ ucfirst($team_to) }}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <input type="hidden" name="a_id" value="{{ $asset_id }}">
+        <input type="hidden" name="c_id" value="{{ $c_id }}">
+        <input type="hidden" name="a_type" value="{{ $a_type }}">
+        <div class=" text-right">
+            <button class="btn btn-primary">Change</button>
         </div>
     </form>
 </div>
