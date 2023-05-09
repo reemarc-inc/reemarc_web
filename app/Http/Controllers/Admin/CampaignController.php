@@ -504,6 +504,13 @@ class CampaignController extends Controller
         }else{
             $this->data['author_name'] = 'N/A';
         }
+
+        $this->data['team_to_list'] = [
+            "creative",
+            "content",
+            "web production"
+        ];
+
         $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
         $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
         $this->data['assignees_web'] = $this->userRepository->getWebAssignee();

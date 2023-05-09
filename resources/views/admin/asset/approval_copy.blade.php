@@ -44,7 +44,7 @@
                                             </td>
                                             <td>
                                                 <a href="{{ url('admin/campaign/'.$asset->campaign_id.'/edit#'.$asset->asset_id) }}">
-                                                    <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #767676" data-initial="{{$asset->asset_id}}"></figure>
+                                                    <figure class="avatar mr-2 avatar-md text-white" style="background-color: #767676" data-initial="{{$asset->asset_id}}"></figure>
                                                 </a>
                                             </td>
                                             <td>{{ $asset->name }}</td>
