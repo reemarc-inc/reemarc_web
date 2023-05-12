@@ -43,7 +43,7 @@
 <?php } ?>
 
 <?php if( ($data[2] == 'copy_complete' || $data[2] == 'to_do') && (auth()->user()->role == 'admin')) { ?>
-<div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 3px;">
+<div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 25px;">
     <form method="POST" action="{{ route('asset.team_change') }}" enctype="multipart/form-data">
         @csrf
         <div class="form-group">
