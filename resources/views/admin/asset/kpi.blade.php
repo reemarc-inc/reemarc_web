@@ -27,12 +27,12 @@
                                         <th>Project ID</th>
                                         <th>Asset ID</th>
                                         <th>Asset Type</th>
-                                        <th>Target Date</th>
+                                        <th>Original Target Date</th>
                                         <th>Delay</th>
-                                        <th>Real Target Date</th>
+                                        <th>Revised Target Date</th>
                                         <th>Finished Date</th>
                                         <th>Difference</th>
-                                        <th>Estimated</th>
+                                        <th>Lead Time</th>
                                         <th>%</th>
                                         <th>Points</th>
                                     </tr>
