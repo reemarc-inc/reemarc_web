@@ -18,7 +18,7 @@
                     <div class="card">
                         <div class="card-body">
                             <p style="float: right">Asset Creator : {{ $asset_creator }}</p>
-                            <?php $data = [$asset_detail, $asset_files, $asset_obj['status'], $asset_obj['decline_creative'], $asset_obj['decline_kec'], $asset_obj['decline_copy'], $asset_obj['assignee'], $asset_obj['team_to']]; ?>
+                            <?php $data = [$asset_detail, $asset_files, $asset_obj['status'], $asset_obj['decline_creative'], $asset_obj['decline_kec'], $asset_obj['decline_copy'], $asset_obj['assignee'], $asset_obj['team_to'], $asset_obj['copy_writer']]; ?>
                             @include('admin.campaign.asset.'.$a_type, $data)
                         </div>
                     </div>
