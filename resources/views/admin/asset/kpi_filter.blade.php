@@ -11,16 +11,26 @@
                 @endforeach
             </select>
         </div>
+
         <div class="form-group col-md-2">
             <input type="text" name="campaign_id" class="design-field" id="q" placeholder="Project ID" value="{{ !empty($filter['campaign_id']) ? $filter['campaign_id'] : '' }}">
         </div>
         <div class="form-group col-md-2">
             <input type="text" name="asset_id" class="design-field" id="q" placeholder="Asset ID" value="{{ !empty($filter['asset_id']) ? $filter['asset_id'] : '' }}">
         </div>
-{{--        <div class="form-group col-md-2">--}}
-{{--        </div>--}}
-{{--        <div class="form-group col-md-2">--}}
-{{--        </div>--}}
+
+        <div class="form-group col-md-2">
+            <input type="text" name="search_from" id="search_from" placeholder="From"
+                   class="form-control design-field datepicker"
+                   value="{{ old('search_from', !empty($filter['search_from']) ? $filter['search_from'] : null) }}">
+        </div>
+
+        <div class="form-group col-md-2">
+            <input type="text" name="search_to" id="search_to" placeholder="To"
+                   class="form-control design-field datepicker"
+                   value="{{ old('search_to', !empty($filter['search_to']) ? $filter['search_to'] : null) }}">
+        </div>
+
         <div class="form-group col-md-2">
             <button class="design-btn">Apply</button>
         </div>

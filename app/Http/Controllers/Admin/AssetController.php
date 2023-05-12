@@ -253,6 +253,12 @@ class AssetController extends Controller
         $this->data['asset_creator'] = $user_obj->first_name . ' ' . $user_obj->last_name;
         $this->data['asset_files'] = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
 
+        $this->data['team_to_list'] = [
+            "creative",
+            "content",
+            "web production"
+        ];
+
         $this->data['assignees_designer'] = $this->userRepository->getCreativeAssignee();
 //        $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
         $this->data['assignees_content'] = $this->userRepository->getContentAssignee();
