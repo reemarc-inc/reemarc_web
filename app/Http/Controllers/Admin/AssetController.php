@@ -171,6 +171,8 @@ class AssetController extends Controller
         $str = !empty($params['q']) ? $params['q'] : '';
         $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
         $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+        $search_from = !empty($params['search_from']) ? $params['search_from'] : '';
+        $search_to = !empty($params['search_to']) ? $params['search_to'] : '';
         if(isset($_GET['designer'])){
             $designer = $params['designer'];
         }else{
@@ -178,7 +180,7 @@ class AssetController extends Controller
         }
         $this->data['designer'] = $designer;
         $this->data['designers'] = $this->userRepository->getCreativeAssignee();
-        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_kpi_assets_list($str, $asset_id, $campaign_id, $designer);
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_kpi_assets_list($str, $asset_id, $campaign_id, $designer, $search_from, $search_to);
         $this->data['filter'] = $params;
 
         return view('admin.asset.kpi', $this->data);
@@ -252,6 +254,12 @@ class AssetController extends Controller
         $user_obj = $this->userRepository->findById($author_id);
         $this->data['asset_creator'] = $user_obj->first_name . ' ' . $user_obj->last_name;
         $this->data['asset_files'] = $this->campaignTypeAssetAttachmentsRepository->findAllByAssetId($a_id);
+
+        $this->data['team_to_list'] = [
+            "creative",
+            "content",
+            "web production"
+        ];
 
         $this->data['assignees_designer'] = $this->userRepository->getCreativeAssignee();
 //        $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();

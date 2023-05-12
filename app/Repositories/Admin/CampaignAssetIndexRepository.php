@@ -140,12 +140,14 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by due asc');
     }
 
-    public function get_kpi_assets_list($str, $asset_id, $campaign_id, $designer)
+    public function get_kpi_assets_list($str, $asset_id, $campaign_id, $designer, $from, $to)
     {
         $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
         $filter_2 = !empty($asset_id) ? ' and a_id ='.$asset_id : '';
         $filter_3 = !empty($campaign_id) ? ' and c_id ='.$campaign_id : '';
         $filter_4 = !empty($designer) ? ' and cai.assignee = "'.$designer.'" ' : '';
+        $filter_5 = !empty($from) ? ' and cai.done_at >= "'.$from.' 00:00:00 " ' : '';
+        $filter_6 = !empty($to) ? ' and cai.done_at <= "'.$to.' 23:59:59 " ' : '';
 
         return DB::select(
             'select  c_id as campaign_id,
@@ -188,8 +190,8 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             and cai.team_to = "creative"
             and cai.target_at is not null
             and cai.assignee is not null
-            ' . $filter_1 . $filter_2 . $filter_3 . $filter_4 . '
-            order by due desc');
+            ' . $filter_1 . $filter_2 . $filter_3 . $filter_4 . $filter_5 . $filter_6 . '
+            order by done_at asc');
     }
 
     public function get_request_assets_list_copy($str, $asset_id, $campaign_id, $brand_id)
