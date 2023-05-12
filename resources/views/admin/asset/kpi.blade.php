@@ -41,7 +41,11 @@
                                         <tr>
                                             <td>{{ $asset->assignee }}</td>
                                             <td>{{ $asset->campaign_id }}</td>
-                                            <td>{{ $asset->asset_id }}</td>
+                                            <td>
+                                                <a href="{{ url('admin/campaign/'.$asset->campaign_id.'/edit#'.$asset->asset_id) }}" target="_blank">
+                                                    <figure class="avatar mr-2 avatar-md text-white" style="background-color: #767676" data-initial="{{$asset->asset_id}}"></figure>
+                                                </a>
+                                            </td>
                                             <td>{{ ucwords(str_replace('_', ' ', $asset->asset_type)) }}</td>
                                             <td>{{ $target_at = date('m/d', strtotime($asset->target_at)) }}
                                             </td>
