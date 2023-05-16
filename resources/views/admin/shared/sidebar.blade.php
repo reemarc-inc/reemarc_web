@@ -55,6 +55,9 @@
         <?php if(auth()->user()->role == 'content manager' || auth()->user()->role == 'content creator' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira_content') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_content') }}"><i class="fas fa-th"></i> <span>Status Board (Content)</span></a></li>
         <?php } ?>
+        <?php if(auth()->user()->role == 'content manager' || auth()->user()->role == 'admin'){ ?>
+        <li class="{{ ($currentAdminMenu == 'asset_kpi_content') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi_content') }}"><i class="fas fa-th-list"></i> <span>KPI</span></a></li>
+        <?php } ?>
 
         <li class="menu-header">KDO Web Production</li>
         <?php if(auth()->user()->role == 'web production manager' || auth()->user()->role == 'admin'){ ?>
