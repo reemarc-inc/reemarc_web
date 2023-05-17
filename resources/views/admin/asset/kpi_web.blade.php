@@ -32,9 +32,6 @@
                                         <th>Revised Target Date</th>
                                         <th>Finished Date</th>
                                         <th>Difference</th>
-                                        <th>Lead Time</th>
-                                        <th>%</th>
-                                        <th>Points</th>
                                     </tr>
 
                                     @foreach ($asset_list as $asset)
@@ -63,69 +60,6 @@
                                                 <?php $to = Carbon\Carbon::parse(strtotime($done_at)); ?>
                                                 {{ $diff = $to->diffInWeekdays($from) }}
                                             </td>
-
-                                            <?php $estimated = 0;
-                                            if($asset->asset_type == 'email_blast'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'social_ad'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'website_banners'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'landing_page'){
-                                                $estimated = 20;
-                                            }elseif($asset->asset_type == 'misc'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'sms_request'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'programmatic_banners'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'image_request'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'rollover'){
-                                                $estimated = 10;
-                                            }elseif($asset->asset_type == 'store_front'){
-                                                $estimated = 20;
-                                            }elseif($asset->asset_type == 'a_content'){
-                                                $estimated = 20;
-                                            }
-                                            ?>
-                                            <td>
-                                                {{ $estimated }}
-                                            </td>
-                                            <td>
-                                                <?php
-                                                    $point = 0;
-                                                    if($red_text == 'color: red') {   /////// if late
-                                                        if($estimated == 10){ $point = 2;  // if 10... ?>
-                                                        90%
-                                                <?php   }else{ $point = 2; ?>
-                                                        90%
-                                                <?php
-                                                        }
-                                                    } else { ////////// if same day or earlier
-                                                        if($estimated == 10){
-                                                            if($diff == 0){ $point = 3; ?>
-                                                        100%
-                                                <?php       }elseif($diff == 1){ $point = 4; ?>
-                                                        110%
-                                                <?php       }else{ $point = 5; ?>
-                                                        115%
-                                                <?php
-                                                            }
-                                                        }else{ // if 20....
-                                                            if($diff >= 4){ $point = 5; // 4 or 5 or 6 ... ?>
-                                                            115%
-                                                <?php       }elseif($diff == 3 || $diff == 2){ $point = 4; // 0 or 1 ?>
-                                                            110%
-                                                <?php
-                                                            }else{ $point = 3; ?>
-                                                            100%
-                                                <?php
-                                                            }
-                                                        }
-                                                    } ?>
-                                            </td>
-                                            <td>{{ $point }}</td>
                                         </tr>
                                     @endforeach
 
