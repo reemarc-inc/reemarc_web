@@ -61,7 +61,7 @@
                             <input type="hidden" name="a_type" value="{{ $a_type }}">
 
                             <div class="card-footer text-right">
-                                <button class="btn btn-primary">Approve</button>
+                                <button class="btn btn-primary">Assign</button>
                             </div>
                         </form>
                     </div>
