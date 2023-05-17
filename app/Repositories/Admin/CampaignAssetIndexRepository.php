@@ -248,6 +248,60 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by done_at asc');
     }
 
+    public function get_kpi_web_assets_list($str, $asset_id, $campaign_id, $designer, $from, $to)
+    {
+        $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
+        $filter_2 = !empty($asset_id) ? ' and a_id ='.$asset_id : '';
+        $filter_3 = !empty($campaign_id) ? ' and c_id ='.$campaign_id : '';
+        $filter_4 = !empty($designer) ? ' and cai.assignee = "'.$designer.'" ' : '';
+        $filter_5 = !empty($from) ? ' and cai.done_at >= "'.$from.' 00:00:00 " ' : '';
+        $filter_6 = !empty($to) ? ' and cai.done_at <= "'.$to.' 23:59:59 " ' : '';
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    cai.assignee,
+                    cai.assigned_at,
+                    cai.target_at,
+                    cai.delay,
+                    cai.start_at,
+                    cai.done_at,
+                    cai.status
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            where cai.status in ("final_approval")
+            and cai.team_to = "web production"
+            and cai.target_at is not null
+            and cai.assignee is not null
+            ' . $filter_1 . $filter_2 . $filter_3 . $filter_4 . $filter_5 . $filter_6 . '
+            order by done_at asc');
+    }
+
     public function get_request_assets_list_copy($str, $asset_id, $campaign_id, $brand_id)
     {
         $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';

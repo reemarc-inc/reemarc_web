@@ -208,6 +208,28 @@ class AssetController extends Controller
         return view('admin.asset.kpi_content', $this->data);
     }
 
+    public function asset_kpi_web(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'asset_kpi_web';
+        $params = $request->all();
+        $str = !empty($params['q']) ? $params['q'] : '';
+        $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
+        $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+        $search_from = !empty($params['search_from']) ? $params['search_from'] : '';
+        $search_to = !empty($params['search_to']) ? $params['search_to'] : '';
+        if(isset($_GET['designer'])){
+            $designer = $params['designer'];
+        }else{
+            $designer = '';
+        }
+        $this->data['designer'] = $designer;
+        $this->data['designers'] = $this->userRepository->getWebAssignee();
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_kpi_web_assets_list($str, $asset_id, $campaign_id, $designer, $search_from, $search_to);
+        $this->data['filter'] = $params;
+
+        return view('admin.asset.kpi_web', $this->data);
+    }
+
     public function asset_approval_copy(Request $request)
     {
         $this->data['currentAdminMenu'] = 'asset_approval_copy';

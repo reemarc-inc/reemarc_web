@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>KPI (Creative)</h1>
+        <h1>KPI (Web)</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
             <div class="breadcrumb-item">KPI</div>
@@ -12,7 +12,7 @@
 
     <div class="section-body">
 
-        @include('admin.asset.kpi_filter')
+        @include('admin.asset.kpi_web_filter')
         @include('admin.asset.flash')
 
         <div class="row" style="margin-top: 15px;">

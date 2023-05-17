@@ -45,7 +45,7 @@
         <li class="{{ ($currentAdminMenu == 'asset_jira') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira') }}"><i class="fas fa-th"></i> <span>Status Board (Creative)</span></a></li>
         <?php } ?>
         <?php if(auth()->user()->role == 'creative director' || auth()->user()->role == 'admin'){ ?>
-        <li class="{{ ($currentAdminMenu == 'asset_kpi') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi') }}"><i class="fas fa-th-list"></i> <span>KPI</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'asset_kpi') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi') }}"><i class="fas fa-th-list"></i> <span>KPI (Creative)</span></a></li>
         <?php } ?>
 
         <li class="menu-header">KDO Content Team</li>
@@ -56,7 +56,7 @@
         <li class="{{ ($currentAdminMenu == 'asset_jira_content') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_content') }}"><i class="fas fa-th"></i> <span>Status Board (Content)</span></a></li>
         <?php } ?>
         <?php if(auth()->user()->role == 'content manager' || auth()->user()->role == 'admin'){ ?>
-        <li class="{{ ($currentAdminMenu == 'asset_kpi_content') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi_content') }}"><i class="fas fa-th-list"></i> <span>KPI</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'asset_kpi_content') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi_content') }}"><i class="fas fa-th-list"></i> <span>KPI (Content)</span></a></li>
         <?php } ?>
 
         <li class="menu-header">KDO Web Production</li>
@@ -65,6 +65,9 @@
         <?php } ?>
         <?php if(auth()->user()->role == 'web production manager' || auth()->user()->role == 'web production' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira_web') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_web') }}"><i class="fas fa-th"></i> <span>Status Board (Web)</span></a></li>
+        <?php } ?>
+        <?php if(auth()->user()->role == 'web manager' || auth()->user()->role == 'admin'){ ?>
+        <li class="{{ ($currentAdminMenu == 'asset_kpi_web') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi_web') }}"><i class="fas fa-th-list"></i> <span>KPI (Web)</span></a></li>
         <?php } ?>
 
         <?php if(auth()->user()->role == 'admin'){ ?>
