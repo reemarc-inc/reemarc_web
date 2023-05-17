@@ -49,8 +49,8 @@
                                             </td>
                                             <td>{{ $asset->name }}</td>
                                             <td>
-                                                <a href="{{ url('admin/asset/'. $asset->asset_id .'/'. $asset->campaign_id . '/' . $asset->asset_type . '/' . $asset->brand . '/detail_copy')}}" class="btn btn-secondary" style="border-radius: 20px;">
-                                                    Detail
+                                                <a href="{{ url('admin/asset/'. $asset->asset_id .'/'. $asset->campaign_id . '/' . $asset->asset_type . '/' . $asset->brand . '/detail_copy')}}" class="btn btn-primary" style="border-radius: 20px;">
+                                                    AssetDetail
                                                 </a>
                                             </td>
                                         </tr>
