@@ -398,7 +398,7 @@
                                         <?php endif; ?>
 
                                         <div class="form-group">
-                                            <label>Upload Visual References: </label>
+                                            <label>Upload Visual References: <b style="color: #b91d19">(20MB Max)</b></label>
                                             <input type="file" id="c_attachment[]" name="c_attachment[]"
                                                    data-asset="default" multiple="multiple"
                                                    class="form-control c_attachment last_upload @error('c_attachment') is-invalid @enderror @if (!$errors->has('c_attachment') && old('c_attachment')) is-valid @endif"
