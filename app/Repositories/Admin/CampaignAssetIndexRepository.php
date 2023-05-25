@@ -302,6 +302,58 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             order by done_at asc');
     }
 
+    public function get_kpi_copy_assets_list($str, $asset_id, $campaign_id, $designer, $from, $to)
+    {
+        $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
+        $filter_2 = !empty($asset_id) ? ' and a_id ='.$asset_id : '';
+        $filter_3 = !empty($campaign_id) ? ' and c_id ='.$campaign_id : '';
+        $filter_4 = !empty($designer) ? ' and cai.copy_writer = "'.$designer.'" ' : '';
+        $filter_5 = !empty($from) ? ' and cai.copy_done_at >= "'.$from.' 00:00:00 " ' : '';
+        $filter_6 = !empty($to) ? ' and cai.copy_done_at <= "'.$to.' 23:59:59 " ' : '';
+
+        return DB::select(
+            'select  c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due,
+                    ci.name as name,
+                    cai.copy_writer,
+                    cai.copy_assigned_at,
+                    cai.copy_delay,
+                    cai.copy_target_at,
+                    cai.copy_done_at,
+                    cai.status
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_roll_over
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            where cai.status in ("final_approval")
+            and cai.copy_target_at is not null
+            and cai.copy_writer is not null
+            ' . $filter_1 . $filter_2 . $filter_3 . $filter_4 . $filter_5 . $filter_6 . '
+            order by done_at asc');
+    }
+
     public function get_request_assets_list_copy($str, $asset_id, $campaign_id, $brand_id)
     {
         $filter_1 = !empty($str) ? ' and name like "%'.$str.'%" ' : '';
@@ -1665,17 +1717,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
-                    union all
                     select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
-                    union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
                     union all
 					select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_image_request
                     union all
@@ -1683,9 +1735,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
-                    union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             where cai.id ='.$a_id);
@@ -1717,30 +1767,121 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             $target_at = date('Y-m-d 19:00:00', strtotime($due . '-13 weekday'));
         }
 
-        // Check for Assign is late or not..
+        // Check for Assign is late or not.. // To Do
         $today = date('Y-m-d');
         if ($asset_type == 'email_blast') {
-            $assign_due = date('Y-m-d', strtotime($due . '-22 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-20 weekday'));
         } else if ($asset_type == 'social_ad') {
-            $assign_due = date('Y-m-d ', strtotime($due . '-22 weekday'));
+            $assign_due = date('Y-m-d ', strtotime($due . '-20 weekday'));
         } else if ($asset_type == 'website_banners') {
-            $assign_due = date('Y-m-d', strtotime($due . '-23 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-21 weekday'));
         } else if ($asset_type == 'landing_page') {
-            $assign_due = date('Y-m-d', strtotime($due . '-40 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-38 weekday'));
         } else if ($asset_type == 'misc') {
-            $assign_due = date('Y-m-d', strtotime($due . '-21 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-19 weekday'));
         } else if ($asset_type == 'sms_request') {
-            $assign_due = date('Y-m-d', strtotime($due . '-21 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-19 weekday'));
         } else if ($asset_type == 'programmatic_banners') {
-            $assign_due = date('Y-m-d', strtotime($due . '-22 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-20 weekday'));
         } else if ($asset_type == 'image_request') {
-            $assign_due = date('Y-m-d', strtotime($due . '-14 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-12 weekday'));
         } else if ($asset_type == 'roll_over') {
-            $assign_due = date('Y-m-d', strtotime($due . '-15 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-13 weekday'));
         } else if ($asset_type == 'store_front') {
-            $assign_due = date('Y-m-d', strtotime($due . '-35 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-33 weekday'));
         } else if ($asset_type == 'a_content') {
-            $assign_due = date('Y-m-d', strtotime($due . '-35 weekday'));
+            $assign_due = date('Y-m-d', strtotime($due . '-33 weekday'));
+        }
+
+        $delay = 0;
+
+        if($today >= $assign_due){
+            $from = Carbon::parse($today);
+            $to = Carbon::parse($assign_due);
+            $delay = $to->diffInWeekdays($from);
+        }
+
+        return [$target_at, $delay];
+    }
+
+    public function get_copy_target_date($a_id, $asset_type)
+    {
+        $res = DB::select(
+            'select c_id as campaign_id,
+                    a_id as asset_id,
+                    a_type as asset_type,
+                    due
+            from
+                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_social_ad
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_website_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_landing_page
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_misc
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_sms_request
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_topcategories_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, date_from as due from campaign_type_programmatic_banners
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+            left join campaign_asset_index cai on cai.id = a_id
+            left join campaign_item ci on ci.id = c_id
+            where cai.id ='.$a_id);
+
+        $due = $res[0]->due;
+
+        // Get Target_At
+        if ($asset_type == 'email_blast') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
+        } else if ($asset_type == 'social_ad') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
+        } else if ($asset_type == 'website_banners') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-25 weekday'));
+        } else if ($asset_type == 'landing_page') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-43 weekday'));
+        } else if ($asset_type == 'misc') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-23 weekday'));
+        } else if ($asset_type == 'sms_request') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-23 weekday'));
+        } else if ($asset_type == 'topcategories_copy') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-3 weekday'));
+        } else if ($asset_type == 'programmatic_banners') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
+        } else if ($asset_type == 'a_content') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-37 weekday'));
+        } else if ($asset_type == 'youtube_copy') {
+            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
+        }
+
+        // Check for Copy Assign is late or not.. // Copy To Do
+        $today = date('Y-m-d');
+        if ($asset_type == 'email_blast') {
+            $assign_due = date('Y-m-d', strtotime($due . '-26 weekday'));
+        } else if ($asset_type == 'social_ad') {
+            $assign_due = date('Y-m-d ', strtotime($due . '-26 weekday'));
+        } else if ($asset_type == 'website_banners') {
+            $assign_due = date('Y-m-d', strtotime($due . '-27 weekday'));
+        } else if ($asset_type == 'landing_page') {
+            $assign_due = date('Y-m-d', strtotime($due . '-47 weekday'));
+        } else if ($asset_type == 'misc') {
+            $assign_due = date('Y-m-d', strtotime($due . '-25 weekday'));
+        } else if ($asset_type == 'sms_request') {
+            $assign_due = date('Y-m-d', strtotime($due . '-25 weekday'));
+        } else if ($asset_type == 'topcategories_copy') {
+            $assign_due = date('Y-m-d', strtotime($due . '-5 weekday'));
+        } else if ($asset_type == 'programmatic_banners') {
+            $assign_due = date('Y-m-d', strtotime($due . '-26 weekday'));
+        } else if ($asset_type == 'a_content') {
+            $assign_due = date('Y-m-d', strtotime($due . '-39 weekday'));
+        } else if ($asset_type == 'youtube_copy') {
+            $assign_due = date('Y-m-d', strtotime($due . '-12 weekday'));
         }
 
         $delay = 0;
