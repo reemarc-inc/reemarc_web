@@ -230,6 +230,28 @@ class AssetController extends Controller
         return view('admin.asset.kpi_web', $this->data);
     }
 
+    public function asset_kpi_copy(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'asset_kpi_copy';
+        $params = $request->all();
+        $str = !empty($params['q']) ? $params['q'] : '';
+        $asset_id = !empty($params['asset_id']) ? $params['asset_id'] : '';
+        $campaign_id = !empty($params['campaign_id']) ? $params['campaign_id'] : '';
+        $search_from = !empty($params['search_from']) ? $params['search_from'] : '';
+        $search_to = !empty($params['search_to']) ? $params['search_to'] : '';
+        if(isset($_GET['designer'])){
+            $designer = $params['designer'];
+        }else{
+            $designer = '';
+        }
+        $this->data['designer'] = $designer;
+        $this->data['designers'] = $this->userRepository->getCopyWriterAssignee();
+        $this->data['asset_list'] = $this->campaignAssetIndexRepository->get_kpi_copy_assets_list($str, $asset_id, $campaign_id, $designer, $search_from, $search_to);
+        $this->data['filter'] = $params;
+
+        return view('admin.asset.kpi_copy', $this->data);
+    }
+
     public function asset_approval_copy(Request $request)
     {
         $this->data['currentAdminMenu'] = 'asset_approval_copy';
@@ -343,7 +365,13 @@ class AssetController extends Controller
         $params['type'] = $param['a_type'];
         $params['status'] = 'copy_to_do';
         $params['copy_writer'] = $param['copy_writer'];
+        $params['copy_assigned_at'] = Carbon::now();
         $params['updated_at'] = Carbon::now();
+
+        $rs_array = $this->campaignAssetIndexRepository->get_copy_target_date($param['a_id'], $a_type);
+
+        $params['copy_target_at'] = $rs_array[0];
+        $params['copy_delay'] = $rs_array[1];
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
@@ -843,6 +871,7 @@ class AssetController extends Controller
         $campaignAssetIndex = $this->campaignAssetIndexRepository->findById($id);
 
         $param['status'] = 'copy_review';
+        $param['copy_done_at'] = Carbon::now();
         $param['updated_at'] = Carbon::now();
 
         $c_id = $campaignAssetIndex->campaign_id;

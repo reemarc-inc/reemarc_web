@@ -27,6 +27,8 @@ class CampaignAssetIndex extends Model
         'done_at',
         'copy_writer',
         'copy_assigned_at',
+        'copy_delay',
+        'copy_target_at',
         'copy_done_at',
         'decline_copy',
         'decline_creative',

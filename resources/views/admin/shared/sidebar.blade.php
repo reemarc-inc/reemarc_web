@@ -36,6 +36,9 @@
         <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'copywriter manager' || auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_jira_copywriter') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_jira_copywriter') }}"><i class="fas fa-th"></i> <span>Status Board (Copy)</span></a></li>
         <?php } ?>
+        <?php if(auth()->user()->role == 'copywriter manager' || auth()->user()->role == 'admin'){ ?>
+        <li class="{{ ($currentAdminMenu == 'asset_kpi_copy') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi_copy') }}"><i class="fas fa-th-list"></i> <span>KPI (Copy)</span></a></li>
+        <?php } ?>
 
         <li class="menu-header">Creative Dept</li>
         <?php if(auth()->user()->role == 'creative director' || auth()->user()->role == 'admin'){ ?>
