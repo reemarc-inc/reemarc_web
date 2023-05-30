@@ -295,7 +295,7 @@
     <?php endif; ?>
 
     <div class="form-group">
-        <label>Upload Visual References:</label>
+        <label>Upload Visual References: <b style="color: #b91d19">(20MB Max)</b></label>
         <input type="file" data-asset="default" name="c_attachment[]" class="form-control c_attachment last_upload" multiple="multiple"/>
         <a href="javascript:void(0);" onclick="another_upload($(this))" class="another_upload">[ Upload Another ]</a>
     </div>
