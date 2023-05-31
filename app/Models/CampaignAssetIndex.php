@@ -18,6 +18,7 @@ class CampaignAssetIndex extends Model
         'author_id',
         'type',
         'team_to',
+        'skip_creative',
         'status',
         'assignee',
         'assigned_at',

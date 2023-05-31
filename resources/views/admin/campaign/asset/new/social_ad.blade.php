@@ -56,6 +56,14 @@
         </select>
     </div>
 
+    <div class="form-group skip-creative" hidden>
+        <label style="display: inline-flex; align-items: center;">
+            <input type="checkbox" name="skip-creative" class="custom-switch-input" onchange="skip_creative($(this))">
+            <span class="custom-switch-indicator"></span>
+            <span class="custom-switch-description">Skip Creative</span>
+        </label>
+    </div>
+
     <div class="form-group checkboxes">
         <label>Include Formats: </label>
         <div class="awareness" hidden style="columns: 2; -webkit-columns: 2; -moz-columns: 2;">
@@ -137,7 +145,7 @@
     <div class="form-group">
         <hr>
         <label style="display: inline-flex; align-items: center;">
-            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input">
+            <input type="checkbox" name="{{ $asset_type }}_no_copy_necessary" value="on" class="custom-switch-input" id="social_ad_no_copy" onchange="skip_creative_2($(this))">
             <span class="custom-switch-indicator"></span>
             <span class="custom-switch-description">No Copy Necessary</span>
         </label>
@@ -295,6 +303,8 @@
         $(".organic").attr("hidden",true);
         $(".google").attr("hidden",true);
 
+        $(".skip-creative").attr("hidden",true);
+
         let category = $(e).val();
         if(category == 'Awareness Social Ad') {
             $('.awareness').removeAttr('hidden');
@@ -306,8 +316,27 @@
             $('.organic').removeAttr('hidden');
         }else if(category == 'Google Ad'){
             $('.google').removeAttr('hidden');
+            $('.skip-creative').removeAttr('hidden');
         }
 
+    }
+
+    function skip_creative(e){
+        if ($(e).is(':checked')) {
+            $("#social_ad_no_copy").attr("disabled", true);
+            $("#social_ad_no_copy").prop("checked", false);
+        }else{
+            $("#social_ad_no_copy").attr("disabled", false);
+            $("#social_ad_no_copy").prop("checked", false);
+        }
+    }
+
+    function skip_creative_2(e){
+        if ($(e).is(':checked')) {
+            $("#social_ad_no_copy").prop("checked", true);
+        }else{
+            $("#social_ad_no_copy").prop("checked", false);
+        }
     }
 
     function click_arrow_social_ad(el,num){
