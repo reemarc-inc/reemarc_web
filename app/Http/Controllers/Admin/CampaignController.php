@@ -1233,6 +1233,13 @@ class CampaignController extends Controller
         $campaignAssetIndex['campaign_id'] = $request['social_ad_c_id'];
         $campaignAssetIndex['type'] = $request['social_ad_asset_type'];
         $campaignAssetIndex['team_to'] = $request['social_ad_team_to'];
+
+        if(isset($request['skip-creative']) && $request['skip-creative'] =='on'){
+            $campaignAssetIndex['skip_creative'] = 'skip';
+        }else {
+            $campaignAssetIndex['skip_creative'] = '';
+        }
+
         if(isset($request['social_ad_no_copy_necessary']) && $request['social_ad_no_copy_necessary'] =='on'){
             $campaignAssetIndex['status'] = 'copy_complete';
         }else {

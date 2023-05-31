@@ -903,6 +903,12 @@ class AssetController extends Controller
             $this->finalApproval($id);
             return;
         }else{
+            // Social Ad -> Google Ad (skip-creative)
+            if($campaignAssetIndex->skip_creative == 'skip'){
+                $this->finalApproval($id);
+                return;
+            }
+
             $param['status'] = 'copy_complete';
         }
         $param['updated_at'] = Carbon::now();
