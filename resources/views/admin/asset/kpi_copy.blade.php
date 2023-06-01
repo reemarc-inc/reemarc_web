@@ -36,7 +36,7 @@
 
                                     @foreach ($asset_list as $asset)
                                         <tr>
-                                            <td>{{ $asset->assignee }}</td>
+                                            <td>{{ $asset->copy_writer }}</td>
                                             <td>{{ $asset->campaign_id }}</td>
                                             <td>
                                                 <a href="{{ url('admin/campaign/'.$asset->campaign_id.'/edit#'.$asset->asset_id) }}" target="_blank">
