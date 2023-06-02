@@ -35,7 +35,7 @@
 
                         </div>
                         <div class="card-body" style="display: flex;">
-                            <div class="col-md-6" style="border-right:1px solid #eee">
+                            <div class="col-md-6" style="border-right:1px solid #eee; padding: 0px 0px 0px 0px;">
                                 <div class="form-group">
                                     <div class="input-group info" style="display: block; ">
                                         <div>
@@ -68,20 +68,28 @@
                             </div>
 
                             <div class="col-md-6 asset_scroll">
-                                <div class="row">
-                                    <div class="col-sm-6">
+                                <div class="row" style="font-size: 12px;">
+                                    <div class="col-sm-6" style="padding: 0px 0px 0px 2px;">
                                         <div style="margin-top:0px;">
                                             <b>Assets:</b>
                                         </div>
                                         <?php $assets = \App\Repositories\Admin\CampaignRepository::get_assets($campaign->id); ?>
                                         <?php if(!empty($assets)){
                                         foreach ($assets as $asset){?>
-                                        <div><?php echo ucwords(str_replace('_', ' ', $asset->type)) ?></div>
+                                        <div>
+                                            <?php
+                                                $asset_type = $asset->type;
+                                                if($asset_type == 'website_banners') {
+                                                    $asset_type = 'web_banners';
+                                                }
+                                            echo ucwords(str_replace('_', ' ', $asset_type))
+
+                                            ?></div>
                                         <?php   }
                                         }
                                         ?>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" style="padding: 0px 0px 0px 12px;">
                                         <div style="margin-top:0px;">
                                             <b>Due:</b>
                                         </div>
