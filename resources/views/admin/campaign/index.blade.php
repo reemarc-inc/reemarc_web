@@ -81,6 +81,8 @@
                                                 $asset_type = $asset->type;
                                                 if($asset_type == 'website_banners') {
                                                     $asset_type = 'web_banners';
+                                                }else if($asset_type == 'a_content') {
+                                                    $asset_type = 'a+_content';
                                                 }
                                             echo ucwords(str_replace('_', ' ', $asset_type))
 
