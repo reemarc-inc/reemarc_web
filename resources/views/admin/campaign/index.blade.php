@@ -87,6 +87,8 @@
                                                     $asset_type = 'img_request';
                                                 }else if($asset_type == 'programmatic_banners') {
                                                     $asset_type = 'pgm_banners';
+                                                }else if($asset_type == 'topcategories_copy') {
+                                                    $asset_type = 'top_copy';
                                                 }
                                             echo ucwords(str_replace('_', ' ', $asset_type))
 
