@@ -83,6 +83,8 @@
                                                     $asset_type = 'web_banners';
                                                 }else if($asset_type == 'a_content') {
                                                     $asset_type = 'a+_content';
+                                                }else if($asset_type == 'image_request') {
+                                                    $asset_type = 'img_request';
                                                 }
                                             echo ucwords(str_replace('_', ' ', $asset_type))
 
