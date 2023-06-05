@@ -2922,7 +2922,7 @@ class CampaignController extends Controller
     {
         // Insert into campaign note for correspondence (attachment file)
         $asset_type_ =  ucwords(str_replace('_', ' ', $asset_type));
-        $change_line  = "<p>$user->first_name Add a new attachment ($file_type) to $asset_type_ (#$asset->asset_id)</p>";
+        $change_line  = "<p>$user->first_name Has Added a new attachment ($file_type) to $asset_type_ (#$asset->asset_id)</p>";
 
         $campaign_note = new CampaignNotes();
         $campaign_note['id'] = $asset->id;

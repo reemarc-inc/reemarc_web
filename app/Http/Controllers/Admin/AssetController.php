@@ -375,7 +375,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' has been Assigned to Copy Writer ' . $params['copy_writer'] , null);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' Assigned ' . $params['copy_writer'] , null);
 
         // TODO notification
         $notify = new NotifyController();
@@ -386,7 +386,7 @@ class AssetController extends Controller
         $this->data['currentAdminMenu'] = 'asset_approval_copy';
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
         return redirect('admin/asset_approval_copy')
-            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Assigned to '.$param['copy_writer'].'.'));
+            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .' Assigned '.$param['copy_writer'].'.'));
     }
 
     public function asset_team_change(Request $request)
@@ -438,7 +438,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' has been Assigned to ' . $params['assignee'] , null);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' Assigned ' . $params['assignee'] , null);
 
         // TODO notification
         $notify = new NotifyController();
@@ -480,7 +480,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' has been Assigned to ' . $params['assignee'] , null);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' Assigned ' . $params['assignee'] , null);
 
         // TODO notification
         $notify = new NotifyController();
@@ -491,7 +491,7 @@ class AssetController extends Controller
 
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
         return redirect('admin/campaign/'.$c_id.'/edit#'.$param['a_id'])
-            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Assigned to '.$param['assignee'].'.'));
+            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .' Assigned '.$param['assignee'].'.'));
     }
 
     public function asset_copy_writer_change(Request $request)
@@ -509,7 +509,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' has been Assigned to Copywriter ' . $params['copy_writer'] , null);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' Assigned ' . $params['copy_writer'] , null);
 
         // TODO notification
         $notify = new NotifyController();
@@ -520,7 +520,7 @@ class AssetController extends Controller
 
         $asset_type = ucwords(str_replace('_', ' ', $param['a_type']));
         return redirect('admin/campaign/'.$c_id.'/edit#'.$param['a_id'])
-            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .'  has been Assigned to Copywriter '.$param['copy_writer'].'.'));
+            ->with('success', __('['.$asset_type.']' . ' Asset ID : '. $param['a_id'] .' Assigned '.$param['copy_writer'].'.'));
     }
 
     public function asset_decline_copy(Request $request)
@@ -535,7 +535,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Decline From Copy Review', $params['decline_copy']);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], ' Declined on ', $params['decline_copy']);
 
         // TODO notification
         // Send notification to copywriter via email
@@ -562,7 +562,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Decline from Creator', $params['decline_creative']);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Declined on ', $params['decline_creative']);
 
         // TODO notification
         // Send notification to task creator via email
@@ -590,7 +590,7 @@ class AssetController extends Controller
 
         $this->campaignAssetIndexRepository->update($param['a_id'], $params);
 
-        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Decline from KDO', $params['decline_kec']);
+        $this->add_asset_correspondence($c_id, $a_type, $param['a_id'], 'Declined on ', $params['decline_kec']);
 
         // TODO notification
         // send notification to designer via email
@@ -937,8 +937,11 @@ class AssetController extends Controller
     {
         // Insert into campaign note for correspondence
         $user = auth()->user();
+        if($asset_type == 'a_content'){
+            $asset_type = 'a+_content';
+        }
         $asset_type_ =  ucwords(str_replace('_', ' ', $asset_type));
-        $change_line  = "<p>$user->first_name $status for $asset_type_ (#$asset_id)</p>";
+        $change_line  = "<p>$user->first_name $status to $asset_type_ (#$asset_id)</p>";
 
         if(!empty($decline)) {
             $change_line .= "<div class='change_label'><p>Decline Reason:</p></div>"
@@ -1010,7 +1013,7 @@ class AssetController extends Controller
 
         if($this->campaignAssetIndexRepository->update($id, $param)){
 
-            $this->add_asset_correspondence($c_id, $campaignAssetIndex['type'], $a_id, 'Done', null);
+            $this->add_asset_correspondence($c_id, $campaignAssetIndex['type'], $a_id, 'Completed', null);
 
             // TODO notification
             // send notification to Asset creator via email
