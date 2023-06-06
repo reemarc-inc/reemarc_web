@@ -1080,7 +1080,7 @@ select.form-control:not([size]):not([multiple]) {
     padding:4px;
 }
 .attachment_wrapper {
-    display: inline-block;
+    /*display: inline-block;*/
     position: relative;
     z-index: 98;
 }
