@@ -333,6 +333,11 @@
         || auth()->user()->role == 'content manager'
         || auth()->user()->role == 'web production manager'
         || auth()->user()->role == 'admin') { ?>
+
+            <div>
+                <label style="font-size: medium;">Save changes before submitting for approval</label>
+            </div>
+
         <input type="button"
                value="Submit for Approval"
                onclick="work_done($(this))"
