@@ -336,7 +336,7 @@
             <div>
                 <label style="font-size: medium;">Save changes before submitting for approval</label>
             </div>
-            
+
         <input type="button"
                value="Submit for Approval"
                onclick="work_done($(this))"
