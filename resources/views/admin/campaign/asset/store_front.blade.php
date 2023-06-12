@@ -293,6 +293,7 @@
         <?php if(auth()->user()->role == 'ecommerce specialist'
         || auth()->user()->role == 'marketing'
         || auth()->user()->role == 'social media manager'
+        || auth()->user()->role == 'creative director'
         || auth()->user()->role == 'content manager'
         || auth()->user()->role == 'web production manager'
         || auth()->user()->role == 'admin') { ?>
