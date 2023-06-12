@@ -409,6 +409,7 @@
         <?php if (!empty($data[2]) && $data[2] == 'done') { ?>
             <?php if(auth()->user()->role == 'ecommerce specialist'
             || auth()->user()->role == 'marketing'
+            || auth()->user()->role == 'creative director'
             || auth()->user()->role == 'social media manager'
             || auth()->user()->role == 'content manager'
             || auth()->user()->role == 'web production manager'

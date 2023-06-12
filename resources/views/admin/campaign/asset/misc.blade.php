@@ -351,6 +351,7 @@
         || auth()->user()->role == 'social media manager'
         || auth()->user()->role == 'content manager'
         || auth()->user()->role == 'web production manager'
+        || auth()->user()->role == 'creative director'
         || auth()->user()->role == 'admin') { ?>
         <input type="button"
                value="Final Approval"
