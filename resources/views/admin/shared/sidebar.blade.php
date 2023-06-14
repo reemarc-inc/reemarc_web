@@ -73,10 +73,13 @@
         <li class="{{ ($currentAdminMenu == 'asset_kpi_web') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi_web') }}"><i class="fas fa-th-list"></i> <span>KPI (Web)</span></a></li>
         <?php } ?>
 
-        <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="menu-header">Account</li>
+        <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'users') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/users')}}"><i class="fas fa-user"></i> <span>Users</span></a></li>
+        <?php } ?>
         <li class="menu-header">Settings</li>
+        <li class="{{ ($currentAdminMenu == 'asset_lead_time') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_lead_time')}}"><i class="fas fa-user"></i> <span>Asset Lead Time</span></a></li>
+        <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'asset_owners') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_owners')}}"><i class="fas fa-user"></i> <span>Asset Owners</span></a></li>
         <li class="{{ ($currentAdminMenu == 'brands') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/brands')}}"><i class="fas fa-user"></i> <span>Brands</span></a></li>
         <?php } ?>
