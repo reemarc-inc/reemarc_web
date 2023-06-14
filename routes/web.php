@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
 use App\Http\Controllers\Admin\FormController as AdminForm;
 use App\Http\Controllers\Admin\AssetOwnerController as AdminAssetOwner;
+use App\Http\Controllers\Admin\AssetLeadTimeController as AdminAssetLeadTime;
 use App\Http\Controllers\Admin\SettingController as AdminSetting;
 use App\Http\Controllers\HomeController as HomeController;
 use App\Http\Controllers\NotifyController as NotifyController;
@@ -60,6 +61,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('users', AdminUser::class);
     Route::resource('brands', AdminBrand::class);
+    Route::resource('asset_lead_time', AdminAssetLeadTime::class);
     Route::resource('asset_owners', AdminAssetOwner::class);
 //    Route::resource('form', AdminForm::class);
 
