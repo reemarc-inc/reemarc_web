@@ -142,6 +142,10 @@
     </div>
 
     <?php
+
+    var_dump($data[9]->time_to_spare, $data[9]->kdo, $data[9]->development,
+        $data[9]->final_review, $data[9]->creative_work,
+        $data[9]->creator_assign, $data[9]->copy_review, $data[9]->copy, $data[9]->copywriter_assign);
     $time_to_spare = ($data[9]->time_to_spare == 'N/A') ? 0 : $data[9]->time_to_spare;
     $kdo = ($data[9]->kdo == 'N/A') ? 0 : $data[9]->kdo;
     $development = ($data[9]->development == 'N/A') ? 0 : $data[9]->development;
