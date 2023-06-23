@@ -142,10 +142,6 @@
     </div>
 
     <?php
-
-    var_dump($data[9]->time_to_spare, $data[9]->kdo, $data[9]->development,
-        $data[9]->final_review, $data[9]->creative_work,
-        $data[9]->creator_assign, $data[9]->copy_review, $data[9]->copy, $data[9]->copywriter_assign);
     $time_to_spare = ($data[9]->time_to_spare == 'N/A') ? 0 : $data[9]->time_to_spare;
     $kdo = ($data[9]->kdo == 'N/A') ? 0 : $data[9]->kdo;
     $development = ($data[9]->development == 'N/A') ? 0 : $data[9]->development;
@@ -170,7 +166,6 @@
         <table class="reminder_table">
             <tr>
                 <td><span class="lead-time"><b>&nbspCopywriter Assign Start&nbsp{{ $step_1 }}</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -49 weekday')); ?></b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_1 . ' weekday')); ?></b></span></td>
             </tr>
             <tr>
