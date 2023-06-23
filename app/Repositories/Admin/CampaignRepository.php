@@ -87,7 +87,7 @@ class CampaignRepository implements CampaignRepositoryInterface
     {
         return DB::select('
             select  c_id, a_id, a_type,
-            (select status from campaign_asset_index where id= a_id ) status,
+                (select status from campaign_asset_index where id= a_id ) status,
                    (select assignee from campaign_asset_index where id= a_id) assignee,
                         (select copy_writer from campaign_asset_index where id= a_id) copy_writer,
                             (select team_to from campaign_asset_index where id= a_id) team_to,
@@ -96,6 +96,17 @@ class CampaignRepository implements CampaignRepositoryInterface
                                         (select decline_copy from campaign_asset_index where id= a_id) decline_copy,
                                             (select decline_creative from campaign_asset_index where id= a_id) decline_creative,
                                                 (select decline_kec from campaign_asset_index where id= a_id) decline_kec,
+                                                    (select skip_creative from campaign_asset_index where id=a_id) skip_creative,
+														(select total from asset_lead_time where asset_name = a_type) total,
+															(select time_to_spare from asset_lead_time where asset_name = a_type) time_to_spare,
+																(select kdo from asset_lead_time where asset_name = a_type) kdo,
+																	(select development from asset_lead_time where asset_name = a_type) development,
+																		(select final_review from asset_lead_time where asset_name = a_type) final_review,
+																			(select creative_work from asset_lead_time where asset_name = a_type) creative_work,
+																				(select creator_assign from asset_lead_time where asset_name = a_type) creator_assign,
+																					(select copy_review from asset_lead_time where asset_name = a_type) copy_review,
+																						(select copy from asset_lead_time where asset_name = a_type) copy,
+																							(select copywriter_assign from asset_lead_time where asset_name = a_type) copywriter_assign,
                 due from
                    (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all

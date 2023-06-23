@@ -29,6 +29,7 @@ use App\Models\CampaignTypeSocialAd;
 use App\Models\CampaignTypeTopcategoriesCopy;
 use App\Models\CampaignTypeWebsiteBanners;
 use App\Models\CampaignTypeWebsiteChanges;
+use App\Repositories\Admin\AssetLeadTimeRepository;
 use App\Repositories\Admin\AssetNotificationUserRepository;
 use App\Repositories\Admin\AssetOwnerAssetsRepository;
 use App\Repositories\Admin\CampaignAssetIndexRepository;
@@ -92,6 +93,7 @@ class AssetController extends Controller
     private $assetNotificationUserRepository;
     private $assetOwnerAssetsRepository;
     private $campaignAssetIndexRepository;
+    private $assetLeadTimeRepository;
 
     public function __construct(CampaignRepository $campaignRepository,
                                 CampaignBrandsRepository $campaignBrandsRepository,
@@ -114,6 +116,7 @@ class AssetController extends Controller
                                 UserRepository $userRepository,
                                 AssetNotificationUserRepository $assetNotificationUserRepository,
                                 AssetOwnerAssetsRepository $assetOwnerAssetsRepository,
+                                AssetLeadTimeRepository $assetLeadTimeRepository,
                                 PermissionRepository $permissionRepository)
     {
         parent::__construct();
@@ -139,6 +142,7 @@ class AssetController extends Controller
         $this->userRepository = $userRepository;
         $this->assetNotificationUserRepository =$assetNotificationUserRepository;
         $this->assetOwnerAssetsRepository = $assetOwnerAssetsRepository;
+        $this->assetLeadTimeRepository = $assetLeadTimeRepository;
         $this->permissionRepository = $permissionRepository;
 
     }
@@ -310,11 +314,12 @@ class AssetController extends Controller
         }else{
             $this->data['currentAdminMenu'] = 'asset_approval';
         }
-
         $this->data['asset_id'] = $a_id;
         $this->data['a_type'] = $a_type;
         $this->data['c_id'] = $c_id;
         $this->data['asset_detail'] = $asset_detail = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
+
+        $this->data['lead_time'] = $this->assetLeadTimeRepository->getByAssetType($a_type);
         $author_id = $asset_detail[0]->author_id;
 
         $user_obj = $this->userRepository->findById($author_id);
@@ -326,6 +331,7 @@ class AssetController extends Controller
             "content",
             "web production"
         ];
+        $this->data['copy_writers'] = $this->userRepository->getCopyWriterAssignee();
 
         $this->data['assignees_designer'] = $this->userRepository->getCreativeAssignee();
 //        $this->data['assignees_creative'] = $this->userRepository->getCreativeAssignee();
@@ -344,6 +350,7 @@ class AssetController extends Controller
         $this->data['c_id'] = $c_id;
         $this->data['brand'] = $brand;
         $this->data['asset_detail'] = $asset_detail = $this->campaignRepository->get_asset_detail($a_id, $c_id, $a_type);
+        $this->data['lead_time'] = $this->assetLeadTimeRepository->getByAssetType($a_type);
         $author_id = $asset_detail[0]->author_id;
 
         $user_obj = $this->userRepository->findById($author_id);
