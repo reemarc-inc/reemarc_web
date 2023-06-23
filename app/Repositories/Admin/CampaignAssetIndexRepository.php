@@ -757,7 +757,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
         }
 
         return DB::select(
-            'select  c_id as campaign_id,
+            'select c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
@@ -768,7 +768,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.assignee,
                     cai.copy_writer,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -805,6 +815,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "copy_requested"
             and ci.name is not null
               ' . $brand_filter . '
@@ -855,7 +866,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.assignee,
                     cai.copy_writer,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -892,6 +913,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "copy_to_do"
             and ci.name is not null
               ' . $brand_filter . '
@@ -941,7 +963,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.assignee,
                     cai.copy_writer,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -978,6 +1010,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "copy_in_progress"
             and ci.name is not null
               ' . $brand_filter . '
@@ -1076,7 +1109,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.assignee,
                     cai.copy_writer,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1113,6 +1156,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "copy_review"
             and ci.name is not null
               ' . $brand_filter . '
@@ -1155,7 +1199,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.status,
                     cai.assignee,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1184,6 +1238,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "copy_complete"
             and ci.name is not null
               ' . $brand_filter . '
@@ -1225,7 +1280,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.status,
                     cai.assignee,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1254,6 +1319,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status in ("to_do")
             and ci.name is not null
               ' . $brand_filter . '
@@ -1293,7 +1359,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     concat(u.first_name, " ", u.last_name) as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1330,6 +1406,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status in ("to_do")
             and ci.name is not null
               ' . $brand_filter . '
@@ -1370,7 +1447,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.status,
                     cai.assignee,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1399,6 +1486,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status in ("in_progress")
             and ci.name is not null
               ' . $brand_filter . '
@@ -1438,7 +1526,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     concat(u.first_name, " ", u.last_name) as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1475,6 +1573,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status in ("in_progress")
             and ci.name is not null
               ' . $brand_filter . '
@@ -1515,7 +1614,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     cai.status,
                     cai.assignee,
                     cb.campaign_name,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1546,6 +1655,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "done"
             and ci.name is not null
               ' . $brand_filter . '
@@ -1585,7 +1695,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     concat(u.first_name, " ", u.last_name) as author_name,
                     cai.status,
                     cai.assignee,
-                    cb.campaign_name
+                    cb.campaign_name,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1622,6 +1742,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "done"
             and ci.name is not null
               ' . $brand_filter . '
@@ -1663,7 +1784,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     concat(u.first_name, " ", u.last_name) as author_name,
                     cb.campaign_name,
                     cai.updated_at,
-                    cai.team_to
+                    cai.team_to,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -1698,6 +1829,7 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.status = "final_approval"
                 ' . $brand_filter . '
                 ' . $team_filter . '
@@ -1713,7 +1845,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             'select c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
-                    due
+                    due,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all
@@ -1738,60 +1880,84 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.id ='.$a_id);
 
         $due = $res[0]->due;
 
+        $time_to_spare = ($res[0]->time_to_spare == 'N/A') ? 0 : $res[0]->time_to_spare;
+        $kdo = ($res[0]->kdo == 'N/A') ? 0 : $res[0]->kdo;
+        $development = ($res[0]->development == 'N/A') ? 0 : $res[0]->development;
+        $final_review = ($res[0]->final_review == 'N/A') ? 0 : $res[0]->final_review;
+        $creative_work = ($res[0]->creative_work == 'N/A') ? 0 : $res[0]->creative_work;
+        $creator_assign = ($res[0]->creator_assign == 'N/A') ? 0 : $res[0]->creator_assign;
+        $copy_review = ($res[0]->copy_review == 'N/A') ? 0 : $res[0]->copy_review;
+        $copy = ($res[0]->copy == 'N/A') ? 0 : $res[0]->copy;
+        $copywriter_assign = ($res[0]->copywriter_assign == 'N/A') ? 0 : $res[0]->copywriter_assign;
+
+        $step_8 = $time_to_spare + $kdo;        // e-commerce start
+        $step_7 = $step_8 + $development;       // development start
+        $step_6 = $step_7 + $final_review;      // creative review start
+        $step_5 = $step_6 + $creative_work;     // creative work start
+        $step_4 = $step_5 + $creator_assign;    // creator assign start
+        $step_3 = $step_4 + $copy_review;       // copy review start
+        $step_2 = $step_3 + $copy;              // copy start
+        $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
         // Get Target_At
-        if ($asset_type == 'email_blast') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
-        } else if ($asset_type == 'social_ad') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
-        } else if ($asset_type == 'website_banners') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-11 weekday'));
-        } else if ($asset_type == 'landing_page') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-18 weekday'));
-        } else if ($asset_type == 'misc') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-9 weekday'));
-        } else if ($asset_type == 'sms_request') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-9 weekday'));
-        } else if ($asset_type == 'programmatic_banners') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
-        } else if ($asset_type == 'image_request') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-2 weekday'));
-        } else if ($asset_type == 'roll_over') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-3 weekday'));
-        } else if ($asset_type == 'store_front') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-13 weekday'));
-        } else if ($asset_type == 'a_content') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-13 weekday'));
-        }
+        $target_at = date('Y-m-d 19:00:00', strtotime($due . ' -' . $step_6 . ' weekday'));
+
+//        if ($asset_type == 'email_blast') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . ' -' . $step_6 . ' weekday'));
+//        } else if ($asset_type == 'social_ad') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
+//        } else if ($asset_type == 'website_banners') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-11 weekday'));
+//        } else if ($asset_type == 'landing_page') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-18 weekday'));
+//        } else if ($asset_type == 'misc') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-9 weekday'));
+//        } else if ($asset_type == 'sms_request') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-9 weekday'));
+//        } else if ($asset_type == 'programmatic_banners') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
+//        } else if ($asset_type == 'image_request') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-2 weekday'));
+//        } else if ($asset_type == 'roll_over') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-3 weekday'));
+//        } else if ($asset_type == 'store_front') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-13 weekday'));
+//        } else if ($asset_type == 'a_content') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-13 weekday'));
+//        }
 
         // Check for Assign is late or not.. // To Do
         $today = date('Y-m-d');
-        if ($asset_type == 'email_blast') {
-            $assign_due = date('Y-m-d', strtotime($due . '-20 weekday'));
-        } else if ($asset_type == 'social_ad') {
-            $assign_due = date('Y-m-d ', strtotime($due . '-20 weekday'));
-        } else if ($asset_type == 'website_banners') {
-            $assign_due = date('Y-m-d', strtotime($due . '-21 weekday'));
-        } else if ($asset_type == 'landing_page') {
-            $assign_due = date('Y-m-d', strtotime($due . '-38 weekday'));
-        } else if ($asset_type == 'misc') {
-            $assign_due = date('Y-m-d', strtotime($due . '-19 weekday'));
-        } else if ($asset_type == 'sms_request') {
-            $assign_due = date('Y-m-d', strtotime($due . '-19 weekday'));
-        } else if ($asset_type == 'programmatic_banners') {
-            $assign_due = date('Y-m-d', strtotime($due . '-20 weekday'));
-        } else if ($asset_type == 'image_request') {
-            $assign_due = date('Y-m-d', strtotime($due . '-12 weekday'));
-        } else if ($asset_type == 'roll_over') {
-            $assign_due = date('Y-m-d', strtotime($due . '-13 weekday'));
-        } else if ($asset_type == 'store_front') {
-            $assign_due = date('Y-m-d', strtotime($due . '-33 weekday'));
-        } else if ($asset_type == 'a_content') {
-            $assign_due = date('Y-m-d', strtotime($due . '-33 weekday'));
-        }
+        $assign_due = date('Y-m-d', strtotime($due . ' -' . $step_5 . ' weekday'));
+
+//        if ($asset_type == 'email_blast') {
+//            $assign_due = date('Y-m-d', strtotime($due . ' -' . $step_5 . ' weekday'));
+//        } else if ($asset_type == 'social_ad') {
+//            $assign_due = date('Y-m-d ', strtotime($due . '-20 weekday'));
+//        } else if ($asset_type == 'website_banners') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-21 weekday'));
+//        } else if ($asset_type == 'landing_page') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-38 weekday'));
+//        } else if ($asset_type == 'misc') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-19 weekday'));
+//        } else if ($asset_type == 'sms_request') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-19 weekday'));
+//        } else if ($asset_type == 'programmatic_banners') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-20 weekday'));
+//        } else if ($asset_type == 'image_request') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-12 weekday'));
+//        } else if ($asset_type == 'roll_over') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-13 weekday'));
+//        } else if ($asset_type == 'store_front') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-33 weekday'));
+//        } else if ($asset_type == 'a_content') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-33 weekday'));
+//        }
 
         $delay = 0;
 
@@ -1810,7 +1976,17 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
             'select c_id as campaign_id,
                     a_id as asset_id,
                     a_type as asset_type,
-                    due
+                    due,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all
@@ -1833,56 +2009,80 @@ class CampaignAssetIndexRepository implements CampaignAssetIndexRepositoryInterf
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
+            left join asset_lead_time alt on alt.asset_name = cai.type
             where cai.id ='.$a_id);
 
         $due = $res[0]->due;
 
+        $time_to_spare = ($res[0]->time_to_spare == 'N/A') ? 0 : $res[0]->time_to_spare;
+        $kdo = ($res[0]->kdo == 'N/A') ? 0 : $res[0]->kdo;
+        $development = ($res[0]->development == 'N/A') ? 0 : $res[0]->development;
+        $final_review = ($res[0]->final_review == 'N/A') ? 0 : $res[0]->final_review;
+        $creative_work = ($res[0]->creative_work == 'N/A') ? 0 : $res[0]->creative_work;
+        $creator_assign = ($res[0]->creator_assign == 'N/A') ? 0 : $res[0]->creator_assign;
+        $copy_review = ($res[0]->copy_review == 'N/A') ? 0 : $res[0]->copy_review;
+        $copy = ($res[0]->copy == 'N/A') ? 0 : $res[0]->copy;
+        $copywriter_assign = ($res[0]->copywriter_assign == 'N/A') ? 0 : $res[0]->copywriter_assign;
+
+        $step_8 = $time_to_spare + $kdo;        // e-commerce start
+        $step_7 = $step_8 + $development;       // development start
+        $step_6 = $step_7 + $final_review;      // creative review start
+        $step_5 = $step_6 + $creative_work;     // creative work start
+        $step_4 = $step_5 + $creator_assign;    // creator assign start
+        $step_3 = $step_4 + $copy_review;       // copy review start
+        $step_2 = $step_3 + $copy;              // copy start
+        $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
+        $target_at = date('Y-m-d 19:00:00', strtotime($due . ' -' . $step_3 . ' weekday'));
+
         // Get Target_At
-        if ($asset_type == 'email_blast') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
-        } else if ($asset_type == 'social_ad') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
-        } else if ($asset_type == 'website_banners') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-25 weekday'));
-        } else if ($asset_type == 'landing_page') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-43 weekday'));
-        } else if ($asset_type == 'misc') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-23 weekday'));
-        } else if ($asset_type == 'sms_request') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-23 weekday'));
-        } else if ($asset_type == 'topcategories_copy') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-3 weekday'));
-        } else if ($asset_type == 'programmatic_banners') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
-        } else if ($asset_type == 'a_content') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-37 weekday'));
-        } else if ($asset_type == 'youtube_copy') {
-            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
-        }
+//        if ($asset_type == 'email_blast') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
+//        } else if ($asset_type == 'social_ad') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
+//        } else if ($asset_type == 'website_banners') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-25 weekday'));
+//        } else if ($asset_type == 'landing_page') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-43 weekday'));
+//        } else if ($asset_type == 'misc') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-23 weekday'));
+//        } else if ($asset_type == 'sms_request') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-23 weekday'));
+//        } else if ($asset_type == 'topcategories_copy') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-3 weekday'));
+//        } else if ($asset_type == 'programmatic_banners') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-24 weekday'));
+//        } else if ($asset_type == 'a_content') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-37 weekday'));
+//        } else if ($asset_type == 'youtube_copy') {
+//            $target_at = date('Y-m-d 19:00:00', strtotime($due . '-10 weekday'));
+//        }
 
         // Check for Copy Assign is late or not.. // Copy To Do
         $today = date('Y-m-d');
-        if ($asset_type == 'email_blast') {
-            $assign_due = date('Y-m-d', strtotime($due . '-26 weekday'));
-        } else if ($asset_type == 'social_ad') {
-            $assign_due = date('Y-m-d ', strtotime($due . '-26 weekday'));
-        } else if ($asset_type == 'website_banners') {
-            $assign_due = date('Y-m-d', strtotime($due . '-27 weekday'));
-        } else if ($asset_type == 'landing_page') {
-            $assign_due = date('Y-m-d', strtotime($due . '-47 weekday'));
-        } else if ($asset_type == 'misc') {
-            $assign_due = date('Y-m-d', strtotime($due . '-25 weekday'));
-        } else if ($asset_type == 'sms_request') {
-            $assign_due = date('Y-m-d', strtotime($due . '-25 weekday'));
-        } else if ($asset_type == 'topcategories_copy') {
-            $assign_due = date('Y-m-d', strtotime($due . '-5 weekday'));
-        } else if ($asset_type == 'programmatic_banners') {
-            $assign_due = date('Y-m-d', strtotime($due . '-26 weekday'));
-        } else if ($asset_type == 'a_content') {
-            $assign_due = date('Y-m-d', strtotime($due . '-39 weekday'));
-        } else if ($asset_type == 'youtube_copy') {
-            $assign_due = date('Y-m-d', strtotime($due . '-12 weekday'));
-        }
+        $assign_due = date('Y-m-d', strtotime($due . ' -' . $step_2 . ' weekday'));
+
+//        if ($asset_type == 'email_blast') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-26 weekday'));
+//        } else if ($asset_type == 'social_ad') {
+//            $assign_due = date('Y-m-d ', strtotime($due . '-26 weekday'));
+//        } else if ($asset_type == 'website_banners') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-27 weekday'));
+//        } else if ($asset_type == 'landing_page') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-47 weekday'));
+//        } else if ($asset_type == 'misc') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-25 weekday'));
+//        } else if ($asset_type == 'sms_request') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-25 weekday'));
+//        } else if ($asset_type == 'topcategories_copy') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-5 weekday'));
+//        } else if ($asset_type == 'programmatic_banners') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-26 weekday'));
+//        } else if ($asset_type == 'a_content') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-39 weekday'));
+//        } else if ($asset_type == 'youtube_copy') {
+//            $assign_due = date('Y-m-d', strtotime($due . '-12 weekday'));
+//        }
 
         $delay = 0;
 

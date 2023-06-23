@@ -1,7 +1,6 @@
 <?php $asset_id = $data[0][0]->asset_id; $c_id = $data[0][0]->id; $a_type = $data[0][0]->type; ?>
 
-<?php if(!empty($data[8]) && (auth()->user()->role == 'admin'
-    || auth()->user()->role == 'copywriter manager' )) { ?>
+<?php if(!empty($data[8]) && (auth()->user()->role == 'admin' || auth()->user()->role == 'copywriter manager') && ($data[2] != 'copy_complete') ) { ?>
 <div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 3px;">
     <form method="POST" action="{{ route('asset.copy_writer_change') }}" enctype="multipart/form-data">
         @csrf
@@ -68,7 +67,7 @@
 </div>
 <?php } ?>
 
-<?php if( ($data[2] == 'copy_complete' || $data[2] == 'to_do') && (auth()->user()->role == 'admin')) { ?>
+<?php if( ($data[2] == 'copy_complete' || $data[2] == 'to_do') && (auth()->user()->role == 'admin') && ($data[2] != 'copy_complete') ) { ?>
 <div class="card" style="background-color: #f5f6fe; margin-bottom: 3px; margin-top: 25px;">
     <form method="POST" action="{{ route('asset.team_change') }}" enctype="multipart/form-data">
         @csrf
@@ -147,31 +146,52 @@
                value="{{ old('launch_date', !empty($data[0][0]) ? $data[0][0]->launch_date : null) }}">
     </div>
 
+    <?php
+    $time_to_spare = ($data[9]->time_to_spare == 'N/A') ? 0 : $data[9]->time_to_spare;
+    $kdo = ($data[9]->kdo == 'N/A') ? 0 : $data[9]->kdo;
+    $development = ($data[9]->development == 'N/A') ? 0 : $data[9]->development;
+    $final_review = ($data[9]->final_review == 'N/A') ? 0 : $data[9]->final_review;
+    $creative_work = ($data[9]->creative_work == 'N/A') ? 0 : $data[9]->creative_work;
+    $creator_assign = ($data[9]->creator_assign == 'N/A') ? 0 : $data[9]->creator_assign;
+    $copy_review = ($data[9]->copy_review == 'N/A') ? 0 : $data[9]->copy_review;
+    $copy = ($data[9]->copy == 'N/A') ? 0 : $data[9]->copy;
+    $copywriter_assign = ($data[9]->copywriter_assign == 'N/A') ? 0 : $data[9]->copywriter_assign;
+
+    $step_8 = $time_to_spare + $kdo;
+    $step_7 = $step_8 + $development;
+    $step_6 = $step_7 + $final_review;
+    $step_5 = $step_6 + $creative_work;
+    $step_4 = $step_5 + $creator_assign;
+    $step_3 = $step_4 + $copy_review;
+    $step_2 = $step_3 + $copy;
+    $step_1 = $step_2 + $copywriter_assign;
+    ?>
+
     <div class="form-group">
         <table class="reminder_table">
             <tr>
                 <td><span class="lead-time"><b>&nbspCopywriters Assign Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -27 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_1 . ' weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopy Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -25 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_2 . ' weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopy Review Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -23 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_3 . ' weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreator Assign Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -21 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_4 . ' weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Work Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -19 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_5 . ' weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreative Review Start&nbsp</b></span></td>
-                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -9 weekday')); ?></b></span></td>
+                <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_6 . ' weekday')); ?></b></span></td>
             </tr>
             <tr>
                 <td><span class="lead-time"><b>&nbspDevelopment Start&nbsp</b></span></td>

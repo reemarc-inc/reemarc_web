@@ -217,6 +217,12 @@ class DeletedController extends Controller
             'Retailer Banners'
         ];
 
+        $this->data['team_to_list'] = [
+            "creative",
+            "content",
+            "web production"
+        ];
+
         // Campaign_notes
         $options = [
             'id' => $id,

@@ -497,7 +497,7 @@
                                     <div id="asset-id-{{$asset->a_id}}" class="box-body form_creator" data-asset-id="{{ $asset->a_id }}" style="display: none">
                                         <section>
                                             <div class="inner_box">
-                                                <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy, $asset->assignee, $asset->team_to, $asset->copy_writer]; ?>
+                                                <?php $data = [$asset->detail, $asset->files, $asset->status, $asset->decline_creative, $asset->decline_kec, $asset->decline_copy, $asset->assignee, $asset->team_to, $asset->copy_writer, $asset]; ?>
                                                 @include('admin.campaign.asset.'.$asset->a_type, $data)
                                             </div>
                                         </section>

@@ -56,10 +56,10 @@ class AssetLeadTimeRepository implements AssetLeadTimeRepositoryInterface
         return $role->delete();
     }
 
-    public function getByAssetName($asset_name)
+    public function getByAssetType($asset_type)
     {
         $assetLeadTime = new AssetLeadTime();
-        $obj = $assetLeadTime->where('asset_name', $asset_name)->get();
+        $obj = $assetLeadTime->where('asset_name', $asset_type)->get();
         return $obj;
 
     }
