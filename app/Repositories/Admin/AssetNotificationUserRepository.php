@@ -76,7 +76,17 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     ci.name as project_name,
                     cai.status,
                     cb.campaign_name as brand_name,
-                    cb.id as brand_id
+                    cb.id as brand_id,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all
@@ -100,6 +110,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = a_type
             where cai.status = "copy_requested"
             and ci.name is not null
             order by due asc');
@@ -116,7 +127,17 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     cai.status,
                     cai.copy_writer,
                     cb.campaign_name as brand_name,
-                    cb.id as brand_id
+                    cb.id as brand_id,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all
@@ -140,6 +161,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = a_type
             where cai.status = "copy_to_do"
             and ci.name is not null
             order by due asc');
@@ -158,7 +180,17 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     u.email as asset_author_email,
                     cai.status,
                     cb.campaign_name as brand_name,
-                    cb.id as brand_id
+                    cb.id as brand_id,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from campaign_type_email_blast
                     union all
@@ -183,6 +215,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = a_type
             where cai.status = "copy_review"
             and ci.name is not null
             order by due asc');
@@ -199,7 +232,17 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     cai.status,
                     cai.team_to,
                     cb.campaign_name as brand_name,
-                    cb.id as brand_id
+                    cb.id as brand_id,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -227,6 +270,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = a_type
             where cai.status = "copy_complete"
             and ci.name is not null
             order by due asc');
@@ -245,7 +289,17 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     cai.assignee,
                     cai.team_to,
                     cb.campaign_name as brand_name,
-                    cb.id as brand_id
+                    cb.id as brand_id,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -274,6 +328,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = ci.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = a_type
             where cai.status = "to_do"
             and ci.name is not null
             order by due asc');
@@ -293,7 +348,17 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     cai.status,
                     cai.assignee,
                     cb.campaign_name as brand_name,
-                    cb.id as brand_id
+                    cb.id as brand_id,
+                    alt.copywriter_assign,
+                    alt.copy,
+                    alt.copy_review,
+                    alt.creator_assign,
+                    alt.creative_work,
+                    alt.final_review,
+                    alt.development,
+                    alt.kdo,
+                    alt.time_to_spare,
+                    alt.total
             from
                     (select id as c_id, asset_id as a_id, type as a_type, email_blast_date as due from  campaign_type_email_blast
                     union all
@@ -322,6 +387,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
+            left join asset_lead_time alt on alt.asset_name = a_type
             where cai.status = "done"
             and ci.name is not null
             order by due asc');
