@@ -557,34 +557,56 @@ class NotifyController extends Controller
             $today = date('Y-m-d');
             $day_after_tomorrow = date('Y-m-d', strtotime($today . '2 day'));
 
-            // copy_request for copy writer manager!!!
+            // [Step 1] copy_request for copy writer manager!!!
             $result_copy_request = $obj->getCopyRequestStatus();
             foreach ($result_copy_request as $item) {
 
                 $asset_type = $item->asset_type;
                 $copywriter_start_due = date('Y-m-d');
 
-                if ($asset_type == 'email_blast') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
-                } else if ($asset_type == 'social_ad') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
-                } else if ($asset_type == 'website_banners') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-29 weekday'));
-                } else if ($asset_type == 'landing_page') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-49 weekday'));
-                } else if ($asset_type == 'misc') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
-                } else if ($asset_type == 'sms_request') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
-                } else if ($asset_type == 'topcategories_copy') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-7 weekday'));
-                } else if ($asset_type == 'programmatic_banners') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-41 weekday'));
-                } else if ($asset_type == 'youtube_copy') {
-                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
-                }
+                $time_to_spare = ($item->time_to_spare == 'N/A') ? 0 : $item->time_to_spare;
+                $kdo = ($item->kdo == 'N/A') ? 0 : $item->kdo;
+                $development = ($item->development == 'N/A') ? 0 : $item->development;
+                $final_review = ($item->final_review == 'N/A') ? 0 : $item->final_review;
+                $creative_work = ($item->creative_work == 'N/A') ? 0 : $item->creative_work;
+                $creator_assign = ($item->creator_assign == 'N/A') ? 0 : $item->creator_assign;
+                $copy_review = ($item->copy_review == 'N/A') ? 0 : $item->copy_review;
+                $copy = ($item->copy == 'N/A') ? 0 : $item->copy;
+                $copywriter_assign = ($item->copywriter_assign == 'N/A') ? 0 : $item->copywriter_assign;
+
+                $step_8 = $time_to_spare + $kdo;        // e-commerce start
+                $step_7 = $step_8 + $development;       // development start
+                $step_6 = $step_7 + $final_review;      // creative review start
+                $step_5 = $step_6 + $creative_work;     // creative work start
+                $step_4 = $step_5 + $creator_assign;    // creator assign start
+                $step_3 = $step_4 + $copy_review;       // copy review start
+                $step_2 = $step_3 + $copy;              // copy start
+                $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
+                $copywriter_start_due = date('m/d/Y', strtotime($item->due . ' -' . $step_1 . ' weekday'));
+
+
+//                if ($asset_type == 'email_blast') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+//                } else if ($asset_type == 'social_ad') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+//                } else if ($asset_type == 'website_banners') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-29 weekday'));
+//                } else if ($asset_type == 'landing_page') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-49 weekday'));
+//                } else if ($asset_type == 'misc') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
+//                } else if ($asset_type == 'sms_request') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
+//                } else if ($asset_type == 'topcategories_copy') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-7 weekday'));
+//                } else if ($asset_type == 'programmatic_banners') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-28 weekday'));
+//                } else if ($asset_type == 'a_content') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-41 weekday'));
+//                } else if ($asset_type == 'youtube_copy') {
+//                    $copywriter_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
+//                }
 
                 if ($copywriter_start_due == $today) {
                     // sending 'today is due' email => send to copy writer Manager
@@ -605,6 +627,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($person['email'])
 //                        ->cc($cc_list)
                             ->send(new ReminderDueToday($details));
@@ -630,7 +653,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($person['email'])
 //                        ->cc($cc_list)
                             ->send(new ReminderDueBefore($details));
@@ -654,7 +677,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($person['email'])
                             ->cc($cc_list)
                             ->send(new ReminderDueAfter($details));
@@ -666,34 +689,55 @@ class NotifyController extends Controller
                 }
             }
 
-            // for copy writer
+            // [Step 2] for copy writer
             $result_copy_to_do = $obj->getCopyToDoStatus();
             foreach ($result_copy_to_do as $item) {
 
                 $asset_type = $item->asset_type;
                 $copy_to_do_start_due = date('Y-m-d');
 
-                if ($asset_type == 'email_blast') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
-                } else if ($asset_type == 'social_ad') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
-                } else if ($asset_type == 'website_banners') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
-                } else if ($asset_type == 'landing_page') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-47 weekday'));
-                } else if ($asset_type == 'misc') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
-                } else if ($asset_type == 'sms_request') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
-                } else if ($asset_type == 'topcategories_copy') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
-                } else if ($asset_type == 'programmatic_banners') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-39 weekday'));
-                } else if ($asset_type == 'youtube_copy') {
-                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
-                }
+                $time_to_spare = ($item->time_to_spare == 'N/A') ? 0 : $item->time_to_spare;
+                $kdo = ($item->kdo == 'N/A') ? 0 : $item->kdo;
+                $development = ($item->development == 'N/A') ? 0 : $item->development;
+                $final_review = ($item->final_review == 'N/A') ? 0 : $item->final_review;
+                $creative_work = ($item->creative_work == 'N/A') ? 0 : $item->creative_work;
+                $creator_assign = ($item->creator_assign == 'N/A') ? 0 : $item->creator_assign;
+                $copy_review = ($item->copy_review == 'N/A') ? 0 : $item->copy_review;
+                $copy = ($item->copy == 'N/A') ? 0 : $item->copy;
+                $copywriter_assign = ($item->copywriter_assign == 'N/A') ? 0 : $item->copywriter_assign;
+
+                $step_8 = $time_to_spare + $kdo;        // e-commerce start
+                $step_7 = $step_8 + $development;       // development start
+                $step_6 = $step_7 + $final_review;      // creative review start
+                $step_5 = $step_6 + $creative_work;     // creative work start
+                $step_4 = $step_5 + $creator_assign;    // creator assign start
+                $step_3 = $step_4 + $copy_review;       // copy review start
+                $step_2 = $step_3 + $copy;              // copy start
+                $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
+                $copy_to_do_start_due = date('m/d/Y', strtotime($item->due . ' -' . $step_2 . ' weekday'));
+
+//                if ($asset_type == 'email_blast') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+//                } else if ($asset_type == 'social_ad') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+//                } else if ($asset_type == 'website_banners') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-27 weekday'));
+//                } else if ($asset_type == 'landing_page') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-47 weekday'));
+//                } else if ($asset_type == 'misc') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
+//                } else if ($asset_type == 'sms_request') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
+//                } else if ($asset_type == 'topcategories_copy') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-5 weekday'));
+//                } else if ($asset_type == 'programmatic_banners') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-26 weekday'));
+//                } else if ($asset_type == 'a_content') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-39 weekday'));
+//                } else if ($asset_type == 'youtube_copy') {
+//                    $copy_to_do_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
+//                }
 
                 if ($copy_to_do_start_due == $today) {
                     // sending 'today is due' email => send to copy writer
@@ -714,6 +758,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($person['email'])
 //                        ->cc($cc_list)
                             ->send(new ReminderDueToday($details));
@@ -739,7 +784,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($person['email'])
 //                        ->cc($cc_list)
                             ->send(new ReminderDueBefore($details));
@@ -763,7 +808,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($person['email'])
                             ->cc($cc_list)
                             ->send(new ReminderDueAfter($details));
@@ -776,34 +821,55 @@ class NotifyController extends Controller
 
             }
 
-            // copy_review for Asset Creator!!!
+            // [Step 3] copy_review for Asset Creator!!! [Step 3]
             $result_copy_review = $obj->getCopyReviewStatus();
             foreach ($result_copy_review as $item) {
 
                 $asset_type = $item->asset_type;
                 $copyreview_start_due = date('Y-m-d');
 
-                if ($asset_type == 'email_blast') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
-                } else if ($asset_type == 'social_ad') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
-                } else if ($asset_type == 'website_banners') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
-                } else if ($asset_type == 'landing_page') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-43 weekday'));
-                } else if ($asset_type == 'misc') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
-                } else if ($asset_type == 'sms_request') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
-                } else if ($asset_type == 'topcategories_copy') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
-                } else if ($asset_type == 'programmatic_banners') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
-                } else if ($asset_type == 'youtube_copy') {
-                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-                }
+                $time_to_spare = ($item->time_to_spare == 'N/A') ? 0 : $item->time_to_spare;
+                $kdo = ($item->kdo == 'N/A') ? 0 : $item->kdo;
+                $development = ($item->development == 'N/A') ? 0 : $item->development;
+                $final_review = ($item->final_review == 'N/A') ? 0 : $item->final_review;
+                $creative_work = ($item->creative_work == 'N/A') ? 0 : $item->creative_work;
+                $creator_assign = ($item->creator_assign == 'N/A') ? 0 : $item->creator_assign;
+                $copy_review = ($item->copy_review == 'N/A') ? 0 : $item->copy_review;
+                $copy = ($item->copy == 'N/A') ? 0 : $item->copy;
+                $copywriter_assign = ($item->copywriter_assign == 'N/A') ? 0 : $item->copywriter_assign;
+
+                $step_8 = $time_to_spare + $kdo;        // e-commerce start
+                $step_7 = $step_8 + $development;       // development start
+                $step_6 = $step_7 + $final_review;      // creative review start
+                $step_5 = $step_6 + $creative_work;     // creative work start
+                $step_4 = $step_5 + $creator_assign;    // creator assign start
+                $step_3 = $step_4 + $copy_review;       // copy review start
+                $step_2 = $step_3 + $copy;              // copy start
+                $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
+                $copyreview_start_due = date('m/d/Y', strtotime($item->due . ' -' . $step_3 . ' weekday'));
+
+//                if ($asset_type == 'email_blast') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+//                } else if ($asset_type == 'social_ad') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+//                } else if ($asset_type == 'website_banners') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-25 weekday'));
+//                } else if ($asset_type == 'landing_page') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-43 weekday'));
+//                } else if ($asset_type == 'misc') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+//                } else if ($asset_type == 'sms_request') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+//                } else if ($asset_type == 'topcategories_copy') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+//                } else if ($asset_type == 'programmatic_banners') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-24 weekday'));
+//                } else if ($asset_type == 'a_content') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-37 weekday'));
+//                } else if ($asset_type == 'youtube_copy') {
+//                    $copyreview_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+//                }
 
                 if ($copyreview_start_due == $today) {
                     // sending 'today is due' email => to asset creator
@@ -822,7 +888,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
                             ->send(new ReminderDueToday($details));
@@ -845,7 +911,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
                             ->send(new ReminderDueBefore($details));
@@ -868,7 +934,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         //Send email to director
                         Mail::to($item->asset_author_email)
                             ->cc($cc_list)
@@ -881,7 +947,7 @@ class NotifyController extends Controller
                 }
             }
 
-            // copy_complete for Creative Director!!! (Creator Assign start)
+            // [Step 4] copy_complete for Creative Director!!! (Creator Assign start)
             $result_copy_complete = $obj->getCopyCompleteStatus();
             foreach ($result_copy_complete as $item) {
 
@@ -889,31 +955,52 @@ class NotifyController extends Controller
                 $team_to = $item->team_to;
                 $creative_assign_start_due = date('Y-m-d');
 
-                if ($asset_type == 'email_blast') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-                } else if ($asset_type == 'social_ad') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-                } else if ($asset_type == 'website_banners') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
-                } else if ($asset_type == 'landing_page') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-40 weekday'));
-                } else if ($asset_type == 'misc') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
-                } else if ($asset_type == 'sms_request') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
-                } else if ($asset_type == 'programmatic_banners') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
-                } else if ($asset_type == 'image_request') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
-                } else if ($asset_type == 'roll_over') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-15 weekday'));
-                } else if ($asset_type == 'store_front') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-35 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-35 weekday'));
-                } else if ($asset_type == 'youtube_copy') {
-                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-8 weekday'));
-                }
+                $time_to_spare = ($item->time_to_spare == 'N/A') ? 0 : $item->time_to_spare;
+                $kdo = ($item->kdo == 'N/A') ? 0 : $item->kdo;
+                $development = ($item->development == 'N/A') ? 0 : $item->development;
+                $final_review = ($item->final_review == 'N/A') ? 0 : $item->final_review;
+                $creative_work = ($item->creative_work == 'N/A') ? 0 : $item->creative_work;
+                $creator_assign = ($item->creator_assign == 'N/A') ? 0 : $item->creator_assign;
+                $copy_review = ($item->copy_review == 'N/A') ? 0 : $item->copy_review;
+                $copy = ($item->copy == 'N/A') ? 0 : $item->copy;
+                $copywriter_assign = ($item->copywriter_assign == 'N/A') ? 0 : $item->copywriter_assign;
+
+                $step_8 = $time_to_spare + $kdo;        // e-commerce start
+                $step_7 = $step_8 + $development;       // development start
+                $step_6 = $step_7 + $final_review;      // creative review start
+                $step_5 = $step_6 + $creative_work;     // creative work start
+                $step_4 = $step_5 + $creator_assign;    // creator assign start
+                $step_3 = $step_4 + $copy_review;       // copy review start
+                $step_2 = $step_3 + $copy;              // copy start
+                $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
+                $creative_assign_start_due = date('m/d/Y', strtotime($item->due . ' -' . $step_4 . ' weekday'));
+
+//                if ($asset_type == 'email_blast') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+//                } else if ($asset_type == 'social_ad') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+//                } else if ($asset_type == 'website_banners') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-23 weekday'));
+//                } else if ($asset_type == 'landing_page') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-40 weekday'));
+//                } else if ($asset_type == 'misc') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+//                } else if ($asset_type == 'sms_request') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+//                } else if ($asset_type == 'programmatic_banners') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-22 weekday'));
+//                } else if ($asset_type == 'image_request') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-14 weekday'));
+//                } else if ($asset_type == 'roll_over') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-15 weekday'));
+//                } else if ($asset_type == 'store_front') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-35 weekday'));
+//                } else if ($asset_type == 'a_content') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-35 weekday'));
+//                } else if ($asset_type == 'youtube_copy') {
+//                    $creative_assign_start_due = date('Y-m-d', strtotime($item->due . '-8 weekday'));
+//                }
 
                 if ($creative_assign_start_due == $today) {
                     // sending 'today is due' email => Hong, Geunho
@@ -936,6 +1023,7 @@ class NotifyController extends Controller
                                     $cc_list = array();
                                     $cc_list[] = 'frank.russo@kissusa.com';
                                     $cc_list[] = 'motuhin@kissusa.com';
+                                    $cc_list[] = 'jilee2@kissusa.com';
                                     Mail::to($joah_team_leader['email'])
                                         ->send(new ReminderDueToday($details));
                                 }
@@ -957,6 +1045,7 @@ class NotifyController extends Controller
                                     $cc_list = array();
                                     $cc_list[] = 'frank.russo@kissusa.com';
                                     $cc_list[] = 'motuhin@kissusa.com';
+                                    $cc_list[] = 'jilee2@kissusa.com';
                                     Mail::to($creative_leader['email'])
                                         ->send(new ReminderDueToday($details));
                                 }
@@ -979,6 +1068,7 @@ class NotifyController extends Controller
                                 $cc_list = array();
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
+                                $cc_list[] = 'jilee2@kissusa.com';
                                 Mail::to($content_leader['email'])
                                     ->send(new ReminderDueToday($details));
                             }
@@ -1000,6 +1090,7 @@ class NotifyController extends Controller
                                 $cc_list = array();
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
+                                $cc_list[] = 'jilee2@kissusa.com';
                                 Mail::to($web_leader['email'])
                                     ->send(new ReminderDueToday($details));
                             }
@@ -1025,6 +1116,7 @@ class NotifyController extends Controller
                                     $cc_list = array();
                                     $cc_list[] = 'frank.russo@kissusa.com';
                                     $cc_list[] = 'motuhin@kissusa.com';
+                                    $cc_list[] = 'jilee2@kissusa.com';
                                     Mail::to($joah_team_leader['email'])
                                         ->send(new ReminderDueBefore($details));
                                 }
@@ -1046,6 +1138,7 @@ class NotifyController extends Controller
                                     $cc_list = array();
                                     $cc_list[] = 'frank.russo@kissusa.com';
                                     $cc_list[] = 'motuhin@kissusa.com';
+                                    $cc_list[] = 'jilee2@kissusa.com';
                                     Mail::to($creative_leader['email'])
                                         ->send(new ReminderDueBefore($details));
                                 }
@@ -1068,6 +1161,7 @@ class NotifyController extends Controller
                                 $cc_list = array();
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
+                                $cc_list[] = 'jilee2@kissusa.com';
                                 Mail::to($content_leader['email'])
                                     ->send(new ReminderDueBefore($details));
                             }
@@ -1089,6 +1183,7 @@ class NotifyController extends Controller
                                 $cc_list = array();
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
+                                $cc_list[] = 'jilee2@kissusa.com';
                                 Mail::to($web_leader['email'])
                                     ->send(new ReminderDueBefore($details));
                             }
@@ -1118,6 +1213,7 @@ class NotifyController extends Controller
                                     $cc_list[] = 'haejin.chang@kissusa.com';
                                     $cc_list[] = 'frank.russo@kissusa.com';
                                     $cc_list[] = 'motuhin@kissusa.com';
+                                    $cc_list[] = 'jilee2@kissusa.com';
                                     Mail::to($joah_team_leader['email'])
                                         ->cc($cc_list)
                                         ->send(new ReminderDueAfter($details));
@@ -1142,6 +1238,7 @@ class NotifyController extends Controller
                                     $cc_list[] = 'flori.ohm@kissusa.com';
                                     $cc_list[] = 'frank.russo@kissusa.com';
                                     $cc_list[] = 'motuhin@kissusa.com';
+                                    $cc_list[] = 'jilee2@kissusa.com';
                                     Mail::to($creative_leader['email'])
                                         ->cc($cc_list)
                                         ->send(new ReminderDueAfter($details));
@@ -1166,6 +1263,7 @@ class NotifyController extends Controller
                                 $cc_list = array();
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
+                                $cc_list[] = 'jilee2@kissusa.com';
                                 Mail::to($content_leader['email'])
                                     ->cc($cc_list)
                                     ->send(new ReminderDueAfter($details));
@@ -1200,36 +1298,57 @@ class NotifyController extends Controller
 
             }
 
-//         to_do for designer!!! (Creative Work start)
+            // [Step 5] to_do for designer!!! (Creative Work start)
             $result_to_do = $obj->getToDoStatus();
             foreach ($result_to_do as $item) {
 
                 $asset_type = $item->asset_type;
                 $creative_work_start_due = date('Y-m-d');
 
-                if ($asset_type == 'email_blast') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
-                } else if ($asset_type == 'social_ad') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
-                } else if ($asset_type == 'website_banners') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
-                } else if ($asset_type == 'landing_page') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-38 weekday'));
-                } else if ($asset_type == 'misc') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
-                } else if ($asset_type == 'sms_request') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
-                } else if ($asset_type == 'programmatic_banners') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
-                } else if ($asset_type == 'image_request') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
-                } else if ($asset_type == 'roll_over') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
-                } else if ($asset_type == 'store_front') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
-                }
+                $time_to_spare = ($item->time_to_spare == 'N/A') ? 0 : $item->time_to_spare;
+                $kdo = ($item->kdo == 'N/A') ? 0 : $item->kdo;
+                $development = ($item->development == 'N/A') ? 0 : $item->development;
+                $final_review = ($item->final_review == 'N/A') ? 0 : $item->final_review;
+                $creative_work = ($item->creative_work == 'N/A') ? 0 : $item->creative_work;
+                $creator_assign = ($item->creator_assign == 'N/A') ? 0 : $item->creator_assign;
+                $copy_review = ($item->copy_review == 'N/A') ? 0 : $item->copy_review;
+                $copy = ($item->copy == 'N/A') ? 0 : $item->copy;
+                $copywriter_assign = ($item->copywriter_assign == 'N/A') ? 0 : $item->copywriter_assign;
+
+                $step_8 = $time_to_spare + $kdo;        // e-commerce start
+                $step_7 = $step_8 + $development;       // development start
+                $step_6 = $step_7 + $final_review;      // creative review start
+                $step_5 = $step_6 + $creative_work;     // creative work start
+                $step_4 = $step_5 + $creator_assign;    // creator assign start
+                $step_3 = $step_4 + $copy_review;       // copy review start
+                $step_2 = $step_3 + $copy;              // copy start
+                $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
+                $creative_work_start_due = date('m/d/Y', strtotime($item->due . ' -' . $step_5 . ' weekday'));
+
+//                if ($asset_type == 'email_blast') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+//                } else if ($asset_type == 'social_ad') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+//                } else if ($asset_type == 'website_banners') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-21 weekday'));
+//                } else if ($asset_type == 'landing_page') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-38 weekday'));
+//                } else if ($asset_type == 'misc') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
+//                } else if ($asset_type == 'sms_request') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-19 weekday'));
+//                } else if ($asset_type == 'programmatic_banners') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-20 weekday'));
+//                } else if ($asset_type == 'image_request') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-12 weekday'));
+//                } else if ($asset_type == 'roll_over') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+//                } else if ($asset_type == 'store_front') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
+//                } else if ($asset_type == 'a_content') {
+//                    $creative_work_start_due = date('Y-m-d', strtotime($item->due . '-33 weekday'));
+//                }
 
                 $assignee_first_name = $item->assignee;
 
@@ -1265,6 +1384,7 @@ class NotifyController extends Controller
                             $cc_list = array();
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
+                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($creator_email)
                                 ->send(new ReminderDueToday($details));
                         }
@@ -1284,6 +1404,7 @@ class NotifyController extends Controller
                             $cc_list = array();
                             $cc_list[] = 'frank.russo@kissusa.com';
                             $cc_list[] = 'motuhin@kissusa.com';
+                            $cc_list[] = 'jilee2@kissusa.com';
                             Mail::to($creator_email)
                                 ->send(new ReminderDueBefore($details));
                         }
@@ -1306,6 +1427,7 @@ class NotifyController extends Controller
                                 $cc_list[] = 'geunho.kang@kissusa.com';
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
+                                $cc_list[] = 'jilee2@kissusa.com';
                                 Mail::to($creator_email)
                                     ->cc($cc_list)
                                     ->send(new ReminderDueAfter($details));
@@ -1315,6 +1437,7 @@ class NotifyController extends Controller
                                 $cc_list[] = $team_manager;
                                 $cc_list[] = 'frank.russo@kissusa.com';
                                 $cc_list[] = 'motuhin@kissusa.com';
+                                $cc_list[] = 'jilee2@kissusa.com';
                                 Mail::to($creator_email)
                                     ->cc($cc_list)
                                     ->send(new ReminderDueAfter($details));
@@ -1324,36 +1447,57 @@ class NotifyController extends Controller
                 }
             }
 
-            // waiting_approval (creative review) for asset creator!!! (Final Review start)
+            // [Step 6] waiting_approval (creative review) for asset creator!!! (Final Review start)
             $result_done = $obj->getDoneStatus();
             foreach ($result_done as $item) {
 
                 $asset_type = $item->asset_type;
                 $final_review_start_due = date('Y-m-d');
 
-                if ($asset_type == 'email_blast') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-                } else if ($asset_type == 'social_ad') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-                } else if ($asset_type == 'website_banners') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
-                } else if ($asset_type == 'landing_page') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
-                } else if ($asset_type == 'misc') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
-                } else if ($asset_type == 'sms_request') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
-                } else if ($asset_type == 'programmatic_banners') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
-                } else if ($asset_type == 'image_request') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
-                } else if ($asset_type == 'roll_over') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
-                } else if ($asset_type == 'store_front') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
-                } else if ($asset_type == 'a_content') {
-                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
-                }
+                $time_to_spare = ($item->time_to_spare == 'N/A') ? 0 : $item->time_to_spare;
+                $kdo = ($item->kdo == 'N/A') ? 0 : $item->kdo;
+                $development = ($item->development == 'N/A') ? 0 : $item->development;
+                $final_review = ($item->final_review == 'N/A') ? 0 : $item->final_review;
+                $creative_work = ($item->creative_work == 'N/A') ? 0 : $item->creative_work;
+                $creator_assign = ($item->creator_assign == 'N/A') ? 0 : $item->creator_assign;
+                $copy_review = ($item->copy_review == 'N/A') ? 0 : $item->copy_review;
+                $copy = ($item->copy == 'N/A') ? 0 : $item->copy;
+                $copywriter_assign = ($item->copywriter_assign == 'N/A') ? 0 : $item->copywriter_assign;
+
+                $step_8 = $time_to_spare + $kdo;        // e-commerce start
+                $step_7 = $step_8 + $development;       // development start
+                $step_6 = $step_7 + $final_review;      // creative review start
+                $step_5 = $step_6 + $creative_work;     // creative work start
+                $step_4 = $step_5 + $creator_assign;    // creator assign start
+                $step_3 = $step_4 + $copy_review;       // copy review start
+                $step_2 = $step_3 + $copy;              // copy start
+                $step_1 = $step_2 + $copywriter_assign; // copywriter assign start
+
+                $final_review_start_due = date('m/d/Y', strtotime($item->due . ' -' . $step_6 . ' weekday'));
+
+//                if ($asset_type == 'email_blast') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+//                } else if ($asset_type == 'social_ad') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+//                } else if ($asset_type == 'website_banners') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-11 weekday'));
+//                } else if ($asset_type == 'landing_page') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-18 weekday'));
+//                } else if ($asset_type == 'misc') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+//                } else if ($asset_type == 'sms_request') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-9 weekday'));
+//                } else if ($asset_type == 'programmatic_banners') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-10 weekday'));
+//                } else if ($asset_type == 'image_request') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-2 weekday'));
+//                } else if ($asset_type == 'roll_over') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-3 weekday'));
+//                } else if ($asset_type == 'store_front') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+//                } else if ($asset_type == 'a_content') {
+//                    $final_review_start_due = date('Y-m-d', strtotime($item->due . '-13 weekday'));
+//                }
 
                 if ($final_review_start_due == $today) {
                     // sending 'today is due' email => asset creator
@@ -1372,7 +1516,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
                             ->send(new ReminderDueToday($details));
@@ -1397,7 +1541,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         Mail::to($item->asset_author_email)
 //                        ->cc($cc_list)
                             ->send(new ReminderDueBefore($details));
@@ -1421,7 +1565,7 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-//                    $cc_list[] = 'jilee2@kissusa.com';
+                        $cc_list[] = 'jilee2@kissusa.com';
                         // Send email to director
                         Mail::to($item->asset_author_email)
                             ->cc($cc_list)
