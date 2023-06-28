@@ -37,23 +37,23 @@
             <select class="form-control" name="assignee">
                 <option value="">Select</option>
                 <?php if($data[7] == 'content'){ ?>
-                @foreach ($assignees_content as $designer)
-                    <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
-                        {{ $designer->first_name }}
-                    </option>
-                @endforeach
+                    @foreach ($assignees_content as $designer)
+                        <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
+                            {{ $designer->first_name }}
+                        </option>
+                    @endforeach
                 <?php }else if($data[7] == 'web production'){ ?>
-                @foreach ($assignees_web as $designer)
-                    <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
-                        {{ $designer->first_name }}
-                    </option>
-                @endforeach
+                    @foreach ($assignees_web as $designer)
+                        <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
+                            {{ $designer->first_name }}
+                        </option>
+                    @endforeach
                 <?php }else{ ?>
-                @foreach ($assignees_creative as $designer)
-                    <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
-                        {{ $designer->first_name }}
-                    </option>
-                @endforeach
+                    @foreach ($assignees_creative as $designer)
+                        <option value="{{ $designer->first_name }}" {{ $designer->first_name == $data[6] ? 'selected' : '' }}>
+                            {{ $designer->first_name }}
+                        </option>
+                    @endforeach
                 <?php } ?>
             </select>
         </div>
