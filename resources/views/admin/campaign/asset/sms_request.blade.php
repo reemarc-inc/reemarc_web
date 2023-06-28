@@ -169,6 +169,7 @@
 
     <div class="form-group">
         <table class="reminder_table">
+            <?php if($data[0][0]->no_copy_necessary != 'on') { ?>
             <tr>
                 <td><span class="lead-time"><b>&nbspCopywriter Assign Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_1 . ' weekday')); ?></b></span></td>
@@ -181,6 +182,7 @@
                 <td><span class="lead-time"><b>&nbspCopy Review Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_3 . ' weekday')); ?></b></span></td>
             </tr>
+            <?php } ?>
             <tr>
                 <td><span class="lead-time"><b>&nbspCreator Assign Start&nbsp</b></span></td>
                 <td style="color: #b91d19"><span><b><?php echo date('m/d/Y', strtotime($data[0][0]->launch_date . ' -' . $step_4 . ' weekday')); ?></b></span></td>
