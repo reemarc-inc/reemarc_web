@@ -278,6 +278,20 @@
     </div>
 
     <div class="form-group">
+        <?php if (!empty($data[2]) && $data[2] == 'copy_to_do') { ?>
+        <?php if(auth()->user()->role == 'copywriter'
+        || auth()->user()->role == 'copywriter manager'
+        || auth()->user()->role == 'admin') { ?>
+        <input type="button"
+               name="copy start"
+               value="Copy Start"
+               onclick="copy_work_start($(this))"
+               data-asset-id="<?php echo $asset_id; ?>"
+               style="margin-top:10px;"
+               class="btn btn-success submit"/>
+        <?php } ?>
+        <?php }?>
+            
         <?php if (!empty($data[2]) && $data[2] == 'copy_in_progress') { ?>
         <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin') { ?>
         <input type="button"
