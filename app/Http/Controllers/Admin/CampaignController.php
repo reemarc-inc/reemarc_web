@@ -1167,6 +1167,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested') {
             $notify = new NotifyController();
             $notify->copy_request($request['email_blast_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['email_blast_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
@@ -1315,6 +1318,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested'){ // only copy_requested, send notification to copy writers
             $notify = new NotifyController();
             $notify->copy_request($request['social_ad_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['social_ad_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
@@ -1446,6 +1452,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
             $notify = new NotifyController();
             $notify->copy_request($request['website_banners_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['website_banners_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
@@ -1670,6 +1679,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
             $notify = new NotifyController();
             $notify->copy_request($request['landing_page_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['landing_page_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
@@ -1784,6 +1796,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
             $notify = new NotifyController();
             $notify->copy_request($request['misc_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['misc_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
@@ -1898,6 +1913,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
             $notify = new NotifyController();
             $notify->copy_request($request['sms_request_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['sms_request_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
@@ -2132,6 +2150,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
             $notify = new NotifyController();
             $notify->copy_request($request['programmatic_banners_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['programmatic_banners_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
@@ -2550,6 +2571,9 @@ class CampaignController extends Controller
         if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
             $notify = new NotifyController();
             $notify->copy_request($request['a_content_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['a_content_c_id'], $asset_id);
         }
         ///////////////////////////////////////////////////////////////
 
