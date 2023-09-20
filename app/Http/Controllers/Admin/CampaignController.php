@@ -8,6 +8,7 @@ use App\Http\Controllers\NotifyController;
 use App\Http\Requests\Admin\AssetAContentRequest;
 use App\Http\Requests\Admin\AssetEmailBlastRequest;
 use App\Http\Requests\Admin\AssetImageRequestRequest;
+use App\Http\Requests\Admin\AssetInfoGraphicRequest;
 use App\Http\Requests\Admin\AssetLandingPageRequest;
 use App\Http\Requests\Admin\AssetMiscRequest;
 use App\Http\Requests\Admin\AssetProgrammaticBannersRequest;
@@ -31,6 +32,7 @@ use App\Models\CampaignTypeAContent;
 use App\Models\CampaignTypeAssetAttachments;
 use App\Models\CampaignTypeEmailBlast;
 use App\Models\CampaignTypeImageRequest;
+use App\Models\CampaignTypeInfoGraphic;
 use App\Models\CampaignTypeLandingPage;
 use App\Models\CampaignTypeMisc;
 use App\Models\CampaignTypeProgrammaticBanners;
@@ -53,6 +55,7 @@ use App\Repositories\Admin\CampaignTypeAContentRepository;
 use App\Repositories\Admin\CampaignTypeAssetAttachmentsRepository;
 use App\Repositories\Admin\CampaignTypeEmailBlastRepository;
 use App\Repositories\Admin\CampaignTypeImageRequestRepository;
+use App\Repositories\Admin\CampaignTypeInfoGraphicRepository;
 use App\Repositories\Admin\CampaignTypeLandingPageRepository;
 use App\Repositories\Admin\CampaignTypeMiscRepository;
 use App\Repositories\Admin\CampaignTypeProgrammaticBannersRepository;
@@ -102,6 +105,7 @@ class CampaignController extends Controller
     private $campaignTypeStoreFrontRepository;
     private $campaignTypeAContentRepository;
     private $campaignTypeYoutubeCopyRepository;
+    private $campaignTypeInfoGraphicRepository;
     private $campaignAssetIndexRepository;
     private $assetOwnerAssetsRepository;
     private $assetNotificationUserRepository;
@@ -125,6 +129,7 @@ class CampaignController extends Controller
                                 CampaignTypeStoreFrontRepository $campaignTypeStoreFrontRepository,
                                 CampaignTypeAContentRepository $campaignTypeAContentRepository,
                                 CampaignTypeYoutubeCopyRepository $campaignTypeYoutubeCopyRepository,
+                                CampaignTypeInfoGraphicRepository $campaignTypeInfoGraphicRepository,
                                 CampaignAssetIndexRepository $campaignAssetIndexRepository,
                                 AssetNotificationUserRepository $assetNotificationUserRepository,
                                 AssetOwnerAssetsRepository $assetOwnerAssetsRepository,
@@ -151,6 +156,7 @@ class CampaignController extends Controller
         $this->campaignTypeStoreFrontRepository = $campaignTypeStoreFrontRepository;
         $this->campaignTypeAContentRepository = $campaignTypeAContentRepository;
         $this->campaignTypeYoutubeCopyRepository = $campaignTypeYoutubeCopyRepository;
+        $this->campaignTypeInfoGraphicRepository = $campaignTypeInfoGraphicRepository;
         $this->campaignAssetIndexRepository = $campaignAssetIndexRepository;
         $this->assetNotificationUserRepository = $assetNotificationUserRepository;
         $this->assetOwnerAssetsRepository = $assetOwnerAssetsRepository;
@@ -921,6 +927,13 @@ class CampaignController extends Controller
                     return false;
                 }
             }
+        }else if($type == 'info_graphic'){
+            $rs = $this->campaignTypeInfoGraphicRepository->findAllByAssetId($a_id);
+            if(!empty($rs[0])) {
+                if($user->id != $rs[0]->author_id){
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -1017,6 +1030,12 @@ class CampaignController extends Controller
                 }
             }else if($type == 'youtube_copy'){
                 if($this->campaignTypeYoutubeCopyRepository->deletebyAssetId($a_id)){
+                    echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
+                }else{
+                    echo 'fail';
+                }
+            }else if($type == 'info_graphic'){
+                if($this->campaignTypeInfoGraphicRepository->deletebyAssetId($a_id)){
                     echo '/admin/campaign/'.$c_id.'/edit#'.$a_id;
                 }else{
                     echo 'fail';
@@ -2739,6 +2758,120 @@ class CampaignController extends Controller
             ->with('error', __('Update Failed'));
     }
 
+    public function add_info_graphic(AssetInfoGraphicRequest $request){
+
+        $campaignAssetIndex = new CampaignAssetIndex();
+        $campaignAssetIndex['campaign_id'] = $request['info_graphic_c_id'];
+        $campaignAssetIndex['type'] = $request['info_graphic_asset_type'];
+        $campaignAssetIndex['team_to'] = $request['info_graphic_team_to'];
+
+        if(isset($request['info_graphic_no_copy_necessary']) && $request['info_graphic_no_copy_necessary'] =='on'){
+            $campaignAssetIndex['status'] = 'copy_complete';
+        }else {
+            $campaignAssetIndex['status'] = 'copy_requested';
+        }
+        $user = auth()->user(); // asset_author_id
+        $campaignAssetIndex['author_id'] = $user->id;
+        $campaignAssetIndex->save();
+
+        $asset_id = $campaignAssetIndex->id;
+
+        $campaignTypeAContent = new CampaignTypeInfoGraphic();
+        $campaignTypeAContent['id'] = $request['info_graphic_c_id']; //campaing_id
+        $campaignTypeAContent['author_id'] = $request['info_graphic_author_id'];
+        $campaignTypeAContent['type'] = $request['info_graphic_asset_type'];
+        $campaignTypeAContent['launch_date'] = $request['info_graphic_launch_date'];
+        $campaignTypeAContent['product_line'] = $request['info_graphic_product_line'];
+        $campaignTypeAContent['invision_link'] = $request['info_graphic_invision_link'];
+        $campaignTypeAContent['no_copy_necessary'] = $request['info_graphic_no_copy_necessary'];
+        $campaignTypeAContent['note'] = $request['info_graphic_note'];
+        $campaignTypeAContent['date_created'] = Carbon::now();
+        $campaignTypeAContent['asset_id'] = $asset_id;
+
+        $campaignTypeAContent->save();
+
+        // insert note for adding asset
+        $this->add_asset_correspondence($campaignAssetIndex['campaign_id'], $campaignAssetIndex['type'], $asset_id, ucwords(str_replace('_', ' ', $campaignAssetIndex['status'])));
+
+        if($request->file('info_graphic_c_attachment')){
+            foreach ($request->file('info_graphic_c_attachment') as $file) {
+                $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
+                $fileName = $this->file_exist_check($file, $request['info_graphic_c_id'], $asset_id);
+                $campaign_type_asset_attachments['id'] = $request['info_graphic_c_id'];
+                $campaign_type_asset_attachments['asset_id'] = $asset_id;
+                $campaign_type_asset_attachments['type'] = 'attachment_file_' . $file->getMimeType();
+                $campaign_type_asset_attachments['author_id'] = $request['info_graphic_author_id'];
+                $campaign_type_asset_attachments['attachment'] = '/' . $fileName;
+                $campaign_type_asset_attachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                $campaign_type_asset_attachments['file_type'] = $file->getMimeType();
+                $campaign_type_asset_attachments['file_size'] = $file->getSize();
+                $campaign_type_asset_attachments['date_created'] = Carbon::now();
+                $campaign_type_asset_attachments->save();
+            }
+        }
+
+        // TODO notification
+        // Send notification to copywriter(brand check) via email
+        // Do action - copy request
+        if($campaignAssetIndex['status'] == 'copy_requested') { // only copy_requested, send notification to copy writers
+            $notify = new NotifyController();
+            $notify->copy_request($request['info_graphic_c_id'], $asset_id);
+        } else if($campaignAssetIndex['status'] == 'copy_complete') {
+            $notify = new NotifyController();
+            $notify->copy_complete($request['info_graphic_c_id'], $asset_id);
+        }
+        ///////////////////////////////////////////////////////////////
+
+        return redirect('admin/campaign/'.$request['info_graphic_c_id'].'/edit')
+            ->with('success', __('Added the A+ Content Asset : ' . $asset_id));
+    }
+
+    public function edit_info_graphic(Request $request, $asset_id){
+
+        $info_graphic = $this->campaignTypeInfoGraphicRepository->findById($asset_id);
+
+        $param = $request->request->all();
+
+        // Permission_check
+        if(!$this->permission_check($param)){
+            return redirect('admin/campaign/' . $info_graphic->id . '/edit')
+                ->with('error', __('This action is no longer permitted. Please contact an Administrator.'));
+        }
+
+        if($this->campaignTypeInfoGraphicRepository->update($asset_id, $param)){
+            $user = auth()->user();
+            // insert into campaign note for correspondence
+            $this->add_correspondence('info_graphic', $param, $info_graphic, $user);
+            if($request->file('c_attachment')){
+                $user = auth()->user();
+                foreach ($request->file('c_attachment') as $file) {
+                    $campaign_type_asset_attachments = new CampaignTypeAssetAttachments();
+
+//                    $fileName = $file->store('campaigns/'.$image_request->id.'/'.$asset_id);
+                    $fileName = $this->file_exist_check($file, $info_graphic->id, $asset_id);
+
+                    $campaign_type_asset_attachments['id'] = $info_graphic->id;
+                    $campaign_type_asset_attachments['asset_id'] = $asset_id;
+                    $campaign_type_asset_attachments['type'] = 'attachment_file_' . $file->getMimeType();
+                    $campaign_type_asset_attachments['author_id'] = $user->id;
+                    $campaign_type_asset_attachments['attachment'] = '/' . $fileName;
+                    $campaign_type_asset_attachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $campaign_type_asset_attachments['file_type'] = $file->getMimeType();
+                    $campaign_type_asset_attachments['file_size'] = $file->getSize();
+                    $campaign_type_asset_attachments['date_created'] = Carbon::now();
+                    $campaign_type_asset_attachments->save();
+
+                    // insert file attachment on asset correspondence
+                    $this->add_file_correspondence_for_asset($info_graphic, $user, $fileName, 'info_graphic');
+                }
+            }
+            return redirect('admin/campaign/'.$info_graphic->id.'/edit')
+                ->with('success', __('A Content ('.$asset_id.') - Update Success'));
+        }
+        return redirect('admin/campaign/'.$info_graphic->id.'/edit')
+            ->with('error', __('Update Failed'));
+    }
+
 
     public function add_correspondence($asset_type, $new_param, $origin_param, $user)
     {
@@ -2909,6 +3042,7 @@ class CampaignController extends Controller
             $new = array(
                 'launch_date' => $data['launch_date'],
                 'product_line' => $data['product_line'],
+                'note' => $data['note'],
             );
             return $new;
         }else if($asset_type == 'youtube_copy'){
@@ -2919,6 +3053,13 @@ class CampaignController extends Controller
                 'title' => $data['title'],
                 'description' => $data['description'],
                 'tags' => $data['tags'],
+            );
+            return $new;
+        }else if($asset_type == 'info_graphic'){
+            $new = array(
+                'launch_date' => $data['launch_date'],
+                'product_line' => $data['product_line'],
+                'note' => $data['note'],
             );
             return $new;
         }

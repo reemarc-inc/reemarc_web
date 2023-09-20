@@ -137,6 +137,8 @@ class CampaignRepository implements CampaignRepositoryInterface
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                    union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
+                   union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic
                     ) b where b.c_id=:id order by due desc', [
                     'id' => $id
         ]);
@@ -172,6 +174,8 @@ class CampaignRepository implements CampaignRepositoryInterface
             select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_store_front
             union all
             select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
+            union all
+            select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic
             ) b where b.c_id=:id order by due desc', [
             'id' => $id
         ]);
@@ -212,7 +216,8 @@ class CampaignRepository implements CampaignRepositoryInterface
             select type, launch_date from campaign_type_store_front where id=:id13 union all
             select type, launch_date from campaign_type_a_content where id=:id14 union all
             select type, launch_date from campaign_type_youtube_copy where id=:id15 union all
-            select type, launch_date from campaign_type_sms_request where id=:id16
+            select type, launch_date from campaign_type_sms_request where id=:id16 union all
+            select type, launch_date from campaign_type_info_graphic where id=:id17
             order by due desc', [
             'id1' => $id,
             'id2' => $id,
@@ -229,7 +234,8 @@ class CampaignRepository implements CampaignRepositoryInterface
             'id13' => $id,
             'id14' => $id,
             'id15' => $id,
-            'id16' => $id
+            'id16' => $id,
+            'id17' => $id
         ]);
     }
 

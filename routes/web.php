@@ -147,6 +147,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('campaign/add_store_front', [AdminCampaign::class, 'add_store_front'])->name('campaign.add_store_front');
     Route::post('campaign/add_a_content', [AdminCampaign::class, 'add_a_content'])->name('campaign.add_a_content');
     Route::post('campaign/add_youtube_copy', [AdminCampaign::class, 'add_youtube_copy'])->name('campaign.add_youtube_copy');
+    Route::post('campaign/add_info_graphic', [AdminCampaign::class, 'add_info_graphic'])->name('campaign.add_info_graphic');
 
     Route::post('campaign/edit_email_blast/{asset_id}', [AdminCampaign::class, 'edit_email_blast'])->name('campaign.edit_email_blast');
     Route::post('campaign/edit_social_ad/{asset_id}', [AdminCampaign::class, 'edit_social_ad'])->name('campaign.edit_social_ad');
@@ -162,5 +163,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('campaign/edit_store_front/{asset_id}', [AdminCampaign::class, 'edit_store_front'])->name('campaign.edit_store_front');
     Route::post('campaign/edit_a_content/{asset_id}', [AdminCampaign::class, 'edit_a_content'])->name('campaign.edit_a_content');
     Route::post('campaign/edit_youtube_copy/{asset_id}', [AdminCampaign::class, 'edit_youtube_copy'])->name('campaign.edit_youtube_copy');
+    Route::post('campaign/edit_info_graphic/{asset_id}', [AdminCampaign::class, 'edit_info_graphic'])->name('campaign.edit_info_graphic');
 
 });

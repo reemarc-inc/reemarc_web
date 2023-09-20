@@ -106,7 +106,9 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
@@ -157,7 +159,9 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
@@ -210,7 +214,9 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
@@ -266,7 +272,9 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join campaign_brands cb on cb.id = ci.campaign_brand
@@ -323,7 +331,9 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = ci.author_id
@@ -382,7 +392,9 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
                     union all
                     select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_a_content
                     union all
-                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy) b
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_youtube_copy
+                    union all
+                    select id as c_id, asset_id as a_id, type as a_type, launch_date as due from campaign_type_info_graphic) b
             left join campaign_asset_index cai on cai.id = a_id
             left join campaign_item ci on ci.id = c_id
             left join users u on u.id = cai.author_id
