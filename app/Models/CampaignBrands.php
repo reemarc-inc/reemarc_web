@@ -15,6 +15,7 @@ class CampaignBrands extends Model
 
     protected $fillable = [
         'id',
+        'seq',
         'campaign_name',
         'field_name',
         'color',

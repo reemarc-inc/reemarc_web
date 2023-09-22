@@ -21,6 +21,7 @@ class AssetOwnerAssets extends Model
         'kiss_lashes',
         'kiss_hair',
         'impress',
+        'impress_lashes',
         'joah',
         'color_care',
         'kiss_mass_market',
