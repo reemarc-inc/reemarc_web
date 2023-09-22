@@ -19,7 +19,7 @@ class CampaignBrandsRepository implements CampaignBrandsRepositoryInterface
             $campaignBrands = $campaignBrands->whereNotIn('campaign_name', ['Bejour']);
         }
 
-        $campaignBrands = $campaignBrands->get();
+        $campaignBrands = $campaignBrands->orderBy('seq', 'asc')->get();
 
         return $campaignBrands;
     }

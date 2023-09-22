@@ -34,7 +34,8 @@
                         <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#kiss_nails-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_nails'])}}</div></td>
                         <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#kiss_lashes-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_lashes'])}}</div></td>
                         <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#kiss_hair-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_hair'])}}</div></td>
-                        <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#impress-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['impress'])}}</div></td>
+                        <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#impress_nails-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['impress_nails'])}}</div></td>
+                        <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#impress_lashes-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['impress_lashes'])}}</div></td>
                         <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#joah-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['joah'])}}</div></td>
                         <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#color_care-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['color_care'])}}</div></td>
                         <td style="padding: 0 10px; color: #666666; font-weight: bold; border-radius: 5px; background-color: #ffffff;"><div class="asset-owner-btn" data-toggle="modal" data-target="#kiss_mass_market-{{$asset['id']}}">{{ App\Http\Controllers\admin\AssetOwnerController::get_owner_name_by_id($asset['kiss_mass_market'])}}</div></td>
@@ -172,7 +173,7 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="impress-{{$asset['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade" id="impress_nails-{{$asset['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog modal-xl" role="document">
             <div class="modal-content">
                 <form method="POST" action="{{ route('asset.asset_owner_change_mapping') }}" enctype="multipart/form-data">
@@ -188,10 +189,49 @@
                                 @foreach($users as $user)
                                     <div class="col-sm-3">
                                         <div class="form-check">
-                                            <input  <?php if ($user->id == $asset['impress']) echo "checked" ?>
+                                            <input  <?php if ($user->id == $asset['impress_nails']) echo "checked" ?>
                                                     type="radio"
                                                     name="asset_owner_id"
-                                                    value="{{ $user->id }},impress,{{ $asset['id'] }}"
+                                                    value="{{ $user->id }},impress_nails,{{ $asset['id'] }}"
+                                            >
+                                            <label class="form-check-label " for="{{ $user->first_name }}">
+                                                {{ $user->first_name }} {{ $user->last_name }}
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="impress_lashes-{{$asset['id']}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <form method="POST" action="{{ route('asset.asset_owner_change_mapping') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Change Asset Owner</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="row">
+                                <?php if (isset($users)): ?>
+                                @foreach($users as $user)
+                                    <div class="col-sm-3">
+                                        <div class="form-check">
+                                            <input  <?php if ($user->id == $asset['impress_lashes']) echo "checked" ?>
+                                                    type="radio"
+                                                    name="asset_owner_id"
+                                                    value="{{ $user->id }},impress_lashes,{{ $asset['id'] }}"
                                             >
                                             <label class="form-check-label " for="{{ $user->first_name }}">
                                                 {{ $user->first_name }} {{ $user->last_name }}
