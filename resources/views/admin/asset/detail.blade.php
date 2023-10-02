@@ -31,7 +31,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Assignee {{ $asset_obj['team_to'] }}</label>
-                                    <select class="form-control" name="assignee">
+                                    <select class="form-control" name="assignee" required>
                                         <option value="">Select</option>
                                         <?php if($asset_obj['team_to'] == 'content'){?>
                                             @foreach ($assignees_content as $designer)
