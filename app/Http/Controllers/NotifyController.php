@@ -152,6 +152,32 @@ class NotifyController extends Controller
             }
         }
 
+        // If MKT, Email to MKT group by brand
+        if ($campaign_rs['author_team'] == 'Global Marketing'){
+            // get brand
+            $brand_id = $campaign_rs['campaign_brand'];
+            $brand_obj = new CampaignBrandsRepository();
+            $brand_rs = $brand_obj->findById($brand_id);
+            $brand_name = $brand_rs['campaign_name'];
+            // get users with MKT Group, brand
+            $mktGroup_rs = $user_obj->getMKTGroupByBrand($brand_name);
+            foreach ($mktGroup_rs as $user) {
+                $details = [
+                    'who' => $user['first_name'],
+                    'c_id' => $c_id,
+                    'a_id' => $a_id,
+                    'task_name' => $campaign_rs['name'],
+                    'asset_type' => $asset_type,
+                    'asset_status' => $asset_status,
+                    'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                ];
+                if ($asset_author_id != $user['id']) {
+                    // Email to MKT Member!
+                    Mail::to($user['email'])
+                        ->send(new CopyReview($details));
+                }
+            }
+        }
     }
 
     public function copy_complete($c_id, $a_id)
@@ -372,6 +398,33 @@ class NotifyController extends Controller
             }
         }
 
+        // If MKT, Email to MKT group by brand
+        if ($campaign_rs['author_team'] == 'Global Marketing'){
+            // get brand
+            $brand_id = $campaign_rs['campaign_brand'];
+            $brand_obj = new CampaignBrandsRepository();
+            $brand_rs = $brand_obj->findById($brand_id);
+            $brand_name = $brand_rs['campaign_name'];
+            // get users with MKT Group, brand
+            $mktGroup_rs = $user_obj->getMKTGroupByBrand($brand_name);
+            foreach ($mktGroup_rs as $user) {
+                $details = [
+                    'who' => $user['first_name'],
+                    'c_id' => $c_id,
+                    'a_id' => $a_id,
+                    'task_name' => $campaign_rs['name'],
+                    'asset_type' => $asset_type,
+                    'asset_status' => $asset_status,
+                    'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                ];
+                if ($asset_author_id != $user['id']) {
+                    // Email to MKT Member!
+                    Mail::to($user['email'])
+                        ->send(new FinalApproval($details));
+                }
+            }
+        }
+
     }
 
     public function decline_from_copy($c_id, $a_id, $params)
@@ -447,6 +500,7 @@ class NotifyController extends Controller
 
         $asset_type = $asset_index_rs['type'];
         $asset_status = $asset_index_rs['status'];
+        $asset_author_id = $asset_index_rs['author_id'];
 
         $campaign_obj = new CampaignRepository();
         $campaign_rs = $campaign_obj->findById($c_id);
@@ -467,6 +521,33 @@ class NotifyController extends Controller
                 'url'           => '/admin/campaign/'.$c_id.'/edit#'.$a_id,
             ];
             Mail::to($user_rs['email'])->send(new DeclineCreative($details));
+        }
+
+        // If MKT, Email to MKT group by brand
+        if ($campaign_rs['author_team'] == 'Global Marketing'){
+            // get brand
+            $brand_id = $campaign_rs['campaign_brand'];
+            $brand_obj = new CampaignBrandsRepository();
+            $brand_rs = $brand_obj->findById($brand_id);
+            $brand_name = $brand_rs['campaign_name'];
+            // get users with MKT Group, brand
+            $mktGroup_rs = $user_obj->getMKTGroupByBrand($brand_name);
+            foreach ($mktGroup_rs as $user) {
+                $details = [
+                    'who' => $user['first_name'],
+                    'c_id' => $c_id,
+                    'a_id' => $a_id,
+                    'task_name' => $campaign_rs['name'],
+                    'asset_type' => $asset_type,
+                    'asset_status' => $asset_status,
+                    'url' => '/admin/campaign/' . $c_id . '/edit#' . $a_id,
+                ];
+                if ($asset_author_id != $user['id']) {
+                    // Email to MKT Member!
+                    Mail::to($user['email'])
+                        ->send(new DeclineCreative($details));
+                }
+            }
         }
     }
 

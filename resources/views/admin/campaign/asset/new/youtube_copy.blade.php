@@ -7,7 +7,7 @@
     <input type="hidden" name="{{ $asset_type }}_author_id" value="{{ Auth::user()->id }}" />
 
     <div class="form-group">
-        <label class="form-label">Team:</label>
+        <label class="form-label">Asset Creation Team:</label>
         <div class="selectgroup w-100">
             <label class="selectgroup-item">
                 <input type="radio" name="{{ $asset_type }}_team_to" value="creative" class="selectgroup-input" checked="">

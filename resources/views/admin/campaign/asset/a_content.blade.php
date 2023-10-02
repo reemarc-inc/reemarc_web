@@ -117,7 +117,7 @@
     <?php } ?>
 
     <div class="form-group">
-        <label class="form-label">Team:</label>
+        <label class="form-label">Asset Creation Team:</label>
         <div class="selectgroup w-100">
             <label class="selectgroup-item">
                 <input type="radio" name="team_to" value="creative" class="selectgroup-input" disabled <?php echo ($data[7] == 'creative') ? "checked" : ""; ?> >
@@ -291,7 +291,7 @@
                class="btn btn-success submit"/>
         <?php } ?>
         <?php }?>
-            
+
         <?php if (!empty($data[2]) && $data[2] == 'copy_in_progress') { ?>
         <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin') { ?>
         <input type="button"

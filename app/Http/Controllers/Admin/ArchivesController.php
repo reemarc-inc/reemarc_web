@@ -132,7 +132,9 @@ class ArchivesController extends Controller
         $this->data['campaign_brand'] = $campaign->campaign_brand;
         $this->data['promotions'] = [
             'KDO',
-            'Global Marketing'
+            'Global Marketing',
+            'Omni Channel Sales',
+            'Creative'
         ];
 
         $this->data['retailers'] = [

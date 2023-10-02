@@ -215,7 +215,7 @@
 
 
                                         <div class="form-group">
-                                            <label>Promotion</label>
+                                            <label>Department (Promotion)</label>
                                             <select class="form-control @error('promotion') is-invalid @enderror @if (!$errors->has('promotion') && old('promotion')) is-valid @endif"
                                                     name="promotion">
                                                 <option value="">Select</option>

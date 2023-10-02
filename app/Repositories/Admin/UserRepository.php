@@ -273,6 +273,16 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
+    public function getMKTGroupByBrand($brand_name)
+    {
+        $users = new User();
+        $users = $users
+            ->Where('team', '=', "Global Marketing")
+            ->Where('user_brand', 'LIKE', "%$brand_name%")
+            ->orderBy('first_name', 'asc');
+        return $users->get();
+    }
+
 
 //    /**
 //     * Sync roles and permissions
