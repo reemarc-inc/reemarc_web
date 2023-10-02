@@ -31,7 +31,7 @@
                             <div class="card-body">
                                 <div class="form-group">
                                     <label>Assign Copywriter</label>
-                                    <select class="form-control" name="copy_writer">
+                                    <select class="form-control" name="copy_writer" required>
                                         <option value="">Select</option>
                                             @foreach ($assignees_copywriter as $designer)
                                                 <option value="{{ $designer->first_name }}">
