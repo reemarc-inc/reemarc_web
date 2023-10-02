@@ -118,7 +118,7 @@
     <?php } ?>
 
     <div class="form-group">
-        <label class="form-label">Team:</label>
+        <label class="form-label">Asset Creation Team:</label>
         <div class="selectgroup w-100">
             <label class="selectgroup-item">
                 <input type="radio" name="team_to" value="creative" class="selectgroup-input" disabled <?php echo ($data[7] == 'creative') ? "checked" : ""; ?> >
