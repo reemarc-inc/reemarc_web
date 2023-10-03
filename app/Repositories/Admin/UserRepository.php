@@ -283,6 +283,16 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
+    public function getAssetOwners()
+    {
+        $users = new User();
+        $users = $users
+            ->Where('team', '=', "KDO")
+            ->orWhere('team', '=', "Omni Channel Sales")
+            ->orderBy('first_name', 'asc');
+        return $users->get();
+    }
+
 
 //    /**
 //     * Sync roles and permissions
