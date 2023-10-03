@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\User;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -54,14 +55,10 @@ class AssetOwnerController extends Controller
             ],
         ];
         $this->data['asset_owner_assets'] = $this->assetOwnerAssetsRepository->findAll($options);
+        
+        $user_obj = new UserRepository();
 
-        $params['team'] = 'KDO';
-        $this->data['users'] = $this->userRepository->findAll([
-            'filter' => $params,
-            'order' => [
-                'first_name' => 'asc',
-            ]
-        ]);
+        $this->data['users'] = $user_obj->getAssetOwners();
 
         return view('admin.asset_owners.index', $this->data);
     }
