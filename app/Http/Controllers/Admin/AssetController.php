@@ -1178,8 +1178,8 @@ class AssetController extends Controller
                 'url' => '/admin/campaign/'.$c_id.'/edit',
             ];
             //send to receivers
-            $cc_list = explode(',', $email_list);
-            Mail::to($user->email)->cc($cc_list)->send(new AssetMessage($details));
+            $receiver_list = explode(',', $email_list);
+            Mail::to($receiver_list)->send(new AssetMessage($details));
         }
 
         $this->data['currentAdminMenu'] = 'campaign';
