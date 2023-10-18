@@ -989,14 +989,22 @@ class NotifyController extends Controller
                         $cc_list = array();
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
-                        //$cc_list[] = 'jilee2@kissusa.com';
+
+                        // If MKT, Group reminder emails by brand
+                        if ($item->author_team == 'Global Marketing') {
+                            $brand_name = $item->brand_name;
+                            $mktGroup_rs = $user_obj->getMKTGroupByBrand($brand_name);
+                            foreach ($mktGroup_rs as $user) {
+                                if ($item->asset_author_id != $user['id']) {
+                                    $cc_list[] = $user['email'];
+                                }
+                            }
+                        }
+
                         //Send email to director
                         Mail::to($item->asset_author_email)
                             ->cc($cc_list)
                             ->send(new ReminderDueAfter($details));
-//                    Mail::to('jilee2@kissusa.com')
-//                        ->cc('jinsunglee.8033@gmail.com', '33.jinsunglee@gmail.com')
-//                        ->send(new ReminderDueAfter($details));
 
                     }
                 }
@@ -1621,6 +1629,18 @@ class NotifyController extends Controller
                         $cc_list[] = 'frank.russo@kissusa.com';
                         $cc_list[] = 'motuhin@kissusa.com';
                         //$cc_list[] = 'jilee2@kissusa.com';
+
+                        // If MKT, Group reminder emails by brand
+                        if ($item->author_team == 'Global Marketing') {
+                            $brand_name = $item->brand_name;
+                            $mktGroup_rs = $user_obj->getMKTGroupByBrand($brand_name);
+                            foreach ($mktGroup_rs as $user) {
+                                if ($item->asset_author_id != $user['id']) {
+                                    $cc_list[] = $user['email'];
+                                }
+                            }
+                        }
+
                         // Send email to director
                         Mail::to($item->asset_author_email)
                             ->cc($cc_list)
