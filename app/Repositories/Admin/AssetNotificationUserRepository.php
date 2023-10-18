@@ -175,6 +175,7 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
     {
         return DB::select(
             'select c_id as campaign_id,
+                    author_team as author_team,
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
@@ -347,7 +348,8 @@ class AssetNotificationUserRepository implements AssetNotificationUserRepository
     public function getDoneStatus()
     {
         return DB::select(
-            'select  c_id as campaign_id,
+            'select c_id as campaign_id,
+                    author_team as author_team,
                     a_id as asset_id,
                     a_type as asset_type,
                     due,
