@@ -293,7 +293,9 @@
         <?php }?>
 
         <?php if (!empty($data[2]) && $data[2] == 'copy_in_progress') { ?>
-        <?php if(auth()->user()->role == 'copywriter' || auth()->user()->role == 'admin') { ?>
+        <?php if(auth()->user()->role == 'copywriter'
+            || auth()->user()->role == 'copywriter manager'
+            || auth()->user()->role == 'admin') { ?>
         <input type="button"
                value="Copy Review"
                onclick="change_to_copy_review($(this))"
