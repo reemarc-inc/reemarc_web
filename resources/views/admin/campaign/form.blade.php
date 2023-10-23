@@ -439,6 +439,7 @@
                                 }else {
                                     $left_border_color = 'white';
                                 }
+
                                 ?>
                                 <div class="clearfix" id="{{$asset->a_id}}" style="border-left: 10px solid {{ $left_border_color }}; border-radius: 20px;">
 
@@ -449,7 +450,8 @@
                                                 <li><strong>{{ ucwords(str_replace('_', ' ', $asset->a_type)) }} #{{ $asset->a_id }}</strong> </li>
                                                 <?php $temp_status = $asset->status ?>
                                                 <?php if ($temp_status == 'done') $temp_status = 'creative_review'; ?>
-                                                <li><strong>Status: </strong><strong style="color: {{ $left_border_color }};">{{ ucwords(str_replace('_', ' ', $temp_status)) }}</strong></li>
+                                                <?php if ($left_border_color == 'white') $left_border_color = '#6c757d'; ?>
+                                                <li><strong>Status: </strong> <b style="color: {{ $left_border_color }};">{{ ucwords(str_replace('_', ' ', $temp_status)) }}</b></li>
                                                 <li><strong>Due: </strong> {{ date('m/d/Y', strtotime($asset->due)) }}</li>
                                             </ul>
                                         </div>
