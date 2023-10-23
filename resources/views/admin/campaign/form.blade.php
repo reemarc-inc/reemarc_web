@@ -426,7 +426,21 @@
                         <?php foreach ($assets as $asset): ?>
 
                             <div class="card assets_existing">
-                                <div class="clearfix" id="{{$asset->a_id}}">
+                                <?php
+
+                                if($asset->status == 'to_do'){
+                                    $left_border_color = '#a50018';
+                                }else if($asset->status == 'in_progress'){
+                                    $left_border_color = '#238c21';
+                                }else if($asset->status == 'done'){
+                                    $left_border_color = '#13439a';
+                                }else if($asset->status == 'final_approval'){
+                                    $left_border_color = '#7e7e7e';
+                                }else {
+                                    $left_border_color = 'white';
+                                }
+                                ?>
+                                <div class="clearfix" id="{{$asset->a_id}}" style="border-left: 10px solid {{ $left_border_color }}; border-radius: 20px;">
 
                                     <div class="asset--grid-row">
 
@@ -435,7 +449,7 @@
                                                 <li><strong>{{ ucwords(str_replace('_', ' ', $asset->a_type)) }} #{{ $asset->a_id }}</strong> </li>
                                                 <?php $temp_status = $asset->status ?>
                                                 <?php if ($temp_status == 'done') $temp_status = 'creative_review'; ?>
-                                                <li><strong>Status: </strong> {{ ucwords(str_replace('_', ' ', $temp_status)) }}</li>
+                                                <li><strong>Status: </strong><strong style="color: {{ $left_border_color }};">{{ ucwords(str_replace('_', ' ', $temp_status)) }}</strong></li>
                                                 <li><strong>Due: </strong> {{ date('m/d/Y', strtotime($asset->due)) }}</li>
                                             </ul>
                                         </div>
