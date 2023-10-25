@@ -85,7 +85,7 @@ return [
 
     'from' => [
         'address' => env('MAIL_FROM_ADDRESS', 'admin@kissimt.com'),
-        'name' => env('MAIL_FROM_NAME', 'no-reply'),
+        'name' => env('MAIL_FROM_NAME', 'KPM Notification'),
     ],
 
     /*
