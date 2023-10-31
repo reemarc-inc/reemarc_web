@@ -14,4 +14,6 @@ Go to Project
 
 Thanks,<br>
 KDO Project Manager
+
+<small><i>This email address will not receive replies. If you have any questions, please contact Mo Tuhin or Vincent "Vinny" Cerone.</i></small>
 @endcomponent
