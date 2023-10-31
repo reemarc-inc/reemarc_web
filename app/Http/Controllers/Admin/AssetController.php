@@ -1179,6 +1179,20 @@ class AssetController extends Controller
             ];
             //send to receivers
             $receiver_list = explode(',', $email_list);
+
+            //check admin group//
+            if( in_array('admingroup@kissusa.com', $receiver_list)){
+
+                // add all admins to receiver
+                $user_obj = new UserRepository();
+
+                $adminGroup_rs = $user_obj->getAdminGroup();
+                foreach ($adminGroup_rs as $user) {
+                    if ('admingroup@kissusa.com' != $user['email']) {
+                        $receiver_list[] = $user['email'];
+                    }
+                }
+            }
             Mail::to($receiver_list)->send(new AssetMessage($details));
         }
 

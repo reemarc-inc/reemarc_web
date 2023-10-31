@@ -283,6 +283,14 @@ class UserRepository implements UserRepositoryInterface
         return $users->get();
     }
 
+    public function getAdminGroup()
+    {
+        $users = new User();
+        $users = $users
+            ->Where('role', '=', "admin");
+        return $users->get();
+    }
+
     public function getAssetOwners()
     {
         $users = new User();
