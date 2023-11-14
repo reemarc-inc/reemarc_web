@@ -89,7 +89,7 @@
                                 <div class="form-group">
                                     <label>Team</label>
                                     <select class="form-control" name="team">
-                                        <option>Select Team</option>
+                                        <option>Select Region</option>
 
                                         @foreach ($teams as $value)
                                             <option value="{{ $value }}" {{ $value == $team ? 'selected' : '' }}>

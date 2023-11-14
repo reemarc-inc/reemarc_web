@@ -87,9 +87,9 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Team</label>
+                                    <label>Region</label>
                                     <select class="form-control" name="team">
-                                        <option>Select Team</option>
+                                        <option>Select Region</option>
 
                                         @foreach ($teams as $value)
                                             <option value="{{ $value }}" {{ $value == $team ? 'selected' : '' }}>
@@ -111,28 +111,28 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group">
-                                    <label style="color: #b91d19;">Brand (Only for Copywriter & Creative Director) </label>
-                                    <div class="row">
-                                        <?php if (isset($brands)): ?>
-                                            @foreach($brands as $brand)
-                                            <?php $checkbox_fields = explode(', ', $user_brand); ?>
-                                                <div class="col-sm-6">
-                                                    <div class="form-check">
-                                                        <input  <?php if (in_array($brand['campaign_name'], $checkbox_fields)) echo "checked" ?>
-                                                                type="checkbox"
-                                                                name="user_brand[]"
-                                                                value="{{ $brand['campaign_name'] }}"
-                                                        >
-                                                        <label class="form-check-label " for="{{ $brand['campaign_name'] }}">
-                                                        {{ $brand['campaign_name'] }}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        <?php endif; ?>
-                                    </div>
-                                </div>
+{{--                                <div class="form-group">--}}
+{{--                                    <label style="color: #b91d19;">Location</label>--}}
+{{--                                    <div class="row">--}}
+{{--                                        <?php if (isset($brands)): ?>--}}
+{{--                                            @foreach($brands as $brand)--}}
+{{--                                            <?php $checkbox_fields = explode(', ', $user_brand); ?>--}}
+{{--                                                <div class="col-sm-6">--}}
+{{--                                                    <div class="form-check">--}}
+{{--                                                        <input  <?php if (in_array($brand['campaign_name'], $checkbox_fields)) echo "checked" ?>--}}
+{{--                                                                type="checkbox"--}}
+{{--                                                                name="user_brand[]"--}}
+{{--                                                                value="{{ $brand['campaign_name'] }}"--}}
+{{--                                                        >--}}
+{{--                                                        <label class="form-check-label " for="{{ $brand['campaign_name'] }}">--}}
+{{--                                                        {{ $brand['campaign_name'] }}--}}
+{{--                                                        </label>--}}
+{{--                                                    </div>--}}
+{{--                                                </div>--}}
+{{--                                            @endforeach--}}
+{{--                                        <?php endif; ?>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
 
                             </div>
 

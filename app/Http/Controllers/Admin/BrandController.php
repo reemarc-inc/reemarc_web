@@ -102,17 +102,9 @@ class BrandController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
-
-            'Ecommerce Specialist' => 'ecommerce specialist',
-            'Marketing' => 'marketing',
-            'Social Media Manager' => 'social media manager',
-
-            'Graphic Designer' => 'graphic designer',
-            'Videographer' => 'videographer',
-
-            'Creative Director' => 'creative director',
-
-            'Copywriter' => 'copywriter'
+            'Doctor' => 'doctor',
+            'Patient' => 'patient',
+            'Operator' => 'operator',
         ];
         return view('admin.users.form', $this->data);
     }

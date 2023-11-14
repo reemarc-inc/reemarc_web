@@ -55,7 +55,7 @@ class AssetOwnerController extends Controller
             ],
         ];
         $this->data['asset_owner_assets'] = $this->assetOwnerAssetsRepository->findAll($options);
-        
+
         $user_obj = new UserRepository();
 
         $this->data['users'] = $user_obj->getAssetOwners();
@@ -129,17 +129,9 @@ class AssetOwnerController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
-
-            'Ecommerce Specialist' => 'ecommerce specialist',
-            'Marketing' => 'marketing',
-            'Social Media Manager' => 'social media manager',
-
-            'Graphic Designer' => 'graphic designer',
-            'Videographer' => 'videographer',
-
-            'Creative Director' => 'creative director',
-
-            'Copywriter' => 'copywriter'
+            'Doctor' => 'doctor',
+            'Patient' => 'patient',
+            'Operator' => 'operator',
         ];
         return view('admin.asset_owners.form', $this->data);
     }

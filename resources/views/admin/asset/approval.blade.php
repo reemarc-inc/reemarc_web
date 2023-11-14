@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Approval List [{{$team}}]</h1>
+        <h1>Payment List</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
             <div class="breadcrumb-item">Asset Approval</div>

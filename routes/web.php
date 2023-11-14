@@ -9,14 +9,18 @@ use App\Http\Controllers\Admin\DeletedController as AdminDeleted;
 use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
+use App\Http\Controllers\Admin\ClinicController as AdminClinic;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
 use App\Http\Controllers\Admin\FormController as AdminForm;
 use App\Http\Controllers\Admin\AssetOwnerController as AdminAssetOwner;
 use App\Http\Controllers\Admin\AssetLeadTimeController as AdminAssetLeadTime;
 use App\Http\Controllers\Admin\SettingController as AdminSetting;
+use App\Http\Controllers\Admin\ScheduleController as Schedule;
+
 use App\Http\Controllers\HomeController as HomeController;
 use App\Http\Controllers\NotifyController as NotifyController;
 use App\Http\Controllers\Auth\ForgotPasswordController as ForgotPasswordController;
+
 use App\Mail\SendMail as SendMail;
 use App\Mail\MyDemoMail as MyDemoMail;
 use Illuminate\Support\Facades\Mail;
@@ -56,11 +60,17 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard.index');
     Route::get('/dashboard/test', [AdminDashboard::class, 'test'])->name('dashboard.test');
 
+//    Route::get('dashboard', [Schedule::class, 'index']);
+    Route::post('calendar-crud-ajax', [Schedule::class, 'calendarEvents']);
+
+
     Route::get('roles/reload-permissions/{id}', [AdminRole::class, 'reloadPermissions'])->name('roles.update');
     Route::get('roles/reload-permissions', [AdminRole::class, 'reloadPermissions'])->name('roles.update');
     Route::resource('roles', AdminRole::class);
 
     Route::resource('users', AdminUser::class);
+    Route::resource('clinic', AdminClinic::class);
+
     Route::resource('brands', AdminBrand::class);
     Route::resource('asset_lead_time', AdminAssetLeadTime::class);
     Route::resource('asset_owners', AdminAssetOwner::class);

@@ -429,7 +429,7 @@
                                 <?php
 
                                 if($asset->status == 'to_do'){
-                                    $left_border_color = '#a50018';
+                                    $left_border_color = '#2545ff ';
                                 }else if($asset->status == 'in_progress'){
                                     $left_border_color = '#238c21';
                                 }else if($asset->status == 'done'){

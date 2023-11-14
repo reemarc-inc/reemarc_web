@@ -17,7 +17,7 @@ Go to Asset
 @endcomponent
 
 Thanks,<br>
-KDO Project Manager
+REEMARC
 
 <small><i>This email address will not receive replies. If you have any questions, please contact Mo Tuhin or Vincent "Vinny" Cerone.</i></small>
 @endcomponent

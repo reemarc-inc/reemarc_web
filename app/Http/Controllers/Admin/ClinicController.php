@@ -6,34 +6,22 @@ use App\Http\Controllers\Controller;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Http\Requests\Admin\UserRequest;
 
-use App\Repositories\Admin\Interfaces\RoleRepositoryInterface;
-use App\Repositories\Admin\Interfaces\PermissionRepositoryInterface;
-use App\Repositories\Admin\Interfaces\UserRepositoryInterface;
+use App\Repositories\Admin\ClinicRepository;
 
-use App\Repositories\Admin\UserRepository;
-use App\Repositories\Admin\RoleRepository;
-use App\Repositories\Admin\PermissionRepository;
-
-use App\Repositories\Admin\CampaignBrandsRepository;
-
-use App\Authorizable;
 use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class ClinicController extends Controller
 {
-    private $userRepository;
-    private $campaignBrandsRepository;
+    private $clinicRepository;
 
-    public function __construct(UserRepository $userRepository, CampaignBrandsRepository $campaignBrandsRepository) // phpcs:ignore
+    public function __construct(ClinicRepository $clinicRepository) // phpcs:ignore
     {
         parent::__construct();
 
-        $this->userRepository = $userRepository;
-        $this->campaignBrandsRepository = $campaignBrandsRepository;
+        $this->clinicRepository = $clinicRepository;
 
-        $this->data['currentAdminMenu'] = 'users';
+        $this->data['currentAdminMenu'] = 'clinic';
     }
     /**
      * Display a listing of the resource.
@@ -42,6 +30,7 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+//        $this->data['clinic'] = $this->clinicRepository->findAll();
         $params = $request->all();
 
         $options = [
@@ -53,7 +42,7 @@ class UserController extends Controller
         ];
 
         $this->data['filter'] = $params;
-        $this->data['users'] = $this->userRepository->findAll($options);
+        $this->data['clinics'] = $this->clinicRepository->findAll($options);
         $this->data['teams_'] = [
             'New York',
             'San Francisco',
@@ -70,7 +59,7 @@ class UserController extends Controller
         $this->data['team_'] = !empty($params['team']) ? $params['team'] : '';
         $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
 
-        return view('admin.users.index', $this->data);
+        return view('admin.clinic.index', $this->data);
     }
 
     /**
@@ -81,8 +70,7 @@ class UserController extends Controller
     public function create()
     {
 
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll();
-        $this->data['teams'] = [
+        $this->data['region_'] = [
             'New York',
             'San Francisco',
             'Seoul',
@@ -104,13 +92,14 @@ class UserController extends Controller
             'Call Center',
             'IT'
         ];
+
         $this->data['roleId'] = null;
         $this->data['access_level'] = null;
         $this->data['team'] = null;
-        $this->data['role_'] = null;
+        $this->data['region'] = null;
         $this->data['user_brand'] = null;
 
-        return view('admin.users.form', $this->data);
+        return view('admin.clinic.form', $this->data);
     }
 
     /**
@@ -119,25 +108,16 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(Request $request)
     {
-        $params = $request->validated();
 
-        $params['password'] = Hash::make($params['password']);
-
-        if (isset($params['user_brand'])) {
-            $params['user_brand'] = implode(', ', $params['user_brand']);
-        } else {
-            $params['user_brand'] = '';
+        if ($this->clinicRepository->create($request->all())) {
+            return redirect('admin/clinic')
+                ->with('success', 'Success to create new clinic');
         }
 
-        if ($this->userRepository->create($params)) {
-            return redirect('admin/users')
-                ->with('success', __('users.success_create_message'));
-        }
-
-        return redirect('admin/users/create')
-            ->with('error', __('users.fail_create_message'));
+        return redirect('admin/Clinic/create')
+            ->with('error', 'Fail to create new clinic');
     }
 
     /**
@@ -161,24 +141,16 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        if ( ($id != auth()->user()->id) && (auth()->user()->role !='admin') ) {
-            return redirect('admin/campaign')
-                ->with('error', 'Could not change.');
-        }
-
         $user = $this->userRepository->findById($id);
 
         $this->data['user'] = $user;
         $this->data['team'] = $user->team;
         $this->data['role_'] = $user->role;
-        $this->data['user_brand'] = $user->user_brand;
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll();
+        $this->data['clinic'] = $this->clinicRepository->findAll();
         $this->data['teams'] = [
-            'New York',
-            'San Francisco',
-            'Seoul',
-            'Busan',
-            'Jeju',
+            'KDO',
+            'Clinic',
+            'Creative'
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
@@ -186,7 +158,7 @@ class UserController extends Controller
             'Patient' => 'patient',
             'Operator' => 'operator',
         ];
-        return view('admin.users.form', $this->data);
+        return view('admin.clinic.form', $this->data);
     }
 
     /**
@@ -196,31 +168,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ClinicRequest $request, $id)
     {
         $user = $this->userRepository->findById($id);
-        $param = $request->request->all();
-        $log_user = auth()->user();
 
-        if($log_user['role'] != 'admin'){
-            if($param['password'] == null){
-                return redirect('admin/users/'.$id.'/edit')
-                    ->with('error', 'Please enter your password to update');
-            }
-        }
-
-        if (isset($param['user_brand'])) {
-            $param['user_brand'] = implode(', ', $param['user_brand']);
-        } else {
-            $param['user_brand'] = '';
-        }
-
-        if ($this->userRepository->update($id, $param)) {
-            return redirect('admin/users/'.$id.'/edit')
+        if ($this->userRepository->update($id, $request->validated())) {
+            return redirect('admin/users')
                 ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
         }
 
-        return redirect('admin/users/'.$id.'/edit')
+        return redirect('admin/users')
                 ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
     }
 

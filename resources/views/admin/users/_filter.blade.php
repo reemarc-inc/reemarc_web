@@ -6,7 +6,7 @@
         </div>
         <div class="form-group col-md-2">
             <select class="design-select" name="team">
-                <option value="">Select Team</option>
+                <option value="">Select Region</option>
                 @foreach ($teams_ as $value)
                     <option value="{{ $value }}" @if( $value == $team_) selected="selected" @endif >
                         {{$value}}

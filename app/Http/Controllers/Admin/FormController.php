@@ -253,17 +253,9 @@ class FormController extends Controller
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
-            'Copywriter' => 'copywriter',
-            'Ecommerce Specialist' => 'ecommerce specialist',
-            'Social Media Manager' => 'social media manager',
-            'Marketing' => 'marketing',
-            'Creative Director' => 'creative director',
-            'Graphic Designer' => 'graphic designer',
-            'Content Manager' => 'content manager',
-            'Content Creator' => 'content creator',
-            'Web Production Manager' => 'web production manager',
-            'Web Production' => 'web production',
-            'Videographer' => 'videographer',
+            'Doctor' => 'doctor',
+            'Patient' => 'patient',
+            'Operator' => 'operator',
         ];
         return view('admin.users.form', $this->data);
     }

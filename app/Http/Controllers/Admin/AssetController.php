@@ -717,9 +717,9 @@ class AssetController extends Controller
 
         $this->data['brands'] = $this->campaignBrandsRepository->findAll()->pluck('campaign_name', 'id');
         $this->data['teams'] = [
-          'creative',
-          'content',
-          'web production'
+          'Seoul',
+          'New York',
+          'San Francisco'
         ];
 
         return view('admin.asset.jira_kec', $this->data);

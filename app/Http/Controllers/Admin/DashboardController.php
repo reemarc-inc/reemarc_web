@@ -10,6 +10,7 @@ use App\Mail\ReminderDueAfter;
 use App\Mail\ReminderDueBefore;
 use App\Mail\ReminderDueToday;
 use App\Mail\SendMail;
+use App\Models\Schedule;
 use App\Repositories\Admin\AssetNotificationUserRepository;
 use App\Repositories\Admin\UserRepository;
 use Illuminate\Http\Request;
@@ -22,9 +23,18 @@ class DashboardController extends Controller
         parent::__construct();
     }
 
-    public function index()
+    public function index(Request $request)
     {
         $this->data['currentAdminMenu'] = 'dashboard';
+//        return view('admin.dashboard.index', $this->data);
+
+        if($request->ajax()) {
+            $data = Schedule::whereDate('event_start', '>=', $request->start)
+                ->whereDate('event_end',   '<=', $request->end)
+                ->get(['id', 'event_name', 'event_start', 'event_end']);
+            return response()->json($data);
+        }
+
         return view('admin.dashboard.index', $this->data);
     }
 

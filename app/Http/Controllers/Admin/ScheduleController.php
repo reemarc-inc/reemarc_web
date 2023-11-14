@@ -4,37 +4,26 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
-use App\Repositories\Admin\UserRepository;
+use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
 
-use App\Repositories\Admin\CampaignBrandsRepository;
-use App\Repositories\Admin\AssetOwnerAssetsRepository;
-use App\Repositories\Admin\AssetLeadTimeRepository;
+use App\Repositories\Admin\ScheduleRepository;
 
 use Illuminate\Support\Facades\Hash;
 
-class AssetLeadTimeController extends Controller
+class ScheduleController extends Controller
 {
-    private $assetOwnerAssetsRepository;
-    private $campaignBrandsRepository;
-    private $userRepository;
+    private $scheduleRepository;
 
-
-    public function __construct(AssetOwnerAssetsRepository $assetOwnerAssetsRepository,
-                                AssetLeadTimeRepository $assetLeadTimeRepository,
-                                CampaignBrandsRepository $campaignBrandsRepository,
-                                UserRepository $userRepository) // phpcs:ignore
+    public function __construct(scheduleRepository $scheduleRepository) // phpcs:ignore
     {
         parent::__construct();
 
-        $this->assetOwnerAssetsRepository = $assetOwnerAssetsRepository;
-        $this->assetLeadTimeRepository = $assetLeadTimeRepository;
-        $this->campaignBrandsRepository = $campaignBrandsRepository;
-        $this->userRepository = $userRepository;
+        $this->scheduleRepository = $scheduleRepository;
 
-        $this->data['currentAdminMenu'] = 'asset_lead_time';
+        $this->data['currentAdminMenu'] = 'dashboard';
     }
     /**
      * Display a listing of the resource.
@@ -43,17 +32,51 @@ class AssetLeadTimeController extends Controller
      */
     public function index(Request $request)
     {
-        $this->data['currentAdminMenu'] = 'asset_lead_time';
+        $this->data['currentAdminMenu'] = 'dashboard';
 
-        $options = [
-            'order' => [
-                'order_no' => 'asc',
-            ],
-        ];
+        if($request->ajax()) {
+            $data = Schedule::whereDate('event_start', '>=', $request->start)
+                ->whereDate('event_end',   '<=', $request->end)
+                ->get(['id', 'event_name', 'event_start', 'event_end']);
+            return response()->json($data);
+        }
 
-        $this->data['assets'] = $this->assetLeadTimeRepository->findAll($options);
+        return view('admin.dashboard.index');
+    }
 
-        return view('admin.asset_lead_time.index', $this->data);
+    public function calendarEvents(Request $request)
+    {
+        switch ($request->type) {
+            case 'create':
+                $event = CrudEvents::create([
+                    'event_name' => $request->event_name,
+                    'event_start' => $request->event_start,
+                    'event_end' => $request->event_end,
+                ]);
+
+                return response()->json($event);
+                break;
+
+            case 'edit':
+                $event = CrudEvents::find($request->id)->update([
+                    'event_name' => $request->event_name,
+                    'event_start' => $request->event_start,
+                    'event_end' => $request->event_end,
+                ]);
+
+                return response()->json($event);
+                break;
+
+            case 'delete':
+                $event = CrudEvents::find($request->id)->delete();
+
+                return response()->json($event);
+                break;
+
+            default:
+                # ...
+                break;
+        }
     }
 
     /**
@@ -64,9 +87,9 @@ class AssetLeadTimeController extends Controller
     public function create()
     {
 
-        $this->data['brands'] = $this->assetOwnerAssetsRepository->findAll();
+        $this->data['schedules'] = $this->scheduleRepository->findAll();
 
-        return view('admin.asset_lead_time.form', $this->data);
+        return view('admin.schedules.form', $this->data);
     }
 
     /**
@@ -79,12 +102,12 @@ class AssetLeadTimeController extends Controller
     {
         $params['campaign_name'] = $request['campaign_name'];
 
-        if ($this->assetOwnerAssetsRepository->create($params)) {
-            return redirect('admin/asset_lead_time')
+        if ($this->scheduleRepository->create($params)) {
+            return redirect('admin/schedules')
                 ->with('success', 'Success to create new Brand');
         }
 
-        return redirect('admin/asset_lead_time/create')
+        return redirect('admin/schedules/create')
             ->with('error', 'Fail to create new Brand');
     }
 
@@ -98,7 +121,7 @@ class AssetLeadTimeController extends Controller
     {
         $this->data['user'] = $this->userRepository->findById($id);
 
-        return view('admin.asset_lead_time.show', $this->data);
+        return view('admin.users.show', $this->data);
     }
 
     /**
@@ -114,7 +137,7 @@ class AssetLeadTimeController extends Controller
         $this->data['user'] = $user;
         $this->data['team'] = $user->team;
         $this->data['role_'] = $user->role;
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll();
+        $this->data['schedules'] = $this->scheduleRepository->findAll();
         $this->data['teams'] = [
             'KDO',
             'Brand',
@@ -126,7 +149,7 @@ class AssetLeadTimeController extends Controller
             'Patient' => 'patient',
             'Operator' => 'operator',
         ];
-        return view('admin.asset_lead_time.form', $this->data);
+        return view('admin.users.form', $this->data);
     }
 
     /**
@@ -141,11 +164,11 @@ class AssetLeadTimeController extends Controller
         $user = $this->userRepository->findById($id);
 
         if ($this->userRepository->update($id, $request->validated())) {
-            return redirect('admin/asset_lead_time')
+            return redirect('admin/users')
                 ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
         }
 
-        return redirect('admin/asset_lead_time')
+        return redirect('admin/users')
                 ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
     }
 
@@ -160,16 +183,15 @@ class AssetLeadTimeController extends Controller
         $user = $this->userRepository->findById($id);
 
         if ($user->id == auth()->user()->id) {
-            return redirect('admin/asset_lead_time')
+            return redirect('admin/users')
                 ->with('error', 'Could not delete yourself.');
         }
 
         if ($this->userRepository->delete($id)) {
-            return redirect('admin/asset_lead_time')
+            return redirect('admin/users')
                 ->with('success', __('users.success_deleted_message', ['first_name' => $user->first_name]));
         }
-        return redirect('admin/asset_lead_time')
+        return redirect('admin/users')
                 ->with('error', __('users.fail_to_delete_message', ['first_name' => $user->first_name]));
     }
-
 }
