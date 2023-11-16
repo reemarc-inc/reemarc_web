@@ -5,7 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div style="display: flex; justify-content: center;">
-                <img src="{{ asset('/storage/image//logo.png') }}" style="width: 200px;">
+                <img src="{{ asset('/storage/image/logo.png') }}" style="width: 200px;">
             </div>
             <br>
             <div class="card">
