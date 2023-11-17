@@ -29,6 +29,7 @@ class Clinic extends Model
     protected $primaryKey = 'id';
     protected $keyType = 'int';
     public $incrementing = true;
+    public $timestamps = false;
 
 //    public function campaigns(){
 //        return $this->hasMany('App\Models\CampaignBrands');
