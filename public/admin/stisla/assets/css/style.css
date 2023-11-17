@@ -1639,9 +1639,9 @@ h6 .badge {
     color: #000; }
 
 .media .media-body {
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+    /*border: 1px solid #ddd;*/
+    /*background-color: #f9f9f9;*/
+    /*border-radius: 5px;*/
 }
 
 .lead-time {
