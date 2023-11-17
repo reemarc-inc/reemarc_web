@@ -25,7 +25,7 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <a class="navbar-brand" href="{{ url('/') }}">
-                KISS Project Manager
+                REEMARC Manager
             </a>
             <div class="container">
 {{--                <a class="navbar-brand" href="{{ url('/') }}">--}}

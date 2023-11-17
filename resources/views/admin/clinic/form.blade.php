@@ -57,9 +57,10 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Description</label>
-                                    <input type="text" name="description"
-                                           class="form-control @error('description') is-invalid @enderror @if (!$errors->has('description') && old('description')) is-valid @endif"
-                                           value="{{ old('description', !empty($clinic) ? $clinic->description : null) }}">
+                                    <textarea class="form-control" id="description" name="description" style="height: 100px;">{{ old('description', !empty($clinic) ? $clinic->description : null) }}</textarea>
+{{--                                    <input type="text" name="description"--}}
+{{--                                           class="form-control @error('description') is-invalid @enderror @if (!$errors->has('description') && old('description')) is-valid @endif"--}}
+{{--                                           value="{{ old('description', !empty($clinic) ? $clinic->description : null) }}">--}}
                                     @error('description')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -68,8 +69,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Latitude</label>
-                                    <input type="test" name="latitude"
-                                           class="form-control @error('latitude') is-invalid @enderror @if (!$errors->has('latitude') && old('latitude')) is-valid @endif">
+                                    <input type="text" name="latitude"
+                                           class="form-control @error('latitude') is-invalid @enderror @if (!$errors->has('latitude') && old('latitude')) is-valid @endif"
+                                           value="{{ old('latitude', !empty($clinic) ? $clinic->latitude : null) }}">
                                     @error('latitude')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -80,7 +82,8 @@
                                 <div class="form-group">
                                     <label>Longitude</label>
                                     <input type="text" name="longitude"
-                                           class="form-control @error('longitude') is-invalid @enderror @if (!$errors->has('longitude') && old('longitude')) is-valid @endif">
+                                           class="form-control @error('longitude') is-invalid @enderror @if (!$errors->has('longitude') && old('longitude')) is-valid @endif"
+                                           value="{{ old('longitude', !empty($clinic) ? $clinic->longitude : null) }}">
                                     @error('longitude')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -89,7 +92,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Region</label>
-                                    <select class="form-control" name="team">
+                                    <select class="form-control" name="region">
                                         <option>Select Region</option>
                                         @foreach ($region_ as $value)
                                             <option value="{{ $value }}" {{ $value == $region ? 'selected' : '' }}>
@@ -102,7 +105,8 @@
                                 <div class="form-group">
                                     <label>Tel</label>
                                     <input type="text" name="tel"
-                                           class="form-control @error('tel') is-invalid @enderror @if (!$errors->has('tel') && old('tel')) is-valid @endif">
+                                           class="form-control @error('tel') is-invalid @enderror @if (!$errors->has('tel') && old('tel')) is-valid @endif"
+                                           value="{{ old('tel', !empty($clinic) ? $clinic->tel : null) }}">
                                     @error('tel')
                                     <div class="invalid-feedback">
                                         {{ $message }}
@@ -112,7 +116,8 @@
                                 <div class="form-group">
                                     <label>Duration</label>
                                     <input type="text" name="duration"
-                                           class="form-control @error('duration') is-invalid @enderror @if (!$errors->has('duration') && old('duration')) is-valid @endif">
+                                           class="form-control @error('duration') is-invalid @enderror @if (!$errors->has('duration') && old('duration')) is-valid @endif"
+                                           value="{{ old('duration', !empty($clinic) ? $clinic->duration : null) }}">
                                     @error('duration')
                                     <div class="invalid-feedback">
                                         {{ $message }}

@@ -31,6 +31,7 @@
                                     <th>Region</th>
                                     <th>Tel</th>
                                     <th>Duration</th>
+                                    <th width="15%">Action</th>
                                 </thead>
                                 <tbody>
                                     @forelse ($clinics as $clinic)
@@ -43,6 +44,20 @@
                                             <td>{{ $clinic->region}}</td>
                                             <td>{{ $clinic->tel}}</td>
                                             <td>{{ $clinic->duration}}</td>
+                                            <td>
+                                                <a class="btn btn-sm" href="{{ url('admin/clinic/'. $clinic->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
+                                                <a href="{{ url('admin/clinic/'. $clinic->id) }}" class="btn btn-sm" onclick="
+                                                    event.preventDefault();
+                                                    if (confirm('Do you want to remove this Clinic?')) {
+                                                    document.getElementById('delete-role-{{ $clinic->id }}').submit();
+                                                    }">
+                                                    <i class="far fa-trash-alt"></i> Delete
+                                                </a>
+                                                <form id="delete-role-{{ $clinic->id }}" action="{{ url('admin/clinic/'. $clinic->id) }}" method="POST">
+                                                    <input type="hidden" name="_method" value="DELETE">
+                                                    @csrf
+                                                </form>
+                                            </td>
                                         </tr>
                                     @empty
 

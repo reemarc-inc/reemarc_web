@@ -36,7 +36,7 @@ class ClinicRepository implements ClinicRepositoryInterface
 
     public function update($id, $params = [])
     {
-        $clinic = Campaign::findOrFail($id);
+        $clinic = Clinic::findOrFail($id);
 
         return DB::transaction(function () use ($params, $clinic) {
             $clinic->update($params);
@@ -47,9 +47,9 @@ class ClinicRepository implements ClinicRepositoryInterface
 
     public function delete($id)
     {
-        $role  = Campaign::findOrFail($id);
+        $clinic  = Clinic::findOrFail($id);
 
-        return $role->delete();
+        return $clinic->delete();
     }
 
     public function getBrandNameById($id)

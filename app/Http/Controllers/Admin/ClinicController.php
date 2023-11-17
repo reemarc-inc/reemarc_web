@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\Admin\ClinicRequest;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -77,21 +78,6 @@ class ClinicController extends Controller
             'Busan',
             'Jeju',
         ];
-        $this->data['roles_'] = [
-            'Admin' => 'admin',
-            'Doctor' => 'doctor',
-            'Patient' => 'patient',
-            'Operator' => 'operator',
-        ];
-        $this->data['access_levels'] = [
-            'Affiliate',
-            'Customer Service',
-            'Ecommerce',
-            'Customer Service / Ecommerce',
-            'Admin',
-            'Call Center',
-            'IT'
-        ];
 
         $this->data['roleId'] = null;
         $this->data['access_level'] = null;
@@ -141,23 +127,26 @@ class ClinicController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->userRepository->findById($id);
+        $clinic = $this->clinicRepository->findById($id);
 
-        $this->data['user'] = $user;
-        $this->data['team'] = $user->team;
-        $this->data['role_'] = $user->role;
-        $this->data['clinic'] = $this->clinicRepository->findAll();
-        $this->data['teams'] = [
-            'KDO',
-            'Clinic',
-            'Creative'
+        $this->data['clinic'] = $clinic;
+        $this->data['name'] = $clinic->name;
+        $this->data['address'] = $clinic->address;
+        $this->data['description'] = $clinic->description;
+        $this->data['latitude'] = $clinic->latitude;
+        $this->data['longitude'] = $clinic->longitude;
+        $this->data['region'] = $clinic->region;
+        $this->data['tel'] = $clinic->tel;
+        $this->data['latitude'] = $clinic->latitude;
+
+        $this->data['region_'] = [
+            'New York',
+            'San Francisco',
+            'Seoul',
+            'Busan',
+            'Jeju',
         ];
-        $this->data['roles_'] = [
-            'Admin' => 'admin',
-            'Doctor' => 'doctor',
-            'Patient' => 'patient',
-            'Operator' => 'operator',
-        ];
+
         return view('admin.clinic.form', $this->data);
     }
 
@@ -170,15 +159,15 @@ class ClinicController extends Controller
      */
     public function update(ClinicRequest $request, $id)
     {
-        $user = $this->userRepository->findById($id);
+        $clinic = $this->clinicRepository->findById($id);
 
-        if ($this->userRepository->update($id, $request->validated())) {
-            return redirect('admin/users')
-                ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
+        if ($this->clinicRepository->update($id, $request->validated())) {
+            return redirect('admin/clinic')
+                ->with('success', __('users.success_updated_message', ['name' => $clinic->name]));
         }
 
-        return redirect('admin/users')
-                ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
+        return redirect('admin/clinic')
+                ->with('error', __('users.fail_to_update_message', ['name' => $clinic->name]));
     }
 
     /**
@@ -189,18 +178,13 @@ class ClinicController extends Controller
      */
     public function destroy($id)
     {
-        $user = $this->userRepository->findById($id);
+        $clinic = $this->clinicRepository->findById($id);
 
-        if ($user->id == auth()->user()->id) {
-            return redirect('admin/users')
-                ->with('error', 'Could not delete yourself.');
+        if ($this->clinicRepository->delete($id)) {
+            return redirect('admin/clinic')
+                ->with('success', __('users.success_deleted_message', ['name' => $clinic->name]));
         }
-
-        if ($this->userRepository->delete($id)) {
-            return redirect('admin/users')
-                ->with('success', __('users.success_deleted_message', ['first_name' => $user->first_name]));
-        }
-        return redirect('admin/users')
-                ->with('error', __('users.fail_to_delete_message', ['first_name' => $user->first_name]));
+        return redirect('admin/clinic')
+                ->with('error', __('users.fail_to_delete_message', ['name' => $clinic->name]));
     }
 }

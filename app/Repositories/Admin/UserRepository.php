@@ -93,6 +93,13 @@ class UserRepository implements UserRepositoryInterface
         return $user->delete();
     }
 
+    public function findByEmail($email)
+    {
+        $user = new User();
+        $user = $user->Where('email', $email);
+        return $user->get();
+    }
+
     public function findByBrandName($brand_name)
     {
         $users = new User();
