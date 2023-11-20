@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
@@ -245,5 +246,44 @@ class UserController extends Controller
         }
         return redirect('admin/users')
                 ->with('error', __('users.fail_to_delete_message', ['first_name' => $user->first_name]));
+    }
+
+    public function api_sign_up(Request $request)
+    {
+        $params['email'] = $request['email'];
+        $params['password'] = Hash::make($request['password']);
+        $params['first_name'] = $request['first_name'];
+        $params['last_name'] = $request['last_name'];
+        $params['team'] = $request['region'];
+        $params['role'] = 'patient';
+
+        $rs = $this->userRepository->findByEmail($params['email']);
+
+        if(count($rs) > 0){
+            $data = [
+                'error' => [
+                    'code' => 400,
+                    'message' => "Email already exist"
+                ]
+            ];
+        }else{
+            if(!$this->userRepository->create($params)) {
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Operation failed"
+                    ]
+                ];
+            }else {
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        "message" => "Data has been created"
+                    ]
+                ];
+
+            }
+        }
+        return response()->json($data);
     }
 }

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\dummyApi;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Admin\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,8 +21,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('data', [dummyApi::class, 'getData']);
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    //All secure URL's
+    Route::get('data', [dummyApi::class, 'getData']);
+    Route::apiResource("member", MemberController::class);
+});
 
-Route::apiResource("member", MemberController::class);
 Route::post('login', [LoginController::class, 'index']);
+//Route::post('sing_up', [UserController::class, 'api_sign_up']);
+
+Route::post('sign_up', [UserController::class, 'api_sign_up']);
 
