@@ -20,7 +20,7 @@ class LoginController extends Controller
     {
 
         $user = User::where('email', $request->email)->first();
-        return [$request->email];
+        
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response([
                 'message' => ['These credentials do not match our records.']
