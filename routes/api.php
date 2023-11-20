@@ -24,7 +24,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => 'auth:sanctum'], function(){
     //All secure URL's
     Route::get('data', [dummyApi::class, 'getData']);
-    Route::apiResource("member", MemberController::class);
+//    Route::apiResource("member", MemberController::class);
 });
 
 Route::get('login', [LoginController::class, 'index']);
@@ -32,3 +32,4 @@ Route::get('login', [LoginController::class, 'index']);
 
 Route::post('sign_up', [UserController::class, 'api_sign_up']);
 
+Route::apiResource("member", MemberController::class);
