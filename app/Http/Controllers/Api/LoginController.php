@@ -16,27 +16,27 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function index(Request $request)
+    protected function index(Request $request)
     {
-        return [$request->email];
+
         $input = $request->all();
 
-//        $user = User::where('email', $input['email'])->first();
-//
-//        if (!$user || !Hash::check($input['password'], $user->password)) {
-//            return response([
-//                'message' => ['These credentials do not match our records.']
-//            ], 404);
-//        }
-//
-//        $token = $user->createToken('my-app-token')->plainTextToken;
-//
-//        $response = [
-//            'user' => $user,
-//            'token' => $token
-//        ];
-//
-//        return response($response, 201);
+        $user = User::where('email', $input['email'])->first();
+
+        if (!$user || !Hash::check($input['password'], $user->password)) {
+            return response([
+                'message' => ['These credentials do not match our records.']
+            ], 404);
+        }
+
+        $token = $user->createToken('my-app-token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
 
     }
 

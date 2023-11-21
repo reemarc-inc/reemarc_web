@@ -38,5 +38,7 @@
         <li class="menu-header">Settings</li>
 {{--        <li class="{{ ($currentAdminMenu == 'asset_lead_time') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_lead_time')}}"><i class="fas fa-user"></i> <span>Clinics</span></a></li>--}}
         <li class="{{ ($currentAdminMenu == 'clinic') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/clinic')}}"><i class="fas fa-user"></i> <span>Clinics</span></a></li>
+        <li class="menu-header">APIs</li>
+        <li class="{{ ($currentAdminMenu == 'api') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/api')}}"><i class="fas fa-user"></i> <span>Api Test</span></a></li>
     </ul>
 </aside>
