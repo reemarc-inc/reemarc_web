@@ -16,7 +16,7 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    protected function index(Request $request)
+    public function index(request $request)
     {
 
         $input = $request->all();

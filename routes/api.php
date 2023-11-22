@@ -27,6 +27,7 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 //    Route::apiResource("member", MemberController::class);
 });
 
+//Route::apiResource('login', LoginController::class);
 Route::post('login', [LoginController::class, 'index']);
 //Route::post('sing_up', [UserController::class, 'api_sign_up']);
 

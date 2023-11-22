@@ -108,6 +108,25 @@
                 });
             }
 
+            function sign_up_btn(){
+                hide_search_box();
+                $('#sign_up_box').show();
+                $('#api_link').val('/api/sign_up');
+            }
+
+            function sign_up(){
+
+            }
+
+            function forgot_password_btn(){
+
+            }
+
+            function forgot_password(){
+
+            }
+
+
             function login_as() {
                 hide_search_box();
                 $('#login_as_box').show();
@@ -194,10 +213,10 @@
             function hide_search_box() {
                 $('#output_json').empty();
                 $('#out_area_box').empty();
+
                 $('#login_box').hide();
                 $('#member_box').hide();
-                $('#login_as_box').hide();
-                $('#logout_box').hide();
+                $('#sign_up_box').hide();
 
                 $('#date_box').hide();
             }
@@ -293,12 +312,14 @@
                         <div class="form-group">
                             <button class="btn btn-info" onclick="login_btn()">Login</button>
                             <button class="btn btn-info" onclick="member_btn()">Member</button>
-                            <button class="btn btn-info" onclick="logout()">Logout</button>
+                            <hr>
+                            <button class="btn btn-info" onclick="sign_up_btn()">Sign Up</button>
+                            <button class="btn btn-info" onclick="forgot_password_btn()">Forgot Password</button>
+                            <button class="btn btn-info" onclick="clinic_list_btn()">Clinic List</button>
+                            <button class="btn btn-info" onclick="appointment_btn()">Appointment</button>
+                            <button class="btn btn-info" onclick="payment_btn()">Payment</button>
+                            <button class="btn btn-info" onclick="edit_user_btn()">Edit User</button>
 
-{{--                            <button class="btn btn-info" onclick="update_device_token()">Update Device Token</button>--}}
-{{--                            <button class="btn btn-info" onclick="get_current_earning()">Current Earning</button>--}}
-{{--                            <button class="btn btn-info" onclick="get_earning_history()">Earning History</button>--}}
-{{--                            <button class="btn btn-info" onclick="get_earning_detail()">Earning Detail</button>--}}
 {{--                            <hr>--}}
 {{--                            <button class="btn btn-info" onclick="get_open_appointments()">Open Appointments</button>--}}
 {{--                            <button class="btn btn-info" onclick="get_open_appointment_detail()">Open Appointment Detail</button>--}}
@@ -409,39 +430,35 @@
                     </div>
                 </div>
 
-                <div id="login_as_box" style="display:none;">
-                    <div class="row" style="margin-bottom: 16px;">
+                <div id="sign_up_box" style="display:none;">
+                    <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="col-md-2 control-label">Groomer ID</label>
-                                <div class="col-md-10">
-                                    <input type="text" style="width:100px; margin-left: 5px; float:left;"
-                                           class="form-control" id="groomer_id"/>
+                                <label class="col-md-1 control-label">Email</label>
+                                <div class="col-md-11">
+                                    <input type="text" style="margin-left: 5px; float:left;"
+                                           class="form-control" id="email"/>
                                 </div>
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">Password</label>
+                                <div class="col-md-11">
+                                    <input type="text" style="margin-left: 5px; float:left;"
+                                           class="form-control" id="password"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="row" style="margin-bottom: 16px;">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="col-md-2 control-label"></label>
                                 <div class="col-md-10">
-                                    <button class="btn btn-info" onclick="login_as()">Submit</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="logout_box" style="display:none;">
-
-                    <div class="row" style="margin-bottom: 16px;">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label class="col-md-2 control-label"></label>
-                                <div class="col-md-10">
-                                    <button class="btn btn-info" onclick="logout()">Submit</button>
+                                    <button class="btn btn-info" onclick="sign_up()">Submit</button>
                                 </div>
                             </div>
                         </div>
