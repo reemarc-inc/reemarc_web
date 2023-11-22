@@ -47,7 +47,7 @@
                 };
                 document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
                 $.ajax({
-                    url: '/api/login',
+                    url: 'https://reemarc.info/api/login',
                     data: data,
                     cache: false,
                     type: 'post',
