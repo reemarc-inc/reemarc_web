@@ -18,11 +18,11 @@
                 <input type="hidden" name="id" value="{{ $clinic->id }}" />
                 @method('PUT')
         @endif
-        @csrf
-        <div class="section-body">
-            <h2 class="section-title">{{ empty($clinic) ? 'New Clinic' : 'Clinic Update' }}</h2>
+            @csrf
+                <div class="section-body">
+                    <h2 class="section-title">{{ empty($clinic) ? 'New Clinic' : 'Clinic Update' }}</h2>
 
-            <div class="row">
+                    <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-header">
@@ -113,6 +113,42 @@
                                     </div>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Booking Start: </label>
+                                    <input type="text" name="booking_start" id="booking_start" placeholder="Booking Start"
+                                           class="form-control datetimepicker @error('booking_start') is-invalid @enderror @if (!$errors->has('booking_start') && old('booking_start')) is-valid @endif"
+                                           value="{{ old('booking_start', !empty($clinic) ? $clinic->booking_start : null) }}">
+                                    @error('booking_start')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Booking End: </label>
+                                    <input type="text" name="booking_end" id="booking_end" placeholder="Booking End"
+                                           class="form-control datetimepicker @error('booking_end') is-invalid @enderror @if (!$errors->has('booking_end') && old('booking_end')) is-valid @endif"
+                                           value="{{ old('booking_end', !empty($clinic) ? $clinic->booking_end : null) }}">
+                                    @error('booking_end')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Dentist Name</label>
+                                    <input type="text" name="dentist_name"
+                                           class="form-control @error('dentist_name') is-invalid @enderror @if (!$errors->has('dentist_name') && old('dentist_name')) is-valid @endif"
+                                           value="{{ old('dentist_name', !empty($clinic) ? $clinic->dentist_name : null) }}">
+                                    @error('dentist_name')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
                                 <div class="form-group">
                                     <label>Duration</label>
                                     <input type="text" name="duration"
@@ -135,10 +171,11 @@
                     </div>
 
                 </div>
-
-
             </div>
-        </div>
-        </form>
+
+                </div>
+
+            </form>
+
     </section>
 @endsection

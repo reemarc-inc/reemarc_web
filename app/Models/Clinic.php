@@ -23,6 +23,9 @@ class Clinic extends Model
         'longitude',
         'region',
         'tel',
+        'booking_start',
+        'booking_end',
+        'dentist_name',
         'duration',
     ];
 

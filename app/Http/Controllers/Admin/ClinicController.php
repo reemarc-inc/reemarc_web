@@ -138,7 +138,9 @@ class ClinicController extends Controller
         $this->data['longitude'] = $clinic->longitude;
         $this->data['region'] = $clinic->region;
         $this->data['tel'] = $clinic->tel;
-        $this->data['latitude'] = $clinic->latitude;
+        $this->data['booking_start'] = $clinic->booking_start;
+        $this->data['booking_end'] = $clinic->booking_end;
+        $this->data['dentist_name'] = $clinic->dentist_name;
 
         $this->data['region_'] = [
             'New York',
@@ -161,8 +163,9 @@ class ClinicController extends Controller
     public function update(ClinicRequest $request, $id)
     {
         $clinic = $this->clinicRepository->findById($id);
+        $param = $request->request->all();
 
-        if ($this->clinicRepository->update($id, $request->validated())) {
+        if ($this->clinicRepository->update($id, $param)) {
             return redirect('admin/clinic')
                 ->with('success', __('users.success_updated_message', ['name' => $clinic->name]));
         }
