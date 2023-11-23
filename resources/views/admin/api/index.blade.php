@@ -79,19 +79,57 @@
                 $('#member_box').show();
                 $('#api_link').val('/api/member');
             }
+
             function member() {
-                // hide_search_box();
-                // $('#member_box').show();
-                // $('#api_link').val('/api/member');
+                hide_search_box();
+                $('#member_box').show();
+                $('#api_link').val('/api/member');
 
                 var data = {
-                    token: "{{ csrf_token() }}",
                     // api_key: $('#api_key').val(),
                     // token: $('#token').val(),
                 };
                 document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
                 $.ajax({
                     url: '/api/member',
+                    data: data,
+                    cache: false,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(res) {
+                        if ($.trim(res.msg) === '') {
+                            var out_table = "";
+                            $.each(res, function(key, value){
+                                out_table += "<h3>" + key + "</h3>";
+                                out_table += get_out_table(value);
+                            });
+                            // $('#out_area_box').append(out_table);
+                            document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
+                        } else {
+                            myApp.showError(res.msg);
+                        }
+                    }
+                });
+            }
+
+            function get_clinic_list_btn() {
+                hide_search_box();
+                $('#get_clinic_list_box').show();
+                $('#api_link').val('/api/get_clinic_list');
+            }
+
+            function get_clinic_list() {
+                hide_search_box();
+                $('#get_clinic_box').show();
+                $('#api_link').val('/api/get_clinic_list');
+
+                var data = {
+                    // api_key: $('#api_key').val(),
+                    // token: $('#token').val(),
+                };
+                document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
+                $.ajax({
+                    url: '/api/get_clinic_list',
                     data: data,
                     cache: false,
                     type: 'get',
@@ -175,51 +213,6 @@
 
             function forgot_password(){
 
-            }
-
-
-            function login_as() {
-                hide_search_box();
-                $('#login_as_box').show();
-
-                $('#api_link').val('/api/v2/groomer/login_as');
-
-                var groomer_id = $('#groomer_id').val();
-                if ($.trim(groomer_id) == '') {
-                    return;
-                }
-
-                var data = {
-                    api_key: $('#api_key').val(),
-                    token: $('#token').val(),
-                    groomer_id: groomer_id
-                };
-
-                document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
-
-                $.ajax({
-                    url: '/api/v2/groomer/login_as',
-                    data: data,
-                    cache: false,
-                    type: 'post',
-                    dataType: 'json',
-                    success: function(res) {
-                        if ($.trim(res.msg) === '') {
-                            var out_table = "";
-
-                            $.each(res, function(key, value){
-                                out_table += "<h3>" + key + "</h3>";
-                                out_table += get_out_table(value);
-                            });
-
-                            $('#out_area_box').append(out_table);
-
-                            document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
-                        } else {
-                            myApp.showError(res.msg);
-                        }
-                    }
-                });
             }
 
             function logout() {
@@ -364,10 +357,10 @@
                             <button class="btn btn-info" onclick="login_btn()">Login</button>
                             <button class="btn btn-info" onclick="member_btn()">Member</button>
                             <button class="btn btn-info" onclick="sign_up_btn()">Sign Up</button>
+                            <button class="btn btn-info" onclick="get_clinic_list_btn()">Clinic List</button>
                             <hr>
 
                             <button class="btn btn-info" onclick="forgot_password_btn()">Forgot Password</button>
-                            <button class="btn btn-info" onclick="clinic_list_btn()">Clinic List</button>
                             <button class="btn btn-info" onclick="appointment_btn()">Appointment</button>
                             <button class="btn btn-info" onclick="payment_btn()">Payment</button>
                             <button class="btn btn-info" onclick="edit_user_btn()">Edit User</button>
@@ -433,7 +426,7 @@
                 </div>
 
 
-
+                {{--log_in_box--}}
                 <div id="login_box" style="display:none;">
                     <div class="row">
                         <div class="col-md-12">
@@ -469,6 +462,7 @@
                     </div>
                 </div>
 
+                {{--member_box--}}
                 <div id="member_box" style="display:none;">
                     <div class="row" style="margin-bottom: 16px;">
                         <div class="col-md-4">
@@ -482,6 +476,21 @@
                     </div>
                 </div>
 
+                {{--get_clinic_list_box--}}
+                <div id="get_clinic_list_box" style="display:none;">
+                    <div class="row" style="margin-bottom: 16px;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <button class="btn btn-info" onclick="get_clinic_list()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{--sign_up_box--}}
                 <div id="sign_up_box" style="display:none;">
                     <div class="row">
                         <div class="col-md-12">
@@ -574,7 +583,6 @@
                         </div>
                     </div>
                 </div>
-                {{--get_earning_history_box--}}
 
             </div>
         </div>

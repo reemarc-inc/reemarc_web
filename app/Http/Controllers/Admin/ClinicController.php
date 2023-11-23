@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Admin\ClinicRequest;
+use App\Models\Clinic;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -187,4 +188,11 @@ class ClinicController extends Controller
         return redirect('admin/clinic')
                 ->with('error', __('users.fail_to_delete_message', ['name' => $clinic->name]));
     }
+
+    public function get_clinic_list()
+    {
+        return Clinic::all();
+    }
+
+
 }

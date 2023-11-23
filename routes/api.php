@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\dummyApi;
 use App\Http\Controllers\Api\MemberController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\ClinicController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -27,9 +28,8 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 //    Route::apiResource("member", MemberController::class);
 });
 
-Route::post('login', [LoginController::class, 'index']);
-
 Route::post('log_in', [UserController::class, 'log_in']);
 Route::post('sign_up', [UserController::class, 'api_sign_up']);
+Route::get("get_clinic_list", [ClinicController::class, 'get_clinic_list']);
 
 Route::apiResource("member", MemberController::class);
