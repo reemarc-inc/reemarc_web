@@ -289,12 +289,10 @@ class UserController extends Controller
 
     public function log_in(Request $request)
     {
-        $params['email'] = $request['email'];
-
-        $user = $this->userRepository->findByEmail($params['email']);
+        $user = $this->userRepository->findByEmail($request['email']);
 
         if(count($user) > 0){
-            if(!Hash::check($params['password'], $user->password)){
+            if(!Hash::check($request['password'], $user->password)){
                 $data = [
                     'error' => [
                         'code' => 404,
