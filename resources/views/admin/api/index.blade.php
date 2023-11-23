@@ -122,23 +122,23 @@
             }
 
             function sign_up(){
-                var email = $('#email').val();
+                var email = $('#sign_up_email').val();
                 if ($.trim(email) == '') {
                     return;
                 }
-                var password = $('#password').val();
+                var password = $('#sign_up_password').val();
                 if ($.trim(password) == '') {
                     return;
                 }
-                var first_name = $('#first_name').val();
+                var first_name = $('#sign_up_first_name').val();
                 if ($.trim(first_name) == '') {
                     return;
                 }
-                var last_name = $('#last_name').val();
+                var last_name = $('#sign_up_last_name').val();
                 if ($.trim(last_name) == '') {
                     return;
                 }
-                var region = $('#region').val();
+                var region = $('#sign_up_region').val();
                 if ($.trim(region) == '') {
                     return;
                 }
@@ -495,7 +495,7 @@
                                 <label class="col-md-1 control-label">Email</label>
                                 <div class="col-md-11">
                                     <input type="text" style="margin-left: 5px; float:left;"
-                                           class="form-control" id="email"/>
+                                           class="form-control" id="sign_up_email"/>
                                 </div>
                             </div>
                         </div>
@@ -506,7 +506,7 @@
                                 <label class="col-md-1 control-label">Password</label>
                                 <div class="col-md-11">
                                     <input type="text" style="margin-left: 5px; float:left;"
-                                           class="form-control" id="password"/>
+                                           class="form-control" id="sign_up_password"/>
                                 </div>
                             </div>
                         </div>
@@ -517,7 +517,7 @@
                                 <label class="col-md-1 control-label">first_name</label>
                                 <div class="col-md-11">
                                     <input type="text" style="margin-left: 5px; float:left;"
-                                           class="form-control" id="first_name"/>
+                                           class="form-control" id="sign_up_first_name"/>
                                 </div>
                             </div>
                         </div>
@@ -528,7 +528,7 @@
                                 <label class="col-md-1 control-label">last_name</label>
                                 <div class="col-md-11">
                                     <input type="text" style="margin-left: 5px; float:left;"
-                                           class="form-control" id="last_name"/>
+                                           class="form-control" id="sign_up_last_name"/>
                                 </div>
                             </div>
                         </div>
@@ -539,7 +539,7 @@
                                 <label class="col-md-1 control-label">Region</label>
                                 <div class="col-md-11">
                                     <input type="text" style="margin-left: 5px; float:left;"
-                                           class="form-control" id="region"/>
+                                           class="form-control" id="sign_up_region"/>
                                 </div>
                             </div>
                         </div>
