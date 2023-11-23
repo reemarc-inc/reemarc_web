@@ -278,7 +278,7 @@ class UserController extends Controller
                 $data = [
                     'data' => [
                         "code" => 200,
-                        "message" => "Data has been created"
+                        "message" => "Success"
                     ]
                 ];
 
@@ -310,7 +310,7 @@ class UserController extends Controller
                 "code" => 200,
                 'user' => $user,
                 "token" => $token,
-                "message" => "Data has been created"
+                "message" => "Success"
             ]
         ];
 
