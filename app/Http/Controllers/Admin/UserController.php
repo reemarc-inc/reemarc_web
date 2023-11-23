@@ -289,23 +289,15 @@ class UserController extends Controller
 
     public function log_in(Request $request)
     {
-        $user = $this->userRepository->findByEmail($request['email']);
+        $input = $request->all();
 
-        if(count($user) > 0){
-            if(!Hash::check($request['password'], $user->password)){
-                $data = [
-                    'error' => [
-                        'code' => 404,
-                        'message' => "These credentials do not match our records."
-                    ]
-                ];
-                return response()->json($data);
-            }
-        }else{
+        $user = User::where('email', $input['email'])->first();
+
+        if (!$user || !Hash::check($input['password'], $user->password)) {
             $data = [
                 'error' => [
                     'code' => 404,
-                    'message' => "These credentials not exist"
+                    'message' => "These credentials do not match our records."
                 ]
             ];
             return response()->json($data);
