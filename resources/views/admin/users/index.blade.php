@@ -38,7 +38,7 @@
                                             <td>{{ $user->first_name}}</td>
                                             <td>{{ $user->last_name}}</td>
                                             <td>{{ $user->email}}</td>
-                                            <td>{{ $user->team}}</td>
+                                            <td>{{ $user->region}}</td>
                                             <td>{{ ucwords($user->role)}}</td>
 {{--                                            <td>Here!</td>--}}
 {{--                                            <td>{{ $user->access_level }}</td>--}}
@@ -68,7 +68,7 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{ $users->appends(['team' => !empty($filter['team']) ? $filter['team'] : '', 'role' => !empty($filter['role']) ? $filter['role'] : ''])->links() }}
+                        {{ $users->appends(['region' => !empty($filter['region']) ? $filter['region'] : '', 'role' => !empty($filter['role']) ? $filter['role'] : ''])->links() }}
                     </div>
                 </div>
             </div>

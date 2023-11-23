@@ -88,11 +88,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Region</label>
-                                    <select class="form-control" name="team">
+                                    <select class="form-control" name="region">
                                         <option>Select Region</option>
 
-                                        @foreach ($teams as $value)
-                                            <option value="{{ $value }}" {{ $value == $team ? 'selected' : '' }}>
+                                        @foreach ($regions as $value)
+                                            <option value="{{ $value }}" {{ $value == $region ? 'selected' : '' }}>
                                                 {{ $value }}
                                             </option>
                                         @endforeach

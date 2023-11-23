@@ -5,10 +5,10 @@
         <input type="text" name="q" class="design-field" id="q" placeholder="Type name or email.." value="{{ !empty($filter['q']) ? $filter['q'] : old('q') }}">
         </div>
         <div class="form-group col-md-2">
-            <select class="design-select" name="team">
+            <select class="design-select" name="region">
                 <option value="">Select Region</option>
-                @foreach ($teams_ as $value)
-                    <option value="{{ $value }}" @if( $value == $team_) selected="selected" @endif >
+                @foreach ($regions_ as $value)
+                    <option value="{{ $value }}" @if( $value == $region_) selected="selected" @endif >
                         {{$value}}
                     </option>
                 @endforeach

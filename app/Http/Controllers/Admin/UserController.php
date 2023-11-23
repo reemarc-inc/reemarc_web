@@ -55,7 +55,7 @@ class UserController extends Controller
 
         $this->data['filter'] = $params;
         $this->data['users'] = $this->userRepository->findAll($options);
-        $this->data['teams_'] = [
+        $this->data['regions_'] = [
             'New York',
             'San Francisco',
             'Seoul',
@@ -68,7 +68,7 @@ class UserController extends Controller
             'Patient' => 'patient',
             'Operator' => 'operator',
         ];
-        $this->data['team_'] = !empty($params['team']) ? $params['team'] : '';
+        $this->data['region_'] = !empty($params['region']) ? $params['region'] : '';
         $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
 
         return view('admin.users.index', $this->data);
@@ -83,7 +83,7 @@ class UserController extends Controller
     {
 
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
-        $this->data['teams'] = [
+        $this->data['regions'] = [
             'New York',
             'San Francisco',
             'Seoul',
@@ -107,7 +107,7 @@ class UserController extends Controller
         ];
         $this->data['roleId'] = null;
         $this->data['access_level'] = null;
-        $this->data['team'] = null;
+        $this->data['region'] = null;
         $this->data['role_'] = null;
         $this->data['user_brand'] = null;
 
@@ -170,11 +170,11 @@ class UserController extends Controller
         $user = $this->userRepository->findById($id);
 
         $this->data['user'] = $user;
-        $this->data['team'] = $user->team;
+        $this->data['region'] = $user->region;
         $this->data['role_'] = $user->role;
         $this->data['user_brand'] = $user->user_brand;
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
-        $this->data['teams'] = [
+        $this->data['regions'] = [
             'New York',
             'San Francisco',
             'Seoul',
@@ -254,7 +254,7 @@ class UserController extends Controller
         $params['password'] = Hash::make($request['password']);
         $params['first_name'] = $request['first_name'];
         $params['last_name'] = $request['last_name'];
-        $params['team'] = $request['region'];
+        $params['region'] = $request['region'];
         $params['role'] = 'patient';
 
         $rs = $this->userRepository->findByEmail($params['email']);
