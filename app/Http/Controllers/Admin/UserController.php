@@ -286,4 +286,34 @@ class UserController extends Controller
         }
         return response()->json($data);
     }
+
+    public function log_in(Request $request)
+    {
+        $input = $request->all();
+
+        $user = User::where('email', $input['email'])->first();
+
+        if (!$user || !Hash::check($input['password'], $user->password)) {
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "These credentials do not match our records."
+                ]
+            ];
+            return response()->json($data);
+        }
+
+        $token = $user->createToken('my-app-token')->plainTextToken;
+
+        $data = [
+            'data' => [
+                "code" => 200,
+                'user' => $user,
+                "token" => $token,
+                "message" => "Data has been created"
+            ]
+        ];
+
+        return response()->json($data);
+    }
 }
