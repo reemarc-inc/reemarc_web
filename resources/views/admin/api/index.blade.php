@@ -36,7 +36,7 @@
             function login_btn() {
                 hide_search_box();
                 $('#login_box').show();
-                $('#api_link').val('/api/login');
+                $('#api_link').val('/api/log_in');
             }
             function login() {
                 var email = $('#email').val();
@@ -53,7 +53,7 @@
                 };
                 document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
                 $.ajax({
-                    url: '/api/login',
+                    url: '/api/log_in',
                     data: data,
                     cache: false,
                     type: 'post',
