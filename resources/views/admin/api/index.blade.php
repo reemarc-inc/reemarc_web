@@ -49,7 +49,7 @@
                 }
                 var data = {
                     email: email,
-                    passwd: password
+                    password: password
                 };
                 document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
                 $.ajax({
