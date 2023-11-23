@@ -308,9 +308,9 @@ class UserController extends Controller
         $data = [
             'data' => [
                 "code" => 200,
-                'user' => $user,
+                "message" => "Success",
                 "token" => $token,
-                "message" => "Success"
+                'user' => $user
             ]
         ];
 
