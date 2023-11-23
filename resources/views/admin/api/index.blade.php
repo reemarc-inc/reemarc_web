@@ -1,5 +1,5 @@
 @extends('layouts.dashboard')
-
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 @section('content')
 <section class="section">
     <div class="section-header">
@@ -12,6 +12,13 @@
 
     <div class="section-body">
 
+{{--        <script type="text/javascript">--}}
+{{--            $.ajaxSetup({--}}
+{{--                headers: {--}}
+{{--                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')--}}
+{{--                }--}}
+{{--            });--}}
+{{--        </script>--}}
 
         <script type="text/javascript">
 
@@ -42,12 +49,14 @@
                     return;
                 }
                 var data = {
+                    token: "{{ csrf_token() }}",
                     email: email,
                     passwd: password
                 };
                 document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
                 $.ajax({
-                    url: 'https://reemarc.info/api/login',
+                    url: '/api/login',
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     data: data,
                     cache: false,
                     type: 'post',
@@ -64,9 +73,6 @@
                         } else {
                             $('#out_area_box').append(out_table);
                         }
-                    },
-                    error: function(result, status, error) {
-                        $('#out_area_box').append(result, status, error);
                     }
                 });
             }
@@ -82,6 +88,7 @@
                 // $('#api_link').val('/api/member');
 
                 var data = {
+                    token: "{{ csrf_token() }}",
                     // api_key: $('#api_key').val(),
                     // token: $('#token').val(),
                 };
@@ -115,7 +122,57 @@
             }
 
             function sign_up(){
-
+                var email = $('#email').val();
+                if ($.trim(email) == '') {
+                    return;
+                }
+                var password = $('#password').val();
+                if ($.trim(password) == '') {
+                    return;
+                }
+                var first_name = $('#first_name').val();
+                if ($.trim(first_name) == '') {
+                    return;
+                }
+                var last_name = $('#last_name').val();
+                if ($.trim(last_name) == '') {
+                    return;
+                }
+                var region = $('#region').val();
+                if ($.trim(region) == '') {
+                    return;
+                }
+                var data = {
+                    email: email,
+                    passwd: password,
+                    first_name: first_name,
+                    last_name: last_name,
+                    region: region
+                };
+                document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
+                $.ajax({
+                    url: '/api/sign_up',
+                    data: data,
+                    cache: false,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(res) {
+                        if ($.trim(res.msg) === '') {
+                            var out_table = "";
+                            $.each(res, function(key, value){
+                                out_table += "<h3>" + key + "</h3>";
+                                out_table += get_out_table(value);
+                            });
+                            $('#out_area_box').append(out_table);
+                            document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
+                        } else {
+                            $('#out_area_box').append(out_table);
+                        }
+                    },
+                    error: function(result, status, error) {
+                        $('#out_area_box').append(result, status, error);
+                    }
+                });
             }
 
             function forgot_password_btn(){
@@ -312,8 +369,9 @@
                         <div class="form-group">
                             <button class="btn btn-info" onclick="login_btn()">Login</button>
                             <button class="btn btn-info" onclick="member_btn()">Member</button>
-                            <hr>
                             <button class="btn btn-info" onclick="sign_up_btn()">Sign Up</button>
+                            <hr>
+
                             <button class="btn btn-info" onclick="forgot_password_btn()">Forgot Password</button>
                             <button class="btn btn-info" onclick="clinic_list_btn()">Clinic List</button>
                             <button class="btn btn-info" onclick="appointment_btn()">Appointment</button>
@@ -449,6 +507,39 @@
                                 <div class="col-md-11">
                                     <input type="text" style="margin-left: 5px; float:left;"
                                            class="form-control" id="password"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">first_name</label>
+                                <div class="col-md-11">
+                                    <input type="text" style="margin-left: 5px; float:left;"
+                                           class="form-control" id="first_name"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">last_name</label>
+                                <div class="col-md-11">
+                                    <input type="text" style="margin-left: 5px; float:left;"
+                                           class="form-control" id="last_name"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">Region</label>
+                                <div class="col-md-11">
+                                    <input type="text" style="margin-left: 5px; float:left;"
+                                           class="form-control" id="region"/>
                                 </div>
                             </div>
                         </div>
