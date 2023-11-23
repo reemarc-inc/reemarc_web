@@ -24,19 +24,27 @@ class LoginController extends Controller
         $user = User::where('email', $input['email'])->first();
 
         if (!$user || !Hash::check($input['password'], $user->password)) {
-            return response([
-                'message' => ['These credentials do not match our records.']
-            ], 404);
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "These credentials do not match our records."
+                ]
+            ];
+            return response()->json($data);
         }
 
         $token = $user->createToken('my-app-token')->plainTextToken;
 
-        $response = [
-            'user' => $user,
-            'token' => $token
+        $data = [
+            'data' => [
+                "code" => 200,
+                'user' => $user,
+                "token" => $token,
+                "message" => "Data has been created"
+            ]
         ];
 
-        return response($response, 201);
+        return response()->json($data);
 
     }
 

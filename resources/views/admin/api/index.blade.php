@@ -39,7 +39,6 @@
                 $('#api_link').val('/api/login');
             }
             function login() {
-
                 var email = $('#email').val();
                 if ($.trim(email) == '') {
                     return;
@@ -49,14 +48,12 @@
                     return;
                 }
                 var data = {
-                    token: "{{ csrf_token() }}",
                     email: email,
                     passwd: password
                 };
                 document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
                 $.ajax({
                     url: '/api/login',
-                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                     data: data,
                     cache: false,
                     type: 'post',
