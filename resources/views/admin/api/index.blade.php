@@ -168,9 +168,6 @@
                         } else {
                             $('#out_area_box').append(out_table);
                         }
-                    },
-                    error: function(result, status, error) {
-                        $('#out_area_box').append(result, status, error);
                     }
                 });
             }
