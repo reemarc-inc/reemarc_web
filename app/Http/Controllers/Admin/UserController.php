@@ -291,13 +291,22 @@ class UserController extends Controller
     {
         $input = $request->all();
 
-        $user = User::where('email', $input['email'])->first();
-
-        if (!$user || !Hash::check($input['password'], $user->password)) {
+        $user = $this->userRepository->findByEmail($input['email']);
+        if(count($user) > 0){
+            if(!Hash::check($input['password'], $user->password)){
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "These credentials do not match our records."
+                    ]
+                ];
+                return response()->json($data);
+            }
+        }else{
             $data = [
                 'error' => [
                     'code' => 404,
-                    'message' => "These credentials do not match our records."
+                    'message' => "These credentials not exist"
                 ]
             ];
             return response()->json($data);
