@@ -261,6 +261,7 @@
                 $('#login_box').hide();
                 $('#member_box').hide();
                 $('#sign_up_box').hide();
+                $('#get_clinic_list_box').hide();
 
                 $('#date_box').hide();
             }
