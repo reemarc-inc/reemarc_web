@@ -8,7 +8,7 @@ use App\Models\appointments;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-use App\Repositories\Admin\appointmentsRepository;
+use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\ClinicRepository;
 
 use Illuminate\Support\Facades\Hash;
