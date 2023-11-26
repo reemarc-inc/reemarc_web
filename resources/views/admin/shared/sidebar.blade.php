@@ -30,7 +30,9 @@
 {{--        <?php if(auth()->user()->role == 'creative director' || auth()->user()->role == 'admin'){ ?>--}}
 {{--        <li class="{{ ($currentAdminMenu == 'asset_kpi') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi') }}"><i class="fas fa-th-list"></i> <span>KPI (Creative)</span></a></li>--}}
 {{--        <?php } ?>--}}
-
+        <li class="menu-header">Appointments</li>
+        <li class="{{ ($currentAdminMenu == 'appointment_make') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointment_make')}}"><i class="fas fa-user"></i> <span>Make Appointment</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'appointments_list') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointments_list')}}"><i class="fas fa-user"></i> <span>Appointments List</span></a></li>
         <li class="menu-header">Account</li>
         <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'users') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/users')}}"><i class="fas fa-user"></i> <span>Users</span></a></li>

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\ClinicController as AdminClinic;
+use App\Http\Controllers\Admin\AppointmentsController as AdminAppointments;
 use App\Http\Controllers\Admin\ApiController as AdminApic;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
 use App\Http\Controllers\Admin\FormController as AdminForm;
@@ -71,6 +72,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('users', AdminUser::class);
     Route::resource('clinic', AdminClinic::class);
+    Route::resource('appointments_list', AdminAppointments::class);
+    Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
+
     Route::resource('api', AdminApic::class);
 
     Route::resource('brands', AdminBrand::class);

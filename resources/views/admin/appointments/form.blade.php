@@ -137,17 +137,7 @@
                                     </div>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label>Country Code</label>
-                                    <input type="text" name="country_code"
-                                           class="form-control @error('country_code') is-invalid @enderror @if (!$errors->has('country_code') && old('country_code')) is-valid @endif"
-                                           value="{{ old('country_code', !empty($clinic) ? $clinic->country_code : null) }}">
-                                    @error('country_code')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
+
                                 <div class="form-group">
                                     <label>Dentist Name</label>
                                     <input type="text" name="dentist_name"

@@ -5,29 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-//use App\Models\Concerns\UuidTrait;
-
-class Clinic extends Model
+class Appointments extends Model
 {
     use HasFactory;
 
-    protected $table = 'clinic';
+    protected $table = 'appointments';
 
     protected $fillable = [
         'id',
-        'name',
-        'address',
-        'description',
-        'images',
-        'latitude',
-        'longitude',
-        'region',
-        'tel',
+        'user_id',
+        'user_name',
+        'user_phone',
+        'clinic_id',
+        'clinic_name',
+        'clinic_phone',
+        'clinic_address',
         'booking_start',
         'booking_end',
-        'country_code',
-        'dentist_name',
-        'duration',
+        'service_duration',
+        'disabled_days',
+        'disabled_dates',
+        'status',
     ];
 
     protected $primaryKey = 'id';

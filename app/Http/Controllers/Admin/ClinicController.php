@@ -192,6 +192,18 @@ class ClinicController extends Controller
                 ->with('error', __('users.fail_to_delete_message', ['name' => $clinic->name]));
     }
 
+    public function clinic_list()
+    {
+        $this->data['clinics'] = $this->clinicRepository->findAll($options);
+
+        return view('admin.clinic.index', $this->data);
+
+    }
+
+    /***
+     * API
+     * @return Clinic[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function get_clinic_list()
     {
         return Clinic::all();
