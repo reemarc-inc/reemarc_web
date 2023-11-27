@@ -32,6 +32,7 @@ class User extends Authenticatable
         'access_level',
         'email',
         'phone',
+        'deviceToken',
         'password',
     ];
 
