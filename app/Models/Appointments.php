@@ -14,18 +14,21 @@ class Appointments extends Model
     protected $fillable = [
         'id',
         'user_id',
-        'user_name',
+        'user_first_name',
+        'user_last_name',
+        'user_email',
         'user_phone',
         'clinic_id',
         'clinic_name',
         'clinic_phone',
         'clinic_address',
-        'booking_start',
-        'booking_end',
-        'service_duration',
-        'disabled_days',
-        'disabled_dates',
+        'clinic_region',
+        'booked_date',
+        'booked_day',
+        'booked_time',
         'status',
+        'updated_at',
+        'created_at'
     ];
 
     protected $primaryKey = 'id';

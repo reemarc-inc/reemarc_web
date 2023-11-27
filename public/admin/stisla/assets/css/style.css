@@ -292,13 +292,13 @@ select.form-control:not([size]):not([multiple]) {
   left: 0; }
 
 .selectgroup-button {
-  background-color: #fdfdff;
-  border-color: #e4e6fc;
+  background-color: #f1f1f1;
+  border-color: #a7a7a7;
   border-width: 1px;
   border-style: solid;
   display: block;
   text-align: center;
-  padding: 0 1rem;
+  padding: 0 0.6rem;
   height: 35px;
   position: relative;
   cursor: pointer;

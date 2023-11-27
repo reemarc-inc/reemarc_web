@@ -3,76 +3,43 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Clinic Management</h1>
+            <h1>Appointment Management</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item"><a href="{{ url('admin/clinic') }}">Clinic</a></div>
-                <div class="breadcrumb-item">Edit Clinic</div>
+                <div class="breadcrumb-item"><a href="{{ url('admin/appointments') }}">appointments</a></div>
+                <div class="breadcrumb-item">Edit appointments</div>
             </div>
         </div>
 
-        @if (empty($clinic ?? '' ?? ''))
-            <form method="POST" action="{{ route('clinic.store') }}">
+        @if (empty($appointments ?? '' ?? ''))
+            <form method="POST" action="{{ route('appointments_list.store') }}">
         @else
-            <form method="POST" action="{{ route('clinic.update', $clinic->id) }}">
-                <input type="hidden" name="id" value="{{ $clinic->id }}" />
+            <form method="POST" action="{{ route('appointments_list.update', $appointments->id) }}">
+                <input type="hidden" name="id" value="{{ $appointments->id }}" />
                 @method('PUT')
         @endif
             @csrf
                 <div class="section-body">
-                    <h2 class="section-title">{{ empty($clinic) ? 'New Clinic' : 'Clinic Update' }}</h2>
+                    <h2 class="section-title">{{ empty($appointments) ? 'New appointments' : 'appointments Update' }}</h2>
 
                     <div class="row">
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4>{{ empty($clinic) ? 'Add New Clinic' : 'Update Clinic' }}</h4>
+                            <h4>{{ empty($appointments) ? 'Add New appointments' : 'Update appointments' }}</h4>
                         </div>
 
                         <div class="card-body">
                             @include('admin.shared.flash')
 
                             <div class="col">
+
                                 <div class="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name"
-                                           class="form-control @error('name') is-invalid @enderror @if (!$errors->has('name') && old('name')) is-valid @endif"
-                                           value="{{ old('name', !empty($clinic) ? $clinic->name : null) }}">
-                                    @error('name')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Address</label>
-                                    <input type="text" name="address"
-                                           class="form-control @error('address') is-invalid @enderror @if (!$errors->has('address') && old('address')) is-valid @endif"
-                                           value="{{ old('address', !empty($clinic) ? $clinic->address : null) }}">
-                                    @error('address')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Description</label>
-                                    <textarea class="form-control" id="description" name="description" style="height: 100px;">{{ old('description', !empty($clinic) ? $clinic->description : null) }}</textarea>
-{{--                                    <input type="text" name="description"--}}
-{{--                                           class="form-control @error('description') is-invalid @enderror @if (!$errors->has('description') && old('description')) is-valid @endif"--}}
-{{--                                           value="{{ old('description', !empty($clinic) ? $clinic->description : null) }}">--}}
-                                    @error('description')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Latitude</label>
-                                    <input type="text" name="latitude"
-                                           class="form-control @error('latitude') is-invalid @enderror @if (!$errors->has('latitude') && old('latitude')) is-valid @endif"
-                                           value="{{ old('latitude', !empty($clinic) ? $clinic->latitude : null) }}">
-                                    @error('latitude')
+                                    <label>user_first_name</label>
+                                    <input type="text" name="user_first_name"
+                                           class="form-control @error('user_first_name') is-invalid @enderror @if (!$errors->has('user_first_name') && old('user_first_name')) is-valid @endif"
+                                           value="{{ old('user_first_name', !empty($appointments) ? $appointments->user_first_name : null) }}">
+                                    @error('user_first_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -80,34 +47,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Longitude</label>
-                                    <input type="text" name="longitude"
-                                           class="form-control @error('longitude') is-invalid @enderror @if (!$errors->has('longitude') && old('longitude')) is-valid @endif"
-                                           value="{{ old('longitude', !empty($clinic) ? $clinic->longitude : null) }}">
-                                    @error('longitude')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Region</label>
-                                    <select class="form-control" name="region">
-                                        <option>Select Region</option>
-                                        @foreach ($region_ as $value)
-                                            <option value="{{ $value }}" {{ $value == $region ? 'selected' : '' }}>
-                                                {{ $value }}
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="form-group">
-                                    <label>Tel</label>
-                                    <input type="text" name="tel"
-                                           class="form-control @error('tel') is-invalid @enderror @if (!$errors->has('tel') && old('tel')) is-valid @endif"
-                                           value="{{ old('tel', !empty($clinic) ? $clinic->tel : null) }}">
-                                    @error('tel')
+                                    <label>user_last_name</label>
+                                    <input type="text" name="user_last_name"
+                                           class="form-control @error('user_last_name') is-invalid @enderror @if (!$errors->has('user_last_name') && old('user_last_name')) is-valid @endif"
+                                           value="{{ old('user_last_name', !empty($appointments) ? $appointments->user_last_name : null) }}">
+                                    @error('user_last_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -115,11 +59,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Booking Start: </label>
-                                    <input type="text" name="booking_start" id="booking_start" placeholder="Booking Start"
-                                           class="form-control datetimepicker @error('booking_start') is-invalid @enderror @if (!$errors->has('booking_start') && old('booking_start')) is-valid @endif"
-                                           value="{{ old('booking_start', !empty($clinic) ? $clinic->booking_start : null) }}">
-                                    @error('booking_start')
+                                    <label>user_email</label>
+                                    <input type="text" name="user_email"
+                                           class="form-control @error('user_email') is-invalid @enderror @if (!$errors->has('user_email') && old('user_email')) is-valid @endif"
+                                           value="{{ old('user_email', !empty($appointments) ? $appointments->user_email : null) }}">
+                                    @error('user_email')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -127,11 +71,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Booking End: </label>
-                                    <input type="text" name="booking_end" id="booking_end" placeholder="Booking End"
-                                           class="form-control datetimepicker @error('booking_end') is-invalid @enderror @if (!$errors->has('booking_end') && old('booking_end')) is-valid @endif"
-                                           value="{{ old('booking_end', !empty($clinic) ? $clinic->booking_end : null) }}">
-                                    @error('booking_end')
+                                    <label>user_phone</label>
+                                    <input type="text" name="user_phone"
+                                           class="form-control @error('user_phone') is-invalid @enderror @if (!$errors->has('user_phone') && old('user_phone')) is-valid @endif"
+                                           value="{{ old('user_phone', !empty($appointments) ? $appointments->user_phone : null) }}">
+                                    @error('user_phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -139,34 +83,109 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Dentist Name</label>
-                                    <input type="text" name="dentist_name"
-                                           class="form-control @error('dentist_name') is-invalid @enderror @if (!$errors->has('dentist_name') && old('dentist_name')) is-valid @endif"
-                                           value="{{ old('dentist_name', !empty($clinic) ? $clinic->dentist_name : null) }}">
-                                    @error('dentist_name')
+                                    <label>clinic_name</label>
+                                    <input type="text" name="clinic_name"
+                                           class="form-control @error('clinic_name') is-invalid @enderror @if (!$errors->has('clinic_name') && old('clinic_name')) is-valid @endif"
+                                           value="{{ old('clinic_name', !empty($appointments) ? $appointments->clinic_name : null) }}">
+                                    @error('clinic_name')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                     @enderror
                                 </div>
+
                                 <div class="form-group">
-                                    <label>Duration</label>
-                                    <input type="text" name="duration"
-                                           class="form-control @error('duration') is-invalid @enderror @if (!$errors->has('duration') && old('duration')) is-valid @endif"
-                                           value="{{ old('duration', !empty($clinic) ? $clinic->duration : null) }}">
-                                    @error('duration')
+                                    <label>clinic_phone</label>
+                                    <input type="text" name="clinic_phone"
+                                           class="form-control @error('clinic_phone') is-invalid @enderror @if (!$errors->has('clinic_phone') && old('clinic_phone')) is-valid @endif"
+                                           value="{{ old('clinic_phone', !empty($appointments) ? $appointments->clinic_phone : null) }}">
+                                    @error('clinic_phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label>clinic_address</label>
+                                    <input type="text" name="clinic_address"
+                                           class="form-control @error('clinic_address') is-invalid @enderror @if (!$errors->has('clinic_address') && old('clinic_address')) is-valid @endif"
+                                           value="{{ old('clinic_address', !empty($appointments) ? $appointments->clinic_address : null) }}">
+                                    @error('clinic_address')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>clinic_region</label>
+                                    <input type="text" name="clinic_region"
+                                           class="form-control @error('clinic_region') is-invalid @enderror @if (!$errors->has('clinic_region') && old('clinic_region')) is-valid @endif"
+                                           value="{{ old('clinic_region', !empty($appointments) ? $appointments->clinic_region : null) }}">
+                                    @error('clinic_region')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>booked_date</label>
+                                    <input type="text" name="booked_date"
+                                           class="form-control @error('booked_date') is-invalid @enderror @if (!$errors->has('booked_date') && old('booked_date')) is-valid @endif"
+                                           value="{{ old('booked_date', !empty($appointments) ? $appointments->booked_date : null) }}">
+                                    @error('booked_date')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>booked_day</label>
+                                    <input type="text" name="booked_day"
+                                           class="form-control @error('booked_day') is-invalid @enderror @if (!$errors->has('booked_day') && old('booked_day')) is-valid @endif"
+                                           value="{{ old('booked_day', !empty($appointments) ? $appointments->booked_day : null) }}">
+                                    @error('booked_day')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>booked_time</label>
+                                    <input type="text" name="booked_time"
+                                           class="form-control @error('booked_time') is-invalid @enderror @if (!$errors->has('booked_time') && old('booked_time')) is-valid @endif"
+                                           value="{{ old('booked_time', !empty($appointments) ? $appointments->booked_time : null) }}">
+                                    @error('booked_time')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>status</label>
+                                    <input type="text" name="status"
+                                           class="form-control @error('status') is-invalid @enderror @if (!$errors->has('status') && old('status')) is-valid @endif"
+                                           value="{{ old('status', !empty($appointments) ? $appointments->status : null) }}">
+                                    @error('status')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+
                             </div>
 
                         </div>
 
                         <div class="card-footer text-right">
                             <button
-                                class="btn btn-primary">{{ empty($clinic) ? __('general.btn_create_label') : __('general.btn_update_label') }}</button>
+                                class="btn btn-primary">{{ empty($appointments) ? __('general.btn_create_label') : __('general.btn_update_label') }}</button>
                         </div>
                     </div>
 

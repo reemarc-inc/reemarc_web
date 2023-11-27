@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\appointments;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 use App\Repositories\Admin\AppointmentsRepository;
@@ -134,16 +135,21 @@ class AppointmentsController extends Controller
         $appointments = $this->appointmentsRepository->findById($id);
 
         $this->data['appointments'] = $appointments;
-        $this->data['name'] = $appointments->name;
-        $this->data['address'] = $appointments->address;
-        $this->data['description'] = $appointments->description;
-        $this->data['latitude'] = $appointments->latitude;
-        $this->data['longitude'] = $appointments->longitude;
-        $this->data['region'] = $appointments->region;
-        $this->data['tel'] = $appointments->tel;
-        $this->data['booking_start'] = $appointments->booking_start;
-        $this->data['booking_end'] = $appointments->booking_end;
-        $this->data['dentist_name'] = $appointments->dentist_name;
+        $this->data['user_id'] = $appointments->user_id;
+        $this->data['user_first_name'] = $appointments->user_first_name;
+        $this->data['user_last_name'] = $appointments->user_last_name;
+        $this->data['user_email'] = $appointments->user_email;
+        $this->data['user_phone'] = $appointments->user_phone;
+        $this->data['clinic_id'] = $appointments->clinic_id;
+        $this->data['clinic_name'] = $appointments->clinic_name;
+        $this->data['clinic_phone'] = $appointments->clinic_phone;
+        $this->data['clinic_address'] = $appointments->clinic_address;
+        $this->data['clinic_region'] = $appointments->clinic_region;
+        $this->data['booked_date'] = $appointments->booked_date;
+        $this->data['booked_day'] = $appointments->booked_day;
+        $this->data['booked_time'] = $appointments->booked_time;
+        $this->data['status'] = $appointments->status;
+        $this->data['created_at'] = $appointments->created_at;
 
         $this->data['region_'] = [
             'New York',
@@ -152,7 +158,6 @@ class AppointmentsController extends Controller
             'Busan',
             'Jeju',
         ];
-
         return view('admin.appointments.form', $this->data);
     }
 
@@ -169,11 +174,11 @@ class AppointmentsController extends Controller
         $param = $request->request->all();
 
         if ($this->appointmentsRepository->update($id, $param)) {
-            return redirect('admin/appointments')
+            return redirect('admin/appointments_list')
                 ->with('success', __('users.success_updated_message', ['name' => $appointments->name]));
         }
 
-        return redirect('admin/appointments')
+        return redirect('admin/appointments_list')
                 ->with('error', __('users.fail_to_update_message', ['name' => $appointments->name]));
     }
 
@@ -188,10 +193,10 @@ class AppointmentsController extends Controller
         $appointments = $this->appointmentsRepository->findById($id);
 
         if ($this->appointmentsRepository->delete($id)) {
-            return redirect('admin/appointments')
+            return redirect('admin/appointments_list')
                 ->with('success', __('users.success_deleted_message', ['name' => $appointments->name]));
         }
-        return redirect('admin/appointments')
+        return redirect('admin/appointments_list')
                 ->with('error', __('users.fail_to_delete_message', ['name' => $appointments->name]));
     }
 
@@ -232,7 +237,8 @@ class AppointmentsController extends Controller
 
         for ($i=0 ; $i < 7 ;$i++)
         {
-            $date[]=date('D, M j',strtotime("+{$i} day",time()));
+//            $date[]=date('D, M j',strtotime("+{$i} day",time()));
+            $date[]=date('Y-m-d',strtotime("+{$i} day",time()));
         }
         $this->data['next_week_dates'] = $date;
 
@@ -250,6 +256,41 @@ class AppointmentsController extends Controller
 
         return view('admin.appointment_make.index', $this->data);
     }
+
+    public function booking(Request $request)
+    {
+        $param = $request->all();
+
+        $temp = explode(',', $param['date_time']);
+        $temp_ = date_create($temp[0]);
+        $params['booked_day'] = date_format($temp_,'D');
+        $params['booked_date'] = $temp[0];
+        $params['booked_time'] = $temp[1];
+
+        $params['clinic_id'] = $param['clinic_id'];
+        $clinic_obj = $this->clinicRepository->findById($params['clinic_id']);
+        $params['clinic_name'] = $clinic_obj->name;
+        $params['clinic_phone'] = $clinic_obj->tel;
+        $params['clinic_address'] = $clinic_obj->address;
+        $params['clinic_region'] = $clinic_obj->region;
+
+        $user = auth()->user();
+        $params['user_id'] = $user->id;
+        $params['user_first_name'] = $user->first_name;
+        $params['user_last_name'] = $user->last_name;
+        $params['user_email'] = $user->email;
+        $params['user_phone'] = $user->phone;
+        $params['status'] = 'Upcoming';
+        $params['created_at'] = Carbon::now();
+
+        $this->appointmentsRepository->create($params);
+
+        $this->data['currentAdminMenu'] = 'appointment_make';
+
+        return redirect('admin/appointment_make/')
+            ->with('success', __('Data has been Booked.'));
+    }
+
 
 
     /***

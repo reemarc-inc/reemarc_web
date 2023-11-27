@@ -31,6 +31,7 @@ class User extends Authenticatable
         'user_brand',
         'access_level',
         'email',
+        'phone',
         'password',
     ];
 

@@ -251,6 +251,7 @@ class UserController extends Controller
     public function api_sign_up(Request $request)
     {
         $params['email'] = $request['email'];
+        $params['phone'] = $request['phone'];
         $params['password'] = Hash::make($request['password']);
         $params['first_name'] = $request['first_name'];
         $params['last_name'] = $request['last_name'];

@@ -75,6 +75,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('appointments_list', AdminAppointments::class);
     Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
 
+    Route::post('appointment_make/booking', [AdminAppointments::class, 'booking'])->name('appointment_make.booking');
+
+
+
+
     Route::resource('api', AdminApic::class);
 
     Route::resource('brands', AdminBrand::class);

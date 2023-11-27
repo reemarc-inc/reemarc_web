@@ -82,27 +82,34 @@
                 <div id="book-{{$clinic->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="bookModalLabel" aria-hidden="true" data-backdrop="false">
                     <div class="modal-dialog modal-lg" role="document">
                         <div class="modal-content">
-                            <form method="POST" action="{{ route('asset.asset_owner_change') }}" enctype="multipart/form-data">
+                            <form method="POST" action="{{ route('appointment_make.booking') }}" enctype="multipart/form-data">
                                 @csrf
+
+                                <input type="hidden" name="clinic_id" value="{{ $clinic->id }}">
+
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel">{{ ucwords(str_replace('_', ' ', $clinic->name)) }}</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body">
-                                    {{-- available - light (Gray) / not available - dark (black) --}}
+
                                     @foreach ($next_week_dates as $date)
-                                        <h5 class="modal-title">{{ $date }}</h5>
-                                        <div class="form-group">
-                                            @foreach($time_spots as $spot)
-                                                <button type="button" class="btn btn-light">{{ $spot }}</button>
-                                            @endforeach
-                                        </div>
+                                        <?php $date_temp = new DateTimeImmutable($date); ?>
+                                        <h5 class="modal-title">{{ $date_temp->format('D, M j') }}</h5>
+                                            <div class="selectgroup selectgroup-pills">
+                                                @foreach($time_spots as $spot)
+                                                    <label class="selectgroup-item">
+                                                        <input type="radio" name="date_time" value="{{ $date }},{{ $spot }}" class="selectgroup-input">
+                                                        <span class="selectgroup-button">{{ $spot }}</span>
+                                                    </label>
+                                                @endforeach
+                                            </div>
                                     @endforeach
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                    <button type="submit" class="btn btn-primary">Select</button>
                                 </div>
                             </form>
                         </div>
