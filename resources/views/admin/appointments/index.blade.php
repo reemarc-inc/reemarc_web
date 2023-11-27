@@ -28,9 +28,8 @@
                                     <th>Email</th>
                                     <th>Region</th>
                                     <th>Clinic Name</th>
-                                    <th>Date</th>
-                                    <th>Day</th>
-                                    <th>Time</th>
+                                    <th>Start Date</th>
+                                    <th>End Date</th>
                                     <th>Status</th>
                                     <th>Create At</th>
                                     <th width="15%">Action</th>
@@ -43,9 +42,8 @@
                                             <td>{{ $appointment->user_email }}</td>
                                             <td>{{ $appointment->clinic_region}}</td>
                                             <td>{{ $appointment->clinic_name}}</td>
-                                            <td>{{ $appointment->booked_date}}</td>
-                                            <td>{{ $appointment->booked_day}}</td>
-                                            <td>{{ $appointment->booked_time}}</td>
+                                            <td>{{ date('Y-m-d g:i a', strtotime($appointment->booked_start))}}</td>
+                                            <td>{{ date('Y-m-d g:i a', strtotime($appointment->booked_end))}}</td>
                                             <td>{{ $appointment->status}}</td>
                                             <td>{{ $appointment->created_at}}</td>
                                             <td>

@@ -86,6 +86,7 @@
                                 @csrf
 
                                 <input type="hidden" name="clinic_id" value="{{ $clinic->id }}">
+                                <input type="hidden" name="duration" value="{{ $clinic->duration }}">
 
                                 <div class="modal-header">
                                     <h4 class="modal-title" id="myModalLabel">{{ ucwords(str_replace('_', ' ', $clinic->name)) }}</h4>
@@ -97,14 +98,23 @@
                                         <?php $date_temp = new DateTimeImmutable($date); ?>
                                         <h5 class="modal-title">{{ $date_temp->format('D, M j') }}</h5>
                                             <div class="selectgroup selectgroup-pills">
-                                                @foreach($time_spots as $spot)
+                                                @foreach($time_spots as $key => $spot)
                                                     <label class="selectgroup-item">
                                                         <input type="radio" name="date_time" value="{{ $date }},{{ $spot }}" class="selectgroup-input">
-                                                        <span class="selectgroup-button">{{ $spot }}</span>
+                                                        <span class="selectgroup-button">{{ $key }}</span>
                                                     </label>
                                                 @endforeach
                                             </div>
                                     @endforeach
+
+
+
+{{--                                        @foreach ($next_week_dates as $date)--}}
+{{--                                            <label class="selectgroup-item">--}}
+{{--                                                <input type="radio" name="date_time" value="{{ $date }}" class="selectgroup-input">--}}
+{{--                                                <span class="selectgroup-button">{{ $date }}</span>--}}
+{{--                                            </label>--}}
+{{--                                        @endforeach--}}
 
                                 </div>
                                 <div class="modal-footer">

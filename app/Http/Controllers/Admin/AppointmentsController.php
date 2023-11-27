@@ -220,6 +220,7 @@ class AppointmentsController extends Controller
 
         $this->data['filter'] = $params;
         $this->data['clinics'] = $this->clinicRepository->findAll($options);
+
         $this->data['teams_'] = [
             'New York',
             'San Francisco',
@@ -241,19 +242,20 @@ class AppointmentsController extends Controller
         {
 //            $date[]=date('D, M j',strtotime("+{$i} day",time()));
             $date[]=date('Y-m-d',strtotime("+{$i} day",time()));
+//            $date[]=date('Y-m-d H:i:s',strtotime("+{$i} day",time()));
         }
         $this->data['next_week_dates'] = $date;
 
         $this->data['time_spots'] = [
-            '9:00 am',
-            '10:00 am',
-            '11:00 am',
-            '12:00 pm',
-            '1:00 pm',
-            '2:00 pm',
-            '3:00 pm',
-            '4:00 pm',
-            '5:00 pm'
+            '9:00 am' => '9:00',
+            '10:00 am' => '10:00',
+            '11:00 am' => '11:00',
+            '12:00 pm' => '12:00',
+            '1:00 pm' => '13:00',
+            '2:00 pm' => '14:00',
+            '3:00 pm' => '15:00',
+            '4:00 pm' => '16:00',
+            '5:00 pm' => '17:00'
         ];
 
         return view('admin.appointment_make.index', $this->data);
@@ -263,11 +265,17 @@ class AppointmentsController extends Controller
     {
         $param = $request->all();
 
+
         $temp = explode(',', $param['date_time']);
-        $temp_ = date_create($temp[0]);
-        $params['booked_day'] = date_format($temp_,'D');
-        $params['booked_date'] = $temp[0];
-        $params['booked_time'] = $temp[1];
+
+        $start = \DateTime::createFromFormat('Y-m-d H:i', $temp[0].$temp[1]);
+        $end = (\DateTime::createFromFormat("Y-m-d H:i", $temp[0].$temp[1]))->add(new \DateInterval("PT".$param['duration']."M"));
+        $params['booked_start'] = $start->format('Y-m-d H:i');
+        $params['booked_end'] = $end->format('Y-m-d H:i');
+
+        $params['booked_day'] = date_format($start,'D');
+        $params['booked_date'] = date_format($start,'Y-m-d');
+        $params['booked_time'] = date_format($start,'g:i a');
 
         $params['clinic_id'] = $param['clinic_id'];
         $clinic_obj = $this->clinicRepository->findById($params['clinic_id']);
@@ -275,9 +283,6 @@ class AppointmentsController extends Controller
         $params['clinic_phone'] = $clinic_obj->tel;
         $params['clinic_address'] = $clinic_obj->address;
         $params['clinic_region'] = $clinic_obj->region;
-
-        $params['booked_start'] = $temp[0];
-        $params['booked_end'] = $temp[0];
 
         $user = auth()->user();
         $params['user_id'] = $user->id;
