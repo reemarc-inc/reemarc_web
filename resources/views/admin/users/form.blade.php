@@ -65,17 +65,31 @@
                                     </div>
                                     @enderror
                                 </div>
+
                                 <div class="form-group">
                                     <label>Phone</label>
                                     <input type="text" name="phone"
                                            class="form-control @error('phone') is-invalid @enderror @if (!$errors->has('phone') && old('phone')) is-valid @endif"
-                                           value="{{ old('email', !empty($user) ? $user->phone : null) }}">
+                                           value="{{ old('phone', !empty($user) ? $user->phone : null) }}">
                                     @error('phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Device Token</label>
+                                    <input type="text" name="device_token"
+                                           class="form-control @error('device_token') is-invalid @enderror @if (!$errors->has('device_token') && old('device_token')) is-valid @endif"
+                                           value="{{ old('device_token', !empty($user) ? $user->device_token : null) }}">
+                                    @error('device_token')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
                                 <div class="form-group">
                                     <label>@lang('users.password_label')</label>
                                     <input type="password" name="password"

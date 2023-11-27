@@ -32,7 +32,7 @@ class User extends Authenticatable
         'access_level',
         'email',
         'phone',
-        'deviceToken',
+        'device_token',
         'password',
     ];
 
