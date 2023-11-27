@@ -146,6 +146,8 @@ class AppointmentsController extends Controller
         $this->data['clinic_address'] = $appointments->clinic_address;
         $this->data['clinic_region'] = $appointments->clinic_region;
         $this->data['booked_date'] = $appointments->booked_date;
+        $this->data['booked_start'] = $appointments->booked_start;
+        $this->data['booked_end'] = $appointments->booked_end;
         $this->data['booked_day'] = $appointments->booked_day;
         $this->data['booked_time'] = $appointments->booked_time;
         $this->data['status'] = $appointments->status;
@@ -273,6 +275,9 @@ class AppointmentsController extends Controller
         $params['clinic_phone'] = $clinic_obj->tel;
         $params['clinic_address'] = $clinic_obj->address;
         $params['clinic_region'] = $clinic_obj->region;
+
+        $params['booked_start'] = $temp[0];
+        $params['booked_end'] = $temp[0];
 
         $user = auth()->user();
         $params['user_id'] = $user->id;

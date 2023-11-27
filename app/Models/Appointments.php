@@ -24,6 +24,8 @@ class Appointments extends Model
         'clinic_address',
         'clinic_region',
         'booked_date',
+        'booked_start',
+        'booked_end',
         'booked_day',
         'booked_time',
         'status',
