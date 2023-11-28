@@ -112,44 +112,6 @@
                 });
             }
 
-            function get_clinic_list_btn() {
-                hide_search_box();
-                $('#get_clinic_list_box').show();
-                $('#api_link').val('/api/get_clinic_list');
-            }
-
-            function get_clinic_list() {
-                hide_search_box();
-                $('#get_clinic_box').show();
-                $('#api_link').val('/api/get_clinic_list');
-
-                var data = {
-                    // api_key: $('#api_key').val(),
-                    // token: $('#token').val(),
-                };
-                document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
-                $.ajax({
-                    url: '/api/get_clinic_list',
-                    data: data,
-                    cache: false,
-                    type: 'get',
-                    dataType: 'json',
-                    success: function(res) {
-                        if ($.trim(res.msg) === '') {
-                            var out_table = "";
-                            $.each(res, function(key, value){
-                                out_table += "<h3>" + key + "</h3>";
-                                out_table += get_out_table(value);
-                            });
-                            // $('#out_area_box').append(out_table);
-                            document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
-                        } else {
-                            myApp.showError(res.msg);
-                        }
-                    }
-                });
-            }
-
             function sign_up_btn(){
                 hide_search_box();
                 $('#sign_up_box').show();
@@ -202,6 +164,83 @@
                             document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
                         } else {
                             $('#out_area_box').append(out_table);
+                        }
+                    }
+                });
+            }
+
+            function get_clinic_list_btn() {
+                hide_search_box();
+                $('#get_clinic_list_box').show();
+                $('#api_link').val('/api/get_clinic_list');
+            }
+
+            function get_clinic_list() {
+                hide_search_box();
+                $('#get_clinic_box').show();
+                $('#api_link').val('/api/get_clinic_list');
+
+                var data = {
+                    // api_key: $('#api_key').val(),
+                    // token: $('#token').val(),
+                };
+                document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
+                $.ajax({
+                    url: '/api/get_clinic_list',
+                    data: data,
+                    cache: false,
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(res) {
+                        if ($.trim(res.msg) === '') {
+                            var out_table = "";
+                            $.each(res, function(key, value){
+                                out_table += "<h3>" + key + "</h3>";
+                                out_table += get_out_table(value);
+                            });
+                            // $('#out_area_box').append(out_table);
+                            document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
+                        } else {
+                            myApp.showError(res.msg);
+                        }
+                    }
+                });
+            }
+
+            function get_appointments_upcoming_list_btn(){
+                hide_search_box();
+                $('#get_appointments_upcoming_list_box').show();
+                $('#api_link').val('/api/get_appointments_upcoming_list');
+            }
+
+            function get_appointment_upcoming_list(){
+
+                var clinic_id = $('#get_appointments_upcoming_list_clinic_id').val();
+                if ($.trim(clinic_id) == '') {
+                    return;
+                }
+                var data = {
+                    clinic_id: clinic_id
+                };
+
+                document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
+                $.ajax({
+                    url: '/api/get_appointments_upcoming_list',
+                    data: data,
+                    cache: false,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(res) {
+                        if ($.trim(res.msg) === '') {
+                            var out_table = "";
+                            $.each(res, function(key, value){
+                                out_table += "<h3>" + key + "</h3>";
+                                out_table += get_out_table(value);
+                            });
+                            // $('#out_area_box').append(out_table);
+                            document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
+                        } else {
+                            myApp.showError(res.msg);
                         }
                     }
                 });
@@ -262,6 +301,7 @@
                 $('#member_box').hide();
                 $('#sign_up_box').hide();
                 $('#get_clinic_list_box').hide();
+                $('#get_appointments_upcoming_list_box').hide();
 
                 $('#date_box').hide();
             }
@@ -359,6 +399,7 @@
                             <button class="btn btn-info" onclick="member_btn()">Member</button>
                             <button class="btn btn-info" onclick="sign_up_btn()">Sign Up</button>
                             <button class="btn btn-info" onclick="get_clinic_list_btn()">Clinic List</button>
+                            <button class="btn btn-info" onclick="get_appointments_upcoming_list_btn()">Upcoming APMT List</button>
                             <hr>
 
                             <button class="btn btn-info" onclick="forgot_password_btn()">Forgot Password</button>
@@ -485,6 +526,31 @@
                                 <label class="col-md-4 control-label"></label>
                                 <div class="col-md-8">
                                     <button class="btn btn-info" onclick="get_clinic_list()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{--get_appointments_upcoming_list_box--}}
+                <div id="get_appointments_upcoming_list_box" style="display:none;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">Clinic_ID</label>
+                                <div class="col-md-11">
+                                    <input type="text" style="margin-left: 5px; float:left;"
+                                           class="form-control" id="get_appointments_upcoming_list_clinic_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 16px;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <button class="btn btn-info" onclick="get_appointment_upcoming_list()">Submit</button>
                                 </div>
                             </div>
                         </div>

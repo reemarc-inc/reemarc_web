@@ -198,7 +198,7 @@ class ClinicController extends Controller
 
     public function clinic_list()
     {
-        $this->data['clinics'] = $this->clinicRepository->findAll($options);
+        $this->data['clinics'] = $this->clinicRepository->findAll();
 
         return view('admin.clinic.index', $this->data);
 
@@ -212,13 +212,13 @@ class ClinicController extends Controller
     {
 
         $clinic_list = $this->clinicRepository->findAll();
-        if(sizeof($clinic_list)>0){
-            foreach ($clinic_list as $k => $clinic){
-                $c_id = $clinic->id;
-                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
-                $clinic_list[$k]->appointment = $appointment_detail;
-            }
-        }
+//        if(sizeof($clinic_list)>0){
+//            foreach ($clinic_list as $k => $clinic){
+//                $c_id = $clinic->id;
+//                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
+//                $clinic_list[$k]->appointment = $appointment_detail;
+//            }
+//        }
         return $clinic_list;
     }
 

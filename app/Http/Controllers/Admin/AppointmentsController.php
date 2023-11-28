@@ -336,14 +336,19 @@ class AppointmentsController extends Controller
      * API
      * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_appointments_list_clinic(Request $request)
+    public function get_appointments_upcoming_list(Request $request)
     {
 
         $param = $request->all();
 
-        $this->appointmentsRepository->get_appointment_detail();
-        $clinic = Clinic::where('id', $param['clinic_id'])->first();
-        return response()->json($clinic);
+        $clinic = $this->clinicRepository->findById($param['clinic_id']);
+
+        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments_by_clinic_id($param['clinic_id']);
+        if(sizeof($appointments_list)>0){
+            $clinic->appointment = $appointments_list;
+        }
+
+        return $clinic;
 
 //        $clinic = $this->clinicRepository->findById($param['clinic_id']);
 //
