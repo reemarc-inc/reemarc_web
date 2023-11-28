@@ -34,5 +34,6 @@ Route::post('sign_up', [UserController::class, 'api_sign_up']);
 Route::get("get_clinic_list", [ClinicController::class, 'get_clinic_list']);
 
 Route::post("get_appointments_upcoming_list", [AppointmentsController::class, 'get_appointments_upcoming_list']);
+Route::post("get_appointments_complete_list", [AppointmentsController::class, 'get_appointments_complete_list']);
 
 Route::apiResource("member", MemberController::class);

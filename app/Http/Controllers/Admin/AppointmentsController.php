@@ -338,25 +338,24 @@ class AppointmentsController extends Controller
      */
     public function get_appointments_upcoming_list(Request $request)
     {
-
         $param = $request->all();
-
         $clinic = $this->clinicRepository->findById($param['clinic_id']);
-
         $appointments_list = $this->appointmentsRepository->get_upcoming_appointments_by_clinic_id($param['clinic_id']);
         if(sizeof($appointments_list)>0){
             $clinic->appointment = $appointments_list;
         }
-
         return $clinic;
+    }
 
-//        $clinic = $this->clinicRepository->findById($param['clinic_id']);
-//
-//        return response()->json($clinic);
-//        $appointment_detail = $this->appointmentsRepository->get_appointment_detail($clinic_id);
-//        $clinic->appointment = $appointment_detail;
-//
-//        return($clinic);
+    public function get_appointments_complete_list(Request $request)
+    {
+        $param = $request->all();
+        $clinic = $this->clinicRepository->findById($param['clinic_id']);
+        $appointments_list = $this->appointmentsRepository->get_complete_appointments_by_clinic_id($param['clinic_id']);
+        if(sizeof($appointments_list)>0){
+            $clinic->appointment = $appointments_list;
+        }
+        return $clinic;
     }
 
 }
