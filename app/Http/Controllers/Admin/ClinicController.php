@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Admin\ClinicRequest;
 use App\Models\Clinic;
+use App\Repositories\Admin\AppointmentsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -16,12 +17,15 @@ use Illuminate\Support\Facades\Hash;
 class ClinicController extends Controller
 {
     private $clinicRepository;
+    private $appointmentsRepository;
 
-    public function __construct(ClinicRepository $clinicRepository) // phpcs:ignore
+    public function __construct(ClinicRepository $clinicRepository,
+                                AppointmentsRepository $appointmentsRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->clinicRepository = $clinicRepository;
+        $this->appointmentsRepository = $appointmentsRepository;
 
         $this->data['currentAdminMenu'] = 'clinic';
     }
@@ -206,7 +210,16 @@ class ClinicController extends Controller
      */
     public function get_clinic_list()
     {
-        return Clinic::all();
+
+        $clinic_list = $this->clinicRepository->findAll();
+        if(sizeof($clinic_list)>0){
+            foreach ($clinic_list as $k => $clinic){
+                $c_id = $clinic->id;
+                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
+                $clinic_list[$k]->appointment = $appointment_detail;
+            }
+        }
+        return $clinic_list;
     }
 
 

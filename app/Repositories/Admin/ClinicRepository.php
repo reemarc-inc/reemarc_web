@@ -52,11 +52,4 @@ class ClinicRepository implements ClinicRepositoryInterface
         return $clinic->delete();
     }
 
-    public function getBrandNameById($id)
-    {
-        $brand = new Clinic();
-        $brand = $brand->Where('id', '=', "$id");
-        return $brand->get();
-    }
-
 }

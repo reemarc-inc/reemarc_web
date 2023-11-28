@@ -94,13 +94,33 @@
                                 </div>
                                 <div class="modal-body">
 
+                                <?php if($clinic->appointment){
+                                    $appointments = $clinic->appointment;
+                                    $booked_spot = [];
+                                    foreach ($appointments as $appt) {
+                                        $booked_spot[] = $appt->booked_start;
+                                    }
+                                ?>
+                                <?php } else {
+                                    $booked_spot[] = '';
+                                }
+                                ?>
+
                                     @foreach ($next_week_dates as $date)
                                         <?php $date_temp = new DateTimeImmutable($date); ?>
                                         <h5 class="modal-title">{{ $date_temp->format('D, M j') }}</h5>
                                             <div class="selectgroup selectgroup-pills">
                                                 @foreach($time_spots as $key => $spot)
                                                     <label class="selectgroup-item">
-                                                        <input type="radio" name="date_time" value="{{ $date }},{{ $spot }}" class="selectgroup-input">
+                                                        <input type="radio"
+                                                               name="date_time"
+                                                               value="{{ $date }},{{ $spot }}"
+                                                               class="selectgroup-input"
+                                                               <?php if(in_array($date.' '.$spot.":00", $booked_spot)) {  ?>
+                                                               checked=""
+                                                               disabled
+                                                            <?php } ?>
+                                                        >
                                                         <span class="selectgroup-button">{{ $key }}</span>
                                                     </label>
                                                 @endforeach

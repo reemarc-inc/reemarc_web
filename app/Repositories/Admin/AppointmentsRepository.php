@@ -51,11 +51,21 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return $appointments->delete();
     }
 
-    public function getBrandNameById($id)
+    public function get_upcoming_appointments()
     {
         $brand = new Appointments();
-        $brand = $brand->Where('id', '=', "$id");
+        $brand = $brand->Where('status', '=', "Upcoming");
         return $brand->get();
+    }
+
+    public function get_appointment_detail($c_id)
+    {
+        return DB::select('select clinic_id, booked_start, booked_end
+                            from appointments
+                            where clinic_id =:param_1
+                            and status = "Upcoming"', [
+                                'param_1' => $c_id
+        ]);
     }
 
 }

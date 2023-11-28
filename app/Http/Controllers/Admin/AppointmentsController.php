@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\appointments;
+use App\Models\Clinic;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -219,8 +220,27 @@ class AppointmentsController extends Controller
         ];
 
         $this->data['filter'] = $params;
-        $this->data['clinics'] = $this->clinicRepository->findAll($options);
+        $this->data['clinics'] = $clinic_list = $this->clinicRepository->findAll($options);
 
+        if(sizeof($clinic_list)>0){
+            foreach ($clinic_list as $k => $clinic){
+                $c_id = $clinic->id;
+                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
+                $clinic_list[$k]->appointment = $appointment_detail;
+            }
+        }
+
+
+        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments();
+
+        // Campaign_asset_detail
+        if(sizeof($appointments_list)>0){
+            foreach ($appointments_list as $k => $appointment){
+                $a_id = $appointment->id;
+                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($a_id);
+                $appointments_list[$k]->appointment = $appointment_detail;
+            }
+        }
         $this->data['teams_'] = [
             'New York',
             'San Francisco',
@@ -310,6 +330,28 @@ class AppointmentsController extends Controller
     public function get_appointments_list()
     {
         return appointments::all();
+    }
+
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function get_appointments_list_clinic(Request $request)
+    {
+
+        $param = $request->all();
+
+        $this->appointmentsRepository->get_appointment_detail();
+        $clinic = Clinic::where('id', $param['clinic_id'])->first();
+        return response()->json($clinic);
+
+//        $clinic = $this->clinicRepository->findById($param['clinic_id']);
+//
+//        return response()->json($clinic);
+//        $appointment_detail = $this->appointmentsRepository->get_appointment_detail($clinic_id);
+//        $clinic->appointment = $appointment_detail;
+//
+//        return($clinic);
     }
 
 }
