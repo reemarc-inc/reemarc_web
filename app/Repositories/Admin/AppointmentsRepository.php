@@ -72,6 +72,20 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return $brand->get();
     }
 
+    public function get_upcoming_appointments_by_user_id($c_id)
+    {
+        $brand = new Appointments();
+        $brand = $brand->Where('status', '=', "Upcoming")->Where('user_id', '=', $c_id);
+        return $brand->get();
+    }
+
+    public function get_complete_appointments_by_user_id($c_id)
+    {
+        $brand = new Appointments();
+        $brand = $brand->Where('status', '=', "Complete")->Where('user_id', '=', $c_id);
+        return $brand->get();
+    }
+
     public function get_appointment_detail($c_id)
     {
         return DB::select('select clinic_id, booked_start, booked_end

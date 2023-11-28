@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\appointments;
 use App\Models\Clinic;
+use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -19,14 +20,17 @@ class AppointmentsController extends Controller
 {
     private $appointmentsRepository;
     private $clinicRepository;
+    private $userRepository;
 
     public function __construct(AppointmentsRepository $appointmentsRepository,
-                                ClinicRepository $clinicRepository) // phpcs:ignore
+                                ClinicRepository $clinicRepository,
+                                UserRepository $userRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->appointmentsRepository = $appointmentsRepository;
         $this->clinicRepository = $clinicRepository;
+        $this->userRepository = $userRepository;
 
         $this->data['currentAdminMenu'] = 'appointments_list';
     }
@@ -358,4 +362,25 @@ class AppointmentsController extends Controller
         return $clinic;
     }
 
+    public function get_appointments_upcoming_list_profile(Request $request)
+    {
+        $param = $request->all();
+        $user = $this->userRepository->findById($param['user_id']);
+        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments_by_user_id($param['user_id']);
+        if(sizeof($appointments_list)>0){
+            $user->appointment = $appointments_list;
+        }
+        return $user;
+    }
+
+    public function get_appointments_complete_list_profile(Request $request)
+    {
+        $param = $request->all();
+        $user = $this->userRepository->findById($param['user_id']);
+        $appointments_list = $this->appointmentsRepository->get_complete_appointments_by_user_id($param['user_id']);
+        if(sizeof($appointments_list)>0){
+            $user->appointment = $appointments_list;
+        }
+        return $user;
+    }
 }
