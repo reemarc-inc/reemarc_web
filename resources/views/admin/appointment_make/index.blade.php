@@ -112,16 +112,18 @@
                                             <div class="selectgroup selectgroup-pills">
                                                 @foreach($time_spots as $key => $spot)
                                                     <label class="selectgroup-item">
-                                                        <input type="radio"
-                                                               name="date_time"
-                                                               value="{{ $date }},{{ $spot }}"
-                                                               class="selectgroup-input"
-                                                               <?php if(in_array($date.' '.$spot.":00", $booked_spot)) {  ?>
-                                                               checked=""
-                                                               disabled
-                                                            <?php } ?>
-                                                        >
-                                                        <span class="selectgroup-button">{{ $key }}</span>
+                                                        <?php if(in_array($date.' '.$spot.":00", $booked_spot)) {  ?>
+{{--                                                            <button class="btn-warning" disabled>{{ $key }}</button>--}}
+{{--                                                            <button type="button" class="btn btn-dark">{{ $key }}</button>--}}
+{{--                                                            <button style="border-radius: 0.5px" disabled>{{ $key }}</button>--}}
+                                                            <span class="selectgroup-button btn-warning">{{ $key }}</span>
+                                                        <?php }else{ ?>
+                                                            <input type="radio"
+                                                                   name="date_time"
+                                                                   value="{{ $date }},{{ $spot }}"
+                                                                   class="selectgroup-input">
+                                                            <span class="selectgroup-button">{{ $key }}</span>
+                                                        <?php } ?>
                                                     </label>
                                                 @endforeach
                                             </div>
@@ -139,7 +141,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Select</button>
+                                    <button type="submit" class="btn btn-primary" onclick="return confirm('Are you sure?')">Select</button>
                                 </div>
                             </form>
                         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\appointments;
 use App\Models\Clinic;
+use App\Models\User;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -289,7 +290,6 @@ class AppointmentsController extends Controller
     {
         $param = $request->all();
 
-
         $temp = explode(',', $param['date_time']);
 
         $start = \DateTime::createFromFormat('Y-m-d H:i', $temp[0].$temp[1]);
@@ -325,7 +325,60 @@ class AppointmentsController extends Controller
             ->with('success', __('Data has been Booked.'));
     }
 
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function booking_from_app(Request $request)
+    {
+        $param = $request->all();
+        $params['user_id'] = $param['user_id'];
+        $user_obj = User::where('id', $params['user_id'])->first();
+        $params['user_first_name'] = $user_obj->first_name;
+        $params['user_last_name'] = $user_obj->last_name;
+        $params['user_email'] = $user_obj->email;
+        $params['user_phone'] = $user_obj->phone;
 
+        $params['clinic_id'] = $param['clinic_id'];
+        $clinic_obj = Clinic::where('id', $params['clinic_id'])->first();
+        $params['clinic_name'] = $clinic_obj->name;
+        $params['clinic_phone'] = $clinic_obj->tel;
+        $params['clinic_address'] = $clinic_obj->address;
+        $params['clinic_region'] = $clinic_obj->region;
+
+        $start = \DateTime::createFromFormat('Y-m-d H:i', $param['booked_start']);
+        $end = (\DateTime::createFromFormat("Y-m-d H:i", $param['booked_start']))->add(new \DateInterval("PT".$clinic_obj->duration."M"));
+        $params['booked_start'] = $start->format('Y-m-d H:i');
+        $params['booked_end'] = $end->format('Y-m-d H:i');
+        $params['booked_day'] = date_format($start,'D');
+        $params['booked_date'] = date_format($start,'Y-m-d');
+        $params['booked_time'] = date_format($start,'g:i a');
+
+        $params['status'] = 'Upcoming';
+        $params['created_at'] = Carbon::now();
+
+        $appointment = $this->appointmentsRepository->create($params);
+        if($appointment){
+            $data = [
+                'data' => [
+                    "code" => 200,
+                    'appointment' => $appointment,
+                    "message" => "Data has been created"
+                ]
+            ];
+            return response()->json($data);
+        }else{
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "Data transaction filed"
+                ]
+            ];
+            return response()->json($data);
+        }
+
+
+    }
 
     /***
      * API
@@ -351,6 +404,10 @@ class AppointmentsController extends Controller
         return $clinic;
     }
 
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function get_appointments_complete_list(Request $request)
     {
         $param = $request->all();
@@ -362,6 +419,10 @@ class AppointmentsController extends Controller
         return $clinic;
     }
 
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function get_appointments_upcoming_list_profile(Request $request)
     {
         $param = $request->all();
@@ -373,6 +434,10 @@ class AppointmentsController extends Controller
         return $user;
     }
 
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function get_appointments_complete_list_profile(Request $request)
     {
         $param = $request->all();
