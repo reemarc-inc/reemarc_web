@@ -391,23 +391,28 @@ class AppointmentsController extends Controller
         $params['status'] = 'Cancel';
         $params['updated_at'] = Carbon::now();
 
-        if ($this->appointmentsRepository->update($appointment_id, $params)) {
-            $data = [
-                'data' => [
-                    "code" => 200,
-                    "message" => "Appointment has been canceled"
-                ]
-            ];
-            return response()->json($data);
-        }else{
-            $data = [
-                'error' => [
-                    'code' => 404,
-                    'message' => "Data transaction filed"
-                ]
-            ];
-            return response()->json($data);
+        try {
+            if ($this->appointmentsRepository->update($appointment_id, $params)) {
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        "message" => "Appointment has been canceled"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+                return response()->json($data);
+            }
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
         }
+
     }
 
     /***
