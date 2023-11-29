@@ -25,9 +25,6 @@
                                 <thead>
                                     <th>Name</th>
                                     <th>Address</th>
-                                    <th>Description</th>
-                                    <th>Latitude</th>
-                                    <th>Longitude</th>
                                     <th>Region</th>
                                     <th>Tel</th>
                                     <th>Duration</th>
@@ -38,9 +35,6 @@
                                         <tr>
                                             <td>{{ $clinic->name}}</td>
                                             <td>{{ $clinic->address}}</td>
-                                            <td>{{ $clinic->description}}</td>
-                                            <td>{{ $clinic->latitude}}</td>
-                                            <td>{{ $clinic->longitude}}</td>
                                             <td>{{ $clinic->region}}</td>
                                             <td>{{ $clinic->tel}}</td>
                                             <td>{{ $clinic->duration}}</td>

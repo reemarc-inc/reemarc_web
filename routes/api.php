@@ -40,5 +40,6 @@ Route::post("get_appointments_upcoming_list_profile", [AppointmentsController::c
 Route::post("get_appointments_complete_list_profile", [AppointmentsController::class, 'get_appointments_complete_list_profile']);
 
 Route::post("booking_from_app", [AppointmentsController::class, 'booking_from_app']);
+Route::post("booking_cancel_app", [AppointmentsController::class, 'booking_cancel_app']);
 
 Route::apiResource("member", MemberController::class);

@@ -384,6 +384,36 @@ class AppointmentsController extends Controller
      * API
      * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
      */
+    public function booking_cancel_app(Request $request)
+    {
+        $param = $request->all();
+        $appointment_id = $param['appointment_id'];
+        $params['status'] = 'Cancel';
+        $params['updated_at'] = Carbon::now();
+
+        if ($this->appointmentsRepository->update($appointment_id, $params)) {
+            $data = [
+                'data' => [
+                    "code" => 200,
+                    "message" => "Appointment has been canceled"
+                ]
+            ];
+            return response()->json($data);
+        }else{
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "Data transaction filed"
+                ]
+            ];
+            return response()->json($data);
+        }
+    }
+
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function get_appointments_list()
     {
         return appointments::all();

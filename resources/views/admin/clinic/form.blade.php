@@ -103,11 +103,47 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label>Country Code</label>
+                                    <input type="text" name="country_code"
+                                           class="form-control @error('country_code') is-invalid @enderror @if (!$errors->has('country_code') && old('country_code')) is-valid @endif"
+                                           value="{{ old('country_code', !empty($clinic) ? $clinic->country_code : null) }}">
+                                    @error('country_code')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Time Zone</label>
+                                    <input type="text" name="time_zone"
+                                           class="form-control @error('time_zone') is-invalid @enderror @if (!$errors->has('time_zone') && old('time_zone')) is-valid @endif"
+                                           value="{{ old('time_zone', !empty($clinic) ? $clinic->time_zone : null) }}">
+                                    @error('time_zone')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
                                     <label>Tel</label>
                                     <input type="text" name="tel"
                                            class="form-control @error('tel') is-invalid @enderror @if (!$errors->has('tel') && old('tel')) is-valid @endif"
                                            value="{{ old('tel', !empty($clinic) ? $clinic->tel : null) }}">
                                     @error('tel')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+
+                                <div class="form-group">
+                                    <label>Web URL</label>
+                                    <input type="text" name="tel"
+                                           class="form-control @error('web_url') is-invalid @enderror @if (!$errors->has('web_url') && old('web_url')) is-valid @endif"
+                                           value="{{ old('web_url', !empty($clinic) ? $clinic->web_url : null) }}">
+                                    @error('web_url')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -137,17 +173,7 @@
                                     </div>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label>Country Code</label>
-                                    <input type="text" name="country_code"
-                                           class="form-control @error('country_code') is-invalid @enderror @if (!$errors->has('country_code') && old('country_code')) is-valid @endif"
-                                           value="{{ old('country_code', !empty($clinic) ? $clinic->country_code : null) }}">
-                                    @error('country_code')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
+
                                 <div class="form-group">
                                     <label>Dentist Name</label>
                                     <input type="text" name="dentist_name"

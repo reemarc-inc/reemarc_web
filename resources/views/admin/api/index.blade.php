@@ -411,6 +411,45 @@
                 });
             }
 
+            function booking_cancel_app_btn() {
+                hide_search_box();
+                $('#booking_cancel_app_box').show();
+                $('#api_link').val('/api/booking_cancel_app');
+            }
+
+            function booking_cancel_app() {
+                var appointment_id = $('#booking_cancel_app_appointment_id').val();
+                if ($.trim(appointment_id) == '') {
+                    return;
+                }
+
+                var data = {
+                    appointment_id: appointment_id
+                };
+
+                document.getElementById("input_json").innerHTML = JSON.stringify(data, undefined, 2);
+                $.ajax({
+                    url: '/api/booking_cancel_app',
+                    data: data,
+                    cache: false,
+                    type: 'post',
+                    dataType: 'json',
+                    success: function(res) {
+                        if ($.trim(res.msg) === '') {
+                            var out_table = "";
+                            $.each(res, function(key, value){
+                                out_table += "<h3>" + key + "</h3>";
+                                out_table += get_out_table(value);
+                            });
+                            // $('#out_area_box').append(out_table);
+                            document.getElementById("output_json").innerHTML = JSON.stringify(res, undefined, 2);
+                        } else {
+                            myApp.showError(res.msg);
+                        }
+                    }
+                });
+            }
+
             function forgot_password_btn(){
 
             }
@@ -471,6 +510,7 @@
                 $('#get_appointments_upcoming_list_profile_box').hide();
                 $('#get_appointments_complete_list_profile_box').hide();
                 $('#booking_from_app_box').hide();
+                $('#booking_cancel_app_box').hide();
 
                 $('#date_box').hide();
             }
@@ -575,6 +615,7 @@
                             <hr>
 
                             <button class="btn btn-info" onclick="booking_from_app_btn()">Appointment</button>
+                            <button class="btn btn-info" onclick="booking_cancel_app_btn()">Appointment Cancel</button>
                             <hr>
                             <button class="btn btn-light" onclick="forgot_password_btn()">Forgot Password</button>
                             <button class="btn btn-light" onclick="payment_btn()">Payment</button>
@@ -846,6 +887,31 @@
                                 <label class="col-md-4 control-label"></label>
                                 <div class="col-md-8">
                                     <button class="btn btn-info" onclick="booking_from_app()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{--booking_cancel_app_box--}}
+                <div id="booking_cancel_app_box" style="display:none;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">Appointment_ID</label>
+                                <div class="col-md-11">
+                                    <input type="text" style="margin-left: 5px; float:left;"
+                                           class="form-control" id="booking_cancel_app_appointment_id"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-bottom: 16px;">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label"></label>
+                                <div class="col-md-8">
+                                    <button class="btn btn-info" onclick="booking_cancel_app()">Submit</button>
                                 </div>
                             </div>
                         </div>
