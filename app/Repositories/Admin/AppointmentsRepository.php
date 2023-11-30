@@ -103,4 +103,15 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         ]);
     }
 
+    public function check_double_book_a_day($user_id, $booked_date)
+    {
+        return DB::select('select *
+                            from appointments
+                           where user_id =:param_1
+                             and booked_date =:param_2', [
+                                'param_1' => $user_id,
+                                'param_2' => $booked_date
+        ]);
+    }
+
 }
