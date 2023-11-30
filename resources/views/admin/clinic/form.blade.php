@@ -200,7 +200,7 @@
                                 <div class="form-group">
                                     <label>Disabled Days</label>
                                     <div class="row">
-                                        <?php if (isset($disabled_days)): ?>
+
                                         @foreach($disabled_days_ as $key => $disabled_day)
                                         <?php $checkbox_fields = explode(', ', $disabled_days); ?>
                                             <div class="col-sm-6">
@@ -216,7 +216,7 @@
                                                 </div>
                                             </div>
                                         @endforeach
-                                        <?php endif; ?>
+                                        
                                     </div>
                                 </div>
 
