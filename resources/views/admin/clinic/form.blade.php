@@ -200,11 +200,12 @@
                                 <div class="form-group">
                                     <label>Disabled Days</label>
                                     <div class="row">
+
                                         @foreach($disabled_days_ as $key => $disabled_day)
+                                        <?php $checkbox_fields = explode(', ', $disabled_days); ?>
                                             <div class="col-sm-6">
                                                 <div class="form-check">
-                                                    <input
-                                                        <?php if (($disabled_days) && (in_array($disabled_day, json_decode($disabled_days)))) echo "checked" ?>
+                                                    <input  <?php if (in_array($disabled_day, $checkbox_fields)) echo "checked" ?>
                                                             type="checkbox"
                                                             name="disabled_days[]"
                                                             value="{{ $disabled_day }}"

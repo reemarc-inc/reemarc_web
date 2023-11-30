@@ -191,8 +191,8 @@ class ClinicController extends Controller
         $param = $request->request->all();
 
         if (isset($param['disabled_days'])) {
-            $param['disabled_days'] = json_encode($param['disabled_days']);
-//            $param['disabled_days'] = implode(', ', $param['disabled_days']);
+//            $param['disabled_days'] = json_encode($param['disabled_days']);
+            $param['disabled_days'] = implode(', ', $param['disabled_days']);
         } else {
             $param['disabled_days'] = '';
         }
