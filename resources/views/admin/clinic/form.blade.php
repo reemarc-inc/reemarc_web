@@ -127,11 +127,11 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Tel</label>
+                                    <label>Phone</label>
                                     <input type="text" name="tel"
-                                           class="form-control @error('tel') is-invalid @enderror @if (!$errors->has('tel') && old('tel')) is-valid @endif"
-                                           value="{{ old('tel', !empty($clinic) ? $clinic->tel : null) }}">
-                                    @error('tel')
+                                           class="form-control @error('phone') is-invalid @enderror @if (!$errors->has('phone') && old('phone')) is-valid @endif"
+                                           value="{{ old('phone', !empty($clinic) ? $clinic->phone : null) }}">
+                                    @error('phone')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -196,6 +196,30 @@
                                     </div>
                                     @enderror
                                 </div>
+
+                                <div class="form-group">
+                                    <label>Disabled Days</label>
+                                    <div class="row">
+                                        <?php if (isset($disabled_days)): ?>
+                                        @foreach($disabled_days_ as $key => $disabled_day)
+                                        <?php $checkbox_fields = explode(', ', $disabled_days); ?>
+                                            <div class="col-sm-6">
+                                                <div class="form-check">
+                                                    <input  <?php if (in_array($disabled_day, $checkbox_fields)) echo "checked" ?>
+                                                            type="checkbox"
+                                                            name="disabled_days[]"
+                                                            value="{{ $disabled_day }}"
+                                                    >
+                                                    <label class="form-check-label " for="{{ $key }}">
+                                                        {{ $key }}
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                        <?php endif; ?>
+                                    </div>
+                                </div>
+
                             </div>
 
                         </div>

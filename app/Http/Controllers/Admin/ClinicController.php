@@ -83,7 +83,15 @@ class ClinicController extends Controller
             'Busan',
             'Jeju',
         ];
-
+        $this->data['disabled_days_'] = [
+            'Mon' => 1,
+            'Tue' => 2,
+            'Wed' => 3,
+            'Thu' => 4,
+            'Fri' => 5,
+            'Sat' => 6,
+            'Sun' => 7
+        ];
         $this->data['roleId'] = null;
         $this->data['access_level'] = null;
         $this->data['team'] = null;
@@ -145,6 +153,7 @@ class ClinicController extends Controller
         $this->data['booking_start'] = $clinic->booking_start;
         $this->data['booking_end'] = $clinic->booking_end;
         $this->data['dentist_name'] = $clinic->dentist_name;
+        $this->data['disabled_days'] = $clinic->disabled_days;
 
         $this->data['region_'] = [
             'New York',
@@ -153,6 +162,18 @@ class ClinicController extends Controller
             'Busan',
             'Jeju',
         ];
+
+        $this->data['disabled_days_'] = [
+            'Mon' => 1,
+            'Tue' => 2,
+            'Wed' => 3,
+            'Thu' => 4,
+            'Fri' => 5,
+            'Sat' => 6,
+            'Sun' => 7
+        ];
+
+
 
         return view('admin.clinic.form', $this->data);
     }
@@ -168,6 +189,14 @@ class ClinicController extends Controller
     {
         $clinic = $this->clinicRepository->findById($id);
         $param = $request->request->all();
+
+//        ddd($param);
+        if (isset($param['disabled_days'])) {
+//            $param['disabled_days'] = json_encode($param['disabled_days']);
+            $param['disabled_days'] = implode(', ', $param['disabled_days']);
+        } else {
+            $param['disabled_days'] = '';
+        }
 
         if ($this->clinicRepository->update($id, $param)) {
             return redirect('admin/clinic')

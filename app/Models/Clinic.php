@@ -24,13 +24,15 @@ class Clinic extends Model
         'region',
         'country_code',
         'time_zone',
-        'tel',
+        'phone',
         'web_url',
         'booking_start',
         'booking_end',
         'country_code',
         'dentist_name',
         'duration',
+        'disabled_days',
+        'disabled_dates'
     ];
 
     protected $primaryKey = 'id';

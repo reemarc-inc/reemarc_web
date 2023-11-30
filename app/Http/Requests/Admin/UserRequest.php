@@ -43,8 +43,7 @@ class UserRequest extends FormRequest
             ],
             'team' => ['string'],
             'role' => ['string'],
-            'password' => ($this->password) ? $this->passwordRules() : [],
-            'user_brand' => []
+            'password' => ($this->password) ? $this->passwordRules() : []
         ];
     }
 }

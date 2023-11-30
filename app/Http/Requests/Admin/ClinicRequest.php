@@ -37,7 +37,7 @@ class ClinicRequest extends FormRequest
             'latitude' => ['string'],
             'longitude' => ['string'],
             'region' => ['string'],
-            'tel' => ['string'],
+            'phone' => ['string'],
             'duration' => ['string'],
         ];
     }
