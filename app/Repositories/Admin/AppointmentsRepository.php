@@ -108,6 +108,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                            where user_id =:param_1
+                             and status = "Upcoming"
                              and booked_date =:param_2', [
                                 'param_1' => $user_id,
                                 'param_2' => $booked_date
@@ -119,10 +120,22 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                            where clinic_id =:param_1
+                             and status = "Upcoming"
                              and booked_start =:param_2', [
             'param_1' => $clinic_id,
             'param_2' => $booked_start
         ]);
+    }
+
+    public function check_cancel_exist($user_id, $clinic_id, $booked_start)
+    {
+        $aptmt = new Appointments();
+        $aptmt_rs = $aptmt->Where('user_id', '=', $user_id)
+            ->Where('clinic_id', '=', $clinic_id)
+            ->Where('booked_start', '=', $booked_start)
+            ->Where('status', '=', 'Cancel')
+            ->first();
+        return $aptmt_rs;
     }
 
 }

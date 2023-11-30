@@ -357,6 +357,29 @@ class AppointmentsController extends Controller
         $params['status'] = 'Upcoming';
         $params['created_at'] = Carbon::now();
 
+        $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
+        if($cancel_exist){
+            $a_id = $cancel_exist['id'];
+            $params['status'] = 'Upcoming';
+            $params['updated_at'] = Carbon::now();
+            if($this->appointmentsRepository->update($a_id, $params)){
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        "message" => "Data has been updated"
+                    ]
+                ];
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+            }
+            return response()->json($data);
+        }
+
         $double_book_a_day = $this->appointmentsRepository->check_double_book_a_day($params['user_id'], $params['booked_date']);
         if($double_book_a_day){
             $data = [
@@ -398,7 +421,6 @@ class AppointmentsController extends Controller
             ];
             return response()->json($data);
         }
-
 
     }
 
