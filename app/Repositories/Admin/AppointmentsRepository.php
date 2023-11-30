@@ -114,4 +114,15 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         ]);
     }
 
+    public function check_taken_book($clinic_id, $booked_start)
+    {
+        return DB::select('select *
+                            from appointments
+                           where clinic_id =:param_1
+                             and booked_start =:param_2', [
+            'param_1' => $clinic_id,
+            'param_2' => $booked_start
+        ]);
+    }
+
 }

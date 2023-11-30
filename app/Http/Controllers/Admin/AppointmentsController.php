@@ -358,17 +358,26 @@ class AppointmentsController extends Controller
         $params['created_at'] = Carbon::now();
 
         $double_book_a_day = $this->appointmentsRepository->check_double_book_a_day($params['user_id'], $params['booked_date']);
-
         if($double_book_a_day){
             $data = [
                 'error' => [
                     'code' => 400,
-                    'message' => "There is already a booking for the same date."
+                    'message' => "A booking already exists for the same date"
                 ]
             ];
             return response()->json($data);
         }
 
+        $taken_book = $this->appointmentsRepository->check_taken_book($params['clinic_id'], $params['booked_start']);
+        if($taken_book){
+            $data = [
+                'error' => [
+                    'code' => 400,
+                    'message' => "A booking already exists for another patient"
+                ]
+            ];
+            return response()->json($data);
+        }
 
         $appointment = $this->appointmentsRepository->create($params);
         if($appointment){
