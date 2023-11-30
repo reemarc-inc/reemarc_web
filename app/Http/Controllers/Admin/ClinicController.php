@@ -111,8 +111,16 @@ class ClinicController extends Controller
      */
     public function store(Request $request)
     {
+        $param = $request->request->all();
 
-        if ($this->clinicRepository->create($request->all())) {
+        if (isset($param['disabled_days'])) {
+//            $param['disabled_days'] = json_encode($param['disabled_days']);
+            $param['disabled_days'] = implode(', ', $param['disabled_days']);
+        } else {
+            $param['disabled_days'] = '';
+        }
+
+        if ($this->clinicRepository->create($param)) {
             return redirect('admin/clinic')
                 ->with('success', 'Success to create new clinic');
         }
