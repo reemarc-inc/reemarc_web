@@ -304,7 +304,7 @@ class AppointmentsController extends Controller
         $params['clinic_id'] = $param['clinic_id'];
         $clinic_obj = $this->clinicRepository->findById($params['clinic_id']);
         $params['clinic_name'] = $clinic_obj->name;
-        $params['clinic_phone'] = $clinic_obj->tel;
+        $params['clinic_phone'] = $clinic_obj->phone;
         $params['clinic_address'] = $clinic_obj->address;
         $params['clinic_region'] = $clinic_obj->region;
 
@@ -342,7 +342,7 @@ class AppointmentsController extends Controller
         $params['clinic_id'] = $param['clinic_id'];
         $clinic_obj = Clinic::where('id', $params['clinic_id'])->first();
         $params['clinic_name'] = $clinic_obj->name;
-        $params['clinic_phone'] = $clinic_obj->tel;
+        $params['clinic_phone'] = $clinic_obj->phone;
         $params['clinic_address'] = $clinic_obj->address;
         $params['clinic_region'] = $clinic_obj->region;
 

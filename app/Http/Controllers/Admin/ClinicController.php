@@ -159,7 +159,7 @@ class ClinicController extends Controller
         $this->data['latitude'] = $clinic->latitude;
         $this->data['longitude'] = $clinic->longitude;
         $this->data['region'] = $clinic->region;
-        $this->data['tel'] = $clinic->tel;
+        $this->data['phone'] = $clinic->phone;
         $this->data['booking_start'] = $clinic->booking_start;
         $this->data['booking_end'] = $clinic->booking_end;
         $this->data['dentist_name'] = $clinic->dentist_name;
