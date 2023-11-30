@@ -483,4 +483,19 @@ class AppointmentsController extends Controller
         }
         return $user;
     }
+
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function get_appointments_cancel_list_profile(Request $request)
+    {
+        $param = $request->all();
+        $user = $this->userRepository->findById($param['user_id']);
+        $appointments_list = $this->appointmentsRepository->get_cancel_appointments_by_user_id($param['user_id']);
+        if(sizeof($appointments_list)>0){
+            $user->appointment = $appointments_list;
+        }
+        return $user;
+    }
 }
