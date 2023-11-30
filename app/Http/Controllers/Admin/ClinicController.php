@@ -190,10 +190,9 @@ class ClinicController extends Controller
         $clinic = $this->clinicRepository->findById($id);
         $param = $request->request->all();
 
-//        ddd($param);
         if (isset($param['disabled_days'])) {
-//            $param['disabled_days'] = json_encode($param['disabled_days']);
-            $param['disabled_days'] = implode(', ', $param['disabled_days']);
+            $param['disabled_days'] = json_encode($param['disabled_days']);
+//            $param['disabled_days'] = implode(', ', $param['disabled_days']);
         } else {
             $param['disabled_days'] = '';
         }
