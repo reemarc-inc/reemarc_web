@@ -92,6 +92,8 @@ class ClinicController extends Controller
             'Sat' => 6,
             'Sun' => 7
         ];
+
+        $this->data['disabled_days'] = null;
         $this->data['roleId'] = null;
         $this->data['access_level'] = null;
         $this->data['team'] = null;
