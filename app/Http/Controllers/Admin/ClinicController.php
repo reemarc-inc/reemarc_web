@@ -332,16 +332,17 @@ class ClinicController extends Controller
                 if($clinic_images) {
                     $clinic_list[$k]['images'] = $clinic_images['attachment'];
                 }
+                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
+                if($appointment_detail) {
+                    $clinic_list[$k]->appointment = $appointment_detail;
+                }
+                if($clinic->disabled_days){
+                    $clinic_list[$k]['disabled_days'] = explode(',', $clinic->disabled_days);
+                }else{
+                    $clinic_list[$k]['disabled_days'] = null;
+                }
             }
         }
-
-//        if(sizeof($clinic_list)>0){
-//            foreach ($clinic_list as $k => $clinic){
-//                $c_id = $clinic->id;
-//                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
-//                $clinic_list[$k]->appointment = $appointment_detail;
-//            }
-//        }
         return $clinic_list;
     }
 
