@@ -121,7 +121,7 @@ class ClinicController extends Controller
         $log_user = auth()->user();
         if (isset($param['disabled_days'])) {
 //            $param['disabled_days'] = json_encode($param['disabled_days']);
-            $param['disabled_days'] = implode(', ', $param['disabled_days']);
+            $param['disabled_days'] = implode(',', $param['disabled_days']);
         } else {
             $param['disabled_days'] = '';
         }
@@ -240,7 +240,7 @@ class ClinicController extends Controller
 
         if (isset($param['disabled_days'])) {
 //            $param['disabled_days'] = json_encode($param['disabled_days']);
-            $param['disabled_days'] = implode(', ', $param['disabled_days']);
+            $param['disabled_days'] = implode(',', $param['disabled_days']);
         } else {
             $param['disabled_days'] = '';
         }
