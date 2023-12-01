@@ -71,7 +71,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('roles', AdminRole::class);
 
     Route::resource('users', AdminUser::class);
+    Route::get('users/fileRemove/{id}', [AdminUser::class, 'fileRemove'])->name('users.fileRemove');
+
     Route::resource('clinic', AdminClinic::class);
+    Route::get('clinic/fileRemove/{id}', [AdminClinic::class, 'fileRemove'])->name('clinic.fileRemove');
+
     Route::resource('appointments_list', AdminAppointments::class);
     Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
 

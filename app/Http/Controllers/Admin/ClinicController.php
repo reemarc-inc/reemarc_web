@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 
 use App\Http\Requests\Admin\ClinicRequest;
 use App\Models\Clinic;
+use App\Models\FileAttachments;
 use App\Repositories\Admin\AppointmentsRepository;
+use App\Repositories\Admin\FileAttachmentsRepository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
 use App\Repositories\Admin\ClinicRepository;
@@ -17,14 +20,17 @@ use Illuminate\Support\Facades\Hash;
 class ClinicController extends Controller
 {
     private $clinicRepository;
+    private $fileAttachmentsRepository;
     private $appointmentsRepository;
 
     public function __construct(ClinicRepository $clinicRepository,
+                                FileAttachmentsRepository $fileAttachmentsRepository,
                                 AppointmentsRepository $appointmentsRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->clinicRepository = $clinicRepository;
+        $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->appointmentsRepository = $appointmentsRepository;
 
         $this->data['currentAdminMenu'] = 'clinic';
@@ -164,7 +170,13 @@ class ClinicController extends Controller
         $this->data['booking_end'] = $clinic->booking_end;
         $this->data['dentist_name'] = $clinic->dentist_name;
         $this->data['disabled_days'] = $clinic->disabled_days;
-
+        $options = [
+            'clinic_id' => $id,
+            'order' => [
+                'date_created' => 'desc',
+            ]
+        ];
+        $this->data['attach_files'] = $this->fileAttachmentsRepository->findAll($options);
         $this->data['region_'] = [
             'New York',
             'San Francisco',
@@ -199,6 +211,7 @@ class ClinicController extends Controller
     {
         $clinic = $this->clinicRepository->findById($id);
         $param = $request->request->all();
+        $log_user = auth()->user();
 
         if (isset($param['disabled_days'])) {
 //            $param['disabled_days'] = json_encode($param['disabled_days']);
@@ -208,6 +221,31 @@ class ClinicController extends Controller
         }
 
         if ($this->clinicRepository->update($id, $param)) {
+
+            if($request->file('c_attachment')){
+
+                foreach ($request->file('c_attachment') as $file) {
+                    $fileAttachments = new FileAttachments();
+
+                    // file check if exist.
+                    $originalName = $file->getClientOriginalName();
+                    $destinationFolder = 'storage/images/clinic/'.$id.'/'.$originalName;
+
+                    $fileName =$file->storeAs('clinic/'.$id, $originalName);
+
+                    $fileAttachments['user_id'] = 0;
+                    $fileAttachments['clinic_id'] = $id;
+                    $fileAttachments['type'] = 'attachment_file_' . $file->getMimeType();
+                    $fileAttachments['author_id'] = $log_user->id;
+                    $fileAttachments['attachment'] = '/' . $fileName;
+                    $fileAttachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $fileAttachments['file_type'] = $file->getMimeType();
+                    $fileAttachments['file_size'] = $file->getSize();
+                    $fileAttachments['date_created'] = Carbon::now();
+                    $fileAttachments->save();
+                }
+            }
+
             return redirect('admin/clinic')
                 ->with('success', __('users.success_updated_message', ['name' => $clinic->name]));
         }
@@ -232,6 +270,17 @@ class ClinicController extends Controller
         }
         return redirect('admin/clinic')
                 ->with('error', __('users.fail_to_delete_message', ['name' => $clinic->name]));
+    }
+
+    public function fileRemove($id)
+    {
+        $fileAssetAttachment = $this->fileAttachmentsRepository->findById($id);
+
+        if($fileAssetAttachment->delete()){
+            echo 'success';
+        }else{
+            echo 'fail';
+        }
     }
 
     public function clinic_list()

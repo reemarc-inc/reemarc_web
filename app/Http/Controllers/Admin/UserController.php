@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\FileAttachments;
 use App\Models\User;
+use App\Repositories\Admin\FileAttachmentsRepository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
 
@@ -25,13 +28,17 @@ use Illuminate\Support\Facades\Hash;
 class UserController extends Controller
 {
     private $userRepository;
+    private $fileAttachmentsRepository;
     private $campaignBrandsRepository;
 
-    public function __construct(UserRepository $userRepository, CampaignBrandsRepository $campaignBrandsRepository) // phpcs:ignore
+    public function __construct(UserRepository $userRepository,
+                                FileAttachmentsRepository $fileAttachmentsRepository,
+                                CampaignBrandsRepository $campaignBrandsRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->userRepository = $userRepository;
+        $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->campaignBrandsRepository = $campaignBrandsRepository;
 
         $this->data['currentAdminMenu'] = 'users';
@@ -174,6 +181,13 @@ class UserController extends Controller
         $this->data['role_'] = $user->role;
         $this->data['user_brand'] = $user->user_brand;
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
+        $options = [
+            'user_id' => $id,
+            'order' => [
+                'date_created' => 'desc',
+            ]
+        ];
+        $this->data['attach_files'] = $this->fileAttachmentsRepository->findAll($options);
         $this->data['regions'] = [
             'New York',
             'San Francisco',
@@ -215,8 +229,37 @@ class UserController extends Controller
         } else {
             $param['user_brand'] = '';
         }
-
         if ($this->userRepository->update($id, $param)) {
+            if($request->file('c_attachment')){
+
+                foreach ($request->file('c_attachment') as $file) {
+                    $fileAttachments = new FileAttachments();
+
+                    // file size check
+//                    if($file->getSize() > 20000000){
+//                        return redirect('admin/campaign/'.$id.'/edit')
+//                            ->with('error', __('You cannot upload files larger than 20 MB. Use google drive link or https://kissftp.kissusa.com:5001/ to upload files. Please add files location link in ticket description/note.'));
+//                    }
+
+                    // file check if exist.
+                    $originalName = $file->getClientOriginalName();
+                    $destinationFolder = 'storage/images/users/'.$id.'/'.$originalName;
+
+                    $fileName =$file->storeAs('users/'.$id, $originalName);
+
+                    $fileAttachments['user_id'] = $id;
+                    $fileAttachments['clinic_id'] = 0;
+                    $fileAttachments['type'] = 'attachment_file_' . $file->getMimeType();
+                    $fileAttachments['author_id'] = $log_user->id;
+                    $fileAttachments['attachment'] = '/' . $fileName;
+                    $fileAttachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $fileAttachments['file_type'] = $file->getMimeType();
+                    $fileAttachments['file_size'] = $file->getSize();
+                    $fileAttachments['date_created'] = Carbon::now();
+                    $fileAttachments->save();
+                }
+            }
+
             return redirect('admin/users/'.$id.'/edit')
                 ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
         }
@@ -317,4 +360,17 @@ class UserController extends Controller
 
         return response()->json($data);
     }
+
+    public function fileRemove($id)
+    {
+        $fileAssetAttachment = $this->fileAttachmentsRepository->findById($id);
+
+        if($fileAssetAttachment->delete()){
+            echo 'success';
+        }else{
+            echo 'fail';
+        }
+    }
+
 }
+
