@@ -118,7 +118,7 @@ class ClinicController extends Controller
     public function store(Request $request)
     {
         $param = $request->request->all();
-
+        $log_user = auth()->user();
         if (isset($param['disabled_days'])) {
 //            $param['disabled_days'] = json_encode($param['disabled_days']);
             $param['disabled_days'] = implode(', ', $param['disabled_days']);
@@ -126,13 +126,38 @@ class ClinicController extends Controller
             $param['disabled_days'] = '';
         }
 
-        if ($this->clinicRepository->create($param)) {
+        $clinic = $this->clinicRepository->create($param);
+        if($clinic){
+            if($request->file('c_attachment')){
+
+                foreach ($request->file('c_attachment') as $file) {
+                    $fileAttachments = new FileAttachments();
+
+                    // file check if exist.
+                    $originalName = $file->getClientOriginalName();
+                    $destinationFolder = 'storage/images/clinic/'.$clinic->id.'/'.$originalName;
+
+                    $fileName =$file->storeAs('clinic/'.$clinic->id, $originalName);
+
+                    $fileAttachments['user_id'] = 0;
+                    $fileAttachments['clinic_id'] = $clinic->id;
+                    $fileAttachments['type'] = 'attachment_file_' . $file->getMimeType();
+                    $fileAttachments['author_id'] = $log_user->id;
+                    $fileAttachments['attachment'] = '/' . $fileName;
+                    $fileAttachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $fileAttachments['file_type'] = $file->getMimeType();
+                    $fileAttachments['file_size'] = $file->getSize();
+                    $fileAttachments['date_created'] = Carbon::now();
+                    $fileAttachments->save();
+                }
+            }
             return redirect('admin/clinic')
                 ->with('success', 'Success to create new clinic');
+        }else{
+            return redirect('admin/Clinic/create')
+                ->with('error', 'Fail to create new clinic');
         }
 
-        return redirect('admin/Clinic/create')
-            ->with('error', 'Fail to create new clinic');
     }
 
     /**

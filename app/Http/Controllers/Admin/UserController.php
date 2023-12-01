@@ -139,13 +139,38 @@ class UserController extends Controller
             $params['user_brand'] = '';
         }
 
-        if ($this->userRepository->create($params)) {
+        $user = $this->userRepository->create($params);
+
+        if ($user) {
+            if($request->file('c_attachment')){
+                foreach ($request->file('c_attachment') as $file) {
+                    $fileAttachments = new FileAttachments();
+
+                    // file check if exist.
+                    $originalName = $file->getClientOriginalName();
+                    $destinationFolder = 'storage/images/users/'.$user->id.'/'.$originalName;
+
+                    $fileName =$file->storeAs('users/'.$user->id, $originalName);
+
+                    $fileAttachments['user_id'] = $user->id;
+                    $fileAttachments['clinic_id'] = 0;
+                    $fileAttachments['type'] = 'attachment_file_' . $file->getMimeType();
+                    $fileAttachments['author_id'] = $user->id;
+                    $fileAttachments['attachment'] = '/' . $fileName;
+                    $fileAttachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                    $fileAttachments['file_type'] = $file->getMimeType();
+                    $fileAttachments['file_size'] = $file->getSize();
+                    $fileAttachments['date_created'] = Carbon::now();
+                    $fileAttachments->save();
+                }
+            }
+
             return redirect('admin/users')
                 ->with('success', __('users.success_create_message'));
+        }else {
+            return redirect('admin/users/create')
+                ->with('error', __('users.fail_create_message'));
         }
-
-        return redirect('admin/users/create')
-            ->with('error', __('users.fail_create_message'));
     }
 
     /**

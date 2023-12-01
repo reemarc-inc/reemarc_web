@@ -41,8 +41,11 @@ class UserRequest extends FormRequest
                 'min:2',
                 Rule::unique(User::class)->ignore($this->id),
             ],
-            'team' => ['string'],
+            'phone' => ['string'],
+            'device_token' => [],
+            'region' => ['string'],
             'role' => ['string'],
+
             'password' => ($this->password) ? $this->passwordRules() : []
         ];
     }
