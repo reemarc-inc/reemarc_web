@@ -336,14 +336,23 @@ class UserController extends Controller
                 ]
             ];
         }else{
-            if(!$this->userRepository->create($params)) {
+
+            $user = $this->userRepository->create($params);
+
+            if(!$user){
                 $data = [
                     'error' => [
                         'code' => 404,
                         'message' => "Operation failed"
                     ]
                 ];
-            }else {
+            } else {
+
+                if(!empty($request['device_token'])){
+                    $params['device_token'] = $request['device_token'];
+                    $user->update($params);
+                }
+
                 $data = [
                     'data' => [
                         "code" => 200,
@@ -373,6 +382,11 @@ class UserController extends Controller
         }
 
         $token = $user->createToken('my-app-token')->plainTextToken;
+
+        if(!empty($input['device_token'])){
+            $params['device_token'] = $input['device_token'];
+            $user->update($params);
+        }
 
         $data = [
             'data' => [
