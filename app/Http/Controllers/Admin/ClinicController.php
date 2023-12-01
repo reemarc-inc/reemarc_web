@@ -324,6 +324,17 @@ class ClinicController extends Controller
     {
 
         $clinic_list = $this->clinicRepository->findAll();
+
+        if(sizeof($clinic_list)>0) {
+            foreach ($clinic_list as $k => $clinic) {
+                $c_id = $clinic->id;
+                $clinic_images = $this->fileAttachmentsRepository->get_clinic_img_by_clinic_id($c_id);
+                if($clinic_images) {
+                    $clinic_list[$k]['images'] = $clinic_images['attachment'];
+                }
+            }
+        }
+
 //        if(sizeof($clinic_list)>0){
 //            foreach ($clinic_list as $k => $clinic){
 //                $c_id = $clinic->id;

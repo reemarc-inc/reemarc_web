@@ -46,6 +46,12 @@ class FileAttachmentsRepository implements FileAttachmentsRepositoryInterface
         return FileAttachments::findOrFail($id);
     }
 
+    public function get_clinic_img_by_clinic_id($id)
+    {
+        $fileAttachments = new FileAttachments();
+        return $fileAttachments->where('clinic_id', $id)->first();
+    }
+
     public function create($params = [])
     {
         return DB::transaction(function () use ($params) {

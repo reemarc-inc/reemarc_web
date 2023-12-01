@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\appointments;
 use App\Models\Clinic;
 use App\Models\User;
+use App\Repositories\Admin\FileAttachmentsRepository;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -21,16 +22,19 @@ class AppointmentsController extends Controller
 {
     private $appointmentsRepository;
     private $clinicRepository;
+    private $fileAttachmentsRepository;
     private $userRepository;
 
     public function __construct(AppointmentsRepository $appointmentsRepository,
                                 ClinicRepository $clinicRepository,
+                                FileAttachmentsRepository $fileAttachmentsRepository,
                                 UserRepository $userRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->appointmentsRepository = $appointmentsRepository;
         $this->clinicRepository = $clinicRepository;
+        $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
 
         $this->data['currentAdminMenu'] = 'appointments_list';
@@ -476,6 +480,22 @@ class AppointmentsController extends Controller
     {
         $param = $request->all();
         $clinic = $this->clinicRepository->findById($param['clinic_id']);
+
+        // clinic disabled days
+        if($clinic->disabled_days) {
+            $clinic['disabled_days'] = explode(',', $clinic->disabled_days);
+        }else{
+            $clinic['disabled_days'] = null;
+        }
+
+        // clinic image
+        $clinic_images = $this->fileAttachmentsRepository->get_clinic_img_by_clinic_id($clinic->id);
+        if($clinic_images) {
+            $clinic['images'] = $clinic_images['attachment'];
+        }else{
+            $clinic['images'] = null;
+        }
+
         $appointments_list = $this->appointmentsRepository->get_upcoming_appointments_by_clinic_id($param['clinic_id']);
         if(sizeof($appointments_list)>0){
             $clinic->appointment = $appointments_list;
@@ -491,6 +511,22 @@ class AppointmentsController extends Controller
     {
         $param = $request->all();
         $clinic = $this->clinicRepository->findById($param['clinic_id']);
+
+        // clinic disabled days
+        if($clinic->disabled_days) {
+            $clinic['disabled_days'] = explode(',', $clinic->disabled_days);
+        }else{
+            $clinic['disabled_days'] = null;
+        }
+
+        // clinic image
+        $clinic_images = $this->fileAttachmentsRepository->get_clinic_img_by_clinic_id($clinic->id);
+        if($clinic_images) {
+            $clinic['images'] = $clinic_images['attachment'];
+        }else{
+            $clinic['images'] = null;
+        }
+
         $appointments_list = $this->appointmentsRepository->get_complete_appointments_by_clinic_id($param['clinic_id']);
         if(sizeof($appointments_list)>0){
             $clinic->appointment = $appointments_list;
