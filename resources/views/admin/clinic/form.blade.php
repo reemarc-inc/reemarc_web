@@ -202,7 +202,7 @@
                                     <div class="row">
 
                                         @foreach($disabled_days_ as $key => $disabled_day)
-                                        <?php $checkbox_fields = explode(', ', $disabled_days); ?>
+                                        <?php $checkbox_fields = explode(',', $disabled_days); ?>
                                             <div class="col-sm-6">
                                                 <div class="form-check">
                                                     <input  <?php if (in_array($disabled_day, $checkbox_fields)) echo "checked" ?>
