@@ -128,7 +128,7 @@
 
                                 <div class="form-group">
                                     <label>Phone</label>
-                                    <input type="text" name="tel"
+                                    <input type="text" name="phone"
                                            class="form-control @error('phone') is-invalid @enderror @if (!$errors->has('phone') && old('phone')) is-valid @endif"
                                            value="{{ old('phone', !empty($clinic) ? $clinic->phone : null) }}">
                                     @error('phone')
@@ -140,7 +140,7 @@
 
                                 <div class="form-group">
                                     <label>Web URL</label>
-                                    <input type="text" name="tel"
+                                    <input type="text" name="web_url"
                                            class="form-control @error('web_url') is-invalid @enderror @if (!$errors->has('web_url') && old('web_url')) is-valid @endif"
                                            value="{{ old('web_url', !empty($clinic) ? $clinic->web_url : null) }}">
                                     @error('web_url')
