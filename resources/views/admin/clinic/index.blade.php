@@ -36,7 +36,7 @@
                                             <td>{{ $clinic->name}}</td>
                                             <td>{{ $clinic->address}}</td>
                                             <td>{{ $clinic->region}}</td>
-                                            <td>{{ $clinic->tel}}</td>
+                                            <td>{{ $clinic->phone}}</td>
                                             <td>{{ $clinic->duration}}</td>
                                             <td>
                                                 <a class="btn btn-sm" href="{{ url('admin/clinic/'. $clinic->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
