@@ -43,6 +43,7 @@ class UserRequest extends FormRequest
             ],
             'phone' => ['string'],
             'device_token' => [],
+            'payment_customer_id' => [],
             'region' => ['string'],
             'role' => ['string'],
 
