@@ -22,7 +22,7 @@ class PackageController extends Controller
 
         $this->packageRepository = $packageRepository;
 
-        $this->data['currentAdminMenu'] = 'Package';
+        $this->data['currentAdminMenu'] = 'package';
     }
     /**
      * Display a listing of the resource.
