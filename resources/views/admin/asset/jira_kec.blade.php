@@ -45,7 +45,7 @@
                         $step_1 = $step_2 + $copywriter_assign;
 
                         $start_css = 'color:#98a6ad;';
-                        $start_late_css = "color:#2545ff ;";
+                        $start_late_css = "color:#0062FF ;";
 
                         $start_date = date('m/d/Y', strtotime($asset->due . ' -' . $step_1 . ' weekday'));
                         if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -185,7 +185,7 @@
                         $step_1 = $step_2 + $copywriter_assign;
 
                         $start_css = 'color:#98a6ad;';
-                        $start_late_css = "color:#2545ff ;";
+                        $start_late_css = "color:#0062FF ;";
 
                         $start_date = date('m/d/Y', strtotime($asset->due . ' -' . $step_2 . ' weekday'));
                         if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -393,7 +393,7 @@
                         $step_1 = $step_2 + $copywriter_assign;
 
                         $start_css = 'color:#98a6ad;';
-                        $start_late_css = "color:#2545ff ;";
+                        $start_late_css = "color:#0062FF ;";
 
                         $start_date = date('m/d/Y', strtotime($asset->due . ' -' . $step_3 . ' weekday'));
                         if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -401,7 +401,7 @@
                         }
 
 //                        $start_css = 'color:#98a6ad;';
-//                        $start_late_css = "color:#2545ff ;";
+//                        $start_late_css = "color:#0062FF ;";
 //                        if($asset->asset_type == 'email_blast'){
 //                            $start_date = date('m/d/Y', strtotime($asset->due . ' -24 weekday'));
 //                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -542,7 +542,7 @@
                         $step_1 = $step_2 + $copywriter_assign;
 
                         $start_css = 'color:#98a6ad;';
-                        $start_late_css = "color:#2545ff ;";
+                        $start_late_css = "color:#0062FF ;";
 
                         $start_date = date('m/d/Y', strtotime($asset->due . ' -' . $step_4 . ' weekday'));
                         if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -550,7 +550,7 @@
                         }
 
 //                        $start_css = 'color:#98a6ad;';
-//                        $start_late_css = "color:#2545ff ;";
+//                        $start_late_css = "color:#0062FF ;";
 //                        if($asset->asset_type == 'email_blast'){
 //                            $start_date = date('m/d/Y', strtotime($asset->due . ' -22 weekday'));
 //                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -692,7 +692,7 @@
                         $step_1 = $step_2 + $copywriter_assign;
 
                         $start_css = 'color:#98a6ad;';
-                        $start_late_css = "color:#2545ff ;";
+                        $start_late_css = "color:#0062FF ;";
 
                         $start_date = date('m/d/Y', strtotime($asset->due . ' -' . $step_5 . ' weekday'));
                         if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -700,7 +700,7 @@
                         }
 
 //                        $start_css = 'color:#98a6ad;';
-//                        $start_late_css = "color:#2545ff ;";
+//                        $start_late_css = "color:#0062FF ;";
 //                        if($asset->asset_type == 'email_blast'){
 //                            $start_date = date('m/d/Y', strtotime($asset->due . ' -20 weekday'));
 //                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){
@@ -910,7 +910,7 @@
 {{--                        $step_1 = $step_2 + $copywriter_assign;--}}
 
 {{--                        $start_css = 'color:#98a6ad;';--}}
-{{--                        $start_late_css = "color:#2545ff ;";--}}
+{{--                        $start_late_css = "color:#0062FF ;";--}}
 
 {{--                        $start_date = date('m/d/Y', strtotime($asset->due . ' -' . $step_6 . ' weekday'));--}}
 {{--                        if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){--}}
@@ -918,7 +918,7 @@
 {{--                        }--}}
 
 {{--//                        $start_css = 'color:#98a6ad;';--}}
-{{--//                        $start_late_css = "color:#2545ff ;";--}}
+{{--//                        $start_late_css = "color:#0062FF ;";--}}
 {{--//                        if($asset->asset_type == 'email_blast'){--}}
 {{--//                            $start_date = date('m/d/Y', strtotime($asset->due . ' -10 weekday'));--}}
 {{--//                            if(strtotime($start_date) <= strtotime(date('m/d/Y')) ){--}}

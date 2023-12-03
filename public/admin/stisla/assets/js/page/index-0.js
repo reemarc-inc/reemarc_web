@@ -10,10 +10,10 @@ var myChart = new Chart(statistics_chart, {
       label: 'Statistics',
       data: [640, 387, 530, 302, 430, 270, 488],
       borderWidth: 5,
-      borderColor: '#2545ff ',
+      borderColor: '#0062FF ',
       backgroundColor: 'transparent',
       pointBackgroundColor: '#fff',
-      pointBorderColor: '#2545ff ',
+      pointBorderColor: '#0062FF ',
       pointRadius: 4
     }]
   },

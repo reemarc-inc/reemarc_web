@@ -72,21 +72,21 @@
 
     <?php if (!empty($data[5])) { ?>
     <div class="form-group" style="padding-left: 10px;">
-        <label style="color: #2545ff ; font-size: medium;"> * Decline Reason from Copy Review:</label>
+        <label style="color: #0062FF ; font-size: medium;"> * Decline Reason from Copy Review:</label>
         <textarea class="form-control" id="concept" name="concept" readonly style="height: 100px;">{{ $data[5] }}</textarea>
     </div>
     <?php } ?>
 
     <?php if (!empty($data[3])) { ?>
     <div class="form-group" style="padding-left: 10px;">
-        <label style="color: #2545ff ; font-size: medium;"> * Decline Reason from Creator:</label>
+        <label style="color: #0062FF ; font-size: medium;"> * Decline Reason from Creator:</label>
         <textarea class="form-control" id="concept" name="concept" readonly style="height: 100px;">{{ $data[3] }}</textarea>
     </div>
     <?php } ?>
 
     <?php if (!empty($data[4])) { ?>
     <div class="form-group" style="padding-left: 10px;">
-        <label style="color: #2545ff ; font-size: medium;"> * Decline Reason from KDO:</label>
+        <label style="color: #0062FF ; font-size: medium;"> * Decline Reason from KDO:</label>
         <textarea class="form-control" id="concept" name="concept" readonly style="height: 100px;">{{ $data[4] }}</textarea>
     </div>
     <?php } ?>
