@@ -18,33 +18,42 @@ class LoginController extends Controller
      */
     public function index(request $request)
     {
+        try{
+            $input = $request->all();
+            $user_obj = User::where('email', $input['email'])->first();
+            if($user_obj){
+                if (!$user_obj || !Hash::check($input['password'], $user_obj->password)) {
+                    $data = [
+                        'error' => [
+                            'message' => "These credentials do not match our records."
+                        ]
+                    ];
+                    return response()->json($data);
+                }
+                $token = $user_obj->createToken('my-app-token')->plainTextToken;
+                $data = [
+                    'data' => [
+                        'user' => $user_obj,
+                        "token" => $token,
+                        "message" => "Data has been created"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'message' => "User not exist."
+                    ]
+                ];
+                return response()->json($data);
+            }
 
-        $input = $request->all();
-
-        $user = User::where('email', $input['email'])->first();
-
-        if (!$user || !Hash::check($input['password'], $user->password)) {
-            $data = [
-                'error' => [
-                    'code' => 404,
-                    'message' => "These credentials do not match our records."
-                ]
-            ];
-            return response()->json($data);
+        }catch (\Exception $ex) {
+            return response()->json([
+                'msg' => $ex->getMessage() . ' [' . $ex->getCode() . ']'
+            ]);
         }
 
-        $token = $user->createToken('my-app-token')->plainTextToken;
-
-        $data = [
-            'data' => [
-                "code" => 200,
-                'user' => $user,
-                "token" => $token,
-                "message" => "Data has been created"
-            ]
-        ];
-
-        return response()->json($data);
 
     }
 

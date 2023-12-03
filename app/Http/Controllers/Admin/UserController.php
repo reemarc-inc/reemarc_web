@@ -293,6 +293,51 @@ class UserController extends Controller
                 ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
     }
 
+
+    /***
+     * API
+     * @return
+     */
+    public function users_update_app(request $request)
+    {
+        try{
+            $param = $request->all();
+            $user_obj = User::where('email', $param['email'])->first();
+
+            if($user_obj){
+                $user = $this->userRepository->update($user_obj['id'], $param);
+                if($user){
+                    $data = [
+                        'data' => [
+                            'user' => $user
+                        ]
+                    ];
+                }else{
+                    $data = [
+                        'error' => [
+                            'message' => "Error in updating"
+                        ]
+                    ];
+                }
+            }else{
+                $data = [
+                    'error' => [
+                        'message' => "User not exist"
+                    ]
+                ];
+            }
+
+            return response()->json($data);
+
+        }catch (\Exception $ex) {
+            return response()->json([
+                'msg' => $ex->getMessage() . ' [' . $ex->getCode() . ']'
+            ]);
+        }
+
+    }
+
+
     /**
      * Remove the specified resource from storage.
      *
@@ -318,86 +363,99 @@ class UserController extends Controller
 
     public function api_sign_up(Request $request)
     {
-        $params['email'] = $request['email'];
-        $params['phone'] = $request['phone'];
-        $params['password'] = Hash::make($request['password']);
-        $params['first_name'] = $request['first_name'];
-        $params['last_name'] = $request['last_name'];
-        $params['region'] = $request['region'];
-        $params['role'] = 'patient';
+        try{
+            $params['email'] = $request['email'];
+            $params['phone'] = $request['phone'];
+            $params['password'] = Hash::make($request['password']);
+            $params['first_name'] = $request['first_name'];
+            $params['last_name'] = $request['last_name'];
+            $params['region'] = $request['region'];
+            $params['role'] = 'patient';
 
-        $rs = $this->userRepository->findByEmail($params['email']);
+            $rs = $this->userRepository->findByEmail($params['email']);
 
-        if(count($rs) > 0){
-            $data = [
-                'error' => [
-                    'code' => 400,
-                    'message' => "Email already exist"
-                ]
-            ];
-        }else{
-
-            $user = $this->userRepository->create($params);
-
-            if(!$user){
+            if(count($rs) > 0){
                 $data = [
                     'error' => [
-                        'code' => 404,
-                        'message' => "Operation failed"
+                        'message' => "Email already exist"
                     ]
                 ];
-            } else {
+            }else{
 
-                if(!empty($request['device_token'])){
-                    $params['device_token'] = $request['device_token'];
-                    $user->update($params);
+                $user = $this->userRepository->create($params);
+
+                if(!$user){
+                    $data = [
+                        'error' => [
+                            'message' => "Error in Creating"
+                        ]
+                    ];
+                }else{
+                    if(!empty($request['device_token'])){
+                        $params['device_token'] = $request['device_token'];
+                        $user->update($params);
+                    }
+                    $data = [
+                        'data' => [
+                            'message' => "Success",
+                            'user' => $user
+                        ]
+                    ];
                 }
-
-                $data = [
-                    'data' => [
-                        "code" => 200,
-                        "message" => "Success"
-                    ]
-                ];
-
             }
+            return response()->json($data);
+
+        }catch (\Exception $ex) {
+            return response()->json([
+                'msg' => $ex->getMessage() . ' [' . $ex->getCode() . ']'
+            ]);
         }
-        return response()->json($data);
     }
 
     public function log_in(Request $request)
     {
-        $input = $request->all();
+        try {
+            $input = $request->all();
+            $user_obj = User::where('email', $input['email'])->first();
 
-        $user = User::where('email', $input['email'])->first();
+            if($user_obj){
+                if (!$user_obj || !Hash::check($input['password'], $user_obj->password)) {
+                    $data = [
+                        'error' => [
+                            'message' => "These credentials do not match our records."
+                        ]
+                    ];
+                    return response()->json($data);
+                }
 
-        if (!$user || !Hash::check($input['password'], $user->password)) {
-            $data = [
-                'error' => [
-                    'code' => 404,
-                    'message' => "These credentials do not match our records."
-                ]
-            ];
-            return response()->json($data);
+                $token = $user_obj->createToken('my-app-token')->plainTextToken;
+                if (!empty($input['device_token'])) {
+                    $params['device_token'] = $input['device_token'];
+                    $user_obj->update($params);
+                }
+                $data = [
+                    'data' => [
+                        'message' => "Log In success",
+                        'token' => $token,
+                        'user' => $user_obj
+                    ]
+                ];
+                return response()->json($data);
+
+            }else{
+                $data = [
+                    'error' => [
+                        'message' => "User not exist."
+                    ]
+                ];
+                return response()->json($data);
+            }
+
+        }catch (\Exception $ex) {
+            return response()->json([
+                'msg' => $ex->getMessage() . ' [' . $ex->getCode() . ']'
+            ]);
         }
-
-        $token = $user->createToken('my-app-token')->plainTextToken;
-
-        if(!empty($input['device_token'])){
-            $params['device_token'] = $input['device_token'];
-            $user->update($params);
-        }
-
-        $data = [
-            'data' => [
-                "code" => 200,
-                "message" => "Success",
-                "token" => $token,
-                'user' => $user
-            ]
-        ];
-
-        return response()->json($data);
     }
 
     public function fileRemove($id)
