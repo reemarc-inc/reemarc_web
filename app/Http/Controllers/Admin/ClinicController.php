@@ -330,7 +330,7 @@ class ClinicController extends Controller
                 $c_id = $clinic->id;
                 $clinic_images = $this->fileAttachmentsRepository->get_clinic_img_by_clinic_id($c_id);
                 if($clinic_images) {
-                    $clinic_list[$k]['images'] = $clinic_images['attachment'];
+                    $clinic_list[$k]['images'] = url('/').'/storage'.$clinic_images['attachment'];
                 }
                 $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
                 if($appointment_detail) {

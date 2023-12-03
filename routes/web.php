@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\ClinicController as AdminClinic;
+use App\Http\Controllers\Admin\PackageController as AdminPackage;
 use App\Http\Controllers\Admin\AppointmentsController as AdminAppointments;
 use App\Http\Controllers\Admin\ApiController as AdminApic;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
@@ -76,6 +77,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('clinic', AdminClinic::class);
     Route::get('clinic/fileRemove/{id}', [AdminClinic::class, 'fileRemove'])->name('clinic.fileRemove');
 
+    Route::resource('package', AdminPackage::class);
+    Route::get('package/fileRemove/{id}', [AdminPackage::class, 'fileRemove'])->name('package.fileRemove');
+
     Route::resource('appointments_list', AdminAppointments::class);
     Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
 
@@ -90,6 +94,27 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('asset_lead_time', AdminAssetLeadTime::class);
     Route::resource('asset_owners', AdminAssetOwner::class);
 //    Route::resource('form', AdminForm::class);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     Route::get('create_qr_code', [AdminForm::class, 'create_qr_code'])->name('form.create_qr_code');
     Route::get('index_qr_code', [AdminForm::class, 'index_qr_code'])->name('form.index_qr_code');

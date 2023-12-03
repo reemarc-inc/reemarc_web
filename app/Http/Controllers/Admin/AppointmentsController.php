@@ -491,7 +491,7 @@ class AppointmentsController extends Controller
         // clinic image
         $clinic_images = $this->fileAttachmentsRepository->get_clinic_img_by_clinic_id($clinic->id);
         if($clinic_images) {
-            $clinic['images'] = $clinic_images['attachment'];
+            $clinic['images'] = url('/').'/storage'.$clinic_images['attachment'];
         }else{
             $clinic['images'] = null;
         }
@@ -522,7 +522,7 @@ class AppointmentsController extends Controller
         // clinic image
         $clinic_images = $this->fileAttachmentsRepository->get_clinic_img_by_clinic_id($clinic->id);
         if($clinic_images) {
-            $clinic['images'] = $clinic_images['attachment'];
+            $clinic['images'] = url('/').'/storage'.$clinic_images['attachment'];
         }else{
             $clinic['images'] = null;
         }
