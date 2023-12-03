@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Hash;
 
 class PackageController extends Controller
 {
-    private $PackageRepository;
+    private $packageRepository;
 
-    public function __construct(PackageRepository $PackageRepository) // phpcs:ignore
+    public function __construct(PackageRepository $packageRepository) // phpcs:ignore
     {
         parent::__construct();
 
-        $this->PackageRepository = $PackageRepository;
+        $this->packageRepository = $packageRepository;
 
         $this->data['currentAdminMenu'] = 'Package';
     }
@@ -31,9 +31,9 @@ class PackageController extends Controller
      */
     public function index(Request $request)
     {
-        $this->data['packages'] = $this->PackageRepository->findAll();
+        $this->data['packages'] = $this->packageRepository->findAll();
 
-        return view('admin.Package.index', $this->data);
+        return view('admin.package.index', $this->data);
     }
 
     /**
@@ -44,9 +44,9 @@ class PackageController extends Controller
     public function create()
     {
 
-        $this->data['Package'] = $this->PackageRepository->findAll();
+        $this->data['Package'] = $this->packageRepository->findAll();
 
-        return view('admin.Package.form', $this->data);
+        return view('admin.package.form', $this->data);
     }
 
     /**
@@ -57,14 +57,14 @@ class PackageController extends Controller
      */
     public function store(Request $request)
     {
-        $params['_name'] = $request['_name'];
+        $params = $request->request->all();
 
-        if ($this->PackageRepository->create($params)) {
-            return redirect('admin/Package')
+        if ($this->packageRepository->create($params)) {
+            return redirect('admin/package')
                 ->with('success', 'Success to create new Brand');
         }
 
-        return redirect('admin/Package/create')
+        return redirect('admin/package/create')
             ->with('error', 'Fail to create new Brand');
     }
 
@@ -76,9 +76,9 @@ class PackageController extends Controller
      */
     public function show($id)
     {
-        $this->data['user'] = $this->userRepository->findById($id);
+        $this->data['user'] = $this->packageRepository->findById($id);
 
-        return view('admin.users.show', $this->data);
+        return view('admin.package.show', $this->data);
     }
 
     /**
@@ -89,23 +89,21 @@ class PackageController extends Controller
      */
     public function edit($id)
     {
-        $user = $this->userRepository->findById($id);
+        $data = $this->packageRepository->findById($id);
 
-        $this->data['user'] = $user;
-        $this->data['team'] = $user->team;
-        $this->data['role_'] = $user->role;
-        $this->data['Package'] = $this->PackageRepository->findAll();
-        $this->data['teams'] = [
-            'KDO',
-            'Brand',
-            'Creative'
-        ];
-        $this->data['roles_'] = [
-            'Admin' => 'admin',
-            'Doctor' => 'doctor',
-            'Patient' => 'patient',
-            'Operator' => 'operator',
-        ];
+
+//        $this->data['package'] = $this->packageRepository->findAll();
+//        $this->data['teams'] = [
+//            'KDO',
+//            'Brand',
+//            'Creative'
+//        ];
+//        $this->data['roles_'] = [
+//            'Admin' => 'admin',
+//            'Doctor' => 'doctor',
+//            'Patient' => 'patient',
+//            'Operator' => 'operator',
+//        ];
         return view('admin.users.form', $this->data);
     }
 
@@ -118,9 +116,9 @@ class PackageController extends Controller
      */
     public function update(UserRequest $request, $id)
     {
-        $user = $this->userRepository->findById($id);
+        $user = $this->packageRepository->findById($id);
 
-        if ($this->userRepository->update($id, $request->validated())) {
+        if ($this->packageRepository->update($id, $request->validated())) {
             return redirect('admin/users')
                 ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
         }
