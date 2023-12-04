@@ -24,20 +24,16 @@
                             <table class="table table-bordered table-striped table-md">
                                 <thead>
                                     <th>Name</th>
-                                    <th>Address</th>
-                                    <th>Region</th>
-                                    <th>Tel</th>
-                                    <th>Duration</th>
+                                    <th>price</th>
+                                    <th>summary</th>
                                     <th width="15%">Action</th>
                                 </thead>
                                 <tbody>
                                     @forelse ($packages as $package)
                                     <tr>
                                         <td>{{ $package->name}}</td>
-                                        <td>{{ $package->address}}</td>
-                                        <td>{{ $package->region}}</td>
-                                        <td>{{ $package->phone}}</td>
-                                        <td>{{ $package->duration}}</td>
+                                        <td>{{ $package->price}}</td>
+                                        <td>{{ $package->summary}}</td>
                                         <td>
                                             <a class="btn btn-sm" href="{{ url('admin/package/'. $package->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
                                             <a href="{{ url('admin/package/'. $package->id) }}" class="btn btn-sm" onclick="

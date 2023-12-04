@@ -89,10 +89,9 @@ class PackageController extends Controller
      */
     public function edit($id)
     {
-        $data = $this->packageRepository->findById($id);
+        $this->data['package'] = $this->packageRepository->findById($id);
 
 
-//        $this->data['package'] = $this->packageRepository->findAll();
 //        $this->data['teams'] = [
 //            'KDO',
 //            'Brand',
@@ -104,7 +103,7 @@ class PackageController extends Controller
 //            'Patient' => 'patient',
 //            'Operator' => 'operator',
 //        ];
-        return view('admin.users.form', $this->data);
+        return view('admin.package.form', $this->data);
     }
 
     /**
@@ -114,17 +113,18 @@ class PackageController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, $id)
-    {
-        $user = $this->packageRepository->findById($id);
+    public function update(Request $request, $id)
+    {;
+        $package = $this->packageRepository->findById($id);
+        $param = $request->request->all();
 
-        if ($this->packageRepository->update($id, $request->validated())) {
-            return redirect('admin/users')
-                ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
+        if ($this->packageRepository->update($id, $param)) {
+            return redirect('admin/package')
+                ->with('success', __('users.success_updated_message', ['name' => $package->name]));
         }
 
-        return redirect('admin/users')
-                ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
+        return redirect('admin/package')
+                ->with('error', __('users.fail_to_update_message', ['name' => $package->name]));
     }
 
     /**
