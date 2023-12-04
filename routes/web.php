@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\AssetController as AdminAsset;
 use App\Http\Controllers\Admin\RoleController as AdminRole;
 use App\Http\Controllers\Admin\UserController as AdminUser;
 use App\Http\Controllers\Admin\ClinicController as AdminClinic;
+use App\Http\Controllers\Admin\NotificationController as AdminNotification;
 use App\Http\Controllers\Admin\PackageController as AdminPackage;
 use App\Http\Controllers\Admin\AppointmentsController as AdminAppointments;
 use App\Http\Controllers\Admin\ApiController as AdminApic;
@@ -76,6 +77,9 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('clinic', AdminClinic::class);
     Route::get('clinic/fileRemove/{id}', [AdminClinic::class, 'fileRemove'])->name('clinic.fileRemove');
+
+    Route::resource('notification', AdminNotification::class);
+    Route::get('notification/fileRemove/{id}', [AdminNotification::class, 'fileRemove'])->name('notification.fileRemove');
 
     Route::resource('package', AdminPackage::class);
     Route::get('package/fileRemove/{id}', [AdminPackage::class, 'fileRemove'])->name('package.fileRemove');

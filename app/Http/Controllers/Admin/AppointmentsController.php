@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\appointments;
 use App\Models\Clinic;
+use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\Admin\FileAttachmentsRepository;
 use App\Repositories\Admin\UserRepository;
@@ -353,6 +354,7 @@ class AppointmentsController extends Controller
         $start = \DateTime::createFromFormat('Y-m-d H:i', $param['booked_start']);
         $end = (\DateTime::createFromFormat("Y-m-d H:i", $param['booked_start']))->add(new \DateInterval("PT".$clinic_obj->duration."M"));
         $params['booked_start'] = $start->format('Y-m-d H:i');
+        $date_for_notification = $start->format('M j, Y');
         $params['booked_end'] = $end->format('Y-m-d H:i');
         $params['booked_day'] = date_format($start,'D');
         $params['booked_date'] = date_format($start,'Y-m-d');
@@ -408,6 +410,23 @@ class AppointmentsController extends Controller
 
         $appointment = $this->appointmentsRepository->create($params);
         if($appointment){
+
+            // Add Notification
+            $notification = new Notification();
+            $notification['user_id']            = $params['user_id'];
+            $notification['user_first_name']    = $params['user_first_name'];
+            $notification['user_last_name']     = $params['user_last_name'];
+            $notification['user_email']         = $params['user_email'];
+            $notification['appointment_id']     = $appointment->id;
+            $notification['treatment_id']       = 0;
+            $notification['type']               = 'booking_requested';
+            $notification['created_at']         = Carbon::now();
+            $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
+            $notification->save();
+
+            // Send Notification
+            
+
             $data = [
                 'data' => [
                     "code" => 200,

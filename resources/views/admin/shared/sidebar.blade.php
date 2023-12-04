@@ -37,6 +37,8 @@
         <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'users') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/users')}}"><i class="fas fa-user"></i> <span>Users</span></a></li>
         <?php } ?>
+        <li class="menu-header">Notification</li>
+        <li class="{{ ($currentAdminMenu == 'notification') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/notification')}}"><i class="fas fa-user"></i> <span>Notification</span></a></li>
         <li class="menu-header">Settings</li>
 {{--        <li class="{{ ($currentAdminMenu == 'asset_lead_time') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_lead_time')}}"><i class="fas fa-user"></i> <span>Clinics</span></a></li>--}}
         <li class="{{ ($currentAdminMenu == 'clinic') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/clinic')}}"><i class="fas fa-user"></i> <span>Clinics</span></a></li>

@@ -8,21 +8,21 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
 
-use App\Repositories\Admin\PackageRepository;
+use App\Repositories\Admin\notificationRepository;
 
 use Illuminate\Support\Facades\Hash;
 
-class PackageController extends Controller
+class NotificationController extends Controller
 {
-    private $packageRepository;
+    private $notificationRepository;
 
-    public function __construct(PackageRepository $packageRepository) // phpcs:ignore
+    public function __construct(NotificationRepository $notificationRepository) // phpcs:ignore
     {
         parent::__construct();
 
-        $this->packageRepository = $packageRepository;
+        $this->notificationRepository = $notificationRepository;
 
-        $this->data['currentAdminMenu'] = 'package';
+        $this->data['currentAdminMenu'] = 'notification';
     }
     /**
      * Display a listing of the resource.
@@ -31,9 +31,9 @@ class PackageController extends Controller
      */
     public function index(Request $request)
     {
-        $this->data['packages'] = $this->packageRepository->findAll();
+        $this->data['notifications'] = $this->notificationRepository->findAll();
 
-        return view('admin.package.index', $this->data);
+        return view('admin.notification.index', $this->data);
     }
 
     /**
@@ -44,9 +44,9 @@ class PackageController extends Controller
     public function create()
     {
 
-        $this->data['Package'] = $this->packageRepository->findAll();
 
-        return view('admin.package.form', $this->data);
+
+        return view('admin.notification.form', $this->data);
     }
 
     /**
@@ -59,13 +59,13 @@ class PackageController extends Controller
     {
         $params = $request->request->all();
 
-        if ($this->packageRepository->create($params)) {
-            return redirect('admin/package')
-                ->with('success', 'Success to create new Package');
+        if ($this->notificationRepository->create($params)) {
+            return redirect('admin/notification')
+                ->with('success', 'Success to create new notification');
         }
 
-        return redirect('admin/package/create')
-            ->with('error', 'Fail to create new Package');
+        return redirect('admin/notification/create')
+            ->with('error', 'Fail to create new notification');
     }
 
     /**
@@ -76,9 +76,9 @@ class PackageController extends Controller
      */
     public function show($id)
     {
-        $this->data['user'] = $this->packageRepository->findById($id);
+        $this->data['user'] = $this->notificationRepository->findById($id);
 
-        return view('admin.package.show', $this->data);
+        return view('admin.notification.show', $this->data);
     }
 
     /**
@@ -89,9 +89,9 @@ class PackageController extends Controller
      */
     public function edit($id)
     {
-        $this->data['package'] = $this->packageRepository->findById($id);
+        $this->data['notification'] = $this->notificationRepository->findById($id);
 
-        return view('admin.package.form', $this->data);
+        return view('admin.notification.form', $this->data);
     }
 
     /**
@@ -103,16 +103,16 @@ class PackageController extends Controller
      */
     public function update(Request $request, $id)
     {;
-        $package = $this->packageRepository->findById($id);
+        $notification = $this->notificationRepository->findById($id);
         $param = $request->request->all();
 
-        if ($this->packageRepository->update($id, $param)) {
-            return redirect('admin/package')
-                ->with('success', __('users.success_updated_message', ['name' => $package->name]));
+        if ($this->notificationRepository->update($id, $param)) {
+            return redirect('admin/notification')
+                ->with('success', __('users.success_updated_message', ['name' => $notification->name]));
         }
 
-        return redirect('admin/package')
-                ->with('error', __('users.fail_to_update_message', ['name' => $package->name]));
+        return redirect('admin/notification')
+                ->with('error', __('users.fail_to_update_message', ['name' => $notification->name]));
     }
 
     /**
@@ -123,14 +123,14 @@ class PackageController extends Controller
      */
     public function destroy($id)
     {
-//        $package = $this->packageRepository->findById($id);
+//        $notification = $this->notificationRepository->findById($id);
 
-        if ($this->packageRepository->delete($id)) {
-            return redirect('admin/package')
-                ->with('success', 'Success to Delete the Package');
+        if ($this->notificationRepository->delete($id)) {
+            return redirect('admin/notification')
+                ->with('success', 'Success to Delete the notification');
         }
-        return redirect('admin/package')
-                ->with('error', 'Fail to Delete the Package');
+        return redirect('admin/notification')
+                ->with('error', 'Fail to Delete the notification');
     }
 
     public function fileRemove($id)
