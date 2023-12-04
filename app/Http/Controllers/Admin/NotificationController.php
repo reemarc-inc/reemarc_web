@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
 
-use App\Repositories\Admin\notificationRepository;
+use App\Repositories\Admin\NotificationRepository;
 
 use Illuminate\Support\Facades\Hash;
 

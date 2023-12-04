@@ -425,7 +425,7 @@ class AppointmentsController extends Controller
             $notification->save();
 
             // Send Notification
-            
+
 
             $data = [
                 'data' => [
