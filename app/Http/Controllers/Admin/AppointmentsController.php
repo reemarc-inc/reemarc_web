@@ -438,9 +438,9 @@ class AppointmentsController extends Controller
             $new_noti = $notification->save();
 
             // Send Notification
-            $rs_notification = $this->send_notificatoin();
-            $new_params['response'] = $rs_notification;
-            $this->notificationRepository->update($new_noti->id, $new_params);
+//            $rs_notification = $this->send_notificatoin();
+//            $new_params['response'] = $rs_notification;
+//            $this->notificationRepository->update($new_noti->id, $new_params);
 
             $data = [
                 'data' => [
@@ -465,7 +465,7 @@ class AppointmentsController extends Controller
     public function send_notificatoin()
     {
         $client = new Client();
-        
+
         $res = $client->request(
             'POST',
             'https://us-central1-denti-find.cloudfunctions.net/sendFCM',
