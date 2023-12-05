@@ -465,8 +465,14 @@ class AppointmentsController extends Controller
     public function send_notificatoin()
     {
         $client = new Client();
-        $res = $client->request('POST', 'https://us-central1-denti-find.cloudfunctions.net/sendFCM', [
+        
+        $res = $client->request(
+            'POST',
+            'https://us-central1-denti-find.cloudfunctions.net/sendFCM',
             [
+                "headers" => [
+                  "Content-Type" => "application/json"
+                ],
                 "token" => "eag-Vno5QpGNuiVhGdJ2wO:APA91bG2wQbDlWinplUg4QEblKf_KsOtcZLvkCaEjwavCct2Q4Fm5tsnRok8x-zUKekO8XyxgTKgKdmkK7wf1bP9TxDw6Tx35PuzmVEyj_S4DKBJ4DG2jeFH3tW_Mdj7xSwpnq2JZnZt",
                 "notification" => [
                     "title" => "Your Notification Title Test",
@@ -488,12 +494,12 @@ class AppointmentsController extends Controller
                     "status"=> "unread",
                     "created_at" => "2023-11-30 12:00:00"
                 ]
-            ]
-        ]);
+            ]);
 
         if ($res->getStatusCode() == 200) { // 200 OK
             $response_data = $res->getBody()->getContents();
         }
+
         return $response_data;
     }
 
