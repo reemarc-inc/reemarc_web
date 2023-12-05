@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ClinicController as AdminClinic;
 use App\Http\Controllers\Admin\NotificationController as AdminNotification;
 use App\Http\Controllers\Admin\PackageController as AdminPackage;
 use App\Http\Controllers\Admin\AppointmentsController as AdminAppointments;
+use App\Http\Controllers\Admin\TreatmentsController as AdminTreatments;
 use App\Http\Controllers\Admin\ApiController as AdminApic;
 use App\Http\Controllers\Admin\BrandController as AdminBrand;
 use App\Http\Controllers\Admin\FormController as AdminForm;
@@ -86,6 +87,8 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('appointments_list', AdminAppointments::class);
     Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
+
+    Route::resource('treatments', AdminTreatments::class);
 
     Route::post('appointment_make/booking', [AdminAppointments::class, 'booking'])->name('appointment_make.booking');
 

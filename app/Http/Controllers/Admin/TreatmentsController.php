@@ -14,31 +14,31 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-use App\Repositories\Admin\AppointmentsRepository;
+use App\Repositories\Admin\TreatmentsRepository;
 use App\Repositories\Admin\ClinicRepository;
 
 use Illuminate\Support\Facades\Hash;
 
-class AppointmentsController extends Controller
+class TreatmentsController extends Controller
 {
-    private $appointmentsRepository;
+    private $treatmentsRepository;
     private $clinicRepository;
     private $fileAttachmentsRepository;
     private $userRepository;
 
-    public function __construct(AppointmentsRepository $appointmentsRepository,
+    public function __construct(TreatmentsRepository $treatmentsRepository,
                                 ClinicRepository $clinicRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
                                 UserRepository $userRepository) // phpcs:ignore
     {
         parent::__construct();
 
-        $this->appointmentsRepository = $appointmentsRepository;
+        $this->treatmentsRepository = $treatmentsRepository;
         $this->clinicRepository = $clinicRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
 
-        $this->data['currentAdminMenu'] = 'appointments_list';
+        $this->data['currentAdminMenu'] = 'treatments_list';
     }
     /**
      * Display a listing of the resource.
@@ -47,7 +47,7 @@ class AppointmentsController extends Controller
      */
     public function index(Request $request)
     {
-//        $this->data['appointments'] = $this->appointmentsRepository->findAll();
+//        $this->data['treatments'] = $this->treatmentsRepository->findAll();
         $params = $request->all();
 
         $options = [
@@ -59,7 +59,7 @@ class AppointmentsController extends Controller
         ];
 
         $this->data['filter'] = $params;
-        $this->data['appointments'] = $this->appointmentsRepository->findAll($options);
+        $this->data['treatments'] = $this->treatmentsRepository->findAll($options);
         $this->data['teams_'] = [
             'New York',
             'San Francisco',
@@ -67,24 +67,16 @@ class AppointmentsController extends Controller
             'Busan',
             'Jeju',
         ];
-
-        $this->data['statuss_'] = [
-            'Upcoming',
-            'Complete',
-            'Cancel'
-        ];
-
         $this->data['roles_'] = [
             'Admin' => 'admin',
             'Doctor' => 'doctor',
             'Patient' => 'patient',
             'Operator' => 'operator',
         ];
-        $this->data['region_'] = !empty($params['region']) ? $params['region'] : '';
+        $this->data['team_'] = !empty($params['team']) ? $params['team'] : '';
         $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
-        $this->data['status_'] = !empty($params['status']) ? $params['status'] : '';
 
-        return view('admin.appointments.index', $this->data);
+        return view('admin.treatments.index', $this->data);
     }
 
     /**
@@ -109,7 +101,7 @@ class AppointmentsController extends Controller
         $this->data['region'] = null;
         $this->data['user_brand'] = null;
 
-        return view('admin.appointments.form', $this->data);
+        return view('admin.treatments.form', $this->data);
     }
 
     /**
@@ -121,13 +113,13 @@ class AppointmentsController extends Controller
     public function store(Request $request)
     {
 
-        if ($this->appointmentsRepository->create($request->all())) {
-            return redirect('admin/appointments')
-                ->with('success', 'Success to create new appointments');
+        if ($this->treatmentsRepository->create($request->all())) {
+            return redirect('admin/treatments')
+                ->with('success', 'Success to create new treatments');
         }
 
-        return redirect('admin/appointments/create')
-            ->with('error', 'Fail to create new appointments');
+        return redirect('admin/treatments/create')
+            ->with('error', 'Fail to create new treatments');
     }
 
     /**
@@ -151,26 +143,26 @@ class AppointmentsController extends Controller
      */
     public function edit($id)
     {
-        $appointments = $this->appointmentsRepository->findById($id);
+        $treatments = $this->treatmentsRepository->findById($id);
 
-        $this->data['appointments'] = $appointments;
-        $this->data['user_id'] = $appointments->user_id;
-        $this->data['user_first_name'] = $appointments->user_first_name;
-        $this->data['user_last_name'] = $appointments->user_last_name;
-        $this->data['user_email'] = $appointments->user_email;
-        $this->data['user_phone'] = $appointments->user_phone;
-        $this->data['clinic_id'] = $appointments->clinic_id;
-        $this->data['clinic_name'] = $appointments->clinic_name;
-        $this->data['clinic_phone'] = $appointments->clinic_phone;
-        $this->data['clinic_address'] = $appointments->clinic_address;
-        $this->data['clinic_region'] = $appointments->clinic_region;
-        $this->data['booked_date'] = $appointments->booked_date;
-        $this->data['booked_start'] = $appointments->booked_start;
-        $this->data['booked_end'] = $appointments->booked_end;
-        $this->data['booked_day'] = $appointments->booked_day;
-        $this->data['booked_time'] = $appointments->booked_time;
-        $this->data['status'] = $appointments->status;
-        $this->data['created_at'] = $appointments->created_at;
+        $this->data['treatments'] = $treatments;
+        $this->data['user_id'] = $treatments->user_id;
+        $this->data['user_first_name'] = $treatments->user_first_name;
+        $this->data['user_last_name'] = $treatments->user_last_name;
+        $this->data['user_email'] = $treatments->user_email;
+        $this->data['user_phone'] = $treatments->user_phone;
+        $this->data['clinic_id'] = $treatments->clinic_id;
+        $this->data['clinic_name'] = $treatments->clinic_name;
+        $this->data['clinic_phone'] = $treatments->clinic_phone;
+        $this->data['clinic_address'] = $treatments->clinic_address;
+        $this->data['clinic_region'] = $treatments->clinic_region;
+        $this->data['booked_date'] = $treatments->booked_date;
+        $this->data['booked_start'] = $treatments->booked_start;
+        $this->data['booked_end'] = $treatments->booked_end;
+        $this->data['booked_day'] = $treatments->booked_day;
+        $this->data['booked_time'] = $treatments->booked_time;
+        $this->data['status'] = $treatments->status;
+        $this->data['created_at'] = $treatments->created_at;
 
         $this->data['region_'] = [
             'New York',
@@ -179,7 +171,7 @@ class AppointmentsController extends Controller
             'Busan',
             'Jeju',
         ];
-        return view('admin.appointments.form', $this->data);
+        return view('admin.treatments.form', $this->data);
     }
 
     /**
@@ -191,16 +183,16 @@ class AppointmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $appointments = $this->appointmentsRepository->findById($id);
+        $treatments = $this->treatmentsRepository->findById($id);
         $param = $request->request->all();
 
-        if ($this->appointmentsRepository->update($id, $param)) {
-            return redirect('admin/appointments_list')
-                ->with('success', __('users.success_updated_message', ['name' => $appointments->name]));
+        if ($this->treatmentsRepository->update($id, $param)) {
+            return redirect('admin/treatments_list')
+                ->with('success', __('users.success_updated_message', ['name' => $treatments->name]));
         }
 
-        return redirect('admin/appointments_list')
-                ->with('error', __('users.fail_to_update_message', ['name' => $appointments->name]));
+        return redirect('admin/treatments_list')
+                ->with('error', __('users.fail_to_update_message', ['name' => $treatments->name]));
     }
 
     /**
@@ -211,14 +203,14 @@ class AppointmentsController extends Controller
      */
     public function destroy($id)
     {
-        $appointments = $this->appointmentsRepository->findById($id);
+        $treatments = $this->treatmentsRepository->findById($id);
 
-        if ($this->appointmentsRepository->delete($id)) {
-            return redirect('admin/appointments_list')
-                ->with('success', __('users.success_deleted_message', ['name' => $appointments->name]));
+        if ($this->treatmentsRepository->delete($id)) {
+            return redirect('admin/treatments_list')
+                ->with('success', __('users.success_deleted_message', ['name' => $treatments->name]));
         }
-        return redirect('admin/appointments_list')
-                ->with('error', __('users.fail_to_delete_message', ['name' => $appointments->name]));
+        return redirect('admin/treatments_list')
+                ->with('error', __('users.fail_to_delete_message', ['name' => $treatments->name]));
     }
 
 
@@ -243,20 +235,20 @@ class AppointmentsController extends Controller
         if(sizeof($clinic_list)>0){
             foreach ($clinic_list as $k => $clinic){
                 $c_id = $clinic->id;
-                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($c_id);
+                $appointment_detail = $this->treatmentsRepository->get_appointment_detail($c_id);
                 $clinic_list[$k]->appointment = $appointment_detail;
             }
         }
 
 
-        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments();
+        $treatments_list = $this->treatmentsRepository->get_upcoming_treatments();
 
         // Campaign_asset_detail
-        if(sizeof($appointments_list)>0){
-            foreach ($appointments_list as $k => $appointment){
+        if(sizeof($treatments_list)>0){
+            foreach ($treatments_list as $k => $appointment){
                 $a_id = $appointment->id;
-                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($a_id);
-                $appointments_list[$k]->appointment = $appointment_detail;
+                $appointment_detail = $this->treatmentsRepository->get_appointment_detail($a_id);
+                $treatments_list[$k]->appointment = $appointment_detail;
             }
         }
         $this->data['teams_'] = [
@@ -330,7 +322,7 @@ class AppointmentsController extends Controller
         $params['status'] = 'Upcoming';
         $params['created_at'] = Carbon::now();
 
-        $this->appointmentsRepository->create($params);
+        $this->treatmentsRepository->create($params);
 
         $this->data['currentAdminMenu'] = 'appointment_make';
 
@@ -340,7 +332,7 @@ class AppointmentsController extends Controller
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
     public function booking_from_app(Request $request)
     {
@@ -371,12 +363,12 @@ class AppointmentsController extends Controller
         $params['status'] = 'Upcoming';
         $params['created_at'] = Carbon::now();
 
-        $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
+        $cancel_exist = $this->treatmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
         if($cancel_exist){
             $a_id = $cancel_exist['id'];
             $params['status'] = 'Upcoming';
             $params['updated_at'] = Carbon::now();
-            if($this->appointmentsRepository->update($a_id, $params)){
+            if($this->treatmentsRepository->update($a_id, $params)){
                 $data = [
                     'data' => [
                         "code" => 200,
@@ -394,7 +386,7 @@ class AppointmentsController extends Controller
             return response()->json($data);
         }
 
-        $double_book_a_day = $this->appointmentsRepository->check_double_book_a_day($params['user_id'], $params['booked_date']);
+        $double_book_a_day = $this->treatmentsRepository->check_double_book_a_day($params['user_id'], $params['booked_date']);
         if($double_book_a_day){
             $data = [
                 'error' => [
@@ -405,7 +397,7 @@ class AppointmentsController extends Controller
             return response()->json($data);
         }
 
-        $taken_book = $this->appointmentsRepository->check_taken_book($params['clinic_id'], $params['booked_start']);
+        $taken_book = $this->treatmentsRepository->check_taken_book($params['clinic_id'], $params['booked_start']);
         if($taken_book){
             $data = [
                 'error' => [
@@ -416,7 +408,7 @@ class AppointmentsController extends Controller
             return response()->json($data);
         }
 
-        $appointment = $this->appointmentsRepository->create($params);
+        $appointment = $this->treatmentsRepository->create($params);
         if($appointment){
 
             // Add Notification
@@ -457,7 +449,7 @@ class AppointmentsController extends Controller
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
     public function booking_cancel_app(Request $request)
     {
@@ -467,7 +459,7 @@ class AppointmentsController extends Controller
         $params['updated_at'] = Carbon::now();
 
         try {
-            if ($this->appointmentsRepository->update($appointment_id, $params)) {
+            if ($this->treatmentsRepository->update($appointment_id, $params)) {
                 $data = [
                     'data' => [
                         "code" => 200,
@@ -492,18 +484,18 @@ class AppointmentsController extends Controller
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_appointments_list()
+    public function get_treatments_list()
     {
-        return appointments::all();
+        return treatments::all();
     }
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_appointments_upcoming_list(Request $request)
+    public function get_treatments_upcoming_list(Request $request)
     {
         $param = $request->all();
         $clinic = $this->clinicRepository->findById($param['clinic_id']);
@@ -523,18 +515,18 @@ class AppointmentsController extends Controller
             $clinic['images'] = null;
         }
 
-        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments_by_clinic_id($param['clinic_id']);
-        if(sizeof($appointments_list)>0){
-            $clinic->appointment = $appointments_list;
+        $treatments_list = $this->treatmentsRepository->get_upcoming_treatments_by_clinic_id($param['clinic_id']);
+        if(sizeof($treatments_list)>0){
+            $clinic->appointment = $treatments_list;
         }
         return $clinic;
     }
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_appointments_complete_list(Request $request)
+    public function get_treatments_complete_list(Request $request)
     {
         $param = $request->all();
         $clinic = $this->clinicRepository->findById($param['clinic_id']);
@@ -554,54 +546,54 @@ class AppointmentsController extends Controller
             $clinic['images'] = null;
         }
 
-        $appointments_list = $this->appointmentsRepository->get_complete_appointments_by_clinic_id($param['clinic_id']);
-        if(sizeof($appointments_list)>0){
-            $clinic->appointment = $appointments_list;
+        $treatments_list = $this->treatmentsRepository->get_complete_treatments_by_clinic_id($param['clinic_id']);
+        if(sizeof($treatments_list)>0){
+            $clinic->appointment = $treatments_list;
         }
         return $clinic;
     }
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_appointments_upcoming_list_profile(Request $request)
+    public function get_treatments_upcoming_list_profile(Request $request)
     {
         $param = $request->all();
         $user = $this->userRepository->findById($param['user_id']);
-        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments_by_user_id($param['user_id']);
-        if(sizeof($appointments_list)>0){
-            $user->appointment = $appointments_list;
+        $treatments_list = $this->treatmentsRepository->get_upcoming_treatments_by_user_id($param['user_id']);
+        if(sizeof($treatments_list)>0){
+            $user->appointment = $treatments_list;
         }
         return $user;
     }
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_appointments_complete_list_profile(Request $request)
+    public function get_treatments_complete_list_profile(Request $request)
     {
         $param = $request->all();
         $user = $this->userRepository->findById($param['user_id']);
-        $appointments_list = $this->appointmentsRepository->get_complete_appointments_by_user_id($param['user_id']);
-        if(sizeof($appointments_list)>0){
-            $user->appointment = $appointments_list;
+        $treatments_list = $this->treatmentsRepository->get_complete_treatments_by_user_id($param['user_id']);
+        if(sizeof($treatments_list)>0){
+            $user->appointment = $treatments_list;
         }
         return $user;
     }
 
     /***
      * API
-     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     * @return Treatments[]|\Illuminate\Database\Eloquent\Collection
      */
-    public function get_appointments_cancel_list_profile(Request $request)
+    public function get_treatments_cancel_list_profile(Request $request)
     {
         $param = $request->all();
         $user = $this->userRepository->findById($param['user_id']);
-        $appointments_list = $this->appointmentsRepository->get_cancel_appointments_by_user_id($param['user_id']);
-        if(sizeof($appointments_list)>0){
-            $user->appointment = $appointments_list;
+        $treatments_list = $this->treatmentsRepository->get_cancel_treatments_by_user_id($param['user_id']);
+        if(sizeof($treatments_list)>0){
+            $user->appointment = $treatments_list;
         }
         return $user;
     }
