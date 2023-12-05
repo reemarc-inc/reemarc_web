@@ -9,6 +9,7 @@ use App\Models\Clinic;
 use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\Admin\FileAttachmentsRepository;
+use App\Repositories\Admin\NotificationRepository;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -18,16 +19,19 @@ use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\ClinicRepository;
 
 use Illuminate\Support\Facades\Hash;
+use GuzzleHttp\Client;
 
 class AppointmentsController extends Controller
 {
     private $appointmentsRepository;
     private $clinicRepository;
+    private $notificationRepository;
     private $fileAttachmentsRepository;
     private $userRepository;
 
     public function __construct(AppointmentsRepository $appointmentsRepository,
                                 ClinicRepository $clinicRepository,
+                                NotificationRepository $notificationRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
                                 UserRepository $userRepository) // phpcs:ignore
     {
@@ -35,6 +39,7 @@ class AppointmentsController extends Controller
 
         $this->appointmentsRepository = $appointmentsRepository;
         $this->clinicRepository = $clinicRepository;
+        $this->notificationRepository = $notificationRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
 
@@ -430,10 +435,12 @@ class AppointmentsController extends Controller
             $notification['type']               = 'booking_requested';
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
-            $notification->save();
+            $new_noti = $notification->save();
 
             // Send Notification
-
+            $rs_notification = $this->send_notificatoin();
+            $new_params['response'] = $rs_notification;
+            $this->notificationRepository->update($new_noti->id, $new_params);
 
             $data = [
                 'data' => [
@@ -453,6 +460,41 @@ class AppointmentsController extends Controller
             return response()->json($data);
         }
 
+    }
+
+    public function send_notificatoin()
+    {
+        $client = new Client();
+        $res = $client->request('POST', 'https://us-central1-denti-find.cloudfunctions.net/sendFCM', [
+            [
+                "token" => "eag-Vno5QpGNuiVhGdJ2wO:APA91bG2wQbDlWinplUg4QEblKf_KsOtcZLvkCaEjwavCct2Q4Fm5tsnRok8x-zUKekO8XyxgTKgKdmkK7wf1bP9TxDw6Tx35PuzmVEyj_S4DKBJ4DG2jeFH3tW_Mdj7xSwpnq2JZnZt",
+                "notification" => [
+                    "title" => "Your Notification Title Test",
+                    "body" => "Your Notification Body"
+                ],
+                "data" => [
+                    "message_id" => "1",
+                    "image_url" => "",
+                    "user_id" => "228",
+                    "appointment_id" => "28",
+                    "type" => "booking_requested",
+                    "clinic_name" => "Newyork Yonsei Dental Clinic",
+                    "clinic_address" => "3F JUN Building, 825-9 Yeoksam-dong, Gangnam-gu, Seoul",
+                    "booked_time" => "10=>00 am",
+                    "booked_date" => "2023-12-04",
+                    "clinic_web_url" => "https=>//www.dugonismile.com/",
+                    "clinic_phone" => "6505885042",
+                    "note" => "Your booking at Newyork Yonsei Dental Clinic is at 10=>00 am Dec 4, 2023",
+                    "status"=> "unread",
+                    "created_at" => "2023-11-30 12:00:00"
+                ]
+            ]
+        ]);
+
+        if ($res->getStatusCode() == 200) { // 200 OK
+            $response_data = $res->getBody()->getContents();
+        }
+        return $response_data;
     }
 
     /***
