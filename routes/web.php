@@ -87,6 +87,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('appointments_list', AdminAppointments::class);
     Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
+    Route::get('appointment_follow_up', [AdminAppointments::class, 'follow_up'])->name('appointment.follow_up');
 
     Route::resource('treatments', AdminTreatments::class);
 

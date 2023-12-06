@@ -184,6 +184,13 @@ class AppointmentsController extends Controller
             'Busan',
             'Jeju',
         ];
+
+        $this->data['status_'] = [
+            'Upcoming',
+            'Complete',
+            'Cancel'
+        ];
+
         return view('admin.appointments.form', $this->data);
     }
 
@@ -343,6 +350,32 @@ class AppointmentsController extends Controller
             ->with('success', __('Data has been Booked.'));
     }
 
+    public function follow_up()
+    {
+
+        $this->data['currentAdminMenu'] = 'appointment_follow_up';
+
+//        $params = $request->all();
+
+//        $this->data['filter'] = $params;
+        $this->data['appointments'] = $appointments_list = $this->appointmentsRepository->get_patients_list_by_clinic_id(1);
+
+
+//        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments();
+//
+//        // Campaign_asset_detail
+//        if(sizeof($appointments_list)>0){
+//            foreach ($appointments_list as $k => $appointment){
+//                $a_id = $appointment->id;
+//                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($a_id);
+//                $appointments_list[$k]->appointment = $appointment_detail;
+//            }
+//        }
+
+        return view('admin.appointment_follow_up.index', $this->data);
+    }
+
+
     /***
      * API
      * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
@@ -435,7 +468,7 @@ class AppointmentsController extends Controller
             $notification['type']               = 'booking_requested';
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
-            $new_noti = $notification->save();
+            $notification->save();
 
             // Send Notification
 //            $rs_notification = $this->send_notificatoin();

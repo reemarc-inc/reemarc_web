@@ -31,23 +31,24 @@
 {{--        <li class="{{ ($currentAdminMenu == 'asset_kpi') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_kpi') }}"><i class="fas fa-th-list"></i> <span>KPI (Creative)</span></a></li>--}}
 {{--        <?php } ?>--}}
         <li class="menu-header">Appointments</li>
-        <li class="{{ ($currentAdminMenu == 'appointment_make') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointment_make')}}"><i class="fas fa-user"></i> <span>Make Appointment</span></a></li>
-        <li class="{{ ($currentAdminMenu == 'appointments_list') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointments_list')}}"><i class="fas fa-user"></i> <span>Appointments List</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'appointment_make') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointment_make')}}"><i class="fas fa-table"></i> <span>Make Appointment</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'appointments_list') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointments_list')}}"><i class="fas fa-list-ul"></i> <span>Appointments List</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'appointment_follow_up') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointment_follow_up')}}"><i class="fas fa-check-square"></i> <span>Follow Up</span></a></li>
 
         <li class="menu-header">Treatments</li>
-        <li class="{{ ($currentAdminMenu == 'treatments') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/treatments')}}"><i class="fas fa-user"></i> <span>Treatments List</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'treatments') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/treatments')}}"><i class="fas fa-stethoscope"></i> <span>Treatments List</span></a></li>
 
         <li class="menu-header">Account</li>
         <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'users') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/users')}}"><i class="fas fa-user"></i> <span>Users</span></a></li>
         <?php } ?>
         <li class="menu-header">Notification</li>
-        <li class="{{ ($currentAdminMenu == 'notification') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/notification')}}"><i class="fas fa-user"></i> <span>Notification</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'notification') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/notification')}}"><i class="fas fa-bullhorn"></i> <span>Notification</span></a></li>
         <li class="menu-header">Settings</li>
 {{--        <li class="{{ ($currentAdminMenu == 'asset_lead_time') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/asset_lead_time')}}"><i class="fas fa-user"></i> <span>Clinics</span></a></li>--}}
-        <li class="{{ ($currentAdminMenu == 'clinic') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/clinic')}}"><i class="fas fa-user"></i> <span>Clinics</span></a></li>
-        <li class="{{ ($currentAdminMenu == 'package') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/package')}}"><i class="fas fa-user"></i> <span>Package</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'clinic') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/clinic')}}"><i class="fas fa-user-md"></i> <span>Clinics</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'package') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/package')}}"><i class="fas fa-medkit"></i> <span>Package</span></a></li>
         <li class="menu-header">APIs</li>
-        <li class="{{ ($currentAdminMenu == 'api') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/api')}}"><i class="fas fa-user"></i> <span>Api Test</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'api') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/api')}}"><i class="fas fa-wifi"></i> <span>Api Test</span></a></li>
     </ul>
 </aside>

@@ -166,18 +166,29 @@
                                     @enderror
                                 </div>
 
+{{--                                <div class="form-group">--}}
+{{--                                    <label>status</label>--}}
+{{--                                    <input type="text" name="status"--}}
+{{--                                           class="form-control @error('status') is-invalid @enderror @if (!$errors->has('status') && old('status')) is-valid @endif"--}}
+{{--                                           value="{{ old('status', !empty($appointments) ? $appointments->status : null) }}">--}}
+{{--                                    @error('status')--}}
+{{--                                    <div class="invalid-feedback">--}}
+{{--                                        {{ $message }}--}}
+{{--                                    </div>--}}
+{{--                                    @enderror--}}
+{{--                                </div>--}}
+
                                 <div class="form-group">
                                     <label>status</label>
-                                    <input type="text" name="status"
-                                           class="form-control @error('status') is-invalid @enderror @if (!$errors->has('status') && old('status')) is-valid @endif"
-                                           value="{{ old('status', !empty($appointments) ? $appointments->status : null) }}">
-                                    @error('status')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
+                                        <select class="form-control" name="status">
+                                            <option>Select Region</option>
+                                            @foreach ($status_ as $value)
+                                                <option value="{{ $value }}" {{ $value == $status ? 'selected' : '' }}>
+                                                    {{ $value }}
+                                                </option>
+                                            @endforeach
+                                        </select>
                                 </div>
-
 
                             </div>
 

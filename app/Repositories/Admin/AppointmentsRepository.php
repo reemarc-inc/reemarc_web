@@ -56,6 +56,13 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return $appointments->delete();
     }
 
+    public function get_patients_list_by_clinic_id($c_id)
+    {
+        $appointment = new Appointments();
+        $appointment = $appointment->Where('status', '=', 'Upcoming');
+        return $appointment->get();
+    }
+
     public function get_upcoming_appointments()
     {
         $brand = new Appointments();
