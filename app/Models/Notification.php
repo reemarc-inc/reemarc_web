@@ -19,7 +19,8 @@ class Notification extends Model
         'appointment_id',
         'treatment_id',
         'type',
-        'note'
+        'note',
+        'delete'
     ];
 
     protected $primaryKey = 'id';

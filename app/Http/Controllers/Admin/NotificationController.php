@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\Notification;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
@@ -164,7 +165,36 @@ class NotificationController extends Controller
             ];
             return response()->json($data);
         }
+    }
 
+    public function delete_notification(Request $request)
+    {
+        $param = $request->all();
+        $params['delete'] = 'yes';
+        $params['updated_at'] = Carbon::now();
+
+        try{
+            if($this->notificationRepository->update($param['id'], $params)){
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        "message" => "Notification has been deleted"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+                return response()->json($data);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
 }
