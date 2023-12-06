@@ -437,7 +437,7 @@ class AppointmentsController extends Controller
             $data = [
                 'error' => [
                     'code' => 400,
-                    'message' => "A booking already exists for the same date"
+                    'message' => "You have a reservation on the same day. Please reschedule or cancel existing booking."
                 ]
             ];
             return response()->json($data);
@@ -448,7 +448,7 @@ class AppointmentsController extends Controller
             $data = [
                 'error' => [
                     'code' => 400,
-                    'message' => "A booking already exists for another patient"
+                    'message' => "We apologize, but the reservation time you selected is already booked. Please choose a different time or check our availability for other dates."
                 ]
             ];
             return response()->json($data);
