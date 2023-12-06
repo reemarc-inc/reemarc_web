@@ -28,6 +28,7 @@
                                     <th>User Email</th>
                                     <th>Type</th>
                                     <th>Created At</th>
+                                    <th>Delete</th>
                                     <th width="15%">Action</th>
                                 </thead>
                                 <tbody>
@@ -38,6 +39,7 @@
                                             <td>{{ $notification->user_email}}</td>
                                             <td>{{ $notification->type}}</td>
                                             <td>{{ $notification->created_at}}</td>
+                                            <td>{{ $notification->delete}}</td>
                                             <td>
                                                 <a class="btn btn-sm" href="{{ url('admin/notification/'. $notification->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
                                                 <a href="{{ url('admin/notification/'. $notification->id) }}" class="btn btn-sm" onclick="
