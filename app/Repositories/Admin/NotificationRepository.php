@@ -52,4 +52,11 @@ class NotificationRepository implements NotificationRepositoryInterface
         return $notification->delete();
     }
 
+    public function get_notification_list_by_user_id($u_id)
+    {
+        $notification = new Notification();
+        $notification =$notification->Where('user_id', '=', $u_id);
+        return $notification->get();
+    }
+
 }

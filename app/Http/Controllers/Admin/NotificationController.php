@@ -144,4 +144,27 @@ class NotificationController extends Controller
         }
     }
 
+    public function get_notification_list(Request $request)
+    {
+        $param = $request->all();
+
+        $notification_list = $this->notificationRepository->get_notification_list_by_user_id($param['user_id']);
+        if(sizeof($notification_list)>0){
+            $data = [
+                'data' => [
+                    'notification_list' => $notification_list
+                ]
+            ];
+            return response()->json($data);
+        }else{
+            $data = [
+                'error' => [
+                    'message' => "These credentials do not match our records."
+                ]
+            ];
+            return response()->json($data);
+        }
+
+    }
+
 }

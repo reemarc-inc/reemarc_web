@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ClinicController;
 use App\Http\Controllers\Admin\AppointmentsController;
+use App\Http\Controllers\Admin\NotificationController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -45,5 +46,7 @@ Route::post("get_appointments_cancel_list_profile", [AppointmentsController::cla
 
 Route::post("booking_from_app", [AppointmentsController::class, 'booking_from_app']);
 Route::post("booking_cancel_app", [AppointmentsController::class, 'booking_cancel_app']);
+
+Route::post("get_notification_list", [NotificationController::class, 'get_notification_list']);
 
 Route::apiResource("member", MemberController::class);
