@@ -59,7 +59,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function get_patients_list_by_clinic_id($c_id)
     {
         $appointment = new Appointments();
-        $appointment = $appointment->Where('status', '=', 'Upcoming');
+//        $appointment = $appointment->Where('status', '=', 'Upcoming');
         return $appointment->get();
     }
 
