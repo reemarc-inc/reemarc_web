@@ -10,6 +10,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\Admin\FileAttachmentsRepository;
 use App\Repositories\Admin\NotificationRepository;
+use App\Repositories\Admin\TreatmentsRepository;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -24,12 +25,14 @@ use GuzzleHttp\Client;
 class AppointmentsController extends Controller
 {
     private $appointmentsRepository;
+    private $treatmentsRepository;
     private $clinicRepository;
     private $notificationRepository;
     private $fileAttachmentsRepository;
     private $userRepository;
 
     public function __construct(AppointmentsRepository $appointmentsRepository,
+                                TreatmentsRepository $treatmentsRepository,
                                 ClinicRepository $clinicRepository,
                                 NotificationRepository $notificationRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
@@ -38,6 +41,7 @@ class AppointmentsController extends Controller
         parent::__construct();
 
         $this->appointmentsRepository = $appointmentsRepository;
+        $this->treatmentsRepository = $treatmentsRepository;
         $this->clinicRepository = $clinicRepository;
         $this->notificationRepository = $notificationRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
@@ -373,6 +377,34 @@ class AppointmentsController extends Controller
 //        }
 
         return view('admin.appointment_follow_up.index', $this->data);
+    }
+
+    public function follow_up_complete(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'appointment_follow_up';
+
+        $param = $request->all();
+        $appointment_id = $param['appointment_id'];
+        $params['status'] = 'Complete';
+        $params['updated_at'] = Carbon::now();
+
+        if ($this->appointmentsRepository->update($appointment_id, $params)) {
+
+            $appointment = $this->appointmentsRepository->findById($appointment_id);
+
+            $t_params['appointment_id'] = $appointment->id;
+            $t_params['user_id'] = $appointment->user_id;
+            $t_params['clinic_id'] = $appointment->clinic_id;
+            $t_params['status'] = 'package_in_progress';
+            $t_params['created_at'] = Carbon::now();
+
+            $this->treatmentsRepository->create($t_params);
+
+            return redirect('admin/appointment_follow_up')
+                ->with('success', 'Follow Up Success!');
+        }
+
+
     }
 
 

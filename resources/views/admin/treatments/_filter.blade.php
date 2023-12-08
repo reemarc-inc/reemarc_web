@@ -1,4 +1,4 @@
-<form method="GET" action="{{ route('clinic.index') }}">
+<form method="GET" action="{{ route('treatments.index') }}">
     <div class="form-row" style="background-color: white; margin: -16px 0px 0px 0px; padding: 0px 0px 0px 12px;">
         <hr width="99%" />
         <div class="form-group col-md-4">
@@ -7,8 +7,8 @@
         <div class="form-group col-md-2">
             <select class="design-select" name="team">
                 <option value="">Select Region</option>
-                @foreach ($teams_ as $value)
-                    <option value="{{ $value }}" @if( $value == $team_) selected="selected" @endif >
+                @foreach ($regions_ as $value)
+                    <option value="{{ $value }}" @if( $value == $region_) selected="selected" @endif >
                         {{$value}}
                     </option>
                 @endforeach
@@ -28,7 +28,7 @@
             <button class="design-white-btn">Apply</button>
         </div>
 {{--        <div class="form-group col-md-2">--}}
-{{--            <a href="{{ url('admin/clinic/create') }}">--}}
+{{--            <a href="{{ url('admin/treatments/create') }}">--}}
 {{--                <button type="button" class="design-white-btn"><i class="fas fa-plus"></i> Create</button>--}}
 {{--            </a>--}}
 {{--        </div>--}}

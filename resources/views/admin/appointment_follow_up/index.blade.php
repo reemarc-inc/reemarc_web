@@ -35,7 +35,11 @@
                                         <?php } ?>
 
                                     <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }}</h6>
-                                    <div class="text-small text-muted">Patient <div class="bullet"></div> <span class="text-primary">Today</span></div>
+                                    <div class="text-small text-muted">Patient
+                                        <?php if( $appointment->booked_date == Carbon\Carbon::now()->format('Y-m-d')) { ?>
+                                        <div class="bullet"></div> <span class="text-danger">Today</span>
+                                        <?php } ?>
+                                    </div>
                                 </div>
                             </li>
 
@@ -92,11 +96,46 @@
 
                         <div class="card-footer">
                             <?php if($appointment->status != 'Complete'){ ?>
-                            <button type="button" class="btn-sm followup-white-project-btn">Follow Up</button>
+                            <button type="button"
+                                    class="btn-sm followup-white-project-btn"
+                                    data-toggle="modal"
+                                    data-target="#follow-{{$appointment->id}}">Follow Up</button>
+
                             <?php } ?>
                         </div>
                     </div>
                 </div>
+
+
+                <div id="follow-{{$appointment->id}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="followModalLabel" aria-hidden="true" data-backdrop="false">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <form method="POST" action="{{ route('appointment.follow_up_complete') }}" enctype="multipart/form-data">
+                                @csrf
+
+                                <input type="hidden" name="appointment_id" value="{{ $appointment->id }}">
+
+                                <div class="modal-header" style="color: #b91d19;">
+                                    <h4 class="modal-title" id="myModalLabel" >Have you completed updating the patient data in Invisalign?</h4><br><br><br>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                </div>
+                                <div class="modal-body" style="text-align: center;">
+
+                                    <h3 class="modal-title">{{ $appointment->user_first_name }} {{ $appointment->user_last_name }}</h3>
+                                    <br>
+                                    <h4>{{ $appointment->booked_date }}, {{ $appointment->booked_day }} {{ $appointment->booked_time }}</h4>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure?')">Yes. It's Completed</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+
             @endforeach
         </div>
 {{--        {{ $appointments->appends(['q' => !empty($filter['q']) ? $filter['q'] : ''])->links() }}--}}

@@ -60,20 +60,22 @@ class TreatmentsController extends Controller
 
         $this->data['filter'] = $params;
         $this->data['treatments'] = $this->treatmentsRepository->findAll($options);
-        $this->data['teams_'] = [
+
+        $this->data['regions_'] = [
             'New York',
             'San Francisco',
             'Seoul',
             'Busan',
             'Jeju',
         ];
+
         $this->data['roles_'] = [
             'Admin' => 'admin',
             'Doctor' => 'doctor',
             'Patient' => 'patient',
             'Operator' => 'operator',
         ];
-        $this->data['team_'] = !empty($params['team']) ? $params['team'] : '';
+        $this->data['region_'] = !empty($params['region']) ? $params['region'] : '';
         $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
 
         return view('admin.treatments.index', $this->data);
@@ -145,6 +147,8 @@ class TreatmentsController extends Controller
     {
         $treatments = $this->treatmentsRepository->findById($id);
 
+
+
         $this->data['treatments'] = $treatments;
         $this->data['user_id'] = $treatments->user_id;
         $this->data['user_first_name'] = $treatments->user_first_name;
@@ -171,6 +175,7 @@ class TreatmentsController extends Controller
             'Busan',
             'Jeju',
         ];
+
         return view('admin.treatments.form', $this->data);
     }
 

@@ -28,6 +28,7 @@
                                     <th>User ID</th>
                                     <th>Clinic ID</th>
                                     <th>Package ID</th>
+                                    <th>Status</th>
                                     <th>Create At</th>
                                     <th width="15%">Action</th>
                                 </thead>

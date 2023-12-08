@@ -88,8 +88,11 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('appointments_list', AdminAppointments::class);
     Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
     Route::get('appointment_follow_up', [AdminAppointments::class, 'follow_up'])->name('appointment.follow_up');
+    Route::post('follow_up_complete', [AdminAppointments::class, 'follow_up_complete'])->name('appointment.follow_up_complete');
 
     Route::resource('treatments', AdminTreatments::class);
+    Route::redirect('treatments/{id}/edit', [AdminTreatments::class, 'edit'])->name('treatments_list.update');
+
 
     Route::post('appointment_make/booking', [AdminAppointments::class, 'booking'])->name('appointment_make.booking');
 
