@@ -511,6 +511,7 @@ class AppointmentsController extends Controller
                 'data' => [
                     "code" => 200,
                     'appointment' => $appointment,
+                    'notification' => $notification,
                     "message" => "Data has been created"
                 ]
             ];
