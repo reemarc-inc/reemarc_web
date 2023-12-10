@@ -509,14 +509,15 @@ class AppointmentsController extends Controller
 
             $noti_res['notification_id']    = $notification->id;
             $noti_res['notification_title'] = '';
-            $noti_res['notification_body']  = $notification['note'];
-            $noti_res['user_id']            = $notification['user_id'];
-            $noti_res['user_first_name']    = $notification['user_first_name'];
-            $noti_res['user_last_name']     = $notification['user_last_name'];
-            $noti_res['user_email']         = $notification['user_email'];
-            $noti_res['appointment_id']     = $notification['appointment_id'];
-            $noti_res['type']               = $notification['type'];
-            $noti_res['note']               = $notification['note'];
+            $noti_res['notification_body']  = $notification->note;
+            $noti_res['user_id']            = $notification->user_id;
+            $noti_res['user_first_name']    = $notification->user_first_name;
+            $noti_res['user_last_name']     = $notification->user_last_name;
+            $noti_res['user_email']         = $notification->user_email;
+            $noti_res['appointment_id']     = $notification->appointment_id;
+            $noti_res['type']               = $notification->type;
+            $noti_res['read']               = $notification->read;
+            $noti_res['note']               = $notification->note;
 
             $data = [
                 'data' => [
