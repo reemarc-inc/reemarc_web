@@ -500,21 +500,31 @@ class AppointmentsController extends Controller
             $notification['type']               = 'booking_requested';
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
-            $notification->save();
+            $notification_obj = $notification->save();
 
             // Send Notification
 //            $rs_notification = $this->send_notificatoin();
 //            $new_params['response'] = $rs_notification;
 //            $this->notificationRepository->update($new_noti->id, $new_params);
 
-            $notification['notification_title'] = '';
-            $notification['notification_body'] = $notification['note'];
+            $n_id = $notification_obj->id;
+
+            $noti_res['notification_id'] = $n_id;
+            $noti_res['notification_title'] = '';
+            $noti_res['notification_body'] = $notification_obj['note'];
+            $noti_res['user_id']            = $notification['user_id'];
+            $noti_res['user_first_name']    = $notification['user_first_name'];
+            $noti_res['user_last_name']     = $notification['user_last_name'];
+            $noti_res['user_email']         = $notification['user_email'];
+            $noti_res['appointment_id']     = $notification['appointment_id'];
+            $noti_res['type']               = $notification['type'];
+            $noti_res['note']               = $notification['note'];
 
             $data = [
                 'data' => [
                     "code" => 200,
                     'appointment' => $appointment,
-                    'notification' => $notification,
+                    'notification' => $noti_res,
                     "message" => "Data has been created"
                 ]
             ];
