@@ -500,18 +500,16 @@ class AppointmentsController extends Controller
             $notification['type']               = 'booking_requested';
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
-            $notification_obj = $notification->save();
+            $notification->save();
 
             // Send Notification
 //            $rs_notification = $this->send_notificatoin();
 //            $new_params['response'] = $rs_notification;
 //            $this->notificationRepository->update($new_noti->id, $new_params);
 
-            $n_id = $notification_obj->id;
-
-            $noti_res['notification_id'] = $n_id;
+            $noti_res['notification_id']    = $notification->id;
             $noti_res['notification_title'] = '';
-            $noti_res['notification_body'] = $notification_obj['note'];
+            $noti_res['notification_body']  = $notification['note'];
             $noti_res['user_id']            = $notification['user_id'];
             $noti_res['user_first_name']    = $notification['user_first_name'];
             $noti_res['user_last_name']     = $notification['user_last_name'];
