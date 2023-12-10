@@ -498,6 +498,8 @@ class AppointmentsController extends Controller
             $notification['appointment_id']     = $appointment->id;
             $notification['treatment_id']       = 0;
             $notification['type']               = 'booking_requested';
+            $notification['is_read']            = 'no';
+            $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
             $notification->save();
@@ -516,8 +518,8 @@ class AppointmentsController extends Controller
             $noti_res['user_email']         = $notification->user_email;
             $noti_res['appointment_id']     = $notification->appointment_id;
             $noti_res['type']               = $notification->type;
-            $noti_res['is_read']               = $notification->read;
-            $noti_res['is_delete']             = $notification->delete;
+            $noti_res['is_read']            = $notification->is_read;
+            $noti_res['is_delete']          = $notification->is_delete;
             $noti_res['note']               = $notification->note;
 
             $data = [
