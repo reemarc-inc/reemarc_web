@@ -507,6 +507,9 @@ class AppointmentsController extends Controller
 //            $new_params['response'] = $rs_notification;
 //            $this->notificationRepository->update($new_noti->id, $new_params);
 
+            $notification['notification_title'] = '';
+            $notification['notification_body'] = $notification['note'];
+
             $data = [
                 'data' => [
                     "code" => 200,
