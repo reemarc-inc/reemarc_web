@@ -516,7 +516,8 @@ class AppointmentsController extends Controller
             $noti_res['user_email']         = $notification->user_email;
             $noti_res['appointment_id']     = $notification->appointment_id;
             $noti_res['type']               = $notification->type;
-            $noti_res['read']               = $notification->read;
+            $noti_res['is_read']               = $notification->read;
+            $noti_res['is_delete']             = $notification->delete;
             $noti_res['note']               = $notification->note;
 
             $data = [

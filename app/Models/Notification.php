@@ -20,8 +20,8 @@ class Notification extends Model
         'treatment_id',
         'type',
         'note',
-        'delete',
-        'read'
+        'is_delete',
+        'is_read',
     ];
 
     protected $primaryKey = 'id';
