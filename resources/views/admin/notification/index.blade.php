@@ -28,6 +28,7 @@
                                     <th>User Email</th>
                                     <th>Type</th>
                                     <th>Created At</th>
+                                    <th>Read</th>
                                     <th>Delete</th>
                                     <th width="15%">Action</th>
                                 </thead>
