@@ -170,7 +170,7 @@ class NotificationController extends Controller
     public function delete_notification(Request $request)
     {
         $param = $request->all();
-        $params['delete'] = 'yes';
+        $params['is_delete'] = 'yes';
         $params['updated_at'] = Carbon::now();
 
         try{
@@ -179,6 +179,36 @@ class NotificationController extends Controller
                     'data' => [
                         "code" => 200,
                         "message" => "Notification has been deleted"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+                return response()->json($data);
+            }
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function read_notification(Request $request)
+    {
+        $param = $request->all();
+        $params['is_read'] = 'yes';
+        $params['updated_at'] = Carbon::now();
+
+        try{
+            if($this->notificationRepository->update($param['id'], $params)){
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        "message" => "Notification has been update to read"
                     ]
                 ];
                 return response()->json($data);

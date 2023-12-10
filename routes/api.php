@@ -49,5 +49,6 @@ Route::post("booking_cancel_app", [AppointmentsController::class, 'booking_cance
 
 Route::post("get_notification_list", [NotificationController::class, 'get_notification_list']);
 Route::post("delete_notification", [NotificationController::class, 'delete_notification']);
+Route::post("read_notification", [NotificationController::class, 'read_notification']);
 
 Route::apiResource("member", MemberController::class);
