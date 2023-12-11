@@ -8,6 +8,7 @@ use App\Models\appointments;
 use App\Models\Clinic;
 use App\Models\Notification;
 use App\Models\User;
+use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\FileAttachmentsRepository;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
@@ -22,11 +23,13 @@ use Illuminate\Support\Facades\Hash;
 class TreatmentsController extends Controller
 {
     private $treatmentsRepository;
+    private $appointmentsRepository;
     private $clinicRepository;
     private $fileAttachmentsRepository;
     private $userRepository;
 
     public function __construct(TreatmentsRepository $treatmentsRepository,
+                                AppointmentsRepository $appointmentsRepository,
                                 ClinicRepository $clinicRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
                                 UserRepository $userRepository) // phpcs:ignore
@@ -34,6 +37,7 @@ class TreatmentsController extends Controller
         parent::__construct();
 
         $this->treatmentsRepository = $treatmentsRepository;
+        $this->appointmentsRepository = $appointmentsRepository;
         $this->clinicRepository = $clinicRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
@@ -145,28 +149,28 @@ class TreatmentsController extends Controller
      */
     public function edit($id)
     {
-        $treatments = $this->treatmentsRepository->findById($id);
+        $treatment = $this->treatmentsRepository->findById($id);
 
+        $this->data['treatment'] = $treatment;
+        $this->data['appointment'] = $this->appointmentsRepository->findById($treatment->appointment_id);
 
-
-        $this->data['treatments'] = $treatments;
-        $this->data['user_id'] = $treatments->user_id;
-        $this->data['user_first_name'] = $treatments->user_first_name;
-        $this->data['user_last_name'] = $treatments->user_last_name;
-        $this->data['user_email'] = $treatments->user_email;
-        $this->data['user_phone'] = $treatments->user_phone;
-        $this->data['clinic_id'] = $treatments->clinic_id;
-        $this->data['clinic_name'] = $treatments->clinic_name;
-        $this->data['clinic_phone'] = $treatments->clinic_phone;
-        $this->data['clinic_address'] = $treatments->clinic_address;
-        $this->data['clinic_region'] = $treatments->clinic_region;
-        $this->data['booked_date'] = $treatments->booked_date;
-        $this->data['booked_start'] = $treatments->booked_start;
-        $this->data['booked_end'] = $treatments->booked_end;
-        $this->data['booked_day'] = $treatments->booked_day;
-        $this->data['booked_time'] = $treatments->booked_time;
-        $this->data['status'] = $treatments->status;
-        $this->data['created_at'] = $treatments->created_at;
+        $this->data['user_id'] = $treatment->user_id;
+        $this->data['user_first_name'] = $treatment->user_first_name;
+        $this->data['user_last_name'] = $treatment->user_last_name;
+        $this->data['user_email'] = $treatment->user_email;
+        $this->data['user_phone'] = $treatment->user_phone;
+        $this->data['clinic_id'] = $treatment->clinic_id;
+        $this->data['clinic_name'] = $treatment->clinic_name;
+        $this->data['clinic_phone'] = $treatment->clinic_phone;
+        $this->data['clinic_address'] = $treatment->clinic_address;
+        $this->data['clinic_region'] = $treatment->clinic_region;
+        $this->data['booked_date'] = $treatment->booked_date;
+        $this->data['booked_start'] = $treatment->booked_start;
+        $this->data['booked_end'] = $treatment->booked_end;
+        $this->data['booked_day'] = $treatment->booked_day;
+        $this->data['booked_time'] = $treatment->booked_time;
+        $this->data['status'] = $treatment->status;
+        $this->data['created_at'] = $treatment->created_at;
 
         $this->data['region_'] = [
             'New York',

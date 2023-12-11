@@ -447,9 +447,39 @@ class AppointmentsController extends Controller
             $params['status'] = 'Upcoming';
             $params['updated_at'] = Carbon::now();
             if($this->appointmentsRepository->update($a_id, $params)){
+
+                // Add Notification
+                $notification = new Notification();
+                $notification['user_id']            = $params['user_id'];
+                $notification['user_first_name']    = $params['user_first_name'];
+                $notification['user_last_name']     = $params['user_last_name'];
+                $notification['user_email']         = $params['user_email'];
+                $notification['appointment_id']     = $a_id;
+                $notification['treatment_id']       = 0;
+                $notification['type']               = 'booking_requested';
+                $notification['is_read']            = 'no';
+                $notification['is_delete']          = 'no';
+                $notification['created_at']         = Carbon::now();
+                $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
+                $notification->save();
+
+                $noti_res['notification_id']    = $notification->id;
+                $noti_res['notification_title'] = 'Initial treatment booked';
+                $noti_res['notification_body']  = $notification->note;
+                $noti_res['user_id']            = $notification->user_id;
+                $noti_res['user_first_name']    = $notification->user_first_name;
+                $noti_res['user_last_name']     = $notification->user_last_name;
+                $noti_res['user_email']         = $notification->user_email;
+                $noti_res['appointment_id']     = $notification->appointment_id;
+                $noti_res['type']               = $notification->type;
+                $noti_res['is_read']            = $notification->is_read;
+                $noti_res['is_delete']          = $notification->is_delete;
+                $noti_res['note']               = $notification->note;
+
                 $data = [
                     'data' => [
                         "code" => 200,
+                        'notification' => $noti_res,
                         "message" => "Data has been updated"
                     ]
                 ];
