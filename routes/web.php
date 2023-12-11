@@ -93,6 +93,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('treatments', AdminTreatments::class);
     Route::redirect('treatments/{id}/edit', [AdminTreatments::class, 'edit'])->name('treatments_list.update');
 
+    Route::get('treatments', [AdminTreatments::class, 'index'])->name('treatments.index');
 
     Route::post('appointment_make/booking', [AdminAppointments::class, 'booking'])->name('appointment_make.booking');
 

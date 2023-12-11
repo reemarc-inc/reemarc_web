@@ -32,6 +32,8 @@ class User extends Authenticatable
         'access_level',
         'email',
         'phone',
+        'gender',
+        'yob',
         'device_token',
         'payment_customer_id',
         'password',

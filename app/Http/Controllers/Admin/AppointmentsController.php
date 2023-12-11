@@ -395,7 +395,7 @@ class AppointmentsController extends Controller
             $t_params['appointment_id'] = $appointment->id;
             $t_params['user_id'] = $appointment->user_id;
             $t_params['clinic_id'] = $appointment->clinic_id;
-            $t_params['status'] = 'package_in_progress';
+            $t_params['status'] = 'package_option_ready';
             $t_params['created_at'] = Carbon::now();
 
             $this->treatmentsRepository->create($t_params);

@@ -33,6 +33,28 @@
 
                             <div class="col">
                                 <div class="form-group">
+                                    <label>Role</label>
+                                    <div class="selectgroup w-100">
+                                        @foreach ($roles_ as $key => $value)
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="role" value="{{ $value }}" class="selectgroup-input" {{ strtolower($value) == $role_ ? 'checked=""' : '' }}>
+                                                <span class="selectgroup-button">{{ $key }}</span>
+                                            </label>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Email</label>
+                                    <input type="text" name="email"
+                                           class="form-control @error('email') is-invalid @enderror @if (!$errors->has('email') && old('email')) is-valid @endif"
+                                           value="{{ old('email', !empty($user) ? $user->email : null) }}">
+                                    @error('email')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label>First Name</label>
                                     <input type="text" name="first_name"
                                            class="form-control @error('first_name') is-invalid @enderror @if (!$errors->has('first_name') && old('first_name')) is-valid @endif"
@@ -55,57 +77,34 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>@lang('users.email_label')</label>
-                                    <input type="text" name="email"
-                                           class="form-control @error('email') is-invalid @enderror @if (!$errors->has('email') && old('email')) is-valid @endif"
-                                           value="{{ old('email', !empty($user) ? $user->email : null) }}">
-                                    @error('email')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
+                                    <label>Gender</label>
+                                    <div class="selectgroup w-100">
+                                        @foreach ($genders_ as $key => $value)
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="gender" value="{{ $value }}" class="selectgroup-input" {{ $value == $gender ? 'checked=""' : '' }}>
+                                                <span class="selectgroup-button">{{ $key }}</span>
+                                            </label>
+                                        @endforeach
                                     </div>
-                                    @enderror
                                 </div>
 
                                 <div class="form-group">
-                                    <label>Phone</label>
-                                    <input type="text" name="phone"
-                                           class="form-control @error('phone') is-invalid @enderror @if (!$errors->has('phone') && old('phone')) is-valid @endif"
-                                           value="{{ old('phone', !empty($user) ? $user->phone : null) }}">
-                                    @error('phone')
+                                    <label>Year of Birth</label>
+                                    <input type="text" name="yob"
+                                           class="form-control @error('yob') is-invalid @enderror @if (!$errors->has('yob') && old('yob')) is-valid @endif"
+                                           value="{{ old('yob', !empty($user) ? $user->yob : null) }}">
+                                    @error('yob')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
                                     @enderror
                                 </div>
-
                                 <div class="form-group">
                                     <label>Device Token</label>
                                     <input type="text" name="device_token"
                                            class="form-control @error('device_token') is-invalid @enderror @if (!$errors->has('device_token') && old('device_token')) is-valid @endif"
                                            value="{{ old('device_token', !empty($user) ? $user->device_token : null) }}">
                                     @error('device_token')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label>@lang('users.password_label')</label>
-                                    <input type="password" name="password"
-                                           class="form-control @error('password') is-invalid @enderror @if (!$errors->has('password') && old('password')) is-valid @endif">
-                                    @error('password')
-                                    <div class="invalid-feedback">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label>@lang('users.password_confirmation_label')</label>
-                                    <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror @if (!$errors->has('password_confirmation') &&
-                                    old('password_confirmation')) is-valid @endif">
-                                    @error('password_confirmation')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
@@ -124,16 +123,35 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
-                                    <label>@lang('users.role_label')</label>
-                                    <select class="form-control" name="role">
-                                        <option>@lang('users.select_role_label')</option>
-
-                                        @foreach ($roles_ as $key => $value)
-                                            <option value="{{ $value }}" {{ strtolower($value) == $role_ ? 'selected' : '' }}>
-                                                {{ $key }}
-                                            </option>
-                                        @endforeach
-                                    </select>
+                                    <label>Phone</label>
+                                    <input type="text" name="phone"
+                                           class="form-control @error('phone') is-invalid @enderror @if (!$errors->has('phone') && old('phone')) is-valid @endif"
+                                           value="{{ old('phone', !empty($user) ? $user->phone : null) }}">
+                                    @error('phone')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Password</label>
+                                    <input type="password" name="password"
+                                           class="form-control @error('password') is-invalid @enderror @if (!$errors->has('password') && old('password')) is-valid @endif">
+                                    @error('password')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Password Confirmation</label>
+                                    <input type="password" name="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror @if (!$errors->has('password_confirmation') &&
+                                    old('password_confirmation')) is-valid @endif">
+                                    @error('password_confirmation')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
                                 </div>
 
                                 <?php if (!empty($attach_files)): ?>

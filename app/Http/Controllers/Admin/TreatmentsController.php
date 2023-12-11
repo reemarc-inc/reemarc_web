@@ -42,7 +42,7 @@ class TreatmentsController extends Controller
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
 
-        $this->data['currentAdminMenu'] = 'treatments_list';
+        $this->data['currentAdminMenu'] = 'treatments';
     }
     /**
      * Display a listing of the resource.
@@ -82,7 +82,16 @@ class TreatmentsController extends Controller
         $this->data['region_'] = !empty($params['region']) ? $params['region'] : '';
         $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
 
-        return view('admin.treatments.index', $this->data);
+        if(isset($_GET['region'])) {
+            $region = $params['region'];
+        }else{
+            $region = !empty($params['region']) ? $params['region'] : '';
+        }
+
+
+        $this->data['follow_up_completed_list'] = $this->treatmentsRepository->get_follow_up_complete_list($region);
+
+        return view('admin.treatments.jira_treatments', $this->data);
     }
 
     /**
@@ -154,7 +163,14 @@ class TreatmentsController extends Controller
         $this->data['treatment'] = $treatment;
         $this->data['appointment'] = $this->appointmentsRepository->findById($treatment->appointment_id);
 
-        $this->data['user_id'] = $treatment->user_id;
+        $user_id = $treatment->user_id;
+        $this->data['user'] = $user = $this->userRepository->findById($user_id);
+        $this->data['gender'] = $user->gender;
+        $this->data['yob'] = $user->yob;
+        $this->data['email'] = $user->email;
+
+//        ddd($this->data['user']->);
+
         $this->data['user_first_name'] = $treatment->user_first_name;
         $this->data['user_last_name'] = $treatment->user_last_name;
         $this->data['user_email'] = $treatment->user_email;
@@ -178,6 +194,11 @@ class TreatmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+        ];
+
+        $this->data['genders_'] = [
+            'M' => 'M',
+            'F' => 'F',
         ];
 
         return view('admin.treatments.form', $this->data);

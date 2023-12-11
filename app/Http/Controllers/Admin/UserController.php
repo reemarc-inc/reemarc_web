@@ -205,6 +205,8 @@ class UserController extends Controller
         $this->data['region'] = $user->region;
         $this->data['role_'] = $user->role;
         $this->data['user_brand'] = $user->user_brand;
+        $this->data['gender'] = $user->gender;
+        $this->data['yob'] = $user->yob;
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
         $options = [
             'user_id' => $id,
@@ -226,6 +228,11 @@ class UserController extends Controller
             'Patient' => 'patient',
             'Operator' => 'operator',
         ];
+        $this->data['genders_'] = [
+            'M' => 'M',
+            'F' => 'F',
+        ];
+
         return view('admin.users.form', $this->data);
     }
 
