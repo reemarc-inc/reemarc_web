@@ -611,7 +611,7 @@ class AppointmentsController extends Controller
                 $notification['type']               = 'booking_cancelled';
                 $notification['created_at']         = Carbon::now();
 
-                $start = \DateTime::createFromFormat('Y-m-d H:i', $appt->booked_start);
+                $start = \DateTime::createFromFormat('Y-m-d H:i:s', $appt->booked_start);
                 $date_for_notification = $start->format('M j, Y');
 
                 $notification['note']               = "Your booking at ". $appt->clinic_name . " is at " . $appt->booked_time . " " . $date_for_notification . " has been cancelled.";
