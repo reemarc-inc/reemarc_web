@@ -609,6 +609,8 @@ class AppointmentsController extends Controller
                 $notification['appointment_id']     = $appt->id;
                 $notification['treatment_id']       = 0;
                 $notification['type']               = 'booking_cancelled';
+                $notification['is_read']            = 'no';
+                $notification['is_delete']          = 'no';
                 $notification['created_at']         = Carbon::now();
 
                 $start = \DateTime::createFromFormat('Y-m-d H:i:s', $appt->booked_start);
