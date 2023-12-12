@@ -4,7 +4,7 @@
 
     <section class="section">
         <div class="section-header">
-            <h1>Status Board</h1>
+            <h1>Treatment Status Board</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item">Treatment Status Board</div>
@@ -42,7 +42,7 @@
                                             {{ $obj->user_first_name }} {{ $obj->user_last_name }}
                                         </div>
                                         <div class="text-md-left text-muted" style="margin-top: -8px;">
-                                            {{ $obj->booked_day }} {{ $obj->booked_time }},  {{ $obj->booked_date }}
+                                            {{ $obj->booked_day }},  {{ $obj->booked_date }}
                                         </div>
                                         <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
                                                             height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
@@ -54,7 +54,7 @@
                                             {{ $obj->clinic_region }}
                                         </div>
                                         <div style="float: right;" >
-                                           1111
+                                            {{ $obj->booked_time }}
                                         </div>
 
                                     </div>
@@ -90,7 +90,7 @@
                                                 {{ $obj->user_first_name }} {{ $obj->user_last_name }}
                                             </div>
                                             <div class="text-md-left text-muted" style="margin-top: -8px;">
-                                                {{ $obj->booked_day }} {{ $obj->booked_time }},  {{ $obj->booked_date }}
+                                                {{ $obj->booked_day }},  {{ $obj->booked_date }}
                                             </div>
                                             <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
                                                             height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
@@ -102,7 +102,7 @@
                                                 {{ $obj->clinic_region }}
                                             </div>
                                             <div style="float: right;" >
-                                                1111
+                                                {{ $obj->booked_time }}
                                             </div>
 
                                         </div>

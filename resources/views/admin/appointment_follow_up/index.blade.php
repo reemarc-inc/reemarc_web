@@ -85,7 +85,7 @@
                                         </div>
                                         <div>
                                             <?php if($appointment->status == 'Complete'){ ?>
-                                            <b>Completed Date:</b>
+                                            <b>Completed At:</b>
                                             {{ $appointment->updated_at }}
                                             <?php } ?>
                                         </div>
@@ -95,13 +95,13 @@
                         </div>
 
                         <div class="card-footer">
-                            <?php if($appointment->status != 'Complete'){ ?>
+                            <?php if($appointment->status == 'Upcoming'){ ?>
                             <button type="button"
                                     class="btn-sm followup-white-project-btn"
                                     data-toggle="modal"
                                     data-target="#follow-{{$appointment->id}}">Follow Up</button>
-
                             <?php } ?>
+
                         </div>
                     </div>
                 </div>

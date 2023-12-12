@@ -36,7 +36,7 @@
         <li class="{{ ($currentAdminMenu == 'appointment_follow_up') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointment_follow_up')}}"><i class="fas fa-check-square"></i> <span>Follow Up</span></a></li>
 
         <li class="menu-header">Treatments</li>
-        <li class="{{ ($currentAdminMenu == 'treatments') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/treatments')}}"><i class="fas fa-stethoscope"></i> <span>Treatments List</span></a></li>
+        <li class="{{ ($currentAdminMenu == 'treatments') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/treatments')}}"><i class="fas fa-stethoscope"></i> <span>All Treatments Board</span></a></li>
 
         <li class="menu-header">Account</li>
         <?php if(auth()->user()->role == 'admin'){ ?>

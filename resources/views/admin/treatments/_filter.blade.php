@@ -2,7 +2,7 @@
     <div class="form-row" style="background-color: white; margin: -16px 0px 0px 0px; padding: 0px 0px 0px 12px;">
         <hr width="99%" />
         <div class="form-group col-md-4">
-        <input type="text" name="q" class="design-field" id="q" placeholder="Type name or email.." value="{{ !empty($filter['q']) ? $filter['q'] : old('q') }}">
+        <input type="text" name="q" class="design-field" id="q" placeholder="Patient name.." value="{{ !empty($filter['q']) ? $filter['q'] : old('q') }}">
         </div>
         <div class="form-group col-md-2">
             <select class="design-select" name="region">
@@ -15,14 +15,14 @@
             </select>
         </div>
         <div class="form-group col-md-2">
-            <select class="design-select" name="role">
-                <option value="">Select Role</option>
-                @foreach ($roles_ as $key => $value)
-                    <option value="{{ $value }}" @if( strtolower($key) == $role_) selected="selected" @endif >
-                        {{$key}}
-                    </option>
-                @endforeach
-            </select>
+{{--            <select class="design-select" name="role">--}}
+{{--                <option value="">Select Role</option>--}}
+{{--                @foreach ($roles_ as $key => $value)--}}
+{{--                    <option value="{{ $value }}" @if( strtolower($key) == $role_) selected="selected" @endif >--}}
+{{--                        {{$key}}--}}
+{{--                    </option>--}}
+{{--                @endforeach--}}
+{{--            </select>--}}
         </div>
         <div class="form-group col-md-2">
             <button class="design-white-btn">Apply</button>
