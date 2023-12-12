@@ -176,6 +176,11 @@ class TreatmentsController extends Controller
 
         $this->data['package'] = $treatment->package_id;
 
+        if($this->data['package']) {
+            $this->data['package_obj'] = $this->packageRepository->findById($treatment->package_id);
+        }else{
+            $this->data['package_obj'] = null;
+        }
         $clinic_id = $treatment->clinic_id;
         $this->data['clinic'] = $this->clinicRepository->findById($clinic_id);
         $this->data['ship_to_office'] = $treatment->ship_to_office;

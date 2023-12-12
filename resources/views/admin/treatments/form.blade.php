@@ -167,6 +167,7 @@
                             </div>
                         </div>
 
+                        <?php if($treatment->status == 'package_option_ready'){ ?>
                         <div class="col-lg-6">
                             <div class="card">
                                 <div class="card-header">
@@ -176,16 +177,35 @@
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <label>Treatment Summary</label>
-                                            <textarea class="form-control" id="ship_to_office" name="ship_to_office" style="height: 50px;">{{ old('description', !empty($treatment) ? $treatment->ship_to_office : null) }}</textarea>
+                                            <p>The total estimated cost for your treatment is ${{ $package_obj->price }}.
+                                                This includes the cost of all materials and labor.
+                                                Please not that this is an estimate,
+                                                and the actual cost may vary depending on the complexity of your treatment.</p>
+                                            <br>
+                                            <ul class="list-unstyled user-details list-unstyled-border list-unstyled-noborder">
+                                                <li class="media">
+                                                    <div class="media-body">
+                                                        <div class="media-label">Estimated period</div>
+                                                        <div class="media-title">{{ $package_obj->summary }}</div>
+                                                    </div>
+                                                    <div class="media-items">
+                                                        <div class="media-item">
+                                                            <div class="media-label">Total cost</div>
+                                                            <div class="media-value">${{ $package_obj->price }}</div>
+                                                        </div>
+                                                    </div>
+                                                </li>
+
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="card-footer text-right">
-                                    <a href="#" class="btn btn-icon icon-left btn-primary"><i class="fa fa-paper-plane"> </i> Send Notification</a>
+                                    <a href="#" class="btn btn-icon icon-left btn-danger"><i class="fa fa-paper-plane"> </i> Send Notification</a>
                                 </div>
                             </div>
-
                         </div>
+                        <?php } ?>
 
                     </div>
 
