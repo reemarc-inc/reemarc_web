@@ -58,9 +58,6 @@
                                 <div class="form-group">
                                     <label>Description</label>
                                     <textarea class="form-control" id="description" name="description" style="height: 100px;">{{ old('description', !empty($clinic) ? $clinic->description : null) }}</textarea>
-{{--                                    <input type="text" name="description"--}}
-{{--                                           class="form-control @error('description') is-invalid @enderror @if (!$errors->has('description') && old('description')) is-valid @endif"--}}
-{{--                                           value="{{ old('description', !empty($clinic) ? $clinic->description : null) }}">--}}
                                     @error('description')
                                     <div class="invalid-feedback">
                                         {{ $message }}

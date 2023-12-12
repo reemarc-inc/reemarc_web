@@ -91,7 +91,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('follow_up_complete', [AdminAppointments::class, 'follow_up_complete'])->name('appointment.follow_up_complete');
 
     Route::resource('treatments', AdminTreatments::class);
-    Route::redirect('treatments/{id}/edit', [AdminTreatments::class, 'edit'])->name('treatments_list.update');
+    Route::post('treatments/update/{id}', [AdminTreatments::class, 'update'])->name('treatments.update');
 
     Route::get('treatments', [AdminTreatments::class, 'index'])->name('treatments.index');
 

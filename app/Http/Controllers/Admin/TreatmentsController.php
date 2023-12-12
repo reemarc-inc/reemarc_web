@@ -10,6 +10,7 @@ use App\Models\Notification;
 use App\Models\User;
 use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\FileAttachmentsRepository;
+use App\Repositories\Admin\PackageRepository;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -25,12 +26,14 @@ class TreatmentsController extends Controller
     private $treatmentsRepository;
     private $appointmentsRepository;
     private $clinicRepository;
+    private $packageRepository;
     private $fileAttachmentsRepository;
     private $userRepository;
 
     public function __construct(TreatmentsRepository $treatmentsRepository,
                                 AppointmentsRepository $appointmentsRepository,
                                 ClinicRepository $clinicRepository,
+                                PackageRepository $packageRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
                                 UserRepository $userRepository) // phpcs:ignore
     {
@@ -39,6 +42,7 @@ class TreatmentsController extends Controller
         $this->treatmentsRepository = $treatmentsRepository;
         $this->appointmentsRepository = $appointmentsRepository;
         $this->clinicRepository = $clinicRepository;
+        $this->packageRepository = $packageRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
 
@@ -90,6 +94,7 @@ class TreatmentsController extends Controller
 
 
         $this->data['follow_up_completed_list'] = $this->treatmentsRepository->get_follow_up_complete_list($region);
+        $this->data['package_option_ready_list'] = $this->treatmentsRepository->get_package_option_ready_list($region);
 
         return view('admin.treatments.jira_treatments', $this->data);
     }
@@ -169,24 +174,11 @@ class TreatmentsController extends Controller
         $this->data['yob'] = $user->yob;
         $this->data['email'] = $user->email;
 
-//        ddd($this->data['user']->);
+        $this->data['package'] = $treatment->package_id;
 
-        $this->data['user_first_name'] = $treatment->user_first_name;
-        $this->data['user_last_name'] = $treatment->user_last_name;
-        $this->data['user_email'] = $treatment->user_email;
-        $this->data['user_phone'] = $treatment->user_phone;
-        $this->data['clinic_id'] = $treatment->clinic_id;
-        $this->data['clinic_name'] = $treatment->clinic_name;
-        $this->data['clinic_phone'] = $treatment->clinic_phone;
-        $this->data['clinic_address'] = $treatment->clinic_address;
-        $this->data['clinic_region'] = $treatment->clinic_region;
-        $this->data['booked_date'] = $treatment->booked_date;
-        $this->data['booked_start'] = $treatment->booked_start;
-        $this->data['booked_end'] = $treatment->booked_end;
-        $this->data['booked_day'] = $treatment->booked_day;
-        $this->data['booked_time'] = $treatment->booked_time;
-        $this->data['status'] = $treatment->status;
-        $this->data['created_at'] = $treatment->created_at;
+        $clinic_id = $treatment->clinic_id;
+        $this->data['clinic'] = $this->clinicRepository->findById($clinic_id);
+        $this->data['ship_to_office'] = $treatment->ship_to_office;
 
         $this->data['region_'] = [
             'New York',
@@ -201,6 +193,8 @@ class TreatmentsController extends Controller
             'F' => 'F',
         ];
 
+        $this->data['packages'] = $this->packageRepository->findAll();
+
         return view('admin.treatments.form', $this->data);
     }
 
@@ -213,16 +207,29 @@ class TreatmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $treatments = $this->treatmentsRepository->findById($id);
+
+        $treatment = $this->treatmentsRepository->findById($id);
         $param = $request->request->all();
 
-        if ($this->treatmentsRepository->update($id, $param)) {
-            return redirect('admin/treatments_list')
-                ->with('success', __('users.success_updated_message', ['name' => $treatments->name]));
+        $user_id = $treatment->user_id;
+        $user_param['gender'] = $param['user_gender'];
+        $user_param['yob'] = $param['user_yob'];
+        $this->userRepository->update($user_id, $user_param);
+
+        $treatment_param['ship_to_office'] = $param['ship_to_office'];
+        if(isset($param['package'])) {
+            $treatment_param['package_id'] = $param['package'];
+            $treatment_param['status'] = 'package_option_ready';
+        }
+        $treatment_param['updated_at'] = Carbon::now();
+
+        if ($this->treatmentsRepository->update($id, $treatment_param)) {
+            return redirect('admin/treatments/'.$id.'/edit')
+                ->with('success', 'Success update.');
         }
 
-        return redirect('admin/treatments_list')
-                ->with('error', __('users.fail_to_update_message', ['name' => $treatments->name]));
+        return redirect('admin/treatments/'.$id.'/edit')
+                ->with('error','Fail update');
     }
 
     /**
