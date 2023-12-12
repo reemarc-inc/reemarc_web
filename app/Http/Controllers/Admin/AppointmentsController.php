@@ -354,27 +354,35 @@ class AppointmentsController extends Controller
             ->with('success', __('Data has been Booked.'));
     }
 
-    public function follow_up()
+    public function follow_up(Request $request)
     {
-
+        $param = $request->all();
         $this->data['currentAdminMenu'] = 'appointment_follow_up';
 
 //        $params = $request->all();
 
-//        $this->data['filter'] = $params;
-        $this->data['appointments'] = $appointments_list = $this->appointmentsRepository->get_patients_list_by_clinic_id(1);
+        $this->data['filter'] = $param;
 
+        if(isset($_GET['clinic'])) {
+            $clinic = $param['clinic'];
+        }else{
+            $clinic = !empty($param['clinic']) ? $param['clinic'] : '';
+        }
+        if(isset($_GET['status'])) {
+            $status = $param['status'];
+        }else{
+            $status = !empty($param['status']) ? $param['status'] : '';
+        }
+        $this->data['clinic'] = $clinic;
+        $this->data['status'] = $status;
+        $this->data['clinics'] = $this->clinicRepository->findAll();
+        $this->data['statuss_'] = [
+            'Upcoming',
+            'Complete',
+            'Cancel'
+        ];
 
-//        $appointments_list = $this->appointmentsRepository->get_upcoming_appointments();
-//
-//        // Campaign_asset_detail
-//        if(sizeof($appointments_list)>0){
-//            foreach ($appointments_list as $k => $appointment){
-//                $a_id = $appointment->id;
-//                $appointment_detail = $this->appointmentsRepository->get_appointment_detail($a_id);
-//                $appointments_list[$k]->appointment = $appointment_detail;
-//            }
-//        }
+        $this->data['appointments'] = $this->appointmentsRepository->get_patients_list_by_filter($clinic, $status);
 
         return view('admin.appointment_follow_up.index', $this->data);
     }

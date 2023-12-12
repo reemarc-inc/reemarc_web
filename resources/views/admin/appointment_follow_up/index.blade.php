@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>REEMARC Follow Up Page</h1>
+        <h1>REEMARC Follow Up</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
             <div class="breadcrumb-item active">REEMARC Manager</div>
@@ -12,7 +12,7 @@
     <div class="section-body">
 
         @include('admin.appointment_follow_up.flash')
-{{--        @include('admin.appointment_follow_up._filter')--}}
+        @include('admin.appointment_follow_up._filter')
 
         <div class="row" style="margin-top: 15px;">
 

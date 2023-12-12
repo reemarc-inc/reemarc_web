@@ -56,11 +56,27 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return $appointments->delete();
     }
 
-    public function get_patients_list_by_clinic_id($c_id)
+    public function get_patients_list_by_filter($clinic, $status)
     {
-        $appointment = new Appointments();
-//        $appointment = $appointment->Where('status', '=', 'Upcoming');
-        return $appointment->get();
+        if($clinic != '') {
+            $clinic_filter = ' and clinic_id ="' . $clinic . '" ';
+        }else{
+            $clinic_filter = ' ';
+        }
+
+        if($status != '') {
+            $status_filter = ' and status ="' . $status . '" ';
+        }else{
+            $status_filter = ' ';
+        }
+
+        return DB::select(
+            'select *
+                from appointments
+                where booked_start is not null
+                  ' . $clinic_filter . '
+                  ' . $status_filter . '
+                order by booked_start desc');
     }
 
     public function get_upcoming_appointments()

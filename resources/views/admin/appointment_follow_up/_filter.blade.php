@@ -1,22 +1,28 @@
 <form method="GET" action="{{ route('appointment.follow_up') }}">
     <div class="form-row" style="background-color: white; margin: -16px 0px 0px 0px; padding: 0px 0px 0px 12px;">
         <hr width="99%" />
-        <div class="form-group col-md-2">
-            <input type="text" name="q" class="design-field" id="q" placeholder="Project Name" value="{{ !empty($filter['q']) ? $filter['q'] : '' }}">
-            <input type="hidden" name="status" id="status" value="active">
+{{--        <div class="form-group col-md-2">--}}
+{{--            <input type="text" name="q" class="design-field" id="q" placeholder="Patient Name" value="{{ !empty($filter['q']) ? $filter['q'] : '' }}">--}}
+{{--        </div>--}}
+        <div class="form-group col-md-3">
+            <select class="design-select" name="clinic">
+                <option value="">Select Clinic</option>
+                @foreach ($clinics as $key => $value)
+                    <option value="{{ $value->id }}" @if( $value->id == $clinic) selected="selected" @endif >
+                        {{$value->name}}
+                    </option>
+                @endforeach
+            </select>
         </div>
-        <div class="form-group col-md-2">
-            <input type="text" name="id" class="design-field" id="id" placeholder="Project ID #" value="{{ !empty($filter['id']) ? $filter['id'] : '' }}">
-        </div>
-        <div class="form-group col-md-2">
-{{--            <select class="design-select" name="brand">--}}
-{{--                <option value="">Select Brand</option>--}}
-{{--                @foreach ($brands as $key => $value)--}}
-{{--                    <option value="{{ $key }}" @if( $key == $brand) selected="selected" @endif >--}}
-{{--                        {{$value}}--}}
-{{--                    </option>--}}
-{{--                @endforeach--}}
-{{--            </select>--}}
+        <div class="form-group col-md-3">
+            <select class="design-select" name="status">
+                <option value="">Select Status</option>
+                @foreach ($statuss_ as $value)
+                    <option value="{{ $value }}" @if( $value == $status) selected="selected" @endif >
+                        {{$value}}
+                    </option>
+                @endforeach
+            </select>
         </div>
         <div class="form-group col-md-2">
             <button class="design-btn"> Apply </button>
