@@ -217,7 +217,7 @@
                     </div>
                     <?php } ?>
 
-                    <?php if($treatment->status == 'package_ordered' ){ ?>
+                    <?php if($treatment->status == 'package_ordered' ||  $treatment->status == 'package_shipped'){ ?>
                     <div class="col-lg-6">
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
@@ -240,7 +240,9 @@
                                 </div>
                             </div>
                             <div class="card-footer text-right">
+                            <?php if($treatment->status == 'package_ordered') { ?>
                                 <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" onclick="package_ship({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Ship Complete</button>
+                            <?php } ?>
                             </div>
                         </div>
                     </div>
