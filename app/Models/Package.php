@@ -17,7 +17,10 @@ class Package extends Model
         'id',
         'name',
         'invisalign_id',
-        'price',
+        'number_of_aligners',
+        'treatment_duration',
+        'us_price',
+        'kr_price',
         'summary',
     ];
 

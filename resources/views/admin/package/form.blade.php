@@ -45,11 +45,44 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>Price</label>
-                                    <input type="text" name="price"
-                                           class="form-control @error('price') is-invalid @enderror @if (!$errors->has('price') && old('price')) is-valid @endif"
-                                           value="{{ old('price', !empty($package) ? $package->price : null) }}">
-                                    @error('price')
+                                    <label>Number of Aligners</label>
+                                    <input type="text" name="number_of_aligners"
+                                           class="form-control @error('number_of_aligners') is-invalid @enderror @if (!$errors->has('number_of_aligners') && old('number_of_aligners')) is-valid @endif"
+                                           value="{{ old('number_of_aligners', !empty($package) ? $package->number_of_aligners : null) }}">
+                                    @error('number_of_aligners')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Treatment Duration</label>
+                                    <input type="text" name="treatment_duration"
+                                           class="form-control @error('treatment_duration') is-invalid @enderror @if (!$errors->has('treatment_duration') && old('treatment_duration')) is-valid @endif"
+                                           value="{{ old('treatment_duration', !empty($package) ? $package->treatment_duration : null) }}">
+                                    @error('treatment_duration')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>US Price</label>
+                                    <input type="text" name="us_price"
+                                           class="form-control @error('us_price') is-invalid @enderror @if (!$errors->has('us_price') && old('us_price')) is-valid @endif"
+                                           value="{{ old('us_price', !empty($package) ? $package->us_price : null) }}">
+                                    @error('us_price')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>KR Price</label>
+                                    <input type="text" name="kr_price"
+                                           class="form-control @error('kr_price') is-invalid @enderror @if (!$errors->has('kr_price') && old('kr_price')) is-valid @endif"
+                                           value="{{ old('kr_price', !empty($package) ? $package->kr_price : null) }}">
+                                    @error('kr_price')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
