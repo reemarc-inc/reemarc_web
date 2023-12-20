@@ -24,9 +24,9 @@
                             <table class="table table-bordered table-striped table-md">
                                 <thead>
                                     <th>Name</th>
-                                    <th>US Price</th>
                                     <th>Number of Aligners</th>
                                     <th>Treatment Duration</th>
+                                    <th>US Price</th>
                                     <th width="15%">Action</th>
                                 </thead>
                                 <tbody>
