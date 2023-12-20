@@ -26,7 +26,8 @@
                                     <th>Name</th>
                                     <th>Number of Aligners</th>
                                     <th>Treatment Duration</th>
-                                    <th>US Price</th>
+                                    <th>Price in USD</th>
+                                    <th>Price in KRW</th>
                                     <th width="15%">Action</th>
                                 </thead>
                                 <tbody>
@@ -36,6 +37,7 @@
                                         <td>{{ $package->number_of_aligners}}</td>
                                         <td>{{ $package->treatment_duration}}</td>
                                         <td>{{ $package->us_price}}</td>
+                                        <td>{{ $package->kr_price}}</td>
                                         <td>
                                             <a class="btn btn-sm" href="{{ url('admin/package/'. $package->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
                                             <a href="{{ url('admin/package/'. $package->id) }}" class="btn btn-sm" onclick="

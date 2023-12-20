@@ -67,7 +67,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>US Price</label>
+                                    <label>Price in USD</label>
                                     <input type="text" name="us_price"
                                            class="form-control @error('us_price') is-invalid @enderror @if (!$errors->has('us_price') && old('us_price')) is-valid @endif"
                                            value="{{ old('us_price', !empty($package) ? $package->us_price : null) }}">
@@ -78,7 +78,7 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
-                                    <label>KR Price</label>
+                                    <label>Price in KRW</label>
                                     <input type="text" name="kr_price"
                                            class="form-control @error('kr_price') is-invalid @enderror @if (!$errors->has('kr_price') && old('kr_price')) is-valid @endif"
                                            value="{{ old('kr_price', !empty($package) ? $package->kr_price : null) }}">
