@@ -290,7 +290,7 @@ class TreatmentsController extends Controller
                     "body": "'.$package_obj->name.'"
                 },
                 "data": {
-                    "notification_type": "package_sent",
+                    "notification_type": "package_ordered",
                     "appointment_id": "'.$treatment_obj->appointment_id.'",
                     "treatment_id": "'.$treatment_obj->id.'",
                     "user_id": "'.$treatment_obj->user_id.'",
@@ -323,7 +323,7 @@ class TreatmentsController extends Controller
             $notification['user_email']         = $user_obj->email;
             $notification['appointment_id']     = $treatment_obj->appointment_id;
             $notification['treatment_id']       = $treatment_id;
-            $notification['type']               = 'package_sent';
+            $notification['type']               = 'package_ordered';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
@@ -404,7 +404,7 @@ class TreatmentsController extends Controller
             $notification['user_email']         = $user_obj->email;
             $notification['appointment_id']     = $treatment_obj->appointment_id;
             $notification['treatment_id']       = $treatment_id;
-            $notification['type']               = 'package_delivered';
+            $notification['type']               = 'package_shipped';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
