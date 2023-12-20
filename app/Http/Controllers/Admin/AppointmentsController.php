@@ -592,7 +592,7 @@ class AppointmentsController extends Controller
                 "headers" => [
                   "Content-Type" => "application/json"
                 ],
-                "token" => "eag-Vno5QpGNuiVhGdJ2wO:APA91bG2wQbDlWinplUg4QEblKf_KsOtcZLvkCaEjwavCct2Q4Fm5tsnRok8x-zUKekO8XyxgTKgKdmkK7wf1bP9TxDw6Tx35PuzmVEyj_S4DKBJ4DG2jeFH3tW_Mdj7xSwpnq2JZnZt",
+                "token" => "dfq2bYGhR_-86_aARCF6i4:APA91bHLixQTwiC_H8Of3aiMxo1ocuANqn5gMk8_QuWSy7lx6WY4m2zxXK_qPBUdDVvvtbgPyHHbSsgY9ELDR45Z8tFjc3UCtqXmkxM7VlfuTpP7OgvX9pW4epw1_I1wDDq8Es6xs-ZI",
                 "notification" => [
                     "title" => "Your Notification Title Test",
                     "body" => "Your Notification Body"
@@ -634,7 +634,9 @@ class AppointmentsController extends Controller
         $params['updated_at'] = Carbon::now();
 
         try {
-                $appt = $this->appointmentsRepository->update($appointment_id, $params);
+
+            $appt = $this->appointmentsRepository->update($appointment_id, $params);
+
             if ($appt) {
 
 

@@ -63,7 +63,7 @@ Route::get('/notification/test', [NotifyController::class, 'test']);
 
 Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('/dashboard', [AdminDashboard::class, 'index'])->name('dashboard.index');
-    Route::get('/dashboard/test', [AdminDashboard::class, 'test'])->name('dashboard.test');
+    Route::get('dashboard/test', [AdminDashboard::class, 'test'])->name('dashboard.test');
 
 //    Route::get('dashboard', [Schedule::class, 'index']);
     Route::post('calendar-crud-ajax', [Schedule::class, 'calendarEvents']);
@@ -92,8 +92,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::resource('treatments', AdminTreatments::class);
     Route::post('treatments/update/{id}', [AdminTreatments::class, 'update'])->name('treatments.update');
-
     Route::get('treatments', [AdminTreatments::class, 'index'])->name('treatments.index');
+
+    Route::post('treatment/package_order', [AdminTreatments::class, 'package_order'])->name('treatment.package_order');
+    Route::post('treatment/package_ship', [AdminTreatments::class, 'package_ship'])->name('treatment.package_ship');
 
     Route::post('appointment_make/booking', [AdminAppointments::class, 'booking'])->name('appointment_make.booking');
 
