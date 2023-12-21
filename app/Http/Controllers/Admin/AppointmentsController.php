@@ -378,13 +378,50 @@ class AppointmentsController extends Controller
         $this->data['clinics'] = $this->clinicRepository->findAll();
         $this->data['statuss_'] = [
             'Upcoming',
-            'Complete',
-            'Cancel'
+            'Complete'
         ];
 
         $this->data['appointments'] = $this->appointmentsRepository->get_patients_list_by_filter($clinic, $status);
 
         return view('admin.appointment_follow_up.index', $this->data);
+    }
+
+    public function pending(Request $request)
+    {
+
+
+        $param = $request->all();
+        $this->data['currentAdminMenu'] = 'appointment_pending';
+
+//        $params = $request->all();
+
+        $this->data['filter'] = $param;
+
+        if(isset($_GET['clinic'])) {
+            $clinic = $param['clinic'];
+        }else{
+            $clinic = !empty($param['clinic']) ? $param['clinic'] : '';
+        }
+//        if(isset($_GET['status'])) {
+//            $status = $param['status'];
+//        }else{
+//            $status = !empty($param['status']) ? $param['status'] : '';
+//        }
+
+        $status = 'pending';
+
+        $this->data['clinic'] = $clinic;
+        $this->data['status'] = $status;
+        $this->data['clinics'] = $this->clinicRepository->findAll();
+        $this->data['statuss_'] = [
+            'Upcoming',
+            'Complete',
+            'Cancel'
+        ];
+
+        $this->data['appointments'] = $this->appointmentsRepository->update_pending_appointment($clinic);
+
+        return view('admin.appointment_pending.index', $this->data);
     }
 
     public function follow_up_complete(Request $request)
@@ -411,8 +448,34 @@ class AppointmentsController extends Controller
             return redirect('admin/appointment_follow_up')
                 ->with('success', 'Follow Up Success!');
         }
+    }
 
+    public function follow_up_pending(Request $request)
+    {
 
+        // Going to sending follow up email to patient!! todo
+        $this->data['currentAdminMenu'] = 'appointment_follow_up';
+
+        $param = $request->all();
+        $appointment_id = $param['appointment_id'];
+        $params['status'] = 'Complete';
+        $params['updated_at'] = Carbon::now();
+
+        if ($this->appointmentsRepository->update($appointment_id, $params)) {
+
+            $appointment = $this->appointmentsRepository->findById($appointment_id);
+
+            $t_params['appointment_id'] = $appointment->id;
+            $t_params['user_id'] = $appointment->user_id;
+            $t_params['clinic_id'] = $appointment->clinic_id;
+            $t_params['status'] = 'follow_up_completed';
+            $t_params['created_at'] = Carbon::now();
+
+            $this->treatmentsRepository->create($t_params);
+
+            return redirect('admin/appointment_pending')
+                ->with('success', 'Follow Up Success!');
+        }
     }
 
 

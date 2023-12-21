@@ -7,19 +7,11 @@
                 <li>{{ $error }}</li>
             @endforeach
         </ul>
-    </div>
+    </div> 
 @endif
 
 @if (session('success'))
-    <div class="alert alert-success" style="position: fixed; top:52px; z-index: 10; right: 20px; width: 42%;">{{ session('success') }}</div>
-
-    <script>
-        $("document").ready(function(){
-            setTimeout(function(){
-                $("div.alert").slideUp();
-            }, 5000 ); // 5 secs
-        });
-    </script>
+    <div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
 @if (session('error'))

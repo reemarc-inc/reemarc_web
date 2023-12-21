@@ -239,6 +239,41 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                   ' . $region_filter . '
                 order by booked_start asc');
     }
+
+    public function get_location_confirmed_list($region)
+    {
+        if($region != '') {
+            $region_filter = ' and a.clinic_region ="' . $region . '" ';
+        }else{
+            $region_filter = ' ';
+        }
+
+        return DB::select(
+            'select t.id as treatment_id,
+                    a.id as appointment_id,
+                    a.user_id as user_id,
+                    a.user_first_name as user_first_name,
+                    a.user_last_name as user_last_name,
+                    a.user_email as user_email,
+                    a.clinic_id as clinic_id,
+                    a.clinic_name as clinic_name,
+                    a.clinic_phone as clinic_phone,
+                    a.clinic_address as clinic_address,
+                    a.clinic_region as clinic_region,
+                    a.booked_date as booked_date,
+                    a.booked_start as booked_start,
+                    a.booked_end as booked_end,
+                    a.booked_day as booked_day,
+                    a.booked_time as booked_time,
+                    a.status as status,
+                    t.created_at as created_at
+                from treatments t
+                left join appointments a on a.id = t.appointment_id
+                where t.status = "location_confirmed"
+                  ' . $region_filter . '
+                order by booked_start asc');
+    }
+
     public function get_package_shipped_list($region)
     {
         if($region != '') {

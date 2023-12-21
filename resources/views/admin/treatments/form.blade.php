@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h1>Treatment Management</h1>
+            <h1>Treatment Management </h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
                 <div class="breadcrumb-item"><a href="{{ url('admin/treatments') }}">Treatments</a></div>
@@ -11,7 +11,7 @@
             </div>
         </div>
 
-        <h2 class="section-title">{{ empty($treatment) ? 'New treatments' : 'Treatments Update' }}</h2>
+        <br>
         @if (empty($treatment ?? '' ?? ''))
         <form method="POST" action="{{ route('treatments.store') }}">
         @else
@@ -19,20 +19,22 @@
             <input type="hidden" name="id" value="{{ $treatment->id }}" />
         @endif
             @csrf
-
             <div class="section-body">
-
                 <div class="row">
-
-                    <div class="col-lg-6">
+                    <div class="col-lg-8">
                         <div class="card">
-                            <div class="card-header">
+                            <div class="card-header" style="position: relative;">
                                 <h4>Patient</h4>
+                                <nav style="position: absolute; top: 0; right: 0; padding: 20px;">
+                                    <ul>
+                                        <span class="badge badge-primary">{{ $treatment->status }}</span>
+                                    </ul>
+                                </nav>
                             </div>
                             <div class="card-body">
                                 @include('admin.shared.flash')
                                 <div class="row">
-                                    <div class="form-group col-md-6" >
+                                    <div class="form-group col-md-4" >
                                         <label>First Name</label>
                                         <input type="text" name="user_first_name"
                                            class="form-control @error('user_first_name') is-invalid @enderror @if (!$errors->has('user_first_name') && old('user_first_name')) is-valid @endif"
@@ -43,7 +45,7 @@
                                         </div>
                                         @enderror
                                     </div>
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>Last Name</label>
                                             <input type="text" name="user_last_name"
                                                class="form-control @error('user_last_name') is-invalid @enderror @if (!$errors->has('user_last_name') && old('user_last_name')) is-valid @endif"
@@ -55,19 +57,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-6">
-                                        <label>Gender</label>
-                                        <div class="selectgroup w-100">
-                                            @foreach ($genders_ as $key => $value)
-                                                <label class="selectgroup-item">
-                                                    <input type="radio" name="user_gender" value="{{ $value }}" class="selectgroup-input" {{ $value == $gender ? 'checked=""' : '' }}>
-                                                    <span class="selectgroup-button">{{ $key }}</span>
-                                                </label>
-                                            @endforeach
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>Year of Birth</label>
                                         <input type="text" name="user_yob"
                                                class="form-control @error('user_yob') is-invalid @enderror @if (!$errors->has('user_yob') && old('user_yob')) is-valid @endif"
@@ -79,7 +69,7 @@
                                         @enderror
                                     </div>
 
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-4">
                                         <label>Email</label>
                                         <input type="text" name="user_email"
                                                class="form-control @error('user_email') is-invalid @enderror @if (!$errors->has('user_email') && old('user_email')) is-valid @endif"
@@ -90,12 +80,22 @@
                                         </div>
                                         @enderror
                                     </div>
+
+                                    <div class="form-group col-md-8">
+                                        <label>Gender</label>
+                                        <div class="selectgroup w-100">
+                                            @foreach ($genders_ as $key => $value)
+                                                <label class="selectgroup-item">
+                                                    <input type="radio" name="user_gender" value="{{ $value }}" class="selectgroup-input" {{ $value == $gender ? 'checked=""' : '' }}>
+                                                    <span class="selectgroup-button">{{ $key }}</span>
+                                                </label>
+                                            @endforeach
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
                                 <h4>Clinic</h4>
@@ -123,36 +123,27 @@
                                                value="{{ $clinic->address }}" disabled>
                                     </div>
 
-                                    <div class="form-group col-md-12">
-                                        <label>Ship to Office</label>
-                                        <textarea class="form-control" id="ship_to_office" name="ship_to_office" style="height: 50px;">{{ old('description', !empty($treatment) ? $treatment->ship_to_office : null) }}</textarea>
-                                        @error('ship_to_office')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
+{{--                                    <div class="form-group col-md-12">--}}
+{{--                                        <label>Ship to Office</label>--}}
+{{--                                        <textarea class="form-control" id="ship_to_office" name="ship_to_office" style="height: 50px;">{{ old('description', !empty($treatment) ? $treatment->ship_to_office : null) }}</textarea>--}}
+{{--                                        @error('ship_to_office')--}}
+{{--                                        <div class="invalid-feedback">--}}
+{{--                                            {{ $message }}--}}
+{{--                                        </div>--}}
+{{--                                        @enderror--}}
+{{--                                    </div>--}}
 
                                 </div>
                             </div>
-
-{{--                                <div class="card-footer text-right">--}}
-{{--                                    <button--}}
-{{--                                        class="btn btn-primary">{{ empty($treatment) ? __('general.btn_create_label') : __('general.btn_update_label') }}</button>--}}
-{{--                                </div>--}}
                         </div>
-
-                    </div>
-
-                    <div class="col-lg-6">
                         <div class="card">
                             <div class="card-header">
-                                <h4>Treatment</h4>
+                                <h4>Package Order</h4>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="form-group col-md-12">
-                                        <label>Package</label>
+                                        <label>Invisalign</label>
                                         <div class="selectgroup w-100">
                                             @foreach ($packages as $value)
                                                 <label class="selectgroup-item">
@@ -171,90 +162,57 @@
                                 <?php } ?>
                             </div>
 
-                        </div>
-                    </div>
 
-                    <?php if($treatment->status != 'follow_up_completed' ){ ?>
-                    <div class="col-lg-6">
+                            <div class="card-footer text-right">
+                                <?php if($treatment->status == 'package_ready' ){ ?>
+                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_order({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Order Complete</button>
+                                <?php }elseif ($treatment->status == 'package_ordered' || $treatment->status == 'location_confirmed' || $treatment->status == 'package_shipped') { ?>
+                                    <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-dark" style="font-size: medium;" disabled><i class="fa fa-check-circle"> </i> The package order has been successfully completed.</button>
+                                <?php } ?>
+                            </div>
+
+
+                        </div>
+
+
+                        <?php if($treatment->status == 'package_ordered'
+                        ||  $treatment->status == 'package_shipped'
+                        || $treatment->status == 'location_confirmed'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
-                                <h4>Order Summary</h4>
+                                <h4>Location Confirm</h4>
                             </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="form-group col-md-12">
-                                        <label>Package Summary</label>
-                                        <p>The total estimated cost for your treatment is ${{ $package_obj->price }}.
-                                            This includes the cost of all materials and labor.
-                                            Please not that this is an estimate,
-                                            and the actual cost may vary depending on the complexity of your treatment.</p>
-                                        <br>
-                                        <ul class="list-unstyled user-details list-unstyled-border list-unstyled-noborder">
-                                            <li class="media">
-                                                <div class="media-body">
-                                                    <div class="media-label">Estimated period</div>
-                                                    <div class="media-title">{{ $package_obj->summary }}</div>
-                                                </div>
-                                                <div class="media-items">
-                                                    <div class="media-item">
-                                                        <div class="media-label">Total cost</div>
-                                                        <div class="media-value">${{ $package_obj->price }}</div>
-                                                    </div>
-                                                </div>
-                                            </li>
-
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                            <?php if($treatment->status == 'package_ready' ){ ?>
                             <div class="card-footer text-right">
-                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" onclick="package_order({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Order Complete</button>
+                                <?php if($treatment->status == 'package_ordered') { ?>
+                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="location_confirm({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Send Location Confirm Notification</button>
+                                <?php }else if($treatment->status == 'location_confirmed' || $treatment->status == 'package_shipped') { ?>
+                                    <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-dark" style="font-size: medium;" disabled><i class="fa fa-check-circle"> </i> The notification has been successfully sent.</button>
+                                <?php } ?>
                             </div>
-                            <?php } ?>
                         </div>
-                    </div>
-                    <?php } ?>
+                        <?php } ?>
 
-                    <?php if($treatment->status == 'package_ordered' ||  $treatment->status == 'package_shipped'){ ?>
-                    <div class="col-lg-6">
+                        <?php if($treatment->status == 'location_confirmed' || $treatment->status == 'package_shipped'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
-                                <h4>Ship Information</h4>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-
-                                    <div class="form-group col-md-12">
-                                        <label>Ship to Office</label>
-                                        <textarea class="form-control" id="ship_to_office" name="ship_to_office" style="height: 50px;">{{ old('description', !empty($treatment) ? $treatment->ship_to_office : null) }}</textarea>
-                                        @error('ship_to_office')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}
-                                        </div>
-                                        @enderror
-                                    </div>
-
-                                </div>
+                                <h4>Package Ship</h4>
                             </div>
                             <div class="card-footer text-right">
-                            <?php if($treatment->status == 'package_ordered') { ?>
-                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" onclick="package_ship({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Ship Complete</button>
-                            <?php } ?>
+                                <?php if($treatment->status == 'location_confirmed') { ?>
+                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_ship({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Package Shipped</button>
+                                <?php }else if($treatment->status == 'package_shipped') { ?>
+                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-dark" style="font-size: medium;" disabled><i class="fa fa-check-circle"> </i> The package has been successfully shipped</button>
+                                <?php } ?>
                             </div>
                         </div>
+                        <?php } ?>
+
                     </div>
-
-                    <?php } ?>
-
-
-
                 </div>
             </div>
         </form>
-
     </section>
 
 
@@ -280,6 +238,34 @@
                             alert(rs.message);
                         }else{
                             alert("System update completed.");
+                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                        }
+                    },
+                })
+            }
+        }
+
+        function location_confirm(treatment_id){
+            if (confirm("Are you sure to send Location Confirm Notification?") == true) {
+                $.ajax({
+                    url: "<?php echo url('/admin/treatment/location_confirm'); ?>",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        _token : "{{ csrf_token() }}",
+                        id : treatment_id
+                    },
+                    success: function(response) {
+                        rs = JSON.parse(response);
+                        if(response == 'Device token not found') {
+                            alert(response);
+                        }else if(response == 'Internal Server Error'){
+                            alert(response);
+                        }else if(rs.code == "messaging/registration-token-not-registered"){
+                            alert(rs.message);
+                        }else{
+                            alert("The notification has been successfully sent.");
+                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
                         }
                     },
                 })
@@ -287,7 +273,7 @@
         }
 
         function package_ship(treatment_id){
-            if (confirm("Have you completed the shipment of the package?") == true) {
+            if (confirm("Have you successfully shipped the package?") == true) {
                 $.ajax({
                     url: "<?php echo url('/admin/treatment/package_ship'); ?>",
                     type: "POST",
@@ -306,6 +292,7 @@
                             alert(rs.message);
                         }else{
                             alert("System update completed.");
+                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
                         }
                     },
                 })

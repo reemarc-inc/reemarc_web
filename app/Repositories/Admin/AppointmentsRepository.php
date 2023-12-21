@@ -67,7 +67,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         if($status != '') {
             $status_filter = ' and status ="' . $status . '" ';
         }else{
-            $status_filter = ' ';
+            $status_filter = ' and status in ("Upcoming", "Complete") ';
         }
 
         return DB::select(
@@ -76,8 +76,10 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
                 where booked_start is not null
                   ' . $clinic_filter . '
                   ' . $status_filter . '
-                order by booked_start desc');
+                order by status desc, booked_start desc');
     }
+
+
 
     public function get_upcoming_appointments()
     {
@@ -164,6 +166,25 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
             ->Where('status', '=', 'Cancel')
             ->first();
         return $aptmt_rs;
+    }
+
+    public function update_pending_appointment($clinic)
+    {
+        DB::update('update appointments set status = "Pending" where booked_date <=  DATE(NOW() - INTERVAL 1 DAY) and status in ("Upcoming")');
+
+        if($clinic != '') {
+            $clinic_filter = ' and clinic_id ="' . $clinic . '" ';
+        }else{
+            $clinic_filter = ' ';
+        }
+
+        return DB::select(
+            'select *
+                from appointments
+                where booked_start is not null
+                  and status in ("Pending", "Cancel")
+                  ' . $clinic_filter . '
+                order by status desc, booked_start asc');
     }
 
 }

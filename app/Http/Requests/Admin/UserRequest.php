@@ -41,7 +41,7 @@ class UserRequest extends FormRequest
                 'min:2',
                 Rule::unique(User::class)->ignore($this->id),
             ],
-            'phone' => ['string'],
+            'phone' => [],
             'device_token' => [],
             'payment_customer_id' => [],
             'region' => ['string'],

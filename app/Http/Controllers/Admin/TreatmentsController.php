@@ -96,6 +96,7 @@ class TreatmentsController extends Controller
         $this->data['follow_up_completed_list'] = $this->treatmentsRepository->get_follow_up_complete_list($region);
         $this->data['package_ready_list'] = $this->treatmentsRepository->get_package_ready_list($region);
         $this->data['package_ordered_list'] = $this->treatmentsRepository->get_package_ordered_list($region);
+        $this->data['location_confirmed_list'] = $this->treatmentsRepository->get_location_confirmed_list($region);
         $this->data['package_shipped_list'] = $this->treatmentsRepository->get_package_shipped_list($region);
 
         return view('admin.treatments.jira_treatments', $this->data);
@@ -223,10 +224,10 @@ class TreatmentsController extends Controller
         $user_param['yob'] = $param['user_yob'];
         $this->userRepository->update($user_id, $user_param);
 
-        $treatment_param['ship_to_office'] = $param['ship_to_office'];
+//        $treatment_param['ship_to_office'] = $param['ship_to_office'];
         if(isset($param['package'])) {
             $treatment_param['package_id'] = $param['package'];
-            $treatment_param['status'] = 'package_option_ready';
+            $treatment_param['status'] = 'package_ready';
         }
         $treatment_param['updated_at'] = Carbon::now();
 
@@ -336,6 +337,86 @@ class TreatmentsController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+    }
+
+    public function location_confirm(Request $request)
+    {
+        try{
+            $param = $request->all();
+
+            $treatment_id = $param['id'];
+            $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+
+            $user_id = $treatment_obj->user_id;
+
+            $user_obj = $this->userRepository->findById($user_id);
+            $user_device_token = $user_obj->device_token;
+
+            $package_id = $treatment_obj->package_id;
+            $package_obj = $this->packageRepository->findById($package_id);
+
+            if(!$user_device_token){
+                return "Device token not found";
+            }
+
+            // send push notification
+            $url = "https://us-central1-denti-find.cloudfunctions.net/sendFCM";
+            $header = [
+                'content-type: application/json'
+            ];
+
+            $postdata = '{
+                "token":  "'.$user_device_token.'",
+                "notification": {
+                    "title": "Your package has arrived reemarc",
+                    "body": "'.$package_obj->name.'"
+                },
+                "data": {
+                    "notification_type": "location_confirmed",
+                    "appointment_id": "'.$treatment_obj->appointment_id.'",
+                    "treatment_id": "'.$treatment_obj->id.'",
+                    "user_id": "'.$treatment_obj->user_id.'",
+                    "clinic_id": "'.$treatment_obj->clinic_id.'",
+                    "package_id": "'.$treatment_obj->package_id.'",
+                    "created_at" : "'.Carbon::now().'"
+                }
+            }';
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            $param_treatment['status'] = 'location_confirmed';
+            $param_treatment['updated_at'] = Carbon::now();
+            $this->treatmentsRepository->update($treatment_id, $param_treatment);
+
+            // Add Notification
+            $notification = new Notification();
+            $notification['user_id']            = $user_obj->id;
+            $notification['user_first_name']    = $user_obj->first_name;
+            $notification['user_last_name']     = $user_obj->last_name;
+            $notification['user_email']         = $user_obj->email;
+            $notification['appointment_id']     = $treatment_obj->appointment_id;
+            $notification['treatment_id']       = $treatment_id;
+            $notification['type']               = 'location_confirm';
+            $notification['is_read']            = 'no';
+            $notification['is_delete']          = 'no';
+            $notification['created_at']         = Carbon::now();
+            $notification['note']               = $package_obj->name;
+            $notification->save();
+
+            return $result;
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     public function package_ship(Request $request)

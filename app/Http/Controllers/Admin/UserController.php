@@ -112,6 +112,11 @@ class UserController extends Controller
             'Call Center',
             'IT'
         ];
+        $this->data['genders_'] = [
+            'M' => 'M',
+            'F' => 'F',
+        ];
+        $this->data['gender'] = null;
         $this->data['roleId'] = null;
         $this->data['access_level'] = null;
         $this->data['region'] = null;

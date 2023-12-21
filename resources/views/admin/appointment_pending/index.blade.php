@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>REEMARC Follow Up</h1>
+        <h1>REEMARC Pending</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
             <div class="breadcrumb-item active">REEMARC Manager</div>
@@ -11,8 +11,8 @@
     </div>
     <div class="section-body">
 
-        @include('admin.appointment_follow_up.flash')
-        @include('admin.appointment_follow_up._filter')
+        @include('admin.appointment_pending.flash')
+        @include('admin.appointment_pending._filter')
 
         <div class="row" style="margin-top: 15px;">
 
@@ -26,10 +26,10 @@
                                 <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
                                 <div class="media-body">
 
-                                        <?php if($appointment->status == 'Upcoming') { ?>
-                                        <div class="badge badge-pill badge-success mb-1 float-right">Upcoming</div>
-                                        <?php } else if($appointment->status == 'Complete') { ?>
-                                        <div class="badge badge-pill badge-primary mb-1 float-right">Completed</div>
+                                        <?php if($appointment->status == 'Cancel'){ ?>
+                                        <div class="badge badge-pill badge-danger mb-1 float-right">Canceled</div>
+                                        <?php } else if($appointment->status == 'Pending') { ?>
+                                        <div class="badge badge-pill badge-warning mb-1 float-right">Pending</div>
                                         <?php } ?>
 
                                     <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }}</h6>
@@ -93,11 +93,11 @@
                         </div>
 
                         <div class="card-footer">
-                            <?php if($appointment->status == 'Upcoming'){ ?>
+                            <?php if($appointment->status == 'Pending'){ ?>
                             <button type="button"
                                     class="btn-sm followup-white-project-btn"
                                     data-toggle="modal"
-                                    data-target="#follow-{{$appointment->id}}">Follow Up</button>
+                                    data-target="#follow-{{$appointment->id}}">Send Promotion</button>
                             <?php } ?>
 
                         </div>
@@ -114,19 +114,20 @@
                                 <input type="hidden" name="appointment_id" value="{{ $appointment->id }}">
 
                                 <div class="modal-header" style="color: #b91d19;">
-                                    <h4 class="modal-title" id="myModalLabel" >Have you completed updating the patient data in Invisalign?</h4><br><br><br>
+                                    <h4 class="modal-title" id="myModalLabel" >Do you want to send promotion notification?</h4><br><br><br>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
                                 <div class="modal-body" style="text-align: center;">
 
                                     <h3 class="modal-title">{{ $appointment->user_first_name }} {{ $appointment->user_last_name }}</h3>
+                                    <p>{{ $appointment->booked_date }}, {{ $appointment->booked_day }} {{ $appointment->booked_time }}</p>
                                     <br>
-                                    <h4>{{ $appointment->booked_date }}, {{ $appointment->booked_day }} {{ $appointment->booked_time }}</h4>
+                                    <h4>Imagine how easy your life would be with reemarc.</h4>
 
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure?')">Yes. It's Completed</button>
+                                    <button type="submit" class="btn btn-info" onclick="return confirm('Are you sure?')">Yes. Send Notification</button>
                                 </div>
                             </form>
                         </div>

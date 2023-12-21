@@ -18,7 +18,7 @@
 
                 <div class="col-md-3" >
                     <div class="card status_title">
-                        <h5 class="status_name">FOLLOW UP</h5>
+                        <h5 class="status_name">FOLLOW UP COMPLETED</h5>
                     </div>
 
                     @foreach ($follow_up_completed_list as $obj)
@@ -163,6 +163,54 @@
 
                 <div class="col-md-3" >
                     <div class="card status_title">
+                        <h5 class="status_name">LOCATION CONFIRMED</h5>
+                    </div>
+                    @foreach ($location_confirmed_list as $obj)
+                        <div class="card">
+                            <a href="{{ url('admin/treatments/'. $obj->treatment_id .'/edit')}}" style="text-decoration: none;">
+                                <div class="card-body" style="padding-left: 10px; padding-right: 10px; margin-bottom: -25px;">
+                                    <div class="media" style="padding-bottom: 0px;">
+                                        <div class="form-group" style="width: 100%; padding: 0 8 0 8;" >
+
+                                            <div style="color: #8b8a8a; font-weight: 600; float:left; font-size: 13px;">
+                                                {{ $obj->clinic_name }}
+                                            </div>
+                                            {{--                                        <div style="float: right;">--}}
+                                            {{--                                            <figure class="avatar mr-2 avatar-sm text-white" style="background-color: #b6b6b6; font-size: 15px;"--}}
+                                            {{--                                                    data-toggle="tooltip" data-placement="top"--}}
+                                            {{--                                                    data-original-title="{{  }}"--}}
+                                            {{--                                                    data-initial="{{ substr('Sunny', 0, 1) }}">--}}
+                                            {{--                                            </figure>--}}
+                                            {{--                                        </div>--}}
+                                            <div class="media-title" style="clear:both; font-size: large;">
+                                                {{ $obj->user_first_name }} {{ $obj->user_last_name }}
+                                            </div>
+                                            <div class="text-md-left text-muted" style="margin-top: -8px;">
+                                                {{ $obj->booked_day }},  {{ $obj->booked_date }}
+                                            </div>
+                                            <hr style="border-width: 1px 0px 0px 0px;border-style:solid;border-color: #e0e0e0;
+                                                            height:1px;margin-top: 15px;margin-bottom: 10px;width:100%">
+
+                                            <div class="text-sm-left text-muted" style="float:left; padding-top: 3px;">
+                                                <figure class="avatar sm-2 text-white" style="width: 15px; height: 15px; font-size: small;" data-initial=""></figure>
+                                            </div>
+                                            <div class="text-sm-left text-muted" style="float:left; padding-left: 10px;">
+                                                {{ $obj->clinic_region }}
+                                            </div>
+                                            <div style="float: right;" >
+                                                {{ $obj->booked_time }}
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="col-md-3" >
+                    <div class="card status_title">
                         <h5 class="status_name">PACKAGE SHIPPED</h5>
                     </div>
                     @foreach ($package_shipped_list as $obj)
@@ -215,17 +263,17 @@
                     </div>
                 </div>
 
-                <div class="col-md-3" >
-                    <div class="card status_title">
-                        <h5 class="status_name">TREATMENT UPCOMING</h5>
-                    </div>
-                </div>
+{{--                <div class="col-md-3" >--}}
+{{--                    <div class="card status_title">--}}
+{{--                        <h5 class="status_name">TREATMENT UPCOMING</h5>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
-                <div class="col-md-3" >
-                    <div class="card status_title">
-                        <h5 class="status_name">TREATMENT COMPLETED</h5>
-                    </div>
-                </div>
+{{--                <div class="col-md-3" >--}}
+{{--                    <div class="card status_title">--}}
+{{--                        <h5 class="status_name">TREATMENT COMPLETED</h5>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
             </div>
         </div>

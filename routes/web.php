@@ -89,12 +89,15 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::get('appointment_make', [AdminAppointments::class, 'clinic_list'])->name('appointment.make');
     Route::get('appointment_follow_up', [AdminAppointments::class, 'follow_up'])->name('appointment.follow_up');
     Route::post('follow_up_complete', [AdminAppointments::class, 'follow_up_complete'])->name('appointment.follow_up_complete');
+    Route::get('appointment_pending', [AdminAppointments::class, 'pending'])->name('appointment.pending');
+    Route::post('follow_up_pending', [AdminAppointments::class, 'follow_up_pending'])->name('appointment.follow_up_pending');
 
     Route::resource('treatments', AdminTreatments::class);
     Route::post('treatments/update/{id}', [AdminTreatments::class, 'update'])->name('treatments.update');
     Route::get('treatments', [AdminTreatments::class, 'index'])->name('treatments.index');
 
     Route::post('treatment/package_order', [AdminTreatments::class, 'package_order'])->name('treatment.package_order');
+    Route::post('treatment/location_confirm', [AdminTreatments::class, 'location_confirm'])->name('treatment.location_confirm');
     Route::post('treatment/package_ship', [AdminTreatments::class, 'package_ship'])->name('treatment.package_ship');
 
     Route::post('appointment_make/booking', [AdminAppointments::class, 'booking'])->name('appointment_make.booking');
