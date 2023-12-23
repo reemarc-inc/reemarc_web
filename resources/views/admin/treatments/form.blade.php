@@ -288,7 +288,7 @@
         function location_send(treatment_id){
             if (confirm("Are you sure to send Location Confirm Notification?") == true) {
                 $.ajax({
-                    url: "<?php echo url('/admin/treatment/location_sent'); ?>",
+                    url: "<?php echo url('/admin/treatment/location_send'); ?>",
                     type: "POST",
                     datatype: "json",
                     data: {
