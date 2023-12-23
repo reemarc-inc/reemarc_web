@@ -155,19 +155,19 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div class="card-footer text-right">
                                 <?php if($treatment->status == 'follow_up_completed' ){ ?>
                                 <button class="btn btn-primary">{{ empty($treatment) ? __('general.btn_create_label') : __('general.btn_update_label') }}</button>
                                 <?php } ?>
                             </div>
-
-
                             <div class="card-footer text-right">
                                 <?php if($treatment->status == 'package_ready' ){ ?>
                                 <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_order({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Order Complete</button>
-                                <?php }elseif ($treatment->status == 'package_ordered' || $treatment->status == 'location_confirmed' || $treatment->status == 'package_shipped') { ?>
-                                    <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-dark" style="font-size: medium;" disabled><i class="fa fa-check-circle"> </i> The package order has been successfully completed.</button>
+                                <?php }elseif ($treatment->status == 'package_ordered'
+                                    || $treatment->status == 'location_sent'
+                                    || $treatment->status == 'location_confirmed'
+                                    || $treatment->status == 'package_shipped') { ?>
+                                    <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The package order has been successfully completed.</span>
                                 <?php } ?>
                             </div>
 
@@ -176,7 +176,28 @@
 
 
                         <?php if($treatment->status == 'package_ordered'
-                        ||  $treatment->status == 'package_shipped'
+                        || $treatment->status == 'location_sent'
+                        || $treatment->status == 'location_confirmed'
+                        ||  $treatment->status == 'package_shipped'){ ?>
+                        <div class="card">
+                            <input type="hidden" name="t_id" value="{{ $treatment->id }}">
+                            <div class="card-header">
+                                <h4>Location Send</h4>
+                            </div>
+                            <div class="card-footer text-right">
+                                <?php if($treatment->status == 'package_ordered') { ?>
+                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="location_send({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Send Location Confirm Notification</button>
+                                <?php }else if($treatment->status == 'location_sent'
+                                    || $treatment->status == 'location_confirmed'
+                                    || $treatment->status == 'package_shipped') { ?>
+                                    <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The notification has been successfully sent.</span>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <?php if($treatment->status == 'package_shipped'
+                        || $treatment->status == 'location_sent'
                         || $treatment->status == 'location_confirmed'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
@@ -184,16 +205,18 @@
                                 <h4>Location Confirm</h4>
                             </div>
                             <div class="card-footer text-right">
-                                <?php if($treatment->status == 'package_ordered') { ?>
-                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="location_confirm({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Send Location Confirm Notification</button>
-                                <?php }else if($treatment->status == 'location_confirmed' || $treatment->status == 'package_shipped') { ?>
-                                    <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-dark" style="font-size: medium;" disabled><i class="fa fa-check-circle"> </i> The notification has been successfully sent.</button>
+                                <?php if($treatment->status == 'location_sent') { ?>
+                                <span class="badge badge-danger" style="font-size: large;"><i class="fa fa-paper-plane"> </i> Waiting for location confirmation</span>
+                                <?php }else if($treatment->status == 'location_confirmed'
+                                    || $treatment->status == 'package_shipped') { ?>
+                                <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The Location was confirmed</span>
                                 <?php } ?>
                             </div>
                         </div>
                         <?php } ?>
 
-                        <?php if($treatment->status == 'location_confirmed' || $treatment->status == 'package_shipped'){ ?>
+                        <?php if($treatment->status == 'location_confirmed'
+                        || $treatment->status == 'package_shipped'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -203,7 +226,24 @@
                                 <?php if($treatment->status == 'location_confirmed') { ?>
                                 <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_ship({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Package Shipped</button>
                                 <?php }else if($treatment->status == 'package_shipped') { ?>
-                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-dark" style="font-size: medium;" disabled><i class="fa fa-check-circle"> </i> The package has been successfully shipped</button>
+                                <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The package has been successfully shipped</span>
+                                <?php } ?>
+                            </div>
+                        </div>
+                        <?php } ?>
+
+                        <?php if($treatment->status == 'package_shipped'
+                        || $treatment->status == 'package_delivered'){ ?>
+                        <div class="card">
+                            <input type="hidden" name="t_id" value="{{ $treatment->id }}">
+                            <div class="card-header">
+                                <h4>Package Delivery</h4>
+                            </div>
+                            <div class="card-footer text-right">
+                                <?php if($treatment->status == 'package_shipped') { ?>
+                                <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_delivery({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Package Delivered</button>
+                                <?php }else if($treatment->status == 'package_delivered') { ?>
+                                <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> This package has been successfully delivered</span>
                                 <?php } ?>
                             </div>
                         </div>
@@ -245,10 +285,10 @@
             }
         }
 
-        function location_confirm(treatment_id){
+        function location_send(treatment_id){
             if (confirm("Are you sure to send Location Confirm Notification?") == true) {
                 $.ajax({
-                    url: "<?php echo url('/admin/treatment/location_confirm'); ?>",
+                    url: "<?php echo url('/admin/treatment/location_sent'); ?>",
                     type: "POST",
                     datatype: "json",
                     data: {
@@ -299,6 +339,32 @@
             }
         }
 
+        function package_delivery(treatment_id){
+            if (confirm("Have you confirmed that the package has been delivered?") == true) {
+                $.ajax({
+                    url: "<?php echo url('/admin/treatment/package_delivered'); ?>",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        _token : "{{ csrf_token() }}",
+                        id : treatment_id
+                    },
+                    success: function(response) {
+                        rs = JSON.parse(response);
+                        if(response == 'Device token not found') {
+                            alert(response);
+                        }else if(response == 'Internal Server Error'){
+                            alert(response);
+                        }else if(rs.code == "messaging/registration-token-not-registered"){
+                            alert(rs.message);
+                        }else{
+                            alert("System update completed.");
+                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                        }
+                    },
+                })
+            }
+        }
     </script>
 
 @endsection

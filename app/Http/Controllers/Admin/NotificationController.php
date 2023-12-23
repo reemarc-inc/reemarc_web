@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Notification;
+use App\Repositories\Admin\ClinicRepository;
+use App\Repositories\Admin\TreatmentsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
@@ -17,11 +19,15 @@ class NotificationController extends Controller
 {
     private $notificationRepository;
 
-    public function __construct(NotificationRepository $notificationRepository) // phpcs:ignore
+    public function __construct(NotificationRepository $notificationRepository,
+                                ClinicRepository $clinicRepository,
+                                TreatmentsRepository $treatmentsRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->notificationRepository = $notificationRepository;
+        $this->clinicRepository = $clinicRepository;
+        $this->treatmentsRepository = $treatmentsRepository;
 
         $this->data['currentAdminMenu'] = 'notification';
     }
@@ -225,6 +231,43 @@ class NotificationController extends Controller
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    public function location_confirm(Request $request)
+    {
+        $param = $request->all();
+        $clinic_id = $param['clinic_id'];
+        $clinic_obj = $this->clinicRepository->findById($clinic_id);
+        $clinic_address = $clinic_obj->address;
+
+        $treatment_id = $param['treatment_id'];
+        $params['ship_to_office'] = $clinic_address;
+        $params['status'] = 'location_confirmed';
+        $params['updated_at'] = Carbon::now();
+
+        try {
+            if ($this->treatmentsRepository->update($treatment_id, $params)){
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        "message" => "Location confirmed"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+                return response()->json($data);
+            }
+
+        }catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 
 }

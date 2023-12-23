@@ -51,4 +51,6 @@ Route::post("get_notification_list", [NotificationController::class, 'get_notifi
 Route::post("delete_notification", [NotificationController::class, 'delete_notification']);
 Route::post("read_notification", [NotificationController::class, 'read_notification']);
 
+Route::post("location_confirm", [NotificationController::class, 'location_confirm']);
+
 Route::apiResource("member", MemberController::class);
