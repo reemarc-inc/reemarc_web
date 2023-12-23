@@ -280,7 +280,7 @@ class TreatmentsController extends Controller
             }
 
             // send push notification
-            $url = "https://us-central1-denti-find.cloudfunctions.net/sendFCM";
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
             $header = [
                 'content-type: application/json'
             ];
@@ -361,7 +361,7 @@ class TreatmentsController extends Controller
             }
 
             // send push notification
-            $url = "https://us-central1-denti-find.cloudfunctions.net/sendFCM";
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
             $header = [
                 'content-type: application/json'
             ];
@@ -441,7 +441,7 @@ class TreatmentsController extends Controller
             }
 
             // send push notification
-            $url = "https://us-central1-denti-find.cloudfunctions.net/sendFCM";
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
             $header = [
                 'content-type: application/json'
             ];
@@ -521,7 +521,7 @@ class TreatmentsController extends Controller
             }
 
             // send push notification
-            $url = "https://us-central1-denti-find.cloudfunctions.net/sendFCM";
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
             $header = [
                 'content-type: application/json'
             ];
@@ -602,7 +602,7 @@ class TreatmentsController extends Controller
             }
 
             // send push notification
-            $url = "https://us-central1-denti-find.cloudfunctions.net/sendFCM";
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
             $header = [
                 'content-type: application/json'
             ];

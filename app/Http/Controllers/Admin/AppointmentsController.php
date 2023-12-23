@@ -650,7 +650,7 @@ class AppointmentsController extends Controller
 
         $res = $client->request(
             'POST',
-            'https://us-central1-denti-find.cloudfunctions.net/sendFCM',
+            'https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM',
             [
                 "headers" => [
                   "Content-Type" => "application/json"
