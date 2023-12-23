@@ -221,7 +221,8 @@ class TreatmentsController extends Controller
         $param = $request->request->all();
 
         $user_id = $treatment->user_id;
-        $user_param['gender'] = $param['user_gender'];
+
+        $user_param['gender'] = isset($param['user_gender']) ? $param['user_gender'] : '';
         $user_param['yob'] = $param['user_yob'];
         $this->userRepository->update($user_id, $user_param);
 
