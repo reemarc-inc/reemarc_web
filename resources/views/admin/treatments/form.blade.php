@@ -204,6 +204,16 @@
                             <div class="card-header">
                                 <h4>Location Confirm</h4>
                             </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label>Ship to address</label>
+                                        <input type="text"
+                                               class="form-control"
+                                               value="{{ $treatment->ship_to_office }}" disabled>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="card-footer text-right">
                                 <?php if($treatment->status == 'location_sent') { ?>
                                 <span class="badge badge-danger" style="font-size: large;"><i class="fa fa-paper-plane"> </i> Waiting for location confirmation</span>
