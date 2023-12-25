@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\appointments;
 use App\Models\Clinic;
 use App\Models\Notification;
+use App\Models\Record;
 use App\Models\User;
 use App\Repositories\Admin\FileAttachmentsRepository;
 use App\Repositories\Admin\NotificationRepository;
@@ -443,7 +444,16 @@ class AppointmentsController extends Controller
             $t_params['status'] = 'follow_up_completed';
             $t_params['created_at'] = Carbon::now();
 
-            $this->treatmentsRepository->create($t_params);
+            $treatment_obj = $this->treatmentsRepository->create($t_params);
+
+            $record = new Record();
+            $record['appointment_id'] = $treatment_obj->appointment_id;
+            $record['treatment_id'] = $treatment_obj->id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['type'] = 'follow_up_completed';
+            $record['note'] = 'A new patient has been registered in the system.';
+            $record['created_at'] = Carbon::now();
+            $record->save();
 
             return redirect('admin/appointment_follow_up')
                 ->with('success', 'Follow Up Success!');

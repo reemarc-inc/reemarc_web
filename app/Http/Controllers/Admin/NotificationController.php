@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\Notification;
+use App\Models\Record;
 use App\Repositories\Admin\ClinicRepository;
 use App\Repositories\Admin\TreatmentsRepository;
+use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -19,15 +21,20 @@ use Illuminate\Support\Facades\Hash;
 class NotificationController extends Controller
 {
     private $notificationRepository;
+    private $clinicRepository;
+    private $userRepository;
+    private $treatmentsRepository;
 
     public function __construct(NotificationRepository $notificationRepository,
                                 ClinicRepository $clinicRepository,
+                                UserRepository $userRepository,
                                 TreatmentsRepository $treatmentsRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->notificationRepository = $notificationRepository;
         $this->clinicRepository = $clinicRepository;
+        $this->userRepository = $userRepository;
         $this->treatmentsRepository = $treatmentsRepository;
 
         $this->data['currentAdminMenu'] = 'notification';
@@ -264,6 +271,16 @@ class NotificationController extends Controller
         $notification['created_at']         = Carbon::now();
         $notification['note']               = 'Ship to address : ' . $clinic_address;
         $notification->save();
+
+        // Add Record
+        $record = new Record();
+        $record['type'] = 'location_confirm';
+        $record['appointment_id'] = $treatment_obj->appointment_id;
+        $record['treatment_id'] = $treatment_id;
+        $record['user_id'] = $treatment_obj->user_id;
+        $record['note'] = "<p>The Location was confirmed.</p>";
+        $record['created_at'] = Carbon::now();
+        $record->save();
 
         try {
             if ($this->treatmentsRepository->update($treatment_id, $params)){

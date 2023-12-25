@@ -4,10 +4,10 @@
 
     <section class="section">
         <div class="section-header">
-            <h1>Treatment Status Board</h1>
+            <h1>Package Status Board</h1>
             <div class="section-header-breadcrumb">
                 <div class="breadcrumb-item"><a href="{{ url('admin/dashboard') }}">Dashboard</a></div>
-                <div class="breadcrumb-item">Treatment Status Board</div>
+                <div class="breadcrumb-item">Package Status Board</div>
             </div>
         </div>
         <div class="section-body">

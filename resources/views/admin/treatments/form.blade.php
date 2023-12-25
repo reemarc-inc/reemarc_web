@@ -267,7 +267,42 @@
                         <?php } ?>
 
                     </div>
+
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header" style="position: relative;">
+                                <h4>History</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="col">
+                                    <div class="form-group">
+                                        @foreach ($record as $r)
+                                        <div class="note">
+                                            <ul class="list-unstyled list-unstyled-border list-unstyled-noborder">
+                                                <li class="media">
+                                                    <div class="media-body" style="border: 1px solid #ddd; background-color: #f9f9f9; border-radius: 5px;">
+                                                        <div class="media-title-note admin" >
+                                                            <div class="media-right"><div class="text-time">{{ date('m/d/y g:i A', strtotime($r->created_at)) }}</div></div>
+                                                            <div class="media-title mb-1">{{ ucwords(str_replace('_', ' ', $r->type)) }}</div>
+{{--                                                            <div class="text-time"></div>--}}
+                                                        </div>
+                                                        <div class="media-description text-muted" style="padding: 15px;">
+                                                            {!! $r->note !!}
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
+
             </div>
         </form>
     </section>

@@ -1699,6 +1699,12 @@ h6 .badge {
     /*border-radius: 5px;*/
 }
 
+.media .media-body-history {
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
+
 .lead-time {
     color:#ffffff;
     font-size: small;

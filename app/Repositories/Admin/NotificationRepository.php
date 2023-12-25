@@ -13,9 +13,15 @@ class NotificationRepository implements NotificationRepositoryInterface
 {
     public function findAll($options = [])
     {
+        $id = $options['id'] ?? [];
         $notification = new Notification();
 
-        $notification = $notification->orderBy('id', 'desc')->get();
+        if ($id) {
+            $notification = $notification
+                ->where('treatment_id', $id);
+        }
+
+        $notification = $notification->orderBy('created_at', 'desc')->get();
         return $notification;
     }
 

@@ -7,10 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\appointments;
 use App\Models\Clinic;
 use App\Models\Notification;
+use App\Models\Record;
 use App\Models\User;
 use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\FileAttachmentsRepository;
+use App\Repositories\Admin\NotificationRepository;
 use App\Repositories\Admin\PackageRepository;
+use App\Repositories\Admin\RecordRepository;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -27,6 +30,8 @@ class TreatmentsController extends Controller
     private $appointmentsRepository;
     private $clinicRepository;
     private $packageRepository;
+    private $notificationRepository;
+    private $recordRepository;
     private $fileAttachmentsRepository;
     private $userRepository;
 
@@ -34,6 +39,8 @@ class TreatmentsController extends Controller
                                 AppointmentsRepository $appointmentsRepository,
                                 ClinicRepository $clinicRepository,
                                 PackageRepository $packageRepository,
+                                NotificationRepository $notificationRepository,
+                                RecordRepository $recordRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
                                 UserRepository $userRepository) // phpcs:ignore
     {
@@ -43,6 +50,8 @@ class TreatmentsController extends Controller
         $this->appointmentsRepository = $appointmentsRepository;
         $this->clinicRepository = $clinicRepository;
         $this->packageRepository = $packageRepository;
+        $this->notificationRepository = $notificationRepository;
+        $this->recordRepository = $recordRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
 
@@ -204,6 +213,15 @@ class TreatmentsController extends Controller
 
         $this->data['packages'] = $this->packageRepository->findAll();
 
+        // Campaign_notes
+        $options = [
+            'id' => $id,
+            'order' => [
+                'created_at' => 'desc',
+            ]
+        ];
+        $this->data['record'] = $this->recordRepository->findAll($options);
+
         return view('admin.treatments.form', $this->data);
     }
 
@@ -221,15 +239,59 @@ class TreatmentsController extends Controller
         $param = $request->request->all();
 
         $user_id = $treatment->user_id;
+        $user_obj = $this->userRepository->findById($user_id);
 
         $user_param['gender'] = isset($param['user_gender']) ? $param['user_gender'] : '';
-        $user_param['yob'] = $param['user_yob'];
+        $user_param['yob'] = isset($param['user_yob']) ? $param['user_yob'] : '';
+
+        $new = array(
+            'yob'       => $param['user_yob'],
+            'gender'    => $param['user_gender'],
+        );
+
+        $origin = $user_obj->toArray();
+        foreach ($new as $key => $value) {
+            if (array_key_exists($key, $origin)) {
+                if (html_entity_decode($new[$key]) != html_entity_decode($origin[$key])) {
+                    $changed[$key]['new'] = $new[$key];
+                    $changed[$key]['original'] = $origin[$key];
+                }
+            }
+        }
+        if(!empty($changed)){
+            $change_line  = "<p>Admin made a change to a patient</p>";
+            foreach ($changed as $label => $change) {
+                $label = ucwords(str_replace('_', ' ', $label));
+                $from  = trim($change['original']); // Remove strip tags
+                $to    = trim($change['new']);      // Remove strip tags
+                $change_line .= "<div class='change_label'><p>$label:</p></div>"
+                    . "<div class='change_to'><p>$to</p></div>"
+                    . "<div class='change_from'><del><p>$from</p></del></div>";
+            }
+            $record = new Record();
+            $record['type'] = 'follow_up_completed';
+            $record['appointment_id'] = $treatment->appointment_id;
+            $record['treatment_id'] = $treatment->id;
+            $record['user_id'] = $treatment->user_id;
+            $record['note'] = $change_line;
+            $record['created_at'] = Carbon::now();
+            $record->save();
+        }
+
         $this->userRepository->update($user_id, $user_param);
 
-//        $treatment_param['ship_to_office'] = $param['ship_to_office'];
         if(isset($param['package'])) {
             $treatment_param['package_id'] = $param['package'];
             $treatment_param['status'] = 'package_ready';
+
+            $record = new Record();
+            $record['type'] = 'package_ready';
+            $record['appointment_id'] = $treatment->appointment_id;
+            $record['treatment_id'] = $treatment->id;
+            $record['user_id'] = $treatment->user_id;
+            $record['note'] = "<p>The package selection has been completed.</p>";
+            $record['created_at'] = Carbon::now();
+            $record->save();
         }
         $treatment_param['updated_at'] = Carbon::now();
 
@@ -333,6 +395,16 @@ class TreatmentsController extends Controller
             $notification['note']               = "Your package order has been received";
             $notification->save();
 
+            // Add Record
+            $record = new Record();
+            $record['type'] = 'package_ordered';
+            $record['appointment_id'] = $treatment_obj->appointment_id;
+            $record['treatment_id'] = $treatment_id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['note'] = "<p>The package order has been successfully completed.</p>";
+            $record['created_at'] = Carbon::now();
+            $record->save();
+
             return $result;
 
         } catch (\Exception $e) {
@@ -414,6 +486,16 @@ class TreatmentsController extends Controller
             $notification['note']               = "Your package has arrived reemarc";
             $notification->save();
 
+            // Add Record
+            $record = new Record();
+            $record['type'] = 'location_sent';
+            $record['appointment_id'] = $treatment_obj->appointment_id;
+            $record['treatment_id'] = $treatment_id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['note'] = "<p>The notification has been successfully sent.</p>";
+            $record['created_at'] = Carbon::now();
+            $record->save();
+
             return $result;
 
         } catch (\Exception $e) {
@@ -450,6 +532,16 @@ class TreatmentsController extends Controller
             $notification['created_at']         = Carbon::now();
             $notification['note']               = 'The Package shipped to ' . $treatment_obj->ship_to_office;
             $notification->save();
+
+            // Add Record
+            $record = new Record();
+            $record['type'] = 'package_shipped';
+            $record['appointment_id'] = $treatment_obj->appointment_id;
+            $record['treatment_id'] = $treatment_id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['note'] = "<p>The package has been successfully shipped.</p>";
+            $record['created_at'] = Carbon::now();
+            $record->save();
 
             return "success";
 
@@ -531,6 +623,16 @@ class TreatmentsController extends Controller
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "You are all set to receive a treatment and package.";
             $notification->save();
+
+            // Add Record
+            $record = new Record();
+            $record['type'] = 'package_delivered';
+            $record['appointment_id'] = $treatment_obj->appointment_id;
+            $record['treatment_id'] = $treatment_id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['note'] = "<p>This package has been successfully delivered.</p>";
+            $record['created_at'] = Carbon::now();
+            $record->save();
 
             return $result;
 
