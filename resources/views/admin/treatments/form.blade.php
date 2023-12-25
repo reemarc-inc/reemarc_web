@@ -166,7 +166,8 @@
                                 <?php }elseif ($treatment->status == 'package_ordered'
                                     || $treatment->status == 'location_sent'
                                     || $treatment->status == 'location_confirmed'
-                                    || $treatment->status == 'package_shipped') { ?>
+                                    || $treatment->status == 'package_shipped'
+                                    || $treatment->status == 'package_delivered') { ?>
                                     <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The package order has been successfully completed.</span>
                                 <?php } ?>
                             </div>
@@ -178,7 +179,8 @@
                         <?php if($treatment->status == 'package_ordered'
                         || $treatment->status == 'location_sent'
                         || $treatment->status == 'location_confirmed'
-                        ||  $treatment->status == 'package_shipped'){ ?>
+                        || $treatment->status == 'package_shipped'
+                        || $treatment->status == 'package_delivered'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -189,16 +191,18 @@
                                 <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="location_send({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Send Location Confirm Notification</button>
                                 <?php }else if($treatment->status == 'location_sent'
                                     || $treatment->status == 'location_confirmed'
-                                    || $treatment->status == 'package_shipped') { ?>
+                                    || $treatment->status == 'package_shipped'
+                                    || $treatment->status == 'package_delivered') { ?>
                                     <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The notification has been successfully sent.</span>
                                 <?php } ?>
                             </div>
                         </div>
                         <?php } ?>
 
-                        <?php if($treatment->status == 'package_shipped'
-                        || $treatment->status == 'location_sent'
-                        || $treatment->status == 'location_confirmed'){ ?>
+                        <?php if($treatment->status == 'location_sent'
+                        || $treatment->status == 'location_confirmed'
+                        || $treatment->status == 'package_shipped'
+                        || $treatment->status == 'package_delivered'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -206,7 +210,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="form-group col-md-6">
+                                    <div class="form-group col-md-12">
                                         <label>Ship to address</label>
                                         <input type="text"
                                                class="form-control"
@@ -218,7 +222,8 @@
                                 <?php if($treatment->status == 'location_sent') { ?>
                                 <span class="badge badge-danger" style="font-size: large;"><i class="fa fa-paper-plane"> </i> Waiting for location confirmation</span>
                                 <?php }else if($treatment->status == 'location_confirmed'
-                                    || $treatment->status == 'package_shipped') { ?>
+                                    || $treatment->status == 'package_shipped'
+                                    || $treatment->status == 'package_delivered') { ?>
                                 <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The Location was confirmed</span>
                                 <?php } ?>
                             </div>
@@ -226,7 +231,8 @@
                         <?php } ?>
 
                         <?php if($treatment->status == 'location_confirmed'
-                        || $treatment->status == 'package_shipped'){ ?>
+                        || $treatment->status == 'package_shipped'
+                        || $treatment->status == 'package_delivered'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -235,7 +241,8 @@
                             <div class="card-footer text-right">
                                 <?php if($treatment->status == 'location_confirmed') { ?>
                                 <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_ship({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Package Shipped</button>
-                                <?php }else if($treatment->status == 'package_shipped') { ?>
+                                <?php }else if($treatment->status == 'package_shipped'
+                                                || $treatment->status == 'package_delivered') { ?>
                                 <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The package has been successfully shipped</span>
                                 <?php } ?>
                             </div>
@@ -347,7 +354,7 @@
         function package_delivery(treatment_id){
             if (confirm("Have you confirmed that the package has been delivered?") == true) {
                 $.ajax({
-                    url: "<?php echo url('/admin/treatment/package_delivered'); ?>",
+                    url: "<?php echo url('/admin/treatment/package_delivery'); ?>",
                     type: "POST",
                     datatype: "json",
                     data: {
