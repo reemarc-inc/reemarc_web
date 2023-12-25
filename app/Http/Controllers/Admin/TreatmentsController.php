@@ -330,7 +330,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = $package_obj->name;
+            $notification['note']               = "Your package order has been received";
             $notification->save();
 
             return $result;
@@ -411,7 +411,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = $package_obj->name;
+            $notification['note']               = "Your package has arrived reemarc";
             $notification->save();
 
             return $result;
@@ -529,7 +529,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = $package_obj->name;
+            $notification['note']               = "You are all set to receive a treatment and package.";
             $notification->save();
 
             return $result;
