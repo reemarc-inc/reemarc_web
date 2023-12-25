@@ -8,6 +8,7 @@ use App\Models\Notification;
 use App\Repositories\Admin\ClinicRepository;
 use App\Repositories\Admin\TreatmentsRepository;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
 
@@ -241,9 +242,28 @@ class NotificationController extends Controller
         $clinic_address = $clinic_obj->address;
 
         $treatment_id = $param['treatment_id'];
+        $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+        $user_id = $treatment_obj->user_id;
+
+        $user_obj = $this->userRepository->findById($user_id);
+
         $params['ship_to_office'] = $clinic_address;
         $params['status'] = 'location_confirmed';
         $params['updated_at'] = Carbon::now();
+
+        $notification = new Notification();
+        $notification['user_id']            = $user_obj->id;
+        $notification['user_first_name']    = $user_obj->first_name;
+        $notification['user_last_name']     = $user_obj->last_name;
+        $notification['user_email']         = $user_obj->email;
+        $notification['appointment_id']     = $treatment_obj->appointment_id;
+        $notification['treatment_id']       = $treatment_id;
+        $notification['type']               = 'location_confirm';
+        $notification['is_read']            = 'no';
+        $notification['is_delete']          = 'no';
+        $notification['created_at']         = Carbon::now();
+        $notification['note']               = 'Ship to address : ' . $clinic_address;
+        $notification->save();
 
         try {
             if ($this->treatmentsRepository->update($treatment_id, $params)){

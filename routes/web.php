@@ -98,7 +98,6 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
 
     Route::post('treatment/package_order', [AdminTreatments::class, 'package_order'])->name('treatment.package_order');
     Route::post('treatment/location_send', [AdminTreatments::class, 'location_send'])->name('treatment.location_send');
-    Route::post('treatment/location_confirm', [AdminTreatments::class, 'location_confirm'])->name('treatment.location_confirm');
     Route::post('treatment/package_ship', [AdminTreatments::class, 'package_ship'])->name('treatment.package_ship');
     Route::post('treatment/package_delivery', [AdminTreatments::class, 'package_delivery'])->name('treatment.package_delivery');
 

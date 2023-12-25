@@ -323,16 +323,11 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        rs = JSON.parse(response);
-                        if(response == 'Device token not found') {
-                            alert(response);
-                        }else if(response == 'Internal Server Error'){
-                            alert(response);
-                        }else if(rs.code == "messaging/registration-token-not-registered"){
-                            alert(rs.message);
-                        }else{
+                        if(response == 'success') {
                             alert("System update completed.");
-                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
+                        }else{
+                            alert('Error!');
                         }
                     },
                 })
