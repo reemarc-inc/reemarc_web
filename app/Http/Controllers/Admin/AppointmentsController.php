@@ -554,7 +554,7 @@ class AppointmentsController extends Controller
                 $postdata = '{
                     "token":  "'.$user_device_token.'",
                     "notification": {
-                        "title": "Reemarc",
+                        "title": "reemarc",
                         "body": "'.$notification['note'].'"
                     },
                     "data": {
@@ -646,7 +646,7 @@ class AppointmentsController extends Controller
             $postdata = '{
                 "token":  "'.$user_device_token.'",
                 "notification": {
-                    "title": "Reemarc",
+                    "title": "reemarc",
                     "body": "Your package order has been received"
                 },
                 "data": {
@@ -778,7 +778,7 @@ class AppointmentsController extends Controller
                 $postdata = '{
                     "token":  "'.$user_device_token.'",
                     "notification": {
-                        "title": "Reemarc",
+                        "title": "reemarc",
                         "body": "Your package order has been received"
                     },
                     "data": {

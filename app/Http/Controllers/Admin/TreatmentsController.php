@@ -351,7 +351,7 @@ class TreatmentsController extends Controller
             $postdata = '{
                 "token":  "'.$user_device_token.'",
                 "notification": {
-                    "title": "Reemarc",
+                    "title": "reemarc",
                     "body": "Your package order has been received"
                 },
                 "data": {
@@ -442,7 +442,7 @@ class TreatmentsController extends Controller
             $postdata = '{
                 "token":  "'.$user_device_token.'",
                 "notification": {
-                    "title": "Reemarc",
+                    "title": "reemarc",
                     "body": "Your package has arrived reemarc"
                 },
                 "data": {
@@ -580,7 +580,7 @@ class TreatmentsController extends Controller
             $postdata = '{
                 "token":  "'.$user_device_token.'",
                 "notification": {
-                    "title": "Reemarc",
+                    "title": "reemarc",
                     "body": "You are all set to receive a treatment and package."
                 },
                 "data": {
