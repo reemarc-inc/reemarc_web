@@ -446,7 +446,7 @@ class TreatmentsController extends Controller
                     "body": "Your package has arrived reemarc"
                 },
                 "data": {
-                    "notification_type": "package_received_reemarc",
+                    "notification_type": "location_sent",
                     "appointment_id": "'.$treatment_obj->appointment_id.'",
                     "treatment_id": "'.$treatment_obj->id.'",
                     "user_id": "'.$treatment_obj->user_id.'",
