@@ -166,9 +166,7 @@ class NotificationController extends Controller
         $notification_list = $this->notificationRepository->get_notification_list_by_user_id($param['user_id']);
         if(sizeof($notification_list)>0){
             $data = [
-                'data' => [
-                    'notification_list' => $notification_list
-                ]
+                'data' => $notification_list
             ];
             return response()->json($data);
         }else{
