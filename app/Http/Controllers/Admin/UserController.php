@@ -435,6 +435,7 @@ class UserController extends Controller
                 'region',
                 'role',
                 'email',
+                'password',
                 'phone',
                 'gender',
                 'yob',
