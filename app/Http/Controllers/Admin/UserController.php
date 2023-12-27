@@ -305,6 +305,31 @@ class UserController extends Controller
                 ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
     }
 
+    /***
+     * API
+     * @return
+     */
+    public function get_user_list()
+    {
+        $user_list = User::select(
+            'id',
+            'first_name',
+            'last_name',
+            'region',
+            'role',
+            'email',
+            'phone',
+            'gender',
+            'yob',
+            'device_token',
+            'created_at',
+            'updated_at'
+        )->get();
+
+        return $user_list;
+
+    }
+
 
     /***
      * API
