@@ -352,7 +352,7 @@ class TreatmentsController extends Controller
                 "token":  "'.$user_device_token.'",
                 "notification": {
                     "title": "reemarc",
-                    "body": "Your package order has been received"
+                    "body": "reemarc doctors have chosen a treatment package for you"
                 },
                 "data": {
                     "notification_type": "package_ordered",
@@ -443,7 +443,7 @@ class TreatmentsController extends Controller
                 "token":  "'.$user_device_token.'",
                 "notification": {
                     "title": "reemarc",
-                    "body": "Your package has arrived reemarc"
+                    "body": "Your package has arrived reemarc. Please confirm your treatment location."
                 },
                 "data": {
                     "notification_type": "location_sent",
@@ -483,7 +483,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = "Your package has arrived reemarc";
+            $notification['note']               = "Your package has arrived reemarc. Please confirm your treatment location.";
             $notification->save();
 
             // Add Record
@@ -530,7 +530,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = 'The Package shipped to ' . $treatment_obj->ship_to_office;
+            $notification['note']               = 'The package shipped to ' . $treatment_obj->ship_to_office;
             $notification->save();
 
             // Add Record
@@ -539,7 +539,7 @@ class TreatmentsController extends Controller
             $record['appointment_id'] = $treatment_obj->appointment_id;
             $record['treatment_id'] = $treatment_id;
             $record['user_id'] = $treatment_obj->user_id;
-            $record['note'] = "<p>The package has been successfully shipped.</p>";
+            $record['note'] = "<p>The package has been successfully shipped. </p>";
             $record['created_at'] = Carbon::now();
             $record->save();
 

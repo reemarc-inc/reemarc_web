@@ -428,7 +428,20 @@ class UserController extends Controller
     {
         try {
             $input = $request->all();
-            $user_obj = User::where('email', $input['email'])->first();
+            $user_obj = User::select(
+                'id',
+                'first_name',
+                'last_name',
+                'region',
+                'role',
+                'email',
+                'phone',
+                'gender',
+                'yob',
+                'device_token',
+                'created_at',
+                'updated_at'
+            )->where('email', $input['email'])->first();
 
             if($user_obj){
                 if (!$user_obj || !Hash::check($input['password'], $user_obj->password)) {

@@ -276,7 +276,7 @@ class NotificationController extends Controller
         $record['appointment_id'] = $treatment_obj->appointment_id;
         $record['treatment_id'] = $treatment_id;
         $record['user_id'] = $treatment_obj->user_id;
-        $record['note'] = "<p>The Location was confirmed.</p>";
+        $record['note'] = "<p>The Location was confirmed.</p><br><p>".$notification['note']."</p>";
         $record['created_at'] = Carbon::now();
         $record->save();
 

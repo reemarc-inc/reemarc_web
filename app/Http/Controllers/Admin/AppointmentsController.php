@@ -765,7 +765,7 @@ class AppointmentsController extends Controller
                 $data = [
                     'data' => [
                         "code" => 200,
-                        "message" => "Appointment has been canceled"
+                        "message" => "Appointment has been cancelled"
                     ]
                 ];
                 return response()->json($data);
