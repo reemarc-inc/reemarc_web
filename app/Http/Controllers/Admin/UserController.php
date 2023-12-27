@@ -377,11 +377,11 @@ class UserController extends Controller
     {
         try{
             $params['email'] = $request['email'];
-            $params['phone'] = $request['phone'];
+//            $params['phone'] = $request['phone'];
             $params['password'] = Hash::make($request['password']);
             $params['first_name'] = $request['first_name'];
             $params['last_name'] = $request['last_name'];
-            $params['region'] = $request['region'];
+//            $params['region'] = $request['region'];
             $params['role'] = 'patient';
 
             $rs = $this->userRepository->findByEmail($params['email']);
@@ -409,8 +409,7 @@ class UserController extends Controller
                     }
                     $data = [
                         'data' => [
-                            'message' => "Success",
-                            'user' => $user
+                            'message' => "Success"
                         ]
                     ];
                 }
