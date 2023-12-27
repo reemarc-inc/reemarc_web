@@ -61,7 +61,18 @@ class NotificationRepository implements NotificationRepositoryInterface
     public function get_notification_list_by_user_id($u_id)
     {
         $notification = new Notification();
-        $notification =$notification->Select('type as notification_type', 'appointment_id as appointment_id', 'treatment_id as treatment_id', 'clinic_id as clinic_id', 'package_id as package_id')
+        $notification =$notification
+            ->Select('type as notification_type',
+                'id as id',
+                'appointment_id as appointment_id',
+                'treatment_id as treatment_id',
+                'clinic_id as clinic_id',
+                'package_id as package_id',
+                'is_read as is_read',
+                'is_delete as is_delete',
+                'note as note',
+                'created_at as created_at'
+            )
             ->Where('user_id', '=', $u_id)->Where('is_delete', '=', 'no');
         return $notification->get();
     }
