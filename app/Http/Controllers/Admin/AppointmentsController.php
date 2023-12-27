@@ -538,7 +538,7 @@ class AppointmentsController extends Controller
                 $notification['user_email']         = $params['user_email'];
                 $notification['appointment_id']     = $a_id;
                 $notification['clinic_id']          = $params['clinic_id'];
-                $notification['type']               = 'booking_requested';
+                $notification['type']               = 'booking_completed';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
                 $notification['created_at']         = Carbon::now();
@@ -630,7 +630,7 @@ class AppointmentsController extends Controller
             $notification['user_last_name']     = $params['user_last_name'];
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
-            $notification['type']               = 'booking_requested';
+            $notification['type']               = 'booking_completed';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
@@ -647,7 +647,7 @@ class AppointmentsController extends Controller
                 "token":  "'.$user_device_token.'",
                 "notification": {
                     "title": "reemarc",
-                    "body": "Your package order has been received"
+                    "body": "'.$notification['note'].'"
                 },
                 "data": {
                     "notification_type": "booking_completed",
