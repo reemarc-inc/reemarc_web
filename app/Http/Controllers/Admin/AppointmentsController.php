@@ -542,7 +542,7 @@ class AppointmentsController extends Controller
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
                 $notification['created_at']         = Carbon::now();
-                $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
+                $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
                 $notification->save();
 
                 // send push notification
@@ -634,7 +634,7 @@ class AppointmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
+            $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
             $notification->save();
 
             // send push notification
@@ -691,47 +691,6 @@ class AppointmentsController extends Controller
 
     }
 
-    public function send_notificatoin()
-    {
-        $client = new Client();
-
-        $res = $client->request(
-            'POST',
-            'https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM',
-            [
-                "headers" => [
-                  "Content-Type" => "application/json"
-                ],
-                "token" => "dfq2bYGhR_-86_aARCF6i4:APA91bHLixQTwiC_H8Of3aiMxo1ocuANqn5gMk8_QuWSy7lx6WY4m2zxXK_qPBUdDVvvtbgPyHHbSsgY9ELDR45Z8tFjc3UCtqXmkxM7VlfuTpP7OgvX9pW4epw1_I1wDDq8Es6xs-ZI",
-                "notification" => [
-                    "title" => "Your Notification Title Test",
-                    "body" => "Your Notification Body"
-                ],
-                "data" => [
-                    "message_id" => "1",
-                    "image_url" => "",
-                    "user_id" => "228",
-                    "appointment_id" => "28",
-                    "type" => "booking_requested",
-                    "clinic_name" => "Newyork Yonsei Dental Clinic",
-                    "clinic_address" => "3F JUN Building, 825-9 Yeoksam-dong, Gangnam-gu, Seoul",
-                    "booked_time" => "10=>00 am",
-                    "booked_date" => "2023-12-04",
-                    "clinic_web_url" => "https=>//www.dugonismile.com/",
-                    "clinic_phone" => "6505885042",
-                    "note" => "Your booking at Newyork Yonsei Dental Clinic is at 10=>00 am Dec 4, 2023",
-                    "status"=> "unread",
-                    "created_at" => "2023-11-30 12:00:00"
-                ]
-            ]);
-
-        if ($res->getStatusCode() == 200) { // 200 OK
-            $response_data = $res->getBody()->getContents();
-        }
-
-        return $response_data;
-    }
-
     /***
      * API
      * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
@@ -779,7 +738,7 @@ class AppointmentsController extends Controller
                     "token":  "'.$user_device_token.'",
                     "notification": {
                         "title": "reemarc",
-                        "body": "Your package order has been received"
+                        "body": "'.$notification['note'].'"
                     },
                     "data": {
                         "notification_type": "booking_cancelled",
