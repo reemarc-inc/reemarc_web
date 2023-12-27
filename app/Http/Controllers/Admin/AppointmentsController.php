@@ -536,7 +536,7 @@ class AppointmentsController extends Controller
                 $notification['user_last_name']     = $params['user_last_name'];
                 $notification['user_email']         = $params['user_email'];
                 $notification['appointment_id']     = $a_id;
-                $notification['treatment_id']       = 0;
+                $notification['clinic_id']          = $params['clinic_id'];
                 $notification['type']               = 'booking_requested';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -607,7 +607,6 @@ class AppointmentsController extends Controller
             $notification['user_last_name']     = $params['user_last_name'];
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
-            $notification['treatment_id']       = 0;
             $notification['type']               = 'booking_requested';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
@@ -616,28 +615,47 @@ class AppointmentsController extends Controller
             $notification->save();
 
             // Send Notification
-//            $rs_notification = $this->send_notificatoin();
-//            $new_params['response'] = $rs_notification;
-//            $this->notificationRepository->update($new_noti->id, $new_params);
+            $user_obj = $this->userRepository->findById($notification['user_id']);
+            $user_device_token = $user_obj->device_token;
 
-            $noti_res['notification_id']    = $notification->id;
-            $noti_res['notification_title'] = 'Initial treatment booked';
-            $noti_res['notification_body']  = $notification->note;
-            $noti_res['user_id']            = $notification->user_id;
-            $noti_res['user_first_name']    = $notification->user_first_name;
-            $noti_res['user_last_name']     = $notification->user_last_name;
-            $noti_res['user_email']         = $notification->user_email;
-            $noti_res['appointment_id']     = $notification->appointment_id;
-            $noti_res['type']               = $notification->type;
-            $noti_res['is_read']            = $notification->is_read;
-            $noti_res['is_delete']          = $notification->is_delete;
-            $noti_res['note']               = $notification->note;
+            // send push notification
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+            $header = [
+                'content-type: application/json'
+            ];
+
+            $postdata = '{
+                "token":  "'.$user_device_token.'",
+                "notification": {
+                    "title": "Reemarc",
+                    "body": "Your package order has been received"
+                },
+                "data": {
+                    "notification_type": "booking_completed",
+                    "appointment_id": "'.$notification['appointment_id'].'",
+                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "user_id": "'.$notification['user_id'].'",
+                    "clinic_id": "null",
+                    "package_id": "null",
+                    "created_at" : "'.Carbon::now().'"
+                }
+            }';
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+            $result = curl_exec($ch);
+            curl_close($ch);
 
             $data = [
                 'data' => [
                     "code" => 200,
                     'appointment' => $appointment,
-                    'notification' => $noti_res,
                     "message" => "Data has been created"
                 ]
             ];

@@ -18,6 +18,8 @@ class Notification extends Model
         'user_id',
         'appointment_id',
         'treatment_id',
+        'clinic_id',
+        'package_id',
         'type',
         'note',
         'is_delete',
