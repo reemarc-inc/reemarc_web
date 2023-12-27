@@ -502,6 +502,7 @@ class AppointmentsController extends Controller
         $params['user_last_name'] = $user_obj->last_name;
         $params['user_email'] = $user_obj->email;
         $params['user_phone'] = $user_obj->phone;
+        $user_device_token = $user_obj->device_token;
 
         $params['clinic_id'] = $param['clinic_id'];
         $clinic_obj = Clinic::where('id', $params['clinic_id'])->first();
@@ -544,26 +545,48 @@ class AppointmentsController extends Controller
                 $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
                 $notification->save();
 
-                $noti_res['notification_id']    = $notification->id;
-                $noti_res['notification_title'] = 'Initial treatment booked';
-                $noti_res['notification_body']  = $notification->note;
-                $noti_res['user_id']            = $notification->user_id;
-                $noti_res['user_first_name']    = $notification->user_first_name;
-                $noti_res['user_last_name']     = $notification->user_last_name;
-                $noti_res['user_email']         = $notification->user_email;
-                $noti_res['appointment_id']     = $notification->appointment_id;
-                $noti_res['type']               = $notification->type;
-                $noti_res['is_read']            = $notification->is_read;
-                $noti_res['is_delete']          = $notification->is_delete;
-                $noti_res['note']               = $notification->note;
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
+
+                $postdata = '{
+                    "token":  "'.$user_device_token.'",
+                    "notification": {
+                        "title": "Reemarc",
+                        "body": "Your package order has been received"
+                    },
+                    "data": {
+                        "notification_type": "booking_completed",
+                        "appointment_id": "'.$notification['appointment_id'].'",
+                        "treatment_id": "null",
+                        "user_id": "'.$notification['user_id'].'",
+                        "clinic_id": "'.$notification['clinic_id'].'",
+                        "package_id": "null",
+                        "created_at" : "'.Carbon::now().'"
+                    }
+                }';
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+                $result = curl_exec($ch);
+                curl_close($ch);
 
                 $data = [
                     'data' => [
                         "code" => 200,
-                        'notification' => $noti_res,
                         "message" => "Data has been updated"
                     ]
                 ];
+
+
             }else{
                 $data = [
                     'error' => [
@@ -613,10 +636,6 @@ class AppointmentsController extends Controller
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification;
             $notification->save();
-
-            // Send Notification
-            $user_obj = $this->userRepository->findById($notification['user_id']);
-            $user_device_token = $user_obj->device_token;
 
             // send push notification
             $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
@@ -727,9 +746,10 @@ class AppointmentsController extends Controller
         try {
 
             $appt = $this->appointmentsRepository->update($appointment_id, $params);
+            $user_obj = $this->userRepository->findById($appt->user_id);
+            $user_device_token = $user_obj->device_token;
 
             if ($appt) {
-
 
                 // Add Notification
                 $notification = new Notification();
@@ -738,7 +758,6 @@ class AppointmentsController extends Controller
                 $notification['user_last_name']     = $appt->user_last_name;
                 $notification['user_email']         = $appt->user_email;
                 $notification['appointment_id']     = $appt->id;
-                $notification['treatment_id']       = 0;
                 $notification['type']               = 'booking_cancelled';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -750,23 +769,43 @@ class AppointmentsController extends Controller
                 $notification['note']               = "Your booking at ". $appt->clinic_name . " is at " . $appt->booked_time . " " . $date_for_notification . " has been cancelled.";
                 $notification->save();
 
-                $noti_res['notification_id']    = $notification->id;
-                $noti_res['notification_title'] = 'Initial treatment Cancelled';
-                $noti_res['notification_body']  = $notification->note;
-                $noti_res['user_id']            = $notification->user_id;
-                $noti_res['user_first_name']    = $notification->user_first_name;
-                $noti_res['user_last_name']     = $notification->user_last_name;
-                $noti_res['user_email']         = $notification->user_email;
-                $noti_res['appointment_id']     = $notification->appointment_id;
-                $noti_res['type']               = $notification->type;
-                $noti_res['is_read']            = $notification->is_read;
-                $noti_res['is_delete']          = $notification->is_delete;
-                $noti_res['note']               = $notification->note;
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
+
+                $postdata = '{
+                    "token":  "'.$user_device_token.'",
+                    "notification": {
+                        "title": "Reemarc",
+                        "body": "Your package order has been received"
+                    },
+                    "data": {
+                        "notification_type": "booking_cancelled",
+                        "appointment_id": "'.$appt->id.'",
+                        "treatment_id": "null",
+                        "user_id": "'.$appt->user_id.'",
+                        "clinic_id": "'.$appt->clinic_id.'",
+                        "package_id": "null",
+                        "created_at" : "'.Carbon::now().'"
+                    }
+                }';
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+                $result = curl_exec($ch);
+                curl_close($ch);
 
                 $data = [
                     'data' => [
                         "code" => 200,
-                        "notification" => $noti_res,
                         "message" => "Appointment has been canceled"
                     ]
                 ];
