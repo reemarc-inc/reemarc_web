@@ -555,7 +555,7 @@ class AppointmentsController extends Controller
                     "token":  "'.$user_device_token.'",
                     "notification": {
                         "title": "Reemarc",
-                        "body": "Your package order has been received"
+                        "body": "'.$notification['note'].'"
                     },
                     "data": {
                         "notification_type": "booking_completed",
