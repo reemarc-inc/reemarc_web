@@ -84,120 +84,42 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function get_upcoming_appointments()
     {
         $brand = new Appointments();
-        $brand = $brand->select(
-            'id',
-            'first_name',
-            'last_name',
-            'region',
-            'role',
-            'email',
-            'phone',
-            'gender',
-            'yob',
-            'device_token',
-            'created_at',
-            'updated_at'
-        )->Where('status', '=', "Upcoming");
+        $brand = $brand->Where('status', '=', "Upcoming");
         return $brand->get();
     }
 
     public function get_upcoming_appointments_by_clinic_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->select(
-            'id',
-            'first_name',
-            'last_name',
-            'region',
-            'role',
-            'email',
-            'phone',
-            'gender',
-            'yob',
-            'device_token',
-            'created_at',
-            'updated_at'
-        )->Where('status', '=', "Upcoming")->Where('clinic_id', '=', $c_id);
+        $brand = $brand->Where('status', '=', "Upcoming")->Where('clinic_id', '=', $c_id);
         return $brand->get();
     }
 
     public function get_complete_appointments_by_clinic_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->select(
-            'id',
-            'first_name',
-            'last_name',
-            'region',
-            'role',
-            'email',
-            'phone',
-            'gender',
-            'yob',
-            'device_token',
-            'created_at',
-            'updated_at'
-        )->Where('status', '=', "Complete")->Where('clinic_id', '=', $c_id);
+        $brand = $brand->Where('status', '=', "Complete")->Where('clinic_id', '=', $c_id);
         return $brand->get();
     }
 
     public function get_upcoming_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->select(
-            'id',
-            'first_name',
-            'last_name',
-            'region',
-            'role',
-            'email',
-            'phone',
-            'gender',
-            'yob',
-            'device_token',
-            'created_at',
-            'updated_at'
-        )->Where('status', '=', "Upcoming")->Where('user_id', '=', $c_id);
+        $brand = $brand->Where('status', '=', "Upcoming")->Where('user_id', '=', $c_id);
         return $brand->get();
     }
 
     public function get_complete_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->select(
-            'id',
-            'first_name',
-            'last_name',
-            'region',
-            'role',
-            'email',
-            'phone',
-            'gender',
-            'yob',
-            'device_token',
-            'created_at',
-            'updated_at'
-        )->Where('status', '=', "Complete")->Where('user_id', '=', $c_id);
+        $brand = $brand->Where('status', '=', "Complete")->Where('user_id', '=', $c_id);
         return $brand->get();
     }
 
     public function get_cancel_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->select(
-                'id',
-                'first_name',
-                'last_name',
-                'region',
-                'role',
-                'email',
-                'phone',
-                'gender',
-                'yob',
-                'device_token',
-                'created_at',
-                'updated_at'
-        )->Where('status', '=', "Cancel")->Where('user_id', '=', $c_id);
+        $brand = $brand->Where('status', '=', "Cancel")->Where('user_id', '=', $c_id);
         return $brand->get();
     }
 
