@@ -392,7 +392,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = "Your package order has been received";
+            $notification['note']               = "reemarc doctors have chosen a treatment package for you";
             $notification->save();
 
             // Add Record
@@ -519,19 +519,19 @@ class TreatmentsController extends Controller
             $this->treatmentsRepository->update($treatment_id, $param_treatment);
 
             // Add Notification
-            $notification = new Notification();
-            $notification['user_id']            = $user_obj->id;
-            $notification['user_first_name']    = $user_obj->first_name;
-            $notification['user_last_name']     = $user_obj->last_name;
-            $notification['user_email']         = $user_obj->email;
-            $notification['appointment_id']     = $treatment_obj->appointment_id;
-            $notification['treatment_id']       = $treatment_id;
-            $notification['type']               = 'package_shipped';
-            $notification['is_read']            = 'no';
-            $notification['is_delete']          = 'no';
-            $notification['created_at']         = Carbon::now();
-            $notification['note']               = 'The package shipped to ' . $treatment_obj->ship_to_office;
-            $notification->save();
+//            $notification = new Notification();
+//            $notification['user_id']            = $user_obj->id;
+//            $notification['user_first_name']    = $user_obj->first_name;
+//            $notification['user_last_name']     = $user_obj->last_name;
+//            $notification['user_email']         = $user_obj->email;
+//            $notification['appointment_id']     = $treatment_obj->appointment_id;
+//            $notification['treatment_id']       = $treatment_id;
+//            $notification['type']               = 'package_shipped';
+//            $notification['is_read']            = 'no';
+//            $notification['is_delete']          = 'no';
+//            $notification['created_at']         = Carbon::now();
+//            $notification['note']               = 'The package shipped to ' . $treatment_obj->ship_to_office;
+//            $notification->save();
 
             // Add Record
             $record = new Record();

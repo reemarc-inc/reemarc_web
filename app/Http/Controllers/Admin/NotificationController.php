@@ -256,19 +256,19 @@ class NotificationController extends Controller
         $params['status'] = 'location_confirmed';
         $params['updated_at'] = Carbon::now();
 
-        $notification = new Notification();
-        $notification['user_id']            = $user_obj->id;
-        $notification['user_first_name']    = $user_obj->first_name;
-        $notification['user_last_name']     = $user_obj->last_name;
-        $notification['user_email']         = $user_obj->email;
-        $notification['appointment_id']     = $treatment_obj->appointment_id;
-        $notification['treatment_id']       = $treatment_id;
-        $notification['type']               = 'location_confirm';
-        $notification['is_read']            = 'no';
-        $notification['is_delete']          = 'no';
-        $notification['created_at']         = Carbon::now();
-        $notification['note']               = 'Ship to address : ' . $clinic_address;
-        $notification->save();
+//        $notification = new Notification();
+//        $notification['user_id']            = $user_obj->id;
+//        $notification['user_first_name']    = $user_obj->first_name;
+//        $notification['user_last_name']     = $user_obj->last_name;
+//        $notification['user_email']         = $user_obj->email;
+//        $notification['appointment_id']     = $treatment_obj->appointment_id;
+//        $notification['treatment_id']       = $treatment_id;
+//        $notification['type']               = 'location_confirm';
+//        $notification['is_read']            = 'no';
+//        $notification['is_delete']          = 'no';
+//        $notification['created_at']         = Carbon::now();
+//        $notification['note']               = 'Ship to address : ' . $clinic_address;
+//        $notification->save();
 
         // Add Record
         $record = new Record();
@@ -276,7 +276,7 @@ class NotificationController extends Controller
         $record['appointment_id'] = $treatment_obj->appointment_id;
         $record['treatment_id'] = $treatment_id;
         $record['user_id'] = $treatment_obj->user_id;
-        $record['note'] = "<p>The Location was confirmed.</p><br><p>".$notification['note']."</p>";
+        $record['note'] = "<p>The Location was confirmed.</p><br><p>Ship to address : ".$clinic_address."</p>";
         $record['created_at'] = Carbon::now();
         $record->save();
 
