@@ -388,6 +388,8 @@ class TreatmentsController extends Controller
             $notification['user_email']         = $user_obj->email;
             $notification['appointment_id']     = $treatment_obj->appointment_id;
             $notification['treatment_id']       = $treatment_id;
+            $notification['clinic_id']          = $treatment_obj->clinic_id;
+            $notification['package_id']         = $treatment_obj->package_id;
             $notification['type']               = 'package_ordered';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
@@ -479,6 +481,8 @@ class TreatmentsController extends Controller
             $notification['user_email']         = $user_obj->email;
             $notification['appointment_id']     = $treatment_obj->appointment_id;
             $notification['treatment_id']       = $treatment_id;
+            $notification['clinic_id']          = $treatment_obj->clinic_id;
+            $notification['package_id']         = $treatment_obj->package_id;
             $notification['type']               = 'location_sent';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
@@ -617,6 +621,8 @@ class TreatmentsController extends Controller
             $notification['user_email']         = $user_obj->email;
             $notification['appointment_id']     = $treatment_obj->appointment_id;
             $notification['treatment_id']       = $treatment_id;
+            $notification['clinic_id']          = $treatment_obj->clinic_id;
+            $notification['package_id']         = $treatment_obj->package_id;
             $notification['type']               = 'package_delivered';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
