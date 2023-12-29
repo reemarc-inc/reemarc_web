@@ -36,6 +36,7 @@ class User extends Authenticatable
         'yob',
         'device_token',
         'payment_customer_id',
+        'image',
         'password',
     ];
 

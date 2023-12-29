@@ -30,28 +30,28 @@ Route::group(['middleware' => 'auth:sanctum'], function(){
 //    Route::apiResource("member", MemberController::class);
 });
 
-Route::post('log_in', [UserController::class, 'log_in']);
-Route::post('sign_up', [UserController::class, 'api_sign_up']);
+Route::post('log_in', [UserController::class, 'log_in']); //
+Route::post('sign_up', [UserController::class, 'api_sign_up']); //
 
-Route::get('get_member', [UserController::class, 'get_user_list']);
-Route::post('users_update_app', [UserController::class, 'users_update_app']);
+Route::get('get_member', [UserController::class, 'get_user_list']); //
+Route::post('users_update_app', [UserController::class, 'users_update_app']); //
 
-Route::get("get_clinic_list", [ClinicController::class, 'get_clinic_list']);
-Route::post("get_appointments_upcoming_list", [AppointmentsController::class, 'get_appointments_upcoming_list']);
-Route::post("get_appointments_complete_list", [AppointmentsController::class, 'get_appointments_complete_list']);
+Route::get("get_clinic_list", [ClinicController::class, 'get_clinic_list']); //
+Route::post("get_appointments_upcoming_list", [AppointmentsController::class, 'get_appointments_upcoming_list']); //
+Route::post("get_appointments_complete_list", [AppointmentsController::class, 'get_appointments_complete_list']); //
 
 
-Route::post("get_appointments_upcoming_list_profile", [AppointmentsController::class, 'get_appointments_upcoming_list_profile']);
-Route::post("get_appointments_complete_list_profile", [AppointmentsController::class, 'get_appointments_complete_list_profile']);
-Route::post("get_appointments_cancel_list_profile", [AppointmentsController::class, 'get_appointments_cancel_list_profile']);
+Route::post("get_appointments_upcoming_list_profile", [AppointmentsController::class, 'get_appointments_upcoming_list_profile']); //
+Route::post("get_appointments_complete_list_profile", [AppointmentsController::class, 'get_appointments_complete_list_profile']); //
+Route::post("get_appointments_cancel_list_profile", [AppointmentsController::class, 'get_appointments_cancel_list_profile']); //
 
-Route::post("booking_from_app", [AppointmentsController::class, 'booking_from_app']);
-Route::post("booking_cancel_app", [AppointmentsController::class, 'booking_cancel_app']);
+Route::post("booking_from_app", [AppointmentsController::class, 'booking_from_app']); //
+Route::post("booking_cancel_app", [AppointmentsController::class, 'booking_cancel_app']); //
 
-Route::post("get_notification_list", [NotificationController::class, 'get_notification_list']);
-Route::post("delete_notification", [NotificationController::class, 'delete_notification']);
+Route::post("get_notification_list", [NotificationController::class, 'get_notification_list']); //
+Route::post("delete_notification", [NotificationController::class, 'delete_notification']); //
 Route::post("read_notification", [NotificationController::class, 'read_notification']);
 
-Route::post("location_confirm", [NotificationController::class, 'location_confirm']);
+Route::post("location_confirm", [NotificationController::class, 'location_confirm']); //
 
 Route::apiResource("member", MemberController::class);
