@@ -344,6 +344,9 @@ class UserController extends Controller
 
             $user_obj = User::where('email', $param['email'])->first();
 
+            $file = $request->file('image');
+            return response()->json($file);
+
             if($user_obj){
 //                if ($request->file('image')) {
 //                    foreach ($request->file('image') as $file) {
@@ -367,6 +370,7 @@ class UserController extends Controller
 //                    }
 //                }
 //                if ($request->hasFile('image')) {
+
                     foreach ($request->file('image') as $file) {
 //                        $originalName = $file->getClientOriginalName();
 
