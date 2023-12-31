@@ -340,7 +340,6 @@ class UserController extends Controller
         try{
             $param = $request->all();
 
-            return response()->json($request);
             $file = $request->file('image');
             $originalName = $file->getClientOriginalName();
             return response()->json($originalName);
