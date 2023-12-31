@@ -364,10 +364,14 @@ class UserController extends Controller
 //                    }
 //                }
                 if ($request->hasFile('images')) {
-                    foreach ($request->file('images') as $file) {
-                        $file_name = $file->store('users', 'jin');
-                        $param['image'] = $file_name;
-                    }
+                    $param['image'] = "yes";
+//                    foreach ($request->file('images') as $file) {
+//                        $file_name = $file->store('users', 'jin');
+//                        $param['image'] = $file_name;
+//
+//                    }
+                }else{
+                    $param['image'] = 'no';
                 }
 
                 $user = $this->userRepository->update($user_obj['id'], $param);
