@@ -365,13 +365,11 @@ class UserController extends Controller
 //                    }
 //                }
 
-                $image_obj = $request->file('image');
-                foreach ($image_obj as $file){
-//                    $file->getClientOriginalName();
-                }
-
-                $originalName = "jinsung2";
-                $param['image'] = $originalName;
+                $file = $request->file('image');
+                $extension = $file->getClientOriginalExtension();
+                $fullFileName = time(). '.'. $extension;
+                $fileName = $file->storeAs('users/'.$user_obj->id, $fullFileName);
+                $param['image'] = '/' . $fileName;
 
                 $user = $this->userRepository->update($user_obj['id'], $param);
                 if($user){
