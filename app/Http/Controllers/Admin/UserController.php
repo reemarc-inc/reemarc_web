@@ -339,20 +339,15 @@ class UserController extends Controller
     {
         try{
             $param = $request->all();
-//            $file = $request->file('image');
 
-            return response()->json($request->file('image'));
+//            return response()->json($request);
+            $file = $request->file('image');
+            return response()->json($file);
+
 
             $user_obj = User::where('email', $param['email'])->first();
 
             if($user_obj){
-
-                $file = $request->file('image');
-//                $originalName = $file->getClientOriginalName();
-                return response()->json($file);
-                $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
-                $param['image'] = '/'.$fileName;
-
 //                if ($request->file('image')) {
 //                    foreach ($request->file('image') as $file) {
 //                        $fileAttachments = new FileAttachments();
@@ -373,6 +368,18 @@ class UserController extends Controller
 //
 //
 //                    }
+//                }
+//                if ($request->hasFile('image')) {
+
+                    foreach ($request->file('image') as $file) {
+//                        $originalName = $file->getClientOriginalName();
+
+//                        $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
+//                        $param['image'] = $originalName;
+                        $param['image'] = "yes";
+                    }
+//                }else{
+                    $param['image'] = 'no';
 //                }
 
                 $user = $this->userRepository->update($user_obj['id'], $param);
