@@ -364,7 +364,12 @@ class UserController extends Controller
 //
 //                    }
 //                }
-                $param['image'] = "/user/test/test.png";
+                $image_obj = $request->file('image');
+                foreach ($image_obj as $file){
+                    $originalName = $file->getClientOriginalName();
+                    $param['image'] = $originalName;
+                }
+                
                 $user = $this->userRepository->update($user_obj['id'], $param);
                 if($user){
                     $data = [
