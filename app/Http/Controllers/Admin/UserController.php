@@ -360,13 +360,12 @@ class UserController extends Controller
 ////                        $fileAttachments['date_created'] = Carbon::now();
 ////                        $fileAttachments->save();
 //
-//                        $param['image'] = $originalName;
 //
 //                    }
 //                }
 
                 $file = $request->file('image');
-                $file->getClientOriginalName();
+                $file->storeAs('users/'.$user_obj->id, 'jin');
                 $param['image'] = "hi";
 //                $extension = $file->getClientOriginalExtension();
 //                $fullFileName = time(). '.'. $extension;
