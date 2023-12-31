@@ -367,9 +367,9 @@ class UserController extends Controller
 
                 $image_obj = $request->file('image');
                 foreach ($image_obj as $file){
-                    $file->getClientOriginalName();
+//                    $file->getClientOriginalName();
                 }
-                
+
                 $originalName = "jinsung2";
                 $param['image'] = $originalName;
 
