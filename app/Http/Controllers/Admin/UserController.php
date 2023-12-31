@@ -345,7 +345,8 @@ class UserController extends Controller
             if($user_obj){
 
                 $file = $request->file('image');
-                $originalName = $file->getClientOriginalName();
+//                $originalName = $file->getClientOriginalName();
+                return response()->json($file);
                 $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
                 $param['image'] = '/'.$fileName;
 
