@@ -368,7 +368,7 @@ class UserController extends Controller
 //                }
 //                if ($request->hasFile('image')) {
                     foreach ($request->file('image') as $file) {
-//                        $originalName = $file->getClientOriginalName();
+                        $originalName = $file->getClientOriginalName();
 
 //                        $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
 //                        $param['image'] = $originalName;
