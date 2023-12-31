@@ -367,9 +367,9 @@ class UserController extends Controller
 
                 $file = $request->file('image');
                 $extension = $file->getClientOriginalExtension();
-                $fullFileName = time(). '.'. $extension;
-                $fileName = $file->storeAs('users/'.$user_obj->id, $fullFileName);
-                $param['image'] = '/' . $fileName;
+//                $fullFileName = time(). '.'. $extension;
+//                $fileName = $file->storeAs('users/'.$user_obj->id, $fullFileName);
+                $param['image'] = '/' . $extension;
 
                 $user = $this->userRepository->update($user_obj['id'], $param);
                 if($user){
