@@ -364,8 +364,10 @@ class UserController extends Controller
 //                    }
 //                }
 
-                $file = $request->file('image');
-                $file->storeAs('users/'.$user_obj->id, 'jin');
+                foreach ($request->file('image') as $file){
+                    $extension = $file->getClientOriginalExtension();
+//                    $file->storeAs('users/'.$user_obj->id, 'jin');
+                }
                 $param['image'] = "hi";
 //                $extension = $file->getClientOriginalExtension();
 //                $fullFileName = time(). '.'. $extension;
