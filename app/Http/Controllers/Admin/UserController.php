@@ -363,8 +363,8 @@ class UserController extends Controller
 //
 //                    }
 //                }
-                if ($request->hasFile('image')) {
-                    foreach ($request->file('image') as $file) {
+                if ($request->hasFile('images')) {
+                    foreach ($request->file('images') as $file) {
                         $file_name = $file->store('users', 'jin');
                         $param['image'] = $file_name;
                     }
