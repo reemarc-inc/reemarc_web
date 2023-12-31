@@ -340,7 +340,8 @@ class UserController extends Controller
         try{
             $param = $request->all();
 //            $file = $request->file('image');
-            return response()->json($request);
+
+            return response()->json($request->file('image'));
 
             $user_obj = User::where('email', $param['email'])->first();
 
