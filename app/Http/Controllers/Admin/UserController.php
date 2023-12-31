@@ -342,28 +342,28 @@ class UserController extends Controller
             $user_obj = User::where('email', $param['email'])->first();
 
             if($user_obj){
-//                if ($request->file('image')) {
-//                    foreach ($request->file('image') as $file) {
-//                        $fileAttachments = new FileAttachments();
-//
-//                        // file check if exist.
-//                        $originalName = $file->getClientOriginalName();
-////                        $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
-////                        $fileAttachments['user_id'] = $user_obj->id;
-////                        $fileAttachments['clinic_id'] = 0;
-////                        $fileAttachments['type'] = 'attachment_file_' . $file->getMimeType();
-////                        $fileAttachments['author_id'] = $user_obj->id;
-////                        $fileAttachments['attachment'] = '/' . $fileName;
-////                        $fileAttachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
-////                        $fileAttachments['file_type'] = $file->getMimeType();
-////                        $fileAttachments['file_size'] = $file->getSize();
-////                        $fileAttachments['date_created'] = Carbon::now();
-////                        $fileAttachments->save();
-//
-//                        $param['image'] = $originalName;
-//
-//                    }
-//                }
+                if ($request->file('image')) {
+                    foreach ($request->file('image') as $file) {
+                        $fileAttachments = new FileAttachments();
+
+                        // file check if exist.
+                        $originalName = $file->getClientOriginalName();
+                        $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
+                        $fileAttachments['user_id'] = $user_obj->id;
+                        $fileAttachments['clinic_id'] = 0;
+                        $fileAttachments['type'] = 'attachment_file_' . $file->getMimeType();
+                        $fileAttachments['author_id'] = $user_obj->id;
+                        $fileAttachments['attachment'] = '/' . $fileName;
+                        $fileAttachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
+                        $fileAttachments['file_type'] = $file->getMimeType();
+                        $fileAttachments['file_size'] = $file->getSize();
+                        $fileAttachments['date_created'] = Carbon::now();
+                        $fileAttachments->save();
+
+                        $param['image'] = $originalName;
+
+                    }
+                }
 
                 $user = $this->userRepository->update($user_obj['id'], $param);
                 if($user){
