@@ -340,57 +340,9 @@ class UserController extends Controller
         try{
             $param = $request->all();
 
-            return var_dump($request);
-
-            $file = $request->file('image');
-            $originalName = $file->getClientOriginalName();
-            return response()->json($originalName);
-
-            if($request->file('image')) {
-                $file = $request->file('image');
-                $name = $file->getClientOriginalName();
-                return response()->json($name);
-            }else{
-                return response()->json('no');
-            }
-
-
             $user_obj = User::where('email', $param['email'])->first();
 
             if($user_obj){
-//                if ($request->file('image')) {
-//                    foreach ($request->file('image') as $file) {
-//                        $fileAttachments = new FileAttachments();
-//
-//                        // file check if exist.
-//                        $originalName = $file->getClientOriginalName();
-////                        $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
-////                        $fileAttachments['user_id'] = $user_obj->id;
-////                        $fileAttachments['clinic_id'] = 0;
-////                        $fileAttachments['type'] = 'attachment_file_' . $file->getMimeType();
-////                        $fileAttachments['author_id'] = $user_obj->id;
-////                        $fileAttachments['attachment'] = '/' . $fileName;
-////                        $fileAttachments['file_ext'] = pathinfo($fileName, PATHINFO_EXTENSION);
-////                        $fileAttachments['file_type'] = $file->getMimeType();
-////                        $fileAttachments['file_size'] = $file->getSize();
-////                        $fileAttachments['date_created'] = Carbon::now();
-////                        $fileAttachments->save();
-//
-//
-//                    }
-//                }
-//                if ($request->hasFile('image')) {
-
-                    foreach ($request->file('image') as $file) {
-//                        $originalName = $file->getClientOriginalName();
-
-//                        $fileName =$file->storeAs('users/'.$user_obj->id, $originalName);
-//                        $param['image'] = $originalName;
-                        $param['image'] = "yes";
-                    }
-//                }else{
-                    $param['image'] = 'no';
-//                }
 
                 $user = $this->userRepository->update($user_obj['id'], $param);
                 if($user){
