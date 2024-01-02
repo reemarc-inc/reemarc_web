@@ -24,6 +24,7 @@ use App\Repositories\Admin\CampaignBrandsRepository;
 
 use App\Authorizable;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -339,10 +340,7 @@ class UserController extends Controller
     {
         try{
             $param = $request->all();
-            Log::info('This is some useful information.');
-            Log::warning('Something could be going wrong.');
-            Log::error('Something is really going wrong.');
-            return response()->json($request);
+            Log::info('HHHHHHHHIIIIIIIIIIII');
 
             $user_obj = User::where('email', $param['email'])->first();
 
