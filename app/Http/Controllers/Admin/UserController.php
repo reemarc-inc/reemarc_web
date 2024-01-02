@@ -340,7 +340,7 @@ class UserController extends Controller
     {
         try{
             $param = $request->all();
-            Log::info('HHHHHHHHIIIIIIIIIIII');
+            Log::info($request);
 
             $user_obj = User::where('email', $param['email'])->first();
 
