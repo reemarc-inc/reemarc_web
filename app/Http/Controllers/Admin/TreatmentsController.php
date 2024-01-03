@@ -387,7 +387,7 @@ class TreatmentsController extends Controller
                 },
                 "data": {
                     "notification_type": "package_ordered",
-                    "id": "'.$notification['id'].'",
+                    "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
                     "treatment_id": "'.$notification['treatment_id'].'",
@@ -484,7 +484,7 @@ class TreatmentsController extends Controller
                 },
                 "data": {
                     "notification_type": "location_sent",
-                    "id": "'.$notification['id'].'",
+                    "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
                     "treatment_id": "'.$notification['treatment_id'].'",
@@ -628,7 +628,7 @@ class TreatmentsController extends Controller
                 },
                 "data": {
                     "notification_type": "package_delivered",
-                    "id": "'.$notification['id'].'",
+                    "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
                     "treatment_id": "'.$notification['treatment_id'].'",

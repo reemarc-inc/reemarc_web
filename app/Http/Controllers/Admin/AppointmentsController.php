@@ -559,7 +559,7 @@ class AppointmentsController extends Controller
                     },
                     "data": {
                         "notification_type": "booking_completed",
-                        "id": "'.$notification['id'].'",
+                        "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "null",
@@ -655,7 +655,7 @@ class AppointmentsController extends Controller
                 },
                 "data": {
                     "notification_type": "booking_completed",
-                    "id": "'.$notification['id'].'",
+                    "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
                     "treatment_id": "null",
@@ -750,7 +750,7 @@ class AppointmentsController extends Controller
                     },
                     "data": {
                         "notification_type": "booking_cancelled",
-                        "id": "'.$notification['id'].'",
+                        "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "null",
