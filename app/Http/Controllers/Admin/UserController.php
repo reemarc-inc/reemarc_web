@@ -484,6 +484,8 @@ class UserController extends Controller
                 'gender',
                 'yob',
                 'device_token',
+                'image',
+                'firebase_image',
                 'created_at',
                 'updated_at'
             )->where('email', $input['email'])->first();
