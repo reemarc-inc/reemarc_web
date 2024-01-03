@@ -64,6 +64,7 @@ class NotificationRepository implements NotificationRepositoryInterface
         $notification =$notification
             ->Select('type as notification_type',
                 'id as id',
+                'user_id as user_id',
                 'appointment_id as appointment_id',
                 'treatment_id as treatment_id',
                 'clinic_id as clinic_id',
