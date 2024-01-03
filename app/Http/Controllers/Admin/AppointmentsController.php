@@ -559,11 +559,15 @@ class AppointmentsController extends Controller
                     },
                     "data": {
                         "notification_type": "booking_completed",
+                        "id": "'.$notification['id'].'",
+                        "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "null",
-                        "user_id": "'.$notification['user_id'].'",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
+                        "is_read": "no",
+                        "is_delete": "no",
+                        "note": "'.$notification['note'].'",
                         "created_at" : "'.Carbon::now().'"
                     }
                 }';
@@ -651,11 +655,15 @@ class AppointmentsController extends Controller
                 },
                 "data": {
                     "notification_type": "booking_completed",
-                    "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "id": "'.$notification['id'].'",
                     "user_id": "'.$notification['user_id'].'",
-                    "clinic_id": "null",
+                    "appointment_id": "'.$notification['appointment_id'].'",
+                    "treatment_id": "null",
+                    "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
+                    "is_read": "no",
+                    "is_delete": "no",
+                    "note": "'.$notification['note'].'",
                     "created_at" : "'.Carbon::now().'"
                 }
             }';
@@ -742,11 +750,15 @@ class AppointmentsController extends Controller
                     },
                     "data": {
                         "notification_type": "booking_cancelled",
-                        "appointment_id": "'.$appt->id.'",
+                        "id": "'.$notification['id'].'",
+                        "user_id": "'.$notification['user_id'].'",
+                        "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "null",
-                        "user_id": "'.$appt->user_id.'",
-                        "clinic_id": "'.$appt->clinic_id.'",
+                        "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
+                        "is_read": "no",
+                        "is_delete": "no",
+                        "note": "'.$notification['note'].'",
                         "created_at" : "'.Carbon::now().'"
                     }
                 }';
