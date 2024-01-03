@@ -37,6 +37,7 @@ class User extends Authenticatable
         'device_token',
         'payment_customer_id',
         'image',
+        'firebase_image',
         'password',
     ];
 
