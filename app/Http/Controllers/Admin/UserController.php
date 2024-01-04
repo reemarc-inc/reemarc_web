@@ -122,7 +122,7 @@ class UserController extends Controller
         $this->data['access_level'] = null;
         $this->data['region'] = null;
         $this->data['role_'] = null;
-        $this->data['user_brand'] = null;
+//        $this->data['user_brand'] = null;
 
         return view('admin.users.form', $this->data);
     }
@@ -139,11 +139,11 @@ class UserController extends Controller
 
         $params['password'] = Hash::make($params['password']);
 
-        if (isset($params['user_brand'])) {
-            $params['user_brand'] = implode(', ', $params['user_brand']);
-        } else {
-            $params['user_brand'] = '';
-        }
+//        if (isset($params['user_brand'])) {
+//            $params['user_brand'] = implode(', ', $params['user_brand']);
+//        } else {
+//            $params['user_brand'] = '';
+//        }
 
         $user = $this->userRepository->create($params);
 
@@ -210,7 +210,7 @@ class UserController extends Controller
         $this->data['user'] = $user;
         $this->data['region'] = $user->region;
         $this->data['role_'] = $user->role;
-        $this->data['user_brand'] = $user->user_brand;
+//        $this->data['user_brand'] = $user->user_brand;
         $this->data['gender'] = $user->gender;
         $this->data['yob'] = $user->yob;
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
@@ -262,11 +262,11 @@ class UserController extends Controller
             }
         }
 
-        if (isset($param['user_brand'])) {
-            $param['user_brand'] = implode(', ', $param['user_brand']);
-        } else {
-            $param['user_brand'] = '';
-        }
+//        if (isset($param['user_brand'])) {
+//            $param['user_brand'] = implode(', ', $param['user_brand']);
+//        } else {
+//            $param['user_brand'] = '';
+//        }
         if ($this->userRepository->update($id, $param)) {
             if($request->file('c_attachment')){
 

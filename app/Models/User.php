@@ -28,7 +28,7 @@ class User extends Authenticatable
         'last_name',
         'region',
         'role',
-        'user_brand',
+//        'user_brand',
         'access_level',
         'email',
         'phone',
