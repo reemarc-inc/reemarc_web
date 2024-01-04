@@ -531,7 +531,7 @@ class AppointmentsController extends Controller
         if($cancel_exist){
             $a_id = $cancel_exist['id'];
 
-            if(isset($param['treatment_id']) && $param['treatment_id'] != null) {
+            if(isset($param['treatment_id'])) {
                 $params['status'] = 'Treatment_Upcoming';
             }else{
                 $params['status'] = 'Upcoming';
