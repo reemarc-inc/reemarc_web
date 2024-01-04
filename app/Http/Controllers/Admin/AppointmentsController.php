@@ -520,7 +520,7 @@ class AppointmentsController extends Controller
         $params['booked_date'] = date_format($start,'Y-m-d');
         $params['booked_time'] = date_format($start,'g:i a');
 
-        if($params['treatment_id'] != null) {
+        if(isset($param['treatment_id']) && $param['treatment_id'] != null) {
             $params['status'] = 'Treatment_Upcoming';
         }else{
             $params['status'] = 'Upcoming';
@@ -531,7 +531,7 @@ class AppointmentsController extends Controller
         if($cancel_exist){
             $a_id = $cancel_exist['id'];
 
-            if(isset($params['treatment_id'])) {
+            if(isset($param['treatment_id']) && $param['treatment_id'] != null) {
                 $params['status'] = 'Treatment_Upcoming';
             }else{
                 $params['status'] = 'Upcoming';
@@ -547,7 +547,7 @@ class AppointmentsController extends Controller
                 $notification['user_email']         = $params['user_email'];
                 $notification['appointment_id']     = $a_id;
                 $notification['clinic_id']          = $params['clinic_id'];
-                if(isset($params['treatment_id'])) {
+                if(isset($param['treatment_id']) && $param['treatment_id'] != null) {
                     $notification['type']           = 'treatment_booking_completed';
                 }else{
                     $notification['type']           = 'booking_completed';
@@ -576,7 +576,7 @@ class AppointmentsController extends Controller
                         "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
-                        "treatment_id": "'.$params['treatment_id'].'",
+                        "treatment_id": "'.$param['treatment_id'].'",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
@@ -648,7 +648,7 @@ class AppointmentsController extends Controller
             $notification['user_last_name']     = $params['user_last_name'];
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
-            if(isset($params['treatment_id'])) {
+            if(isset($param['treatment_id']) && $param['treatment_id'] != null) {
                 $notification['type']           = 'treatment_booking_completed';
             }else{
                 $notification['type']           = 'booking_completed';
@@ -676,7 +676,7 @@ class AppointmentsController extends Controller
                     "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$params['treatment_id'].'",
+                    "treatment_id": "'.$param['treatment_id'].'",
                     "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
                     "is_read": "no",
