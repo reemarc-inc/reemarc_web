@@ -530,7 +530,8 @@ class AppointmentsController extends Controller
         $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
         if($cancel_exist){
             $a_id = $cancel_exist['id'];
-            if($params['treatment_id'] != null) {
+
+            if(isset($params['treatment_id'])) {
                 $params['status'] = 'Treatment_Upcoming';
             }else{
                 $params['status'] = 'Upcoming';
@@ -546,7 +547,7 @@ class AppointmentsController extends Controller
                 $notification['user_email']         = $params['user_email'];
                 $notification['appointment_id']     = $a_id;
                 $notification['clinic_id']          = $params['clinic_id'];
-                if($params['treatment_id'] != null) {
+                if(isset($params['treatment_id'])) {
                     $notification['type']           = 'treatment_booking_completed';
                 }else{
                     $notification['type']           = 'booking_completed';
@@ -647,7 +648,7 @@ class AppointmentsController extends Controller
             $notification['user_last_name']     = $params['user_last_name'];
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
-            if($params['treatment_id'] != null) {
+            if(isset($params['treatment_id'])) {
                 $notification['type']           = 'treatment_booking_completed';
             }else{
                 $notification['type']           = 'booking_completed';
