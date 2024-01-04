@@ -520,11 +520,8 @@ class AppointmentsController extends Controller
         $params['booked_date'] = date_format($start,'Y-m-d');
         $params['booked_time'] = date_format($start,'g:i a');
 
-        if(isset($param['treatment_id'])) {
-            $params['status'] = 'Treatment_Upcoming';
-        }else{
-            $params['status'] = 'Upcoming';
-        }
+        isset($param['treatment_id']) ? $params['status'] = 'Treatment_Upcoming' : $params['status'] = 'Upcoming';
+
         $params['created_at'] = Carbon::now();
 
         $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
@@ -547,11 +544,7 @@ class AppointmentsController extends Controller
                 $notification['user_email']         = $params['user_email'];
                 $notification['appointment_id']     = $a_id;
                 $notification['clinic_id']          = $params['clinic_id'];
-                if(isset($param['treatment_id'])) {
-                    $notification['type']           = 'treatment_booking_completed';
-                }else{
-                    $notification['type']           = 'booking_completed';
-                }
+                isset($param['treatment_id']) ? $notification['type'] = 'treatment_booking_completed' : $notification['type'] = 'booking_completed';
                 $notification['type']               = 'booking_completed';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -648,11 +641,7 @@ class AppointmentsController extends Controller
             $notification['user_last_name']     = $params['user_last_name'];
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
-            if(isset($param['treatment_id'])) {
-                $notification['type']           = 'treatment_booking_completed';
-            }else{
-                $notification['type']           = 'booking_completed';
-            }
+            isset($param['treatment_id']) ? $notification['type'] = 'treatment_booking_completed' : $notification['type'] = 'booking_completed';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
