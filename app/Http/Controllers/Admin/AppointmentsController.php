@@ -599,6 +599,7 @@ class AppointmentsController extends Controller
                 ];
 
 
+
             }else{
                 $data = [
                     'error' => [
@@ -715,7 +716,8 @@ class AppointmentsController extends Controller
     {
         $param = $request->all();
         $appointment_id = $param['appointment_id'];
-        $params['status'] = 'Cancel';
+        isset($param['treatment_id']) ? $treatment_id = $param['treatment_id'] : $treatment_id = null;
+        isset($param['treatment_id']) ? $params['status'] = 'Treatment_Cancel' : $params['status'] = 'Cancel';
         $params['updated_at'] = Carbon::now();
 
         try {
@@ -733,6 +735,7 @@ class AppointmentsController extends Controller
                 $notification['user_last_name']     = $appt->user_last_name;
                 $notification['user_email']         = $appt->user_email;
                 $notification['appointment_id']     = $appt->id;
+                isset($param['treatment_id']) ? $notification['type'] = 'treatment_booking_cancelled' : $notification['type'] = 'booking_cancelled';
                 $notification['type']               = 'booking_cancelled';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -761,7 +764,7 @@ class AppointmentsController extends Controller
                         "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
-                        "treatment_id": "null",
+                        "treatment_id": "'.$treatment_id.'",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
