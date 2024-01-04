@@ -520,13 +520,21 @@ class AppointmentsController extends Controller
         $params['booked_date'] = date_format($start,'Y-m-d');
         $params['booked_time'] = date_format($start,'g:i a');
 
-        $params['status'] = 'Upcoming';
+        if($params['treatment_id'] != null) {
+            $params['status'] = 'Treatment_Upcoming';
+        }else{
+            $params['status'] = 'Upcoming';
+        }
         $params['created_at'] = Carbon::now();
 
         $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
         if($cancel_exist){
             $a_id = $cancel_exist['id'];
-            $params['status'] = 'Upcoming';
+            if($params['treatment_id'] != null) {
+                $params['status'] = 'Treatment_Upcoming';
+            }else{
+                $params['status'] = 'Upcoming';
+            }
             $params['updated_at'] = Carbon::now();
             if($this->appointmentsRepository->update($a_id, $params)){
 
@@ -538,6 +546,11 @@ class AppointmentsController extends Controller
                 $notification['user_email']         = $params['user_email'];
                 $notification['appointment_id']     = $a_id;
                 $notification['clinic_id']          = $params['clinic_id'];
+                if($params['treatment_id'] != null) {
+                    $notification['type']           = 'treatment_booking_completed';
+                }else{
+                    $notification['type']           = 'booking_completed';
+                }
                 $notification['type']               = 'booking_completed';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -562,7 +575,7 @@ class AppointmentsController extends Controller
                         "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
-                        "treatment_id": "null",
+                        "treatment_id": "'.$params['treatment_id'].'",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
@@ -634,7 +647,11 @@ class AppointmentsController extends Controller
             $notification['user_last_name']     = $params['user_last_name'];
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
-            $notification['type']               = 'booking_completed';
+            if($params['treatment_id'] != null) {
+                $notification['type']           = 'treatment_booking_completed';
+            }else{
+                $notification['type']           = 'booking_completed';
+            }
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
@@ -658,7 +675,7 @@ class AppointmentsController extends Controller
                     "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "null",
+                    "treatment_id": "'.$params['treatment_id'].'",
                     "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
                     "is_read": "no",
