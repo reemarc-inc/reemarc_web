@@ -520,6 +520,7 @@ class AppointmentsController extends Controller
         $params['booked_date'] = date_format($start,'Y-m-d');
         $params['booked_time'] = date_format($start,'g:i a');
 
+        isset($param['treatment_id']) ? $treatment_id = $param['treatment_id'] : $treatment_id = null;
         isset($param['treatment_id']) ? $params['status'] = 'Treatment_Upcoming' : $params['status'] = 'Upcoming';
 
         $params['created_at'] = Carbon::now();
@@ -569,7 +570,7 @@ class AppointmentsController extends Controller
                         "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
-                        "treatment_id": "'.$param['treatment_id'].'",
+                        "treatment_id": "'.$treatment_id.'",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
@@ -665,7 +666,7 @@ class AppointmentsController extends Controller
                     "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$param['treatment_id'].'",
+                    "treatment_id": "'.$treatment_id.'",
                     "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
                     "is_read": "no",
