@@ -77,7 +77,6 @@ class TreatmentsController extends Controller
         ];
 
         $this->data['filter'] = $params;
-        $this->data['treatments'] = $this->treatmentsRepository->findAll($options);
 
         $this->data['regions_'] = [
             'New York',
@@ -102,13 +101,7 @@ class TreatmentsController extends Controller
             $region = !empty($params['region']) ? $params['region'] : '';
         }
 
-
-        $this->data['follow_up_completed_list'] = $this->treatmentsRepository->get_follow_up_complete_list($region);
-        $this->data['package_ready_list'] = $this->treatmentsRepository->get_package_ready_list($region);
-        $this->data['package_ordered_list'] = $this->treatmentsRepository->get_package_ordered_list($region);
-        $this->data['location_sent_list'] = $this->treatmentsRepository->get_location_sent_list($region);
-        $this->data['location_confirmed_list'] = $this->treatmentsRepository->get_location_confirmed_list($region);
-        $this->data['package_shipped_list'] = $this->treatmentsRepository->get_package_shipped_list($region);
+        $this->data['treatments'] = $this->treatmentsRepository->get_treatment_list($region);
 
         return view('admin.treatments.index', $this->data);
     }
