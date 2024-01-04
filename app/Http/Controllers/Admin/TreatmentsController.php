@@ -55,7 +55,7 @@ class TreatmentsController extends Controller
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->userRepository = $userRepository;
 
-        $this->data['currentAdminMenu'] = 'treatments';
+
     }
     /**
      * Display a listing of the resource.
@@ -65,6 +65,7 @@ class TreatmentsController extends Controller
     public function index(Request $request)
     {
 //        $this->data['treatments'] = $this->treatmentsRepository->findAll();
+        $this->data['currentAdminMenu'] = 'treatments';
         $params = $request->all();
 
         $options = [
@@ -109,7 +110,59 @@ class TreatmentsController extends Controller
         $this->data['location_confirmed_list'] = $this->treatmentsRepository->get_location_confirmed_list($region);
         $this->data['package_shipped_list'] = $this->treatmentsRepository->get_package_shipped_list($region);
 
-        return view('admin.treatments.jira_treatments', $this->data);
+        return view('admin.treatments.index', $this->data);
+    }
+
+    public function package_jira(Request $request)
+    {
+//        $this->data['treatments'] = $this->treatmentsRepository->findAll();
+        $this->data['currentAdminMenu'] = 'package_jira';
+
+        $params = $request->all();
+
+        $options = [
+            'per_page' => $this->perPage,
+            'order' => [
+                'created_at' => 'desc',
+            ],
+            'filter' => $params,
+        ];
+
+        $this->data['filter'] = $params;
+        $this->data['treatments'] = $this->treatmentsRepository->findAll($options);
+
+        $this->data['regions_'] = [
+            'New York',
+            'San Francisco',
+            'Seoul',
+            'Busan',
+            'Jeju',
+        ];
+
+        $this->data['roles_'] = [
+            'Admin' => 'admin',
+            'Doctor' => 'doctor',
+            'Patient' => 'patient',
+            'Operator' => 'operator',
+        ];
+        $this->data['region_'] = !empty($params['region']) ? $params['region'] : '';
+        $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
+
+        if(isset($_GET['region'])) {
+            $region = $params['region'];
+        }else{
+            $region = !empty($params['region']) ? $params['region'] : '';
+        }
+
+        $this->data['follow_up_completed_list'] = $this->treatmentsRepository->get_follow_up_complete_list($region);
+        $this->data['package_ready_list'] = $this->treatmentsRepository->get_package_ready_list($region);
+        $this->data['package_ordered_list'] = $this->treatmentsRepository->get_package_ordered_list($region);
+        $this->data['location_sent_list'] = $this->treatmentsRepository->get_location_sent_list($region);
+        $this->data['location_confirmed_list'] = $this->treatmentsRepository->get_location_confirmed_list($region);
+        $this->data['package_shipped_list'] = $this->treatmentsRepository->get_package_shipped_list($region);
+        $this->data['package_delivered_list'] = $this->treatmentsRepository->get_package_delivered_list($region);
+
+        return view('admin.treatments.jira_package', $this->data);
     }
 
     /**
