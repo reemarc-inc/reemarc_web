@@ -252,6 +252,7 @@ class NotificationController extends Controller
 
         $user_obj = $this->userRepository->findById($user_id);
 
+        $params['clinic_id'] = $clinic_id;
         $params['ship_to_office'] = $clinic_address;
         $params['status'] = 'location_confirmed';
         $params['updated_at'] = Carbon::now();
