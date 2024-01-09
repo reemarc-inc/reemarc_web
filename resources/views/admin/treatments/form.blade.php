@@ -153,6 +153,19 @@
                                             @endforeach
                                         </div>
                                     </div>
+
+                                    <div class="form-group col-md-12">
+                                        <label>Sessions</label>
+                                        <div class="selectgroup w-100">
+                                        @foreach ($sessions as $key=>$value)
+                                            <label class="selectgroup-item">
+                                                <input type="radio" name="session" value="{{ $key }}" class="selectgroup-input" {{ $key == $session ? 'checked=""' : '' }}>
+                                                <span class="selectgroup-button">{{ $value}} ({{$key}})</span>
+                                            </label>
+                                        @endforeach
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
                             <div class="card-footer text-right">
@@ -309,6 +322,22 @@
 
 
     <script>
+
+        function session_option(objButton){
+            if(objButton.value == 1){
+                $('#session_option_1').css('display', '')
+                $('#session_option_2').css('display', 'none')
+                $('#session_option_3').css('display', 'none')
+            }else if(objButton.value == 2){
+                $('#session_option_1').css('display', 'none')
+                $('#session_option_2').css('display', '')
+                $('#session_option_3').css('display', 'none')
+            }else if(objButton.value == 3){
+                $('#session_option_1').css('display', 'none')
+                $('#session_option_2').css('display', 'none')
+                $('#session_option_3').css('display', '')
+            }
+        }
 
         function package_order(treatment_id){
             if (confirm("Have you completed the package order?") == true) {

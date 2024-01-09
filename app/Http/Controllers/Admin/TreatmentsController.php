@@ -234,12 +234,14 @@ class TreatmentsController extends Controller
         $this->data['email'] = $user->email;
 
         $this->data['package'] = $treatment->package_id;
+        $this->data['session'] = $treatment->session;
 
         if($this->data['package']) {
             $this->data['package_obj'] = $this->packageRepository->findById($treatment->package_id);
         }else{
             $this->data['package_obj'] = null;
         }
+
         $clinic_id = $treatment->clinic_id;
         $this->data['clinic'] = $this->clinicRepository->findById($clinic_id);
         $this->data['ship_to_office'] = $treatment->ship_to_office;
@@ -258,6 +260,19 @@ class TreatmentsController extends Controller
         ];
 
         $this->data['packages'] = $this->packageRepository->findAll();
+
+        $this->data['sessions'] = [
+            5 => '9 Month',
+            6 => '12 Month',
+            7 => '15 Month',
+            8 => '18 Month',
+            9 => '21 Month',
+            10 => '24 Month',
+            11 => '27 Month',
+            12 => '30 Month',
+            13 => '33 Month',
+            14 => '36 Month'
+        ];
 
         // Campaign_notes
         $options = [
@@ -328,6 +343,7 @@ class TreatmentsController extends Controller
 
         if(isset($param['package'])) {
             $treatment_param['package_id'] = $param['package'];
+            $treatment_param['session'] = $param['session'];
             $treatment_param['status'] = 'package_ready';
 
             $record = new Record();
@@ -387,7 +403,6 @@ class TreatmentsController extends Controller
             if(!$user_device_token){
                 return "Device token not found";
             }
-
             $param_treatment['status'] = 'package_ordered';
             $param_treatment['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $param_treatment);

@@ -17,6 +17,7 @@ class Treatments extends Model
         'user_id',
         'clinic_id',
         'package_id',
+        'session',
         'ship_to_office',
         'status',
         'created_at',
