@@ -23,9 +23,14 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-md">
                                 <thead>
-                                    <th>Appointment ID</th>
-                                    <th>User ID</th>
+                                    <th>ID</th>
+                                    <th>Treatment ID</th>
+                                    <th>Name</th>
+                                    <th>User Email</th>
                                     <th>Clinic ID</th>
+                                    <th>Booked Start</th>
+                                    <th>Package_id</th>
+                                    <th>Session</th>
                                     <th>Status</th>
                                     <th>Create At</th>
                                     <th width="15%">Action</th>
@@ -34,20 +39,25 @@
                                     @forelse ($treatments as $treatment)
                                         <tr>
                                             <td>{{ $treatment->appointment_id}}</td>
-                                            <td>{{ $treatment->user_id }}</td>
+                                            <td>{{ $treatment->treatment_id}}</td>
+                                            <td>{{ $treatment->first_name }}</td>
+                                            <td>{{ $treatment->email }}</td>
                                             <td>{{ $treatment->clinic_id}}</td>
-                                            <td>{{ $treatment->status}}</td>
+                                            <td>{{ $treatment->booked_start}}</td>
+                                            <td>{{ $treatment->package_id}}</td>
+                                            <td>{{ $treatment->session }}</td>
+                                            <td>{{ $treatment->appointment_status}}</td>
                                             <td>{{ $treatment->created_at}}</td>
                                             <td>
-                                                <a class="btn btn-sm" href="{{ url('admin/treatments/'. $treatment->id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
-                                                <a href="{{ url('admin/treatments/'. $treatment->id) }}" class="btn btn-sm" onclick="
+                                                <a class="btn btn-sm" href="{{ url('admin/treatments/'. $treatment->treatment_id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>
+                                                <a href="{{ url('admin/treatments/'. $treatment->treatment_id) }}" class="btn btn-sm" onclick="
                                                     event.preventDefault();
                                                     if (confirm('Do you want to remove this treatments?')) {
-                                                    document.getElementById('delete-role-{{ $treatment->id }}').submit();
+                                                    document.getElementById('delete-role-{{ $treatment->treatment_id }}').submit();
                                                     }">
                                                     <i class="far fa-trash-alt"></i> Delete
                                                 </a>
-                                                <form id="delete-role-{{ $treatment->id }}" action="{{ url('admin/treatments/'. $treatment->id) }}" method="POST">
+                                                <form id="delete-role-{{ $treatment->treatment_id }}" action="{{ url('admin/treatments/'. $treatment->treatment_id) }}" method="POST">
                                                     <input type="hidden" name="_method" value="DELETE">
                                                     @csrf
                                                 </form>

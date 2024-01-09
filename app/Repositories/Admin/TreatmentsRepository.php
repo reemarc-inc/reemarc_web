@@ -27,26 +27,20 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
         }
 
         return DB::select(
-            'select a.id as appointment_id,
-                    a.user_id as user_id,
-                    a.user_first_name as user_first_name,
-                    a.user_last_name as user_last_name,
-                    a.user_email as user_email,
-                    a.clinic_id as clinic_id,
-                    a.clinic_name as clinic_name,
-                    a.clinic_phone as clinic_phone,
-                    a.clinic_address as clinic_address,
-                    a.clinic_region as clinic_region,
-                    a.booked_date as booked_date,
+            ' select
+                    a.id as appointment_id,
+                    a.user_first_name as first_name,
+                    a.user_email as email,
                     a.booked_start as booked_start,
-                    a.booked_end as booked_end,
-                    a.booked_day as booked_day,
-                    a.booked_time as booked_time,
-                    a.status as status,
+                    a.status as appointment_status,
+                    a.treatment_id as treatment_id,
+                    t.package_id as package_id,
+                    t.session as session,
+                    t.clinic_id as clinic_id,
                     a.created_at as created_at
-            from appointments a
-             left join treatments t on t.appointment_id = a.id
-             where a.status in ("Treatment_Upcoming")
+                 from appointments a
+                 left join treatments t on t.id = a.treatment_id
+                 where a.status = "Treatment_Upcoming"
                   ' . $region_filter . '
                 order by a.booked_start asc');
     }
