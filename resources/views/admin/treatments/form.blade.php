@@ -22,6 +22,45 @@
             <div class="section-body">
                 <div class="row">
                     <div class="col-lg-8">
+
+                        <?php if($treatment->status == 'package_delivered'){ ?>
+                        <div class="card">
+                            <input type="hidden" name="t_id" value="{{ $treatment->id }}">
+                            <div class="card-header">
+                                <h4>Treatment Schedule : {{ $treatment->session }} Sessions  / {{ $sessions[$treatment->session] }}s</h4>
+                            </div>
+
+                            <div class="card-body">
+
+                                <?php for($i=1; $i<=$treatment->session; $i++) { ?>
+                                <?php count($current_session) >= $i ? $bg_css = "bg-secondary" : $bg_css = "bg-info"; ?>
+                                <div class="progress mb-3" style="height: 30px;">
+                                    <div class="progress-bar {{ $bg_css }}" role="progressbar" data-width="100%" aria-valuenow="50" aria-valuemin="0" aria-valuemin="100" style="width: 10%; font-size: 1rem;">Session {{ $i }}  {{ !empty($current_session[$i-1]) ? "   [".$current_session[$i-1]->booked_date."]" : ''}} </div>
+                                </div>
+                                <?php } ?>
+{{--                                <div class="progress mb-3" style="height: 25px;">--}}
+{{--                                    <div class="progress-bar bg-secondary" role="progressbar" data-width="50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 2 (Upcoming)</div>--}}
+{{--                                </div>--}}
+{{--                                <div class="progress mb-3" style="height: 25px;">--}}
+{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 3</div>--}}
+{{--                                </div>--}}
+{{--                                <div class="progress mb-3" style="height: 25px;">--}}
+{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 4</div>--}}
+{{--                                </div>--}}
+{{--                                <div class="progress mb-3" style="height: 25px;">--}}
+{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 5</div>--}}
+{{--                                </div>--}}
+{{--                                <div class="progress mb-3" style="height: 25px;">--}}
+{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 6</div>--}}
+{{--                                </div>--}}
+                            </div>
+
+                            <div class="card-footer text-right">
+
+                            </div>
+                        </div>
+                        <?php } ?>
+
                         <div class="card">
                             <div class="card-header" style="position: relative;">
                                 <h4>Patient</h4>
@@ -278,6 +317,8 @@
                             </div>
                         </div>
                         <?php } ?>
+
+
 
                     </div>
 

@@ -222,29 +222,31 @@ class TreatmentsController extends Controller
      */
     public function edit($id)
     {
-        $treatment = $this->treatmentsRepository->findById($id);
+        $treatment_obj = $this->treatmentsRepository->findById($id);
 
-        $this->data['treatment'] = $treatment;
-        $this->data['appointment'] = $this->appointmentsRepository->findById($treatment->appointment_id);
+        $this->data['treatment'] = $treatment_obj;
+        $this->data['appointment'] = $this->appointmentsRepository->findById($treatment_obj->appointment_id);
 
-        $user_id = $treatment->user_id;
+        $user_id = $treatment_obj->user_id;
         $this->data['user'] = $user = $this->userRepository->findById($user_id);
         $this->data['gender'] = $user->gender;
         $this->data['yob'] = $user->yob;
         $this->data['email'] = $user->email;
 
-        $this->data['package'] = $treatment->package_id;
-        $this->data['session'] = $treatment->session;
+        $this->data['package'] = $treatment_obj->package_id;
+        $this->data['session'] = $treatment_obj->session;
+
+        $this->data['current_session'] = $this->appointmentsRepository->get_current_session($id);
 
         if($this->data['package']) {
-            $this->data['package_obj'] = $this->packageRepository->findById($treatment->package_id);
+            $this->data['package_obj'] = $this->packageRepository->findById($treatment_obj->package_id);
         }else{
             $this->data['package_obj'] = null;
         }
 
-        $clinic_id = $treatment->clinic_id;
+        $clinic_id = $treatment_obj->clinic_id;
         $this->data['clinic'] = $this->clinicRepository->findById($clinic_id);
-        $this->data['ship_to_office'] = $treatment->ship_to_office;
+        $this->data['ship_to_office'] = $treatment_obj->ship_to_office;
 
         $this->data['region_'] = [
             'New York',

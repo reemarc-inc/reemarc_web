@@ -187,4 +187,15 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
                 order by status desc, booked_start asc');
     }
 
+    public function get_current_session($treatment_id)
+    {
+        return DB::select('select *
+                            from appointments
+                            where treatment_id =:param_1
+                            and status in ("Treatment_Upcoming")
+                            order by booked_start asc', [
+            'param_1' => $treatment_id
+        ]);
+    }
+
 }
