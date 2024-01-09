@@ -27,8 +27,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
         }
 
         return DB::select(
-            'select t.id as treatment_id,
-                    a.id as appointment_id,
+            'select a.id as appointment_id,
                     a.user_id as user_id,
                     a.user_first_name as user_first_name,
                     a.user_last_name as user_last_name,
@@ -44,12 +43,12 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                     a.booked_day as booked_day,
                     a.booked_time as booked_time,
                     a.status as status,
-                    t.created_at as created_at
-                from treatments t
-                left join appointments a on a.id = t.appointment_id
-                where a.status in ("Treatment_Upcoming")
+                    a.created_at as created_at
+            from appointments a
+             left join treatments t on t.appointment_id = a.id
+             where a.status in ("Treatment_Upcoming")
                   ' . $region_filter . '
-                order by booked_start asc');
+                order by a.booked_start asc');
     }
 
     public function findById($id)
