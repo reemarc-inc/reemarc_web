@@ -824,6 +824,7 @@ class AppointmentsController extends Controller
         $params['booked_time'] = date_format($start,'g:i a');
 
         $treatment_id = null;
+        $params['treatment_id'] = $treatment_id;
         $params['created_at'] = Carbon::now();
 
         $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);

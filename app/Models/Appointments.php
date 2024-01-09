@@ -29,6 +29,7 @@ class Appointments extends Model
         'booked_day',
         'booked_time',
         'status',
+        'treatment_id',
         'updated_at',
         'created_at'
     ];
