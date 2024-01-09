@@ -826,12 +826,11 @@ class AppointmentsController extends Controller
         $treatment_id = null;
         $params['treatment_id'] = $treatment_id;
         $params['created_at'] = Carbon::now();
+        $params['status'] = 'Upcoming';
 
         $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
         if($cancel_exist){
             $a_id = $cancel_exist['id'];
-
-            $params['status'] = 'Upcoming';
 
             $params['updated_at'] = Carbon::now();
             if($this->appointmentsRepository->update($a_id, $params)){
