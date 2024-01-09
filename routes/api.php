@@ -48,6 +48,8 @@ Route::post("get_appointments_cancel_list_profile", [AppointmentsController::cla
 Route::post("booking_from_app", [AppointmentsController::class, 'booking_from_app']); //
 Route::post("booking_cancel_app", [AppointmentsController::class, 'booking_cancel_app']); //
 
+Route::post("treatment_booking", [AppointmentsController::class, 'treatment_booking']);
+
 Route::post("get_notification_list", [NotificationController::class, 'get_notification_list']); //
 Route::post("delete_notification", [NotificationController::class, 'delete_notification']); //
 Route::post("read_notification", [NotificationController::class, 'read_notification']);
