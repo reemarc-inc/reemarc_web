@@ -23,7 +23,6 @@
                         <div class="table-responsive">
                             <table class="table table-bordered table-striped table-md">
                                 <thead>
-                                    <th>ID</th>
                                     <th>Appointment ID</th>
                                     <th>User ID</th>
                                     <th>Clinic ID</th>
@@ -35,7 +34,6 @@
                                 <tbody>
                                     @forelse ($treatments as $treatment)
                                         <tr>
-                                            <td>{{ $treatment->id}}</td>
                                             <td>{{ $treatment->appointment_id}}</td>
                                             <td>{{ $treatment->user_id }}</td>
                                             <td>{{ $treatment->clinic_id}}</td>
