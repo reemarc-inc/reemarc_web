@@ -26,7 +26,6 @@
                                     <th>Appointment ID</th>
                                     <th>User ID</th>
                                     <th>Clinic ID</th>
-                                    <th>Package ID</th>
                                     <th>Status</th>
                                     <th>Create At</th>
                                     <th width="15%">Action</th>
@@ -37,7 +36,6 @@
                                             <td>{{ $treatment->appointment_id}}</td>
                                             <td>{{ $treatment->user_id }}</td>
                                             <td>{{ $treatment->clinic_id}}</td>
-                                            <td>{{ $treatment->package_id}}</td>
                                             <td>{{ $treatment->status}}</td>
                                             <td>{{ $treatment->created_at}}</td>
                                             <td>
