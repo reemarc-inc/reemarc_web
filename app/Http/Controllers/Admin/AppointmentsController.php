@@ -554,7 +554,7 @@ class AppointmentsController extends Controller
                 $record['note'] = "<p>The Booking was completed.</p><br><p>Clinic to address : ".$params['clinic_address']." at ".$params['booked_start']."</p>";
                 $record['created_at'] = Carbon::now();
                 $record->save();
-                
+
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
