@@ -574,7 +574,7 @@ class AppointmentsController extends Controller
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "'.$notification['treatment_id'].'",
                         "clinic_id": "'.$notification['clinic_id'].'",
-                        "package_id": "null",
+                        "package_id": "'.$treatment_obj->package_id.'",
                         "is_read": "no",
                         "is_delete": "no",
                         "note": "'.$notification['note'].'",
