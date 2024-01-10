@@ -40,7 +40,7 @@
                                     $bg_css = "bg-primary"; $font_css = "color: #fff;";
                                 }
                                 ?>
-                                <div class="progress mb-3" style="height: 30px;">
+                                <div class="progress mb-3" style="height: 30px; border-radius: 0.75rem;">
                                     <div class="progress-bar {{ $bg_css }}" role="progressbar" data-width="{{$i*$x}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">Session {{ $i }}  {{ !empty($current_session[$i-1]) ? "   [ ".date("m/d/y g A", strtotime($current_session[$i-1]->booked_start))." ]" : ''}} </div>
                                 </div>
                                 <?php } ?>
