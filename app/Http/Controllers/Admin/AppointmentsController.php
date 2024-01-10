@@ -545,6 +545,16 @@ class AppointmentsController extends Controller
                 $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
                 $notification->save();
 
+                // Add Record
+                $record = new Record();
+                $record['type'] = 'booking_completed';
+                $record['appointment_id'] = $treatment_obj->appointment_id;
+                $record['treatment_id'] = $treatment_obj->id;
+                $record['user_id'] = $treatment_obj->user_id;
+                $record['note'] = "<p>The Booking was completed.</p><br><p>Clinic to address : ".$params['clinic_address']." at ".$params['booked_start']."</p>";
+                $record['created_at'] = Carbon::now();
+                $record->save();
+                
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
@@ -640,6 +650,16 @@ class AppointmentsController extends Controller
             $notification['created_at']         = Carbon::now();
             $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
             $notification->save();
+
+            // Add Record
+            $record = new Record();
+            $record['type'] = 'booking_completed';
+            $record['appointment_id'] = $treatment_obj->appointment_id;
+            $record['treatment_id'] = $treatment_obj->id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['note'] = "<p>The Booking was completed.</p><br><p>Clinic to address : ".$params['clinic_address']." at ".$params['booked_start']."</p>";
+            $record['created_at'] = Carbon::now();
+            $record->save();
 
             // send push notification
             $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
