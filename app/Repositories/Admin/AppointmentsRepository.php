@@ -105,7 +105,9 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function get_upcoming_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->Where('status', '=', "Upcoming")->Where('user_id', '=', $c_id);
+        $brand = $brand->Where('user_id', '=', $c_id)
+            ->Where('status', '=', 'Upcoming')
+            ->orWhere('status', '=', 'Treatment_Upcoming');
         return $brand->get();
     }
 
