@@ -538,6 +538,7 @@ class AppointmentsController extends Controller
                 $notification['appointment_id']     = $a_id;
                 $notification['treatment_id']       = $params['treatment_id'];
                 $notification['clinic_id']          = $params['clinic_id'];
+                $notification['package_id']         = $treatment_obj->package_id;
                 $notification['type']               = 'booking_completed';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -644,6 +645,8 @@ class AppointmentsController extends Controller
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
             $notification['treatment_id']       = $params['treatment_id'];
+            $notification['clinic_id']          = $params['clinic_id'];
+            $notification['package_id']         = $treatment_obj->package_id;
             $notification['type']               = 'booking_completed';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
@@ -731,7 +734,7 @@ class AppointmentsController extends Controller
             $appt = $this->appointmentsRepository->update($appointment_id, $params);
             $user_obj = $this->userRepository->findById($appt->user_id);
             $user_device_token = $user_obj->device_token;
-
+            $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
             if ($appt) {
 
                 // Add Notification
@@ -741,6 +744,9 @@ class AppointmentsController extends Controller
                 $notification['user_last_name']     = $appt->user_last_name;
                 $notification['user_email']         = $appt->user_email;
                 $notification['appointment_id']     = $appt->id;
+                $notification['treatment_id']       = $appt->treatment_id;
+                $notification['clinic_id']          = $appt->clinic_id;
+                $notification['package_id']         = $treatment_obj->package_id;
                 $notification['type']               = 'booking_cancelled';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -960,6 +966,9 @@ class AppointmentsController extends Controller
             $notification['user_last_name']     = $params['user_last_name'];
             $notification['user_email']         = $params['user_email'];
             $notification['appointment_id']     = $appointment->id;
+            $notification['treatment_id']       = null;
+            $notification['clinic_id']          = $params['clinic_id'];
+            $notification['package_id']         = null;
             $notification['type']               = 'booking_completed';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
@@ -984,7 +993,7 @@ class AppointmentsController extends Controller
                     "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$treatment_id.'",
+                    "treatment_id": "null",
                     "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
                     "is_read": "no",
@@ -1052,6 +1061,9 @@ class AppointmentsController extends Controller
                 $notification['user_last_name']     = $appt->user_last_name;
                 $notification['user_email']         = $appt->user_email;
                 $notification['appointment_id']     = $appt->id;
+                $notification['treatment_id']       = null;
+                $notification['clinic_id']          = $appt->clinic_id;
+                $notification['package_id']         = null;
                 $notification['type']               = 'booking_cancelled';
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
@@ -1080,7 +1092,7 @@ class AppointmentsController extends Controller
                         "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
-                        "treatment_id": "'.$treatment_id.'",
+                        "treatment_id": "null",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
