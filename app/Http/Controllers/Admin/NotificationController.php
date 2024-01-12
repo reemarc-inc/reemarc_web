@@ -248,6 +248,15 @@ class NotificationController extends Controller
 
         $treatment_id = $param['treatment_id'];
         $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+        if($treatment_obj->status == 'location_confirmed'){
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "You have already confirmed the location."
+                ]
+            ];
+            return response()->json($data);
+        }
         $user_id = $treatment_obj->user_id;
 
         $user_obj = $this->userRepository->findById($user_id);
