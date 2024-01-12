@@ -1047,7 +1047,7 @@ class AppointmentsController extends Controller
             $data = [
                 'error' => [
                     'code' => 404,
-                    'message' => "You cannot request a cancellation."
+                    'message' => "You have already canceled."
                 ]
             ];
             return response()->json($data);
