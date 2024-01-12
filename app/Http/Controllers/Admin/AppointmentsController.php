@@ -1042,6 +1042,17 @@ class AppointmentsController extends Controller
     {
         $param = $request->all();
         $appointment_id = $param['appointment_id'];
+        $apmt_obj = $this->appointmentsRepository->findById($appointment_id);
+        if($apmt_obj->status == "Cancel"){
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "You cannot request a cancellation."
+                ]
+            ];
+            return response()->json($data);
+        }
+
         $treatment_id = null;
         $params['status'] = 'Cancel';
         $params['updated_at'] = Carbon::now();
