@@ -45,6 +45,17 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label>Name_KR</label>
+                                    <input type="text" name="name_kr"
+                                           class="form-control @error('name_kr') is-invalid @enderror @if (!$errors->has('name_kr') && old('name_kr')) is-valid @endif"
+                                           value="{{ old('name_kr', !empty($clinic) ? $clinic->name_kr : null) }}">
+                                    @error('name_kr')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label>Address</label>
                                     <input type="text" name="address"
                                            class="form-control @error('address') is-invalid @enderror @if (!$errors->has('address') && old('address')) is-valid @endif"
@@ -56,9 +67,29 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label>Address_KR</label>
+                                    <input type="text" name="address_kr"
+                                           class="form-control @error('address_kr') is-invalid @enderror @if (!$errors->has('address_kr') && old('address_kr')) is-valid @endif"
+                                           value="{{ old('address_kr', !empty($clinic) ? $clinic->address_kr : null) }}">
+                                    @error('address_kr')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
                                     <label>Description</label>
                                     <textarea class="form-control" id="description" name="description" style="height: 100px;">{{ old('description', !empty($clinic) ? $clinic->description : null) }}</textarea>
                                     @error('description')
+                                    <div class="invalid-feedback">
+                                        {{ $message }}
+                                    </div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Description_KR</label>
+                                    <textarea class="form-control" id="description_kr" name="description_kr" style="height: 100px;">{{ old('description_kr', !empty($clinic) ? $clinic->description_kr : null) }}</textarea>
+                                    @error('description_kr')
                                     <div class="invalid-feedback">
                                         {{ $message }}
                                     </div>
