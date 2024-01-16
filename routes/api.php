@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\ClinicController;
 use App\Http\Controllers\Admin\AppointmentsController;
 use App\Http\Controllers\Admin\NotificationController;
+use App\Http\Controllers\Admin\PackageController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -55,5 +56,6 @@ Route::post("delete_notification", [NotificationController::class, 'delete_notif
 Route::post("read_notification", [NotificationController::class, 'read_notification']);
 
 Route::post("location_confirm", [NotificationController::class, 'location_confirm']); //
+Route::post('get_package_by_treatment_id', [PackageController::class, 'get_package_by_treatment_id']);
 
 Route::apiResource("member", MemberController::class);

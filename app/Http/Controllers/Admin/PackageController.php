@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 
+use App\Models\User;
+use App\Repositories\Admin\TreatmentsRepository;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UserRequest;
@@ -11,16 +13,20 @@ use App\Http\Requests\Admin\UserRequest;
 use App\Repositories\Admin\PackageRepository;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class PackageController extends Controller
 {
     private $packageRepository;
+    private $treatmentsRepository;
 
-    public function __construct(PackageRepository $packageRepository) // phpcs:ignore
+    public function __construct(PackageRepository $packageRepository,
+                            TreatmentsRepository $treatmentsRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->packageRepository = $packageRepository;
+        $this->treatmentsRepository = $treatmentsRepository;
 
         $this->data['currentAdminMenu'] = 'package';
     }
@@ -142,6 +148,49 @@ class PackageController extends Controller
         }else{
             echo 'fail';
         }
+    }
+
+    public function get_package_by_treatment_id(Request $request)
+    {
+        try{
+            $param = $request->all();
+            Log::info($request);
+
+            $treatment_id = $param['treatment_id'];
+            $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+            if($treatment_obj){
+                $package_id = $treatment_obj->package_id;
+                $package_obj = $this->packageRepository->findById($package_id);
+
+                if($package_obj){
+                    $data = [
+                        'data' => [
+                            'package' => $package_obj
+                        ]
+                    ];
+                }else{
+                    $data = [
+                        'error' => [
+                            'message' => "Package not exist"
+                        ]
+                    ];
+                }
+            }else{
+                $data = [
+                    'error' => [
+                        'message' => "Treatment not exist"
+                    ]
+                ];
+            }
+
+            return response()->json($data);
+
+        }catch (\Exception $ex) {
+            return response()->json([
+                'msg' => $ex->getMessage() . ' [' . $ex->getCode() . ']'
+            ]);
+        }
+
     }
 
 }
