@@ -36,6 +36,7 @@ Route::post('sign_up', [UserController::class, 'api_sign_up']); //
 
 Route::get('get_member', [UserController::class, 'get_user_list']); //
 Route::post('users_update_app', [UserController::class, 'users_update_app']); //
+Route::post('get_me', [UserController::class, 'get_me']);
 
 Route::get("get_clinic_list", [ClinicController::class, 'get_clinic_list']); //
 Route::post("get_appointments_upcoming_list", [AppointmentsController::class, 'get_appointments_upcoming_list']); //

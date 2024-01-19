@@ -331,6 +331,33 @@ class UserController extends Controller
 
     }
 
+    public function get_me(request $request)
+    {
+        try{
+            $param = $request->all();
+            Log::info($request);
+            $user_obj = User::where('email', $param['email'])->first();
+            if($user_obj){
+                $data = [
+                    'data' => [
+                        'user' => $user_obj
+                    ]
+                ];
+            }else{
+                $data = [
+                    'error' => [
+                        'message' => "User not exist"
+                    ]
+                ];
+            }
+            return response()->json($data);
+        }catch (\Exception $ex) {
+            return response()->json([
+                'msg' => $ex->getMessage() . ' [' . $ex->getCode() . ']'
+            ]);
+        }
+    }
+
 
     /***
      * API
