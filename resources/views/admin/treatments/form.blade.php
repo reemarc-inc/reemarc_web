@@ -204,8 +204,8 @@
                                         <div class="selectgroup w-100">
                                         @foreach ($sessions as $key=>$value)
                                             <label class="selectgroup-item">
-                                                <input type="radio" name="session" value="{{ $key }}" class="selectgroup-input" {{ $key == $session ? 'checked=""' : '' }}>
-                                                <span class="selectgroup-button">{{ $value}} ({{$key}})</span>
+                                                <input type="radio" name="session" value="{{ $key }}-{{ $value }}" class="selectgroup-input" {{ $key == $session ? 'checked=""' : '' }}>
+                                                <span class="selectgroup-button">{{ $value}} Month ({{$key}})</span>
                                             </label>
                                         @endforeach
                                         </div>

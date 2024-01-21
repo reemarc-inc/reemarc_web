@@ -158,6 +158,7 @@ class PackageController extends Controller
 
             $treatment_id = $param['treatment_id'];
             $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+
             if($treatment_obj){
                 $package_id = $treatment_obj->package_id;
                 $package_obj = $this->packageRepository->findById($package_id);

@@ -235,6 +235,7 @@ class TreatmentsController extends Controller
 
         $this->data['package'] = $treatment_obj->package_id;
         $this->data['session'] = $treatment_obj->session;
+        $this->data['month'] = $treatment_obj->month;
 
         $this->data['current_session'] = $this->appointmentsRepository->get_current_session($id);
 
@@ -264,16 +265,16 @@ class TreatmentsController extends Controller
         $this->data['packages'] = $this->packageRepository->findAll();
 
         $this->data['sessions'] = [
-            5 => '9 Month',
-            6 => '12 Month',
-            7 => '15 Month',
-            8 => '18 Month',
-            9 => '21 Month',
-            10 => '24 Month',
-            11 => '27 Month',
-            12 => '30 Month',
-            13 => '33 Month',
-            14 => '36 Month'
+            5 => '9',
+            6 => '12',
+            7 => '15',
+            8 => '18',
+            9 => '21',
+            10 => '24',
+            11 => '27',
+            12 => '30',
+            13 => '33',
+            14 => '36'
         ];
 
         // Campaign_notes
@@ -345,7 +346,9 @@ class TreatmentsController extends Controller
 
         if(isset($param['package'])) {
             $treatment_param['package_id'] = $param['package'];
-            $treatment_param['session'] = $param['session'];
+            $temp = explode('-', $param['session']);
+            $treatment_param['session'] = $temp[0];
+            $treatment_param['month'] = $temp[1];
             $treatment_param['status'] = 'package_ready';
 
             $record = new Record();
