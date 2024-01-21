@@ -66,7 +66,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
             'param_1' => $treatment_id
         ]);
 
-        return json_encode($result);
+        return $result;
     }
 
     public function create($params = [])
