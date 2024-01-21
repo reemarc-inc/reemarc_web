@@ -50,6 +50,25 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
         return Treatments::findOrFail($id);
     }
 
+    public function get_package_by_treatment_id($treatment_id)
+    {
+        $result = DB::select('select t.id as treatment_id,
+                                p.name as name,
+                                p.number_of_aligners as number_of_aligners,
+                                p.us_price as us_price,
+                                p.kr_price as kr_price,
+                                p.summary as summary,
+                                t.session as seesion,
+                                t.month as month
+                        from treatments t
+                        left join package p on p.id = t.package_id
+                        where t.id = :param_1', [
+            'param_1' => $treatment_id
+        ]);
+
+        return json_encode($result);
+    }
+
     public function create($params = [])
     {
         return DB::transaction(function () use ($params) {

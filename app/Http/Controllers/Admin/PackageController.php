@@ -157,29 +157,18 @@ class PackageController extends Controller
             Log::info($request);
 
             $treatment_id = $param['treatment_id'];
-            $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+            $rs_obj = $this->treatmentsRepository->get_package_by_treatment_id($treatment_id);
 
-            if($treatment_obj){
-                $package_id = $treatment_obj->package_id;
-                $package_obj = $this->packageRepository->findById($package_id);
-
-                if($package_obj){
-                    $data = [
-                        'data' => [
-                            'package' => $package_obj
-                        ]
-                    ];
-                }else{
-                    $data = [
-                        'error' => [
-                            'message' => "Package not exist"
-                        ]
-                    ];
-                }
+            if($rs_obj){
+                $data = [
+                    'data' => [
+                        'package' => $rs_obj
+                    ]
+                ];
             }else{
                 $data = [
                     'error' => [
-                        'message' => "Treatment not exist"
+                        'message' => "Package not exist"
                     ]
                 ];
             }
