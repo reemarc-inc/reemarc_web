@@ -52,7 +52,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
 
     public function get_package_by_treatment_id($treatment_id)
     {
-        $result = DB::select('select t.id as treatment_id,
+        $result = DB::select('select p.id as package_id,
                                 p.name as name,
                                 p.number_of_aligners as number_of_aligners,
                                 p.us_price as us_price,
