@@ -162,7 +162,7 @@ class PackageController extends Controller
             if($rs_obj){
                 $data = [
                     'data' => [
-                        'package' => $rs_obj
+                        'package' => json_encode($rs_obj)
                     ]
                 ];
             }else{
