@@ -160,9 +160,11 @@ class PackageController extends Controller
             $rs_obj = $this->treatmentsRepository->get_package_by_treatment_id($treatment_id);
 
             if($rs_obj){
+
+                $rs = (object)$rs_obj[0];
                 $data = [
                     'data' => [
-                        'package' => (object)$rs_obj
+                        'package' => $rs
                     ]
                 ];
             }else{
