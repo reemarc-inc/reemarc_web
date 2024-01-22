@@ -58,7 +58,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                                 p.us_price as us_price,
                                 p.kr_price as kr_price,
                                 p.summary as summary,
-                                t.session as seesion,
+                                t.session as session,
                                 t.month as month
                         from treatments t
                         left join package p on p.id = t.package_id
