@@ -332,7 +332,7 @@ class TreatmentsController extends Controller
         $treatment_id = $param['treatment_id'];
         $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
 
-        if(!$treatment_obj){
+        if($treatment_obj == null){
             $data = [
                 'error' => [
                     'message' => "Treatment not exist"
@@ -381,7 +381,7 @@ class TreatmentsController extends Controller
                 ];
             }
         }
-        
+
         $data = [
             'data' => [
                 'treatment_list' => $session_list
