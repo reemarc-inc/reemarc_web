@@ -63,7 +63,7 @@
                             </div>
 
                             <div class="card-footer text-right">
-                                <?php if($treatment->status == 'package_delivered' || $treatment->status == 'treatment_started'){ ?>
+                                <?php if($treatment->status == 'treatment_started'){ ?>
 
                                     <?php if($last_session_status->status == 'Treatment_Upcoming'){ ?>
                                     <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="visit_confirm({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Visit Confirm Send</button>
