@@ -57,6 +57,7 @@ Route::post("delete_notification", [NotificationController::class, 'delete_notif
 Route::post("read_notification", [NotificationController::class, 'read_notification']);
 
 Route::post("location_confirm", [NotificationController::class, 'location_confirm']); //
+Route::post("confirm_your_visit", [NotificationController::class, 'confirm_your_visit']); //
 Route::post('get_package_by_treatment_id', [PackageController::class, 'get_package_by_treatment_id']);
 
 Route::apiResource("member", MemberController::class);
