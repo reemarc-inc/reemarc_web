@@ -33,14 +33,14 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                     a.user_email as email,
                     a.booked_start as booked_start,
                     a.status as appointment_status,
-                    a.treatment_id as treatment_id,
+                    t.id as treatment_id,
                     t.package_id as package_id,
                     t.session as session,
                     t.clinic_id as clinic_id,
                     a.created_at as created_at
-                 from appointments a
-                 left join treatments t on t.id = a.treatment_id
-                 where a.status = "Treatment_Upcoming"
+                from treatments t
+                left join appointments a on a.id = t.appointment_id
+                where t.status in ("treatment_started")
                   ' . $region_filter . '
                 order by a.booked_start asc');
     }
