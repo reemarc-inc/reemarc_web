@@ -332,7 +332,7 @@ class TreatmentsController extends Controller
         $treatment_id = $param['treatment_id'];
         $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
 
-        if(!isset($treatment_obj)){
+        if(!$treatment_obj){
             $data = [
                 'error' => [
                     'message' => "Treatment not exist"
@@ -381,13 +381,10 @@ class TreatmentsController extends Controller
                 ];
             }
         }
-
-        $data = array_filter($session_list);
-        $resultJson = json_encode(array_values($data));
-
+        
         $data = [
             'data' => [
-                'treatment_list' => $resultJson
+                'treatment_list' => $session_list
             ]
         ];
         return response()->json($data);
