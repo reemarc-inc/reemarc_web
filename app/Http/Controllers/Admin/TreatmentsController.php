@@ -384,7 +384,7 @@ class TreatmentsController extends Controller
             }
         }
 
-        $rs = $session_list;
+        $rs = (object)$session_list[0];
 //        $rs = json_decode (json_encode ($session_list), FALSE);
 
         $data = [
