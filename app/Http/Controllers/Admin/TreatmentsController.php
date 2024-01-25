@@ -387,7 +387,7 @@ class TreatmentsController extends Controller
 
         $data = [
             'data' => [
-                'treatment_list' => $session_list
+                'treatment_list' => $resultJson
             ]
         ];
         return response()->json($data);
