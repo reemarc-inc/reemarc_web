@@ -332,15 +332,6 @@ class TreatmentsController extends Controller
         $treatment_id = $param['treatment_id'];
         $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
 
-        if($treatment_obj == null){
-            $data = [
-                'error' => [
-                    'message' => "Treatment not exist"
-                ]
-            ];
-            return response()->json($data);
-        }
-
         $total = $treatment_obj->session;
         $this->data['current_session'] = $sessions = $this->appointmentsRepository->get_current_session($treatment_id);
         $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
