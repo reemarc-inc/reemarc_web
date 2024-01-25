@@ -328,6 +328,60 @@ class TreatmentsController extends Controller
         return view('admin.treatments.form', $this->data);
     }
 
+    public function get_treatment_progress(Request $request)
+    {
+        $param = $request->all();
+        $treatment_id = $param['treatment_id'];
+
+        $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+        $total = $treatment_obj->session;
+        $this->data['current_session'] = $sessions = $this->appointmentsRepository->get_current_session($treatment_id);
+        $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
+        $month_rule = [
+            1 => 'TBD',
+            2 => '1 Month',
+            3 => '3 Month',
+            4 => '6 Month',
+            5 => '9 Month',
+            6 => '12 Month',
+            7 => '15 Month',
+            8 => '18 Month',
+            9 => '21 Month',
+            10 => '24 Month',
+            11 => '27 Month',
+            12 => '30 Month',
+            13 => '33 Month',
+            14 => '36 Month',
+        ];
+
+        $session_list = array();
+
+        for($i=1; $i<=$total; $i++) {
+            if(isset($sessions[$i - 1])) {
+                $status = ($sessions[$i - 1]->status == 'Treatment_Upcoming') ? 'Upcoming' : 'Completed';
+                $session_list[] = [
+                    'appointment_id' => $sessions[$i - 1]->id,
+                    'session' => 'SESSION '.$i,
+                    'booked_start' => $sessions[$i - 1]->booked_start,
+                    'status' => $status
+                ];
+            }else{
+                $session_list[] = [
+                    'appointment_id' => null,
+                    'session' => 'SESSION '.$i,
+                    'booked_start' => $month_rule[$i],
+                    'status' => 'Not Scheduled'
+                ];
+            }
+        }
+
+        $data = [
+            'data' => $session_list
+        ];
+        return response()->json($data);
+
+    }
+
     /**
      * Update the specified resource in storage.
      *
