@@ -324,6 +324,16 @@ class NotificationController extends Controller
         $param = $request->all();
         $treatment_id = $param['treatment_id'];
         $apmt_rs = $this->appointmentsRepository->get_last_treatment_session($treatment_id);
+
+        if($apmt_rs == null){
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "There are no scheduled appointments."
+                ]
+            ];
+            return response()->json($data);
+        }
         $appointment_id = $apmt_rs['id'];
         $appointment_obj = $this->appointmentsRepository->findById($appointment_id);
 
