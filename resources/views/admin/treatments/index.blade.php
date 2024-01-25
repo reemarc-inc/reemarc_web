@@ -46,7 +46,7 @@
                                             <td>{{ $treatment->booked_start}}</td>
                                             <td>{{ $treatment->package_id}}</td>
                                             <td>{{ $treatment->session }}</td>
-                                            <td>{{ $treatment->appointment_status}}</td>
+                                            <td>{{ $treatment->treatment_status}}</td>
                                             <td>{{ $treatment->created_at}}</td>
                                             <td>
                                                 <a class="btn btn-sm" href="{{ url('admin/treatments/'. $treatment->treatment_id .'/edit')}}"><i class="far fa-edit"></i> @lang('general.btn_edit_label') </a>

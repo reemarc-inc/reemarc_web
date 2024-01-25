@@ -32,7 +32,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                     a.user_first_name as first_name,
                     a.user_email as email,
                     a.booked_start as booked_start,
-                    a.status as appointment_status,
+                    t.status as treatment_status,
                     t.id as treatment_id,
                     t.package_id as package_id,
                     t.session as session,
