@@ -106,8 +106,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $brand = new Appointments();
         $brand = $brand->Where('user_id', '=', $c_id)
-            ->Where('status', '=', 'Upcoming')
-            ->orWhere('status', '=', 'Treatment_Upcoming');
+            ->WhereIn('status', array('Upcoming', 'Treatment_Completed'));
         return $brand->get();
     }
 
