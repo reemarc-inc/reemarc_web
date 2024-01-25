@@ -382,11 +382,13 @@ class TreatmentsController extends Controller
             }
         }
 
-        $rs = $session_list;
+        $data = json_decode($session_list, true);
+        $data['data']['treatment_list'] = array_filter($data['data']['treatment_list']);
+        $resultJson = json_encode($data);
 
         $data = [
             'data' => [
-                'treatment_list' => $rs
+                'treatment_list' => $resultJson
             ]
         ];
         return response()->json($data);
