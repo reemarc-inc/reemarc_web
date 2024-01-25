@@ -39,7 +39,7 @@
 
 {{--                        <?php } ?>--}}
 
-                        <?php if($treatment->status == 'package_delivered' || $treatment->status == 'treatment_started'){ ?>
+                        <?php if($treatment->status == 'treatment_started'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
