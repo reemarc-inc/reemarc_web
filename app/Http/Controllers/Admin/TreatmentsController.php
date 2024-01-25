@@ -277,7 +277,6 @@ class TreatmentsController extends Controller
             }
         }
 
-
         if($this->data['package']) {
             $this->data['package_obj'] = $this->packageRepository->findById($treatment_obj->package_id);
         }else{
@@ -324,7 +323,6 @@ class TreatmentsController extends Controller
             ]
         ];
         $this->data['record'] = $this->recordRepository->findAll($options);
-
         return view('admin.treatments.form', $this->data);
     }
 
@@ -384,7 +382,7 @@ class TreatmentsController extends Controller
             }
         }
 
-        $rs = (object)$session_list;
+        $rs = $session_list;
 
         $data = [
             'data' => [
