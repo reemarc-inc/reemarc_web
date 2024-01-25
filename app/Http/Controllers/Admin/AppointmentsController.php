@@ -527,7 +527,8 @@ class AppointmentsController extends Controller
             $a_id = $cancel_exist['id'];
 
             $params['updated_at'] = Carbon::now();
-            if($this->appointmentsRepository->update($a_id, $params)){
+            $updated_appointment = $this->appointmentsRepository->update($a_id, $params);
+            if($updated_appointment){
 
                 // Treatment status update to treatment_processing
                 $param_treatment['status'] = 'treatment_started';
@@ -602,6 +603,7 @@ class AppointmentsController extends Controller
                 $data = [
                     'data' => [
                         "code" => 200,
+                        "appointment" => $updated_appointment,
                         "message" => "Data has been updated"
                     ]
                 ];
@@ -869,7 +871,8 @@ class AppointmentsController extends Controller
             $a_id = $cancel_exist['id'];
 
             $params['updated_at'] = Carbon::now();
-            if($this->appointmentsRepository->update($a_id, $params)){
+            $updated_appointment = $this->appointmentsRepository->update($a_id, $params);
+            if($updated_appointment){
 
                 // Add Notification
                 $notification = new Notification();
@@ -927,6 +930,7 @@ class AppointmentsController extends Controller
                 $data = [
                     'data' => [
                         "code" => 200,
+                        "appointment" => $updated_appointment,
                         "message" => "Data has been updated"
                     ]
                 ];
