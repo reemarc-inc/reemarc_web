@@ -194,10 +194,31 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                             where treatment_id =:param_1
-                            and status in ("Treatment_Upcoming")
+                            and status in ("Treatment_Upcoming", "Treatment_Completed")
                             order by booked_start asc', [
             'param_1' => $treatment_id
         ]);
+    }
+
+    public function get_last_treatment_upcoming_appointment($treatment_id)
+    {
+        $aptmt = new Appointments();
+        $aptmt_rs = $aptmt->Where('treatment_id', '=', $treatment_id)
+            ->Where('status', '=', 'Treatment_Upcoming')
+            ->first();
+
+        return $aptmt_rs;
+    }
+
+    public function get_last_treatment_session_status($treatment_id)
+    {
+        $aptmt = new Appointments();
+        $aptmt_rs = $aptmt->Where('treatment_id', '=', $treatment_id)
+            ->WhereIn('status', array('Treatment_Upcoming', 'Treatment_Completed'))
+            ->OrderBy('booked_start', 'desc')
+            ->first();
+
+        return $aptmt_rs;
     }
 
 }

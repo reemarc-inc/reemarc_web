@@ -529,6 +529,11 @@ class AppointmentsController extends Controller
             $params['updated_at'] = Carbon::now();
             if($this->appointmentsRepository->update($a_id, $params)){
 
+                // Treatment status update to treatment_processing
+                $param_treatment['status'] = 'treatment_started';
+                $param_treatment['updated_at'] = Carbon::now();
+                $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
+
                 // Add Notification
                 $notification = new Notification();
                 $notification['user_id']            = $params['user_id'];
@@ -636,6 +641,11 @@ class AppointmentsController extends Controller
 
         $appointment = $this->appointmentsRepository->create($params);
         if($appointment){
+
+            // Treatment status update to treatment_processing
+            $param_treatment['status'] = 'treatment_started';
+            $param_treatment['updated_at'] = Carbon::now();
+            $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
 
             // Add Notification
             $notification = new Notification();

@@ -23,11 +23,27 @@
                 <div class="row">
                     <div class="col-lg-8">
 
-                        <?php if($treatment->status == 'package_delivered'){ ?>
+{{--                        <?php if($treatment->status == 'package_delivered' || $treatment->status == 'treatment_started'){ ?>--}}
+
+{{--                            <div class="card">--}}
+{{--                                <div class="card-header">--}}
+{{--                                    <h4>Treatment Schedule : {{ $sessions[$treatment->session] }} Months / {{ $treatment->session }} Sessions</h4>--}}
+{{--                                </div>--}}
+{{--                                <div class="card-body">--}}
+
+{{--                                </div>--}}
+{{--                                <div class="card-footer text-right">--}}
+
+{{--                                </div>--}}
+{{--                            </div>--}}
+
+{{--                        <?php } ?>--}}
+
+                        <?php if($treatment->status == 'package_delivered' || $treatment->status == 'treatment_started'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
-                                <h4>Treatment Schedule : {{ $treatment->session }} Sessions  / {{ $sessions[$treatment->session] }}s</h4>
+                                <h4>Treatment Schedule : {{ $treatment->session }} Sessions  / {{ $sessions[$treatment->session] }} Sessions</h4>
                             </div>
 
                             <div class="card-body">
@@ -44,25 +60,17 @@
                                     <div class="progress-bar {{ $bg_css }}" role="progressbar" data-width="{{$i*$x}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">Session {{ $i }}  {{ !empty($current_session[$i-1]) ? "   [ ".date("m/d/y g A", strtotime($current_session[$i-1]->booked_start))." ]" : ''}} </div>
                                 </div>
                                 <?php } ?>
-{{--                                <div class="progress mb-3" style="height: 25px;">--}}
-{{--                                    <div class="progress-bar bg-secondary" role="progressbar" data-width="50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 2 (Upcoming)</div>--}}
-{{--                                </div>--}}
-{{--                                <div class="progress mb-3" style="height: 25px;">--}}
-{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 3</div>--}}
-{{--                                </div>--}}
-{{--                                <div class="progress mb-3" style="height: 25px;">--}}
-{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 4</div>--}}
-{{--                                </div>--}}
-{{--                                <div class="progress mb-3" style="height: 25px;">--}}
-{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 5</div>--}}
-{{--                                </div>--}}
-{{--                                <div class="progress mb-3" style="height: 25px;">--}}
-{{--                                    <div class="progress-bar bg-info" role="progressbar" data-width="100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 10%;">Session 6</div>--}}
-{{--                                </div>--}}
                             </div>
 
                             <div class="card-footer text-right">
+                                <?php if($treatment->status == 'package_delivered' || $treatment->status == 'treatment_started'){ ?>
 
+                                    <?php if($last_session_status->status == 'Treatment_Upcoming'){ ?>
+                                    <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="visit_confirm({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Visit Confirm Send</button>
+                                    <?php }else{ ?>
+                                    <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> This package has been successfully delivered</span>
+                                    <?php } ?>
+                                <?php } ?>
                             </div>
                         </div>
                         <?php } ?>
@@ -225,7 +233,8 @@
                                     || $treatment->status == 'location_sent'
                                     || $treatment->status == 'location_confirmed'
                                     || $treatment->status == 'package_shipped'
-                                    || $treatment->status == 'package_delivered') { ?>
+                                    || $treatment->status == 'package_delivered'
+                                    || $treatment->status == 'treatment_started') { ?>
                                     <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The package order has been successfully completed.</span>
                                 <?php } ?>
                             </div>
@@ -238,7 +247,8 @@
                         || $treatment->status == 'location_sent'
                         || $treatment->status == 'location_confirmed'
                         || $treatment->status == 'package_shipped'
-                        || $treatment->status == 'package_delivered'){ ?>
+                        || $treatment->status == 'package_delivered'
+                            || $treatment->status == 'treatment_started'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -250,7 +260,8 @@
                                 <?php }else if($treatment->status == 'location_sent'
                                     || $treatment->status == 'location_confirmed'
                                     || $treatment->status == 'package_shipped'
-                                    || $treatment->status == 'package_delivered') { ?>
+                                    || $treatment->status == 'package_delivered'
+                                    || $treatment->status == 'treatment_started') { ?>
                                     <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The notification has been successfully sent.</span>
                                 <?php } ?>
                             </div>
@@ -260,7 +271,8 @@
                         <?php if($treatment->status == 'location_sent'
                         || $treatment->status == 'location_confirmed'
                         || $treatment->status == 'package_shipped'
-                        || $treatment->status == 'package_delivered'){ ?>
+                        || $treatment->status == 'package_delivered'
+                            || $treatment->status == 'treatment_started'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -281,7 +293,8 @@
                                 <span class="badge badge-danger" style="font-size: large;"><i class="fa fa-paper-plane"> </i> Waiting for location confirmation</span>
                                 <?php }else if($treatment->status == 'location_confirmed'
                                     || $treatment->status == 'package_shipped'
-                                    || $treatment->status == 'package_delivered') { ?>
+                                    || $treatment->status == 'package_delivered'
+                                    || $treatment->status == 'treatment_started') { ?>
                                 <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The Location was confirmed</span>
                                 <?php } ?>
                             </div>
@@ -290,7 +303,8 @@
 
                         <?php if($treatment->status == 'location_confirmed'
                         || $treatment->status == 'package_shipped'
-                        || $treatment->status == 'package_delivered'){ ?>
+                        || $treatment->status == 'package_delivered'
+                            || $treatment->status == 'treatment_started'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -300,7 +314,8 @@
                                 <?php if($treatment->status == 'location_confirmed') { ?>
                                 <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_ship({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Package Shipped</button>
                                 <?php }else if($treatment->status == 'package_shipped'
-                                                || $treatment->status == 'package_delivered') { ?>
+                                                || $treatment->status == 'package_delivered'
+                                    || $treatment->status == 'treatment_started') { ?>
                                 <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The package has been successfully shipped</span>
                                 <?php } ?>
                             </div>
@@ -308,7 +323,8 @@
                         <?php } ?>
 
                         <?php if($treatment->status == 'package_shipped'
-                        || $treatment->status == 'package_delivered'){ ?>
+                        || $treatment->status == 'package_delivered'
+                            || $treatment->status == 'treatment_started'){ ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -317,7 +333,7 @@
                             <div class="card-footer text-right">
                                 <?php if($treatment->status == 'package_shipped') { ?>
                                 <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="package_delivery({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Package Delivered</button>
-                                <?php }else if($treatment->status == 'package_delivered') { ?>
+                                <?php }else if($treatment->status == 'package_delivered' || $treatment->status == 'treatment_started') { ?>
                                 <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> This package has been successfully delivered</span>
                                 <?php } ?>
                             </div>
@@ -482,6 +498,33 @@
                             alert(rs.message);
                         }else{
                             alert("System update completed.");
+                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                        }
+                    },
+                })
+            }
+        }
+
+        function visit_confirm(treatment_id){
+            if (confirm("Are you sure to send Visit Confirm Notification?") == true) {
+                $.ajax({
+                    url: "<?php echo url('/admin/treatment/visit_confirm'); ?>",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        _token : "{{ csrf_token() }}",
+                        id : treatment_id
+                    },
+                    success: function(response) {
+                        rs = JSON.parse(response);
+                        if(response == 'Device token not found') {
+                            alert(response);
+                        }else if(response == 'Internal Server Error'){
+                            alert(response);
+                        }else if(rs.code == "messaging/registration-token-not-registered"){
+                            alert(rs.message);
+                        }else{
+                            alert("The notification has been successfully sent.");
                             window.location.reload('/admin/treatments/'+treatment_id+'/edit');
                         }
                     },

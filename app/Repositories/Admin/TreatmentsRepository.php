@@ -422,14 +422,6 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                 order by booked_start asc');
     }
 
-    public function get_treatment_upcoming_list()
-    {
 
-    }
-
-    public function get_treatment_completed_list()
-    {
-
-    }
 
 }

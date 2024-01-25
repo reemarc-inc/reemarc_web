@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\Notification;
 use App\Models\Record;
+use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\ClinicRepository;
 use App\Repositories\Admin\TreatmentsRepository;
 use App\Repositories\Admin\UserRepository;
@@ -23,11 +24,13 @@ class NotificationController extends Controller
     private $notificationRepository;
     private $clinicRepository;
     private $userRepository;
+    private $appointmentsRepository;
     private $treatmentsRepository;
 
     public function __construct(NotificationRepository $notificationRepository,
                                 ClinicRepository $clinicRepository,
                                 UserRepository $userRepository,
+                                AppointmentsRepository $appointmentsRepository,
                                 TreatmentsRepository $treatmentsRepository) // phpcs:ignore
     {
         parent::__construct();
@@ -35,6 +38,7 @@ class NotificationController extends Controller
         $this->notificationRepository = $notificationRepository;
         $this->clinicRepository = $clinicRepository;
         $this->userRepository = $userRepository;
+        $this->appointmentsRepository = $appointmentsRepository;
         $this->treatmentsRepository = $treatmentsRepository;
 
         $this->data['currentAdminMenu'] = 'notification';
