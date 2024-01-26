@@ -16,6 +16,7 @@ use App\Repositories\Admin\PackageRepository;
 use App\Repositories\Admin\RecordRepository;
 use App\Repositories\Admin\UserRepository;
 use Carbon\Carbon;
+use Faker\Core\DateTime;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
@@ -360,7 +361,7 @@ class TreatmentsController extends Controller
                 $session_list[] = [
                     'appointment_id' => $sessions[$i - 1]->id,
                     'session' => 'SESSION '.$i,
-                    'booked_start' => $sessions[$i - 1]->booked_date,
+                    'booked_start' => date("M d, Y", strtotime($sessions[$i - 1]->booked_date)),
                     'status' => $status
                 ];
             }else{
