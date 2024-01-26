@@ -231,4 +231,12 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return $aptmt_rs;
     }
 
+    public function check_session_exist($user_id)
+    {
+        $aptmt = new Appointments();
+        $aptmt_rs = $aptmt->Where('user_id', '=', $user_id)
+            ->whereNotNull('treatment_id');
+        return $aptmt_rs->first();
+
+    }
 }

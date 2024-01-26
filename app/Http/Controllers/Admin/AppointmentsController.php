@@ -838,64 +838,69 @@ class AppointmentsController extends Controller
     {
         $param = $request->all();
         $params['user_id'] = $param['user_id'];
-        $user_obj = User::where('id', $params['user_id'])->first();
-        $params['user_first_name'] = $user_obj->first_name;
-        $params['user_last_name'] = $user_obj->last_name;
-        $params['user_email'] = $user_obj->email;
-        $params['user_phone'] = $user_obj->phone;
-        $user_device_token = $user_obj->device_token;
 
-        $params['clinic_id'] = $param['clinic_id'];
-        $clinic_obj = Clinic::where('id', $params['clinic_id'])->first();
-        $params['clinic_name'] = $clinic_obj->name;
-        $params['clinic_phone'] = $clinic_obj->phone;
-        $params['clinic_address'] = $clinic_obj->address;
-        $params['clinic_region'] = $clinic_obj->region;
+        $session_exist = $this->appointmentsRepository->check_session_exist($params['user_id']);
 
-        $start = \DateTime::createFromFormat('Y-m-d H:i', $param['booked_start']);
-        $end = (\DateTime::createFromFormat("Y-m-d H:i", $param['booked_start']))->add(new \DateInterval("PT".$clinic_obj->duration."M"));
-        $params['booked_start'] = $start->format('Y-m-d H:i');
-        $date_for_notification = $start->format('M j, Y');
-        $params['booked_end'] = $end->format('Y-m-d H:i');
-        $params['booked_day'] = date_format($start,'D');
-        $params['booked_date'] = date_format($start,'Y-m-d');
-        $params['booked_time'] = date_format($start,'g:i a');
+        if(!$session_exist){ // for first visit booking
 
-        $treatment_id = null;
-        $params['treatment_id'] = $treatment_id;
-        $params['created_at'] = Carbon::now();
-        $params['status'] = 'Upcoming';
+            $user_obj = User::where('id', $params['user_id'])->first();
+            $params['user_first_name'] = $user_obj->first_name;
+            $params['user_last_name'] = $user_obj->last_name;
+            $params['user_email'] = $user_obj->email;
+            $params['user_phone'] = $user_obj->phone;
+            $user_device_token = $user_obj->device_token;
 
-        $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
-        if($cancel_exist){
-            $a_id = $cancel_exist['id'];
+            $params['clinic_id'] = $param['clinic_id'];
+            $clinic_obj = Clinic::where('id', $params['clinic_id'])->first();
+            $params['clinic_name'] = $clinic_obj->name;
+            $params['clinic_phone'] = $clinic_obj->phone;
+            $params['clinic_address'] = $clinic_obj->address;
+            $params['clinic_region'] = $clinic_obj->region;
 
-            $params['updated_at'] = Carbon::now();
-            $updated_appointment = $this->appointmentsRepository->update($a_id, $params);
-            if($updated_appointment){
+            $start = \DateTime::createFromFormat('Y-m-d H:i', $param['booked_start']);
+            $end = (\DateTime::createFromFormat("Y-m-d H:i", $param['booked_start']))->add(new \DateInterval("PT".$clinic_obj->duration."M"));
+            $params['booked_start'] = $start->format('Y-m-d H:i');
+            $date_for_notification = $start->format('M j, Y');
+            $params['booked_end'] = $end->format('Y-m-d H:i');
+            $params['booked_day'] = date_format($start,'D');
+            $params['booked_date'] = date_format($start,'Y-m-d');
+            $params['booked_time'] = date_format($start,'g:i a');
 
-                // Add Notification
-                $notification = new Notification();
-                $notification['user_id']            = $params['user_id'];
-                $notification['user_first_name']    = $params['user_first_name'];
-                $notification['user_last_name']     = $params['user_last_name'];
-                $notification['user_email']         = $params['user_email'];
-                $notification['appointment_id']     = $a_id;
-                $notification['clinic_id']          = $params['clinic_id'];
-                $notification['type']               = 'booking_completed';
-                $notification['is_read']            = 'no';
-                $notification['is_delete']          = 'no';
-                $notification['created_at']         = Carbon::now();
-                $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
-                $notification->save();
+            $treatment_id = null;
+            $params['treatment_id'] = $treatment_id;
+            $params['created_at'] = Carbon::now();
+            $params['status'] = 'Upcoming';
 
-                // send push notification
-                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-                $header = [
-                    'content-type: application/json'
-                ];
+            $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
+            if($cancel_exist){
+                $a_id = $cancel_exist['id'];
 
-                $postdata = '{
+                $params['updated_at'] = Carbon::now();
+                $updated_appointment = $this->appointmentsRepository->update($a_id, $params);
+                if($updated_appointment){
+
+                    // Add Notification
+                    $notification = new Notification();
+                    $notification['user_id']            = $params['user_id'];
+                    $notification['user_first_name']    = $params['user_first_name'];
+                    $notification['user_last_name']     = $params['user_last_name'];
+                    $notification['user_email']         = $params['user_email'];
+                    $notification['appointment_id']     = $a_id;
+                    $notification['clinic_id']          = $params['clinic_id'];
+                    $notification['type']               = 'booking_completed';
+                    $notification['is_read']            = 'no';
+                    $notification['is_delete']          = 'no';
+                    $notification['created_at']         = Carbon::now();
+                    $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
+                    $notification->save();
+
+                    // send push notification
+                    $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                    $header = [
+                        'content-type: application/json'
+                    ];
+
+                    $postdata = '{
                     "token":  "'.$user_device_token.'",
                     "notification": {
                         "title": "reemarc",
@@ -916,87 +921,87 @@ class AppointmentsController extends Controller
                     }
                 }';
 
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-                $result = curl_exec($ch);
-                curl_close($ch);
+                    $result = curl_exec($ch);
+                    curl_close($ch);
 
-                $data = [
-                    'data' => [
-                        "code" => 200,
-                        "appointment" => $updated_appointment,
-                        "message" => "Data has been updated"
-                    ]
-                ];
+                    $data = [
+                        'data' => [
+                            "code" => 200,
+                            "appointment" => $updated_appointment,
+                            "message" => "Data has been updated"
+                        ]
+                    ];
 
 
 
-            }else{
+                }else{
+                    $data = [
+                        'error' => [
+                            'code' => 404,
+                            'message' => "Data transaction filed"
+                        ]
+                    ];
+                }
+                return response()->json($data);
+            }
+
+            $double_book_a_day = $this->appointmentsRepository->check_double_book_a_day($params['user_id'], $params['booked_date']);
+            if($double_book_a_day){
                 $data = [
                     'error' => [
-                        'code' => 404,
-                        'message' => "Data transaction filed"
+                        'code' => 400,
+                        'message' => "You have a reservation on the same day. Please reschedule or cancel existing booking."
                     ]
                 ];
+                return response()->json($data);
             }
-            return response()->json($data);
-        }
 
-        $double_book_a_day = $this->appointmentsRepository->check_double_book_a_day($params['user_id'], $params['booked_date']);
-        if($double_book_a_day){
-            $data = [
-                'error' => [
-                    'code' => 400,
-                    'message' => "You have a reservation on the same day. Please reschedule or cancel existing booking."
-                ]
-            ];
-            return response()->json($data);
-        }
+            $taken_book = $this->appointmentsRepository->check_taken_book($params['clinic_id'], $params['booked_start']);
+            if($taken_book){
+                $data = [
+                    'error' => [
+                        'code' => 400,
+                        'message' => "We apologize, but the reservation time you selected is already booked. Please choose a different time or check our availability for other dates."
+                    ]
+                ];
+                return response()->json($data);
+            }
 
-        $taken_book = $this->appointmentsRepository->check_taken_book($params['clinic_id'], $params['booked_start']);
-        if($taken_book){
-            $data = [
-                'error' => [
-                    'code' => 400,
-                    'message' => "We apologize, but the reservation time you selected is already booked. Please choose a different time or check our availability for other dates."
-                ]
-            ];
-            return response()->json($data);
-        }
+            $appointment = $this->appointmentsRepository->create($params);
+            if($appointment){
 
-        $appointment = $this->appointmentsRepository->create($params);
-        if($appointment){
+                // Add Notification
+                $notification = new Notification();
+                $notification['user_id']            = $params['user_id'];
+                $notification['user_first_name']    = $params['user_first_name'];
+                $notification['user_last_name']     = $params['user_last_name'];
+                $notification['user_email']         = $params['user_email'];
+                $notification['appointment_id']     = $appointment->id;
+                $notification['treatment_id']       = null;
+                $notification['clinic_id']          = $params['clinic_id'];
+                $notification['package_id']         = null;
+                $notification['type']               = 'booking_completed';
+                $notification['is_read']            = 'no';
+                $notification['is_delete']          = 'no';
+                $notification['created_at']         = Carbon::now();
+                $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
+                $notification->save();
 
-            // Add Notification
-            $notification = new Notification();
-            $notification['user_id']            = $params['user_id'];
-            $notification['user_first_name']    = $params['user_first_name'];
-            $notification['user_last_name']     = $params['user_last_name'];
-            $notification['user_email']         = $params['user_email'];
-            $notification['appointment_id']     = $appointment->id;
-            $notification['treatment_id']       = null;
-            $notification['clinic_id']          = $params['clinic_id'];
-            $notification['package_id']         = null;
-            $notification['type']               = 'booking_completed';
-            $notification['is_read']            = 'no';
-            $notification['is_delete']          = 'no';
-            $notification['created_at']         = Carbon::now();
-            $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
-            $notification->save();
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
 
-            // send push notification
-            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-            $header = [
-                'content-type: application/json'
-            ];
-
-            $postdata = '{
+                $postdata = '{
                 "token":  "'.$user_device_token.'",
                 "notification": {
                     "title": "reemarc",
@@ -1017,34 +1022,279 @@ class AppointmentsController extends Controller
                 }
             }';
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-            $data = [
-                'data' => [
-                    "code" => 200,
-                    'appointment' => $appointment,
-                    "message" => "Data has been created"
-                ]
-            ];
-            return response()->json($data);
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        'appointment' => $appointment,
+                        "message" => "Data has been created"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+                return response()->json($data);
+            }
+
         }else{
-            $data = [
-                'error' => [
-                    'code' => 404,
-                    'message' => "Data transaction filed"
-                ]
-            ];
-            return response()->json($data);
+
+            // for session booking (treatment_id exist!)
+            $user_obj = User::where('id', $params['user_id'])->first();
+            $params['user_first_name'] = $user_obj->first_name;
+            $params['user_last_name'] = $user_obj->last_name;
+            $params['user_email'] = $user_obj->email;
+            $params['user_phone'] = $user_obj->phone;
+            $user_device_token = $user_obj->device_token;
+
+            $params['treatment_id'] = $param['treatment_id'];
+            $treatment_obj = Treatments::where('id', $params['treatment_id'])->first();
+            $params['clinic_id'] = $treatment_obj->clinic_id;
+
+            $clinic_obj = Clinic::where('id', $params['clinic_id'])->first();
+            $params['clinic_name'] = $clinic_obj->name;
+            $params['clinic_phone'] = $clinic_obj->phone;
+            $params['clinic_address'] = $clinic_obj->address;
+            $params['clinic_region'] = $clinic_obj->region;
+
+            $start = \DateTime::createFromFormat('Y-m-d H:i', $param['booked_start']);
+            $end = (\DateTime::createFromFormat("Y-m-d H:i", $param['booked_start']))->add(new \DateInterval("PT".$clinic_obj->duration."M"));
+            $params['booked_start'] = $start->format('Y-m-d H:i');
+            $date_for_notification = $start->format('M j, Y');
+            $params['booked_end'] = $end->format('Y-m-d H:i');
+            $params['booked_day'] = date_format($start,'D');
+            $params['booked_date'] = date_format($start,'Y-m-d');
+            $params['booked_time'] = date_format($start,'g:i a');
+
+            $params['status'] = 'Treatment_Upcoming';
+            $params['created_at'] = Carbon::now();
+
+            $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
+            if($cancel_exist){
+                $a_id = $cancel_exist['id'];
+
+                $params['updated_at'] = Carbon::now();
+                $updated_appointment = $this->appointmentsRepository->update($a_id, $params);
+                if($updated_appointment){
+
+                    // Treatment status update to treatment_processing
+                    $param_treatment['status'] = 'treatment_started';
+                    $param_treatment['updated_at'] = Carbon::now();
+                    $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
+
+                    // Add Notification
+                    $notification = new Notification();
+                    $notification['user_id']            = $params['user_id'];
+                    $notification['user_first_name']    = $params['user_first_name'];
+                    $notification['user_last_name']     = $params['user_last_name'];
+                    $notification['user_email']         = $params['user_email'];
+                    $notification['appointment_id']     = $a_id;
+                    $notification['treatment_id']       = $params['treatment_id'];
+                    $notification['clinic_id']          = $params['clinic_id'];
+                    $notification['package_id']         = $treatment_obj->package_id;
+                    $notification['type']               = 'booking_completed';
+                    $notification['is_read']            = 'no';
+                    $notification['is_delete']          = 'no';
+                    $notification['created_at']         = Carbon::now();
+                    $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
+                    $notification->save();
+
+                    // Add Record
+                    $record = new Record();
+                    $record['type'] = 'booking_completed';
+                    $record['appointment_id'] = $treatment_obj->appointment_id;
+                    $record['treatment_id'] = $treatment_obj->id;
+                    $record['user_id'] = $treatment_obj->user_id;
+                    $record['note'] = "<p>The Booking was completed.</p><br><p>Clinic to address : ".$params['clinic_address']." at ".$params['booked_start']."</p>";
+                    $record['created_at'] = Carbon::now();
+                    $record->save();
+
+                    // send push notification
+                    $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                    $header = [
+                        'content-type: application/json'
+                    ];
+
+                    $postdata = '{
+                    "token":  "'.$user_device_token.'",
+                    "notification": {
+                        "title": "reemarc",
+                        "body": "'.$notification['note'].'"
+                    },
+                    "data": {
+                        "notification_type": "booking_completed",
+                        "id": "'.$notification->id.'",
+                        "user_id": "'.$notification['user_id'].'",
+                        "appointment_id": "'.$notification['appointment_id'].'",
+                        "treatment_id": "'.$treatment_obj->id.'",
+                        "clinic_id": "'.$notification['clinic_id'].'",
+                        "package_id": "'.$treatment_obj->package_id.'",
+                        "is_read": "no",
+                        "is_delete": "no",
+                        "note": "'.$notification['note'].'",
+                        "created_at" : "'.Carbon::now().'"
+                    }
+                }';
+
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $url);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                    curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                    curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+                    $result = curl_exec($ch);
+                    curl_close($ch);
+
+                    $data = [
+                        'data' => [
+                            "code" => 200,
+                            "appointment" => $updated_appointment,
+                            "message" => "Data has been updated"
+                        ]
+                    ];
+
+                }else{
+                    $data = [
+                        'error' => [
+                            'code' => 404,
+                            'message' => "Data transaction filed"
+                        ]
+                    ];
+                }
+                return response()->json($data);
+            }
+
+            $double_book_a_day = $this->appointmentsRepository->check_double_book_a_day($params['user_id'], $params['booked_date']);
+            if($double_book_a_day){
+                $data = [
+                    'error' => [
+                        'code' => 400,
+                        'message' => "You have a reservation on the same day. Please reschedule or cancel existing booking."
+                    ]
+                ];
+                return response()->json($data);
+            }
+
+            $taken_book = $this->appointmentsRepository->check_taken_book($params['clinic_id'], $params['booked_start']);
+            if($taken_book){
+                $data = [
+                    'error' => [
+                        'code' => 400,
+                        'message' => "We apologize, but the reservation time you selected is already booked. Please choose a different time or check our availability for other dates."
+                    ]
+                ];
+                return response()->json($data);
+            }
+
+            $appointment = $this->appointmentsRepository->create($params);
+            if($appointment){
+
+                // Treatment status update to treatment_processing
+                $param_treatment['status'] = 'treatment_started';
+                $param_treatment['updated_at'] = Carbon::now();
+                $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
+
+                // Add Notification
+                $notification = new Notification();
+                $notification['user_id']            = $params['user_id'];
+                $notification['user_first_name']    = $params['user_first_name'];
+                $notification['user_last_name']     = $params['user_last_name'];
+                $notification['user_email']         = $params['user_email'];
+                $notification['appointment_id']     = $appointment->id;
+                $notification['treatment_id']       = $params['treatment_id'];
+                $notification['clinic_id']          = $params['clinic_id'];
+                $notification['package_id']         = $treatment_obj->package_id;
+                $notification['type']               = 'booking_completed';
+                $notification['is_read']            = 'no';
+                $notification['is_delete']          = 'no';
+                $notification['created_at']         = Carbon::now();
+                $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
+                $notification->save();
+
+                // Add Record
+                $record = new Record();
+                $record['type'] = 'booking_completed';
+                $record['appointment_id'] = $treatment_obj->appointment_id;
+                $record['treatment_id'] = $treatment_obj->id;
+                $record['user_id'] = $treatment_obj->user_id;
+                $record['note'] = "<p>The Booking was completed.</p><br><p>Clinic to address : ".$params['clinic_address']." at ".$params['booked_start']."</p>";
+                $record['created_at'] = Carbon::now();
+                $record->save();
+
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
+
+                $postdata = '{
+                "token":  "'.$user_device_token.'",
+                "notification": {
+                    "title": "reemarc",
+                    "body": "'.$notification['note'].'"
+                },
+                "data": {
+                    "notification_type": "booking_completed",
+                    "id": "'.$notification->id.'",
+                    "user_id": "'.$notification['user_id'].'",
+                    "appointment_id": "'.$notification['appointment_id'].'",
+                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "clinic_id": "'.$notification['clinic_id'].'",
+                    "package_id": "null",
+                    "is_read": "no",
+                    "is_delete": "no",
+                    "note": "'.$notification['note'].'",
+                    "created_at" : "'.Carbon::now().'"
+                }
+            }';
+
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+                $result = curl_exec($ch);
+                curl_close($ch);
+
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        'appointment' => $appointment,
+                        "message" => "Data has been created"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+                return response()->json($data);
+            }
+
         }
+
 
     }
 
