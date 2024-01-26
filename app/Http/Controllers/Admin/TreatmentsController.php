@@ -360,7 +360,7 @@ class TreatmentsController extends Controller
                 $session_list[] = [
                     'appointment_id' => $sessions[$i - 1]->id,
                     'session' => 'SESSION '.$i,
-                    'booked_start' => $sessions[$i - 1]->booked_start,
+                    'booked_start' => $sessions[$i - 1]->booked_date,
                     'status' => $status
                 ];
             }else{
