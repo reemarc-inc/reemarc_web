@@ -91,14 +91,14 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function get_upcoming_appointments_by_clinic_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->Where('status', '=', "Upcoming")->Where('clinic_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("Upcoming","Treatment_Upcoming"))->Where('clinic_id', '=', $c_id);
         return $brand->get();
     }
 
     public function get_complete_appointments_by_clinic_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->Where('status', '=', "Complete")->Where('clinic_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("Complete","Treatment_Completed"))->Where('clinic_id', '=', $c_id);
         return $brand->get();
     }
 
@@ -106,14 +106,14 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $brand = new Appointments();
         $brand = $brand->Where('user_id', '=', $c_id)
-            ->WhereIn('status', array('Upcoming', 'Treatment_Completed'));
+            ->WhereIn('status', array('Upcoming', 'Treatment_Upcoming'));
         return $brand->get();
     }
 
     public function get_complete_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->Where('status', '=', "Complete")->Where('user_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("Complete", "Treatment_Completed"))->Where('user_id', '=', $c_id);
         return $brand->get();
     }
 
