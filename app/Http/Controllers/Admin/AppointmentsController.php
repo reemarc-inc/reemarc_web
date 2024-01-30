@@ -1062,7 +1062,7 @@ class AppointmentsController extends Controller
             $params['user_phone'] = $user_obj->phone;
             $user_device_token = $user_obj->device_token;
 
-            $params['treatment_id'] = $session_exist->treatment_id;
+            $params['treatment_id'] = $session_exist->id;
             $treatment_obj = Treatments::where('id', $params['treatment_id'])->first();
             $params['clinic_id'] = $treatment_obj->clinic_id;
 
