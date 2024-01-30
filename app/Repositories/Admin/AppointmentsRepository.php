@@ -235,8 +235,8 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function check_session_exist($user_id)
     {
         $treatment = new Treatments();
-        $treatment_rs = $treatment->Where('user_id', '=', $user_id)->Where('status', '=', 'package_delivered');
-        return $treatment_rs->first();
+        $treatment_rs = $treatment->Where('user_id', '=', $user_id)->first();
+        return $treatment_rs;
 
     }
 }

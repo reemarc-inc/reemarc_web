@@ -23,6 +23,7 @@ use App\Repositories\Admin\ClinicRepository;
 
 use Illuminate\Support\Facades\Hash;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 class AppointmentsController extends Controller
 {
@@ -840,7 +841,7 @@ class AppointmentsController extends Controller
         $params['user_id'] = $param['user_id'];
 
         $session_exist = $this->appointmentsRepository->check_session_exist($params['user_id']);
-
+        Log::info($session_exist);
         if(!$session_exist){ // for first visit booking
 
             $user_obj = User::where('id', $params['user_id'])->first();
