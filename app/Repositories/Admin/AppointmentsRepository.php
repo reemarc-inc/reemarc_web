@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Admin;
 
+use App\Models\Treatments;
 use App\Repositories\Admin\Interfaces\AppointmentsRepositoryInterface;
 use DB;
 
@@ -233,10 +234,9 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
 
     public function check_session_exist($user_id)
     {
-        $aptmt = new Appointments();
-        $aptmt_rs = $aptmt->Where('user_id', '=', $user_id)
-            ->whereNotNull('treatment_id');
-        return $aptmt_rs->first();
+        $treatment = new Treatments();
+        $treatment_rs = $treatment->Where('user_id', '=', $user_id)->Where('status', '=', 'package_delivered');
+        return $treatment_rs->first();
 
     }
 }
