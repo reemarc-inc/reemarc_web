@@ -74,7 +74,7 @@ class NotificationRepository implements NotificationRepositoryInterface
                 'note as note',
                 'created_at as created_at'
             )
-            ->Where('user_id', '=', $u_id)->Where('is_delete', '=', 'no');
+            ->Where('user_id', '=', $u_id)->Where('is_delete', '=', 'no')->orderBy('id','desc');
         return $notification->get();
     }
 
