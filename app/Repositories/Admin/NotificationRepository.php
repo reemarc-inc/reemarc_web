@@ -60,22 +60,45 @@ class NotificationRepository implements NotificationRepositoryInterface
 
     public function get_notification_list_by_user_id($u_id)
     {
-        $notification = new Notification();
-        $notification =$notification
-            ->Select('type as notification_type',
-                'id as id',
-                'user_id as user_id',
-                'appointment_id as appointment_id',
-                'treatment_id as treatment_id',
-                'clinic_id as clinic_id',
-                'package_id as package_id',
-                'is_read as is_read',
-                'is_delete as is_delete',
-                'note as note',
-                'created_at as created_at'
-            )
-            ->Where('user_id', '=', $u_id)->Where('is_delete', '=', 'no')->orderBy('id','desc');
-        return $notification->get();
+//        $notification = new Notification();
+//        $notification =$notification
+//            ->Select('type as notification_type',
+//                'id as id',
+//                'user_id as user_id',
+//                'appointment_id as appointment_id',
+//                '(select status from appointments where id = appointment_id) as appointment_status',
+//                'treatment_id as treatment_id',
+//                'clinic_id as clinic_id',
+//                'package_id as package_id',
+//                'is_read as is_read',
+//                'is_delete as is_delete',
+//                'note as note',
+//                'created_at as created_at'
+//            )
+//            ->Where('user_id', '=', $u_id)->Where('is_delete', '=', 'no')->orderBy('id','desc');
+//        return $notification->get();
+
+        $result = DB::select('
+            select type as notification_type,
+                id as id,
+                user_id as user_id,
+                appointment_id as appointment_id,
+                 (select status from appointments where id = appointment_id) as appointment_status,
+                treatment_id as treatment_id,
+                clinic_id as clinic_id,
+                package_id as package_id,
+                is_read as is_read,
+                is_delete as is_delete,
+                note as note,
+                created_at as created_at
+            from notification
+            where user_id = :param_1
+              and is_delete = "no"
+              order by id desc', [
+            'param_1' => $u_id
+        ]);
+
+        return $result;
     }
 
 }
