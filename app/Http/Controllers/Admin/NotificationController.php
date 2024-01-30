@@ -170,18 +170,18 @@ class NotificationController extends Controller
         $notification_list = $this->notificationRepository->get_notification_list_by_user_id($param['user_id']);
         if(sizeof($notification_list)>0){
 
-            $list = array();
-            $check = array();
-            foreach ($notification_list as $index => $row){
-
-                if(!in_array($row->notification_type, $check)){
-                    $list[$index] = $row;
-                }
-                array_push($check, $row->notification_type);
-            }
+//            $list = array();
+//            $check = array();
+//            foreach ($notification_list as $index => $row){
+//
+//                if(!in_array($row->notification_type, $check)){
+//                    $list[$index] = $row;
+//                }
+//                array_push($check, $row->notification_type);
+//            }
 
             $data = [
-                'data' => $list
+                'data' => $notification_list
             ];
             return response()->json($data);
         }else{
