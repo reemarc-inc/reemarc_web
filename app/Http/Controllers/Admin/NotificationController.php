@@ -172,16 +172,27 @@ class NotificationController extends Controller
 
 //            $list = array();
 //            $check = array();
-//            foreach ($notification_list as $index => $row){
 //
+//            foreach ($notification_list as $index => $row){
 //                if(!in_array($row->notification_type, $check)){
 //                    $list[$index] = $row;
 //                }
 //                array_push($check, $row->notification_type);
 //            }
 
+            $list = [];
+            $check = array();
+
+            foreach ($notification_list as $row){
+                if(!in_array($row->notification_type, $check)){
+                    $list[] = array($row);
+                }
+                array_push($check, $row->notification_type);
+            }
+            $list_rs = json_encode($list);
+
             $data = [
-                'data' => $notification_list
+                'data' => $list_rs
             ];
             return response()->json($data);
         }else{
