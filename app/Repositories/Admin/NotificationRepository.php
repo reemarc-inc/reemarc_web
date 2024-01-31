@@ -79,22 +79,24 @@ class NotificationRepository implements NotificationRepositoryInterface
 //        return $notification->get();
 
         $result = DB::select('
-            select type as notification_type,
-                id as id,
-                user_id as user_id,
-                appointment_id as appointment_id,
-                 (select status from appointments where id = appointment_id) as appointment_status,
-                treatment_id as treatment_id,
-                clinic_id as clinic_id,
-                package_id as package_id,
-                is_read as is_read,
-                is_delete as is_delete,
-                note as note,
-                created_at as created_at
-            from notification
-            where user_id = :param_1
+            select n.type as notification_type,
+                n.id as id,
+                n.user_id as user_id,
+                n.appointment_id as appointment_id,
+                a.status as appointment_status,
+                t.status as treatment_status,
+                n.treatment_id as treatment_id,
+                n.clinic_id as clinic_id,
+                n.is_read as is_read,
+                n.is_delete as is_delete,
+                n.note as note,
+                n.created_at as created_at
+            from notification n
+            left join appointments a on a.id = n.appointment_id
+            left join treatments t on t.id = n.treatment_id
+            where n.user_id = :param_1
               and is_delete = "no"
-              order by id desc', [
+              order by n.id desc', [
             'param_1' => $u_id
         ]);
 
