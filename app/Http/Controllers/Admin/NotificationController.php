@@ -180,19 +180,8 @@ class NotificationController extends Controller
 //                array_push($check, $row->notification_type);
 //            }
 
-            $list = [];
-            $check = array();
-
-            foreach ($notification_list as $row){
-                if(!in_array($row->notification_type, $check)){
-                    $list[] = array($row);
-                }
-                array_push($check, $row->notification_type);
-            }
-            $list_rs = json_encode($list);
-
             $data = [
-                'data' => $list_rs
+                'data' => $notification_list
             ];
             return response()->json($data);
         }else{
