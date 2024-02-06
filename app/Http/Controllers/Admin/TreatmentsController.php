@@ -882,7 +882,7 @@ class TreatmentsController extends Controller
                 "token":  "'.$user_device_token.'",
                 "notification": {
                     "title": "reemarc",
-                    "body": "Please confirm your visit at , '.$clinic_name.' at' .$aptmt_rs['booked_time']. ' on ' . $start_format.'"
+                    "body": "Please confirm your visit at '.$clinic_name.' at' .$aptmt_rs['booked_time']. ' on ' . $start_format.'"
                 },
                 "data": {
                     "notification_type": "visit_confirm",
