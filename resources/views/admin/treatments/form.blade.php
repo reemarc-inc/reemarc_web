@@ -66,6 +66,8 @@
                                 <?php $x = 100/$treatment->session; ?>
                                 <?php if($row['status'] == 'Completed') {
                                         $bg_css = "bg-secondary"; $font_css = "color: #1a1a1a;";
+                                    }else if($row['status'] == 'Upcoming'){
+                                        $bg_css = "bg-success"; $font_css = "color: #fff;";
                                     }else if($row['status'] == 'Not Scheduled'){
                                         $bg_css = "bg-primary"; $font_css = "color: #fff;";
                                     }else if($row['status'] == 'Visit_Confirming'){
