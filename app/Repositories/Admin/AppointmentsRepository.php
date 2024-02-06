@@ -194,7 +194,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                             where treatment_id =:param_1
-                            and status in ("Treatment_Upcoming", "Treatment_Completed")
+                            and status in ("Treatment_Upcoming", "Treatment_Completed", "Visit_Confirming")
                             order by booked_start asc', [
             'param_1' => $treatment_id
         ]);

@@ -261,8 +261,18 @@ class TreatmentsController extends Controller
 
         for($i=1; $i<=$total; $i++) {
             if(isset($sessions[$i - 1])) {
+
                 $status = ($sessions[$i - 1]->status == 'Treatment_Upcoming') ? 'Upcoming' : 'Completed';
+                if($sessions[$i - 1]->status == 'Treatment_Upcoming'){
+                    $status = 'Upcoming';
+                }else if($sessions[$i - 1]->status == 'Treatment_Completed'){
+                    $status = 'Completed';
+                }else if($sessions[$i - 1]->status == 'Visit_Confirming'){
+                    $status = 'Visit_Confirming';
+                }
+
                 $session_list[] = [
+                    'num' => $i,
                     'appointment_id' => $sessions[$i - 1]->id,
                     'session' => 'SESSION '.$i,
                     'booked_start' => $sessions[$i - 1]->booked_start,
@@ -270,6 +280,7 @@ class TreatmentsController extends Controller
                 ];
             }else{
                 $session_list[] = [
+                    'num' => $i,
                     'appointment_id' => null,
                     'session' => 'SESSION '.$i,
                     'booked_start' => $month_rule[$i],
@@ -277,6 +288,9 @@ class TreatmentsController extends Controller
                 ];
             }
         }
+
+//        ddd($session_list);
+        $this->data['session_list'] = $session_list;
 
         if($this->data['package']) {
             $this->data['package_obj'] = $this->packageRepository->findById($treatment_obj->package_id);

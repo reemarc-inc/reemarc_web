@@ -43,22 +43,39 @@
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
-                                <h4>Treatment Schedule : {{ $treatment->session }} Sessions  / {{ $sessions[$treatment->session] }} Sessions</h4>
+                                <h4>Treatment Schedule : {{ $treatment->session }} Sessions  / {{ $sessions[$treatment->session] }} Months</h4>
                             </div>
 
                             <div class="card-body">
 
-                                <?php for($i=1; $i<=$treatment->session; $i++) { ?>
+{{--                                <?php for($i=1; $i<=$treatment->session; $i++) { ?>--}}
+{{--                                <?php $x = 100/$treatment->session; ?>--}}
+{{--                                <?php if(count($current_session) >= $i) {--}}
+{{--                                    $bg_css = "bg-secondary"; $font_css = "color: #1a1a1a;";--}}
+{{--                                }else{--}}
+{{--                                    $bg_css = "bg-primary"; $font_css = "color: #fff;";--}}
+{{--                                }--}}
+{{--                                ?>--}}
+{{--                                <div class="progress mb-3" style="height: 30px; border-radius: 0.75rem;">--}}
+{{--                                    <div class="progress-bar {{ $bg_css }}" role="progressbar" data-width="{{$i*$x}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">Session {{ $i }}  {{ !empty($current_session[$i-1]) ? "   [ ".date("m/d/y g A", strtotime($current_session[$i-1]->booked_start))." ]" : ''}} </div>--}}
+{{--                                </div>--}}
+{{--                                <?php } ?>--}}
+
+                                <?php $i=1; ?>
+                                <?php foreach ($session_list as $row) { ?>
                                 <?php $x = 100/$treatment->session; ?>
-                                <?php if(count($current_session) >= $i) {
-                                    $bg_css = "bg-secondary"; $font_css = "color: #1a1a1a;";
-                                }else{
-                                    $bg_css = "bg-primary"; $font_css = "color: #fff;";
-                                }
+                                <?php if($row['status'] == 'Completed') {
+                                        $bg_css = "bg-secondary"; $font_css = "color: #1a1a1a;";
+                                    }else if($row['status'] == 'Not Scheduled'){
+                                        $bg_css = "bg-primary"; $font_css = "color: #fff;";
+                                    }else if($row['status'] == 'Visit_Confirming'){
+                                        $bg_css = "bg-danger"; $font_css = "color: #fff;";
+                                    }
                                 ?>
-                                <div class="progress mb-3" style="height: 30px; border-radius: 0.75rem;">
-                                    <div class="progress-bar {{ $bg_css }}" role="progressbar" data-width="{{$i*$x}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">Session {{ $i }}  {{ !empty($current_session[$i-1]) ? "   [ ".date("m/d/y g A", strtotime($current_session[$i-1]->booked_start))." ]" : ''}} </div>
-                                </div>
+                                    <div class="progress mb-3" style="height: 30px; border-radius: 0.75rem;">
+                                        <div class="progress-bar {{$bg_css}}" role="progressbar" data-width="{{$i*$x}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">{{ $row['session'] }} [{{ date("m/d/y g A", strtotime($row['booked_start'])) }}] - {{ $row['status'] }}</div>
+                                    </div>
+                                <?php  $i++;?>
                                 <?php } ?>
                             </div>
 
