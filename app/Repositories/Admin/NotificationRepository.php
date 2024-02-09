@@ -84,8 +84,8 @@ class NotificationRepository implements NotificationRepositoryInterface
                 n.user_id as user_id,
                 n.appointment_id as appointment_id,
                 a.status as appointment_status,
-                t.status as treatment_status,
-                n.treatment_id as treatment_id,
+                (select status from treatments where appointment_id = a.id) as treatment_status,
+                (select id from treatments where appointment_id = a.id) as treatment_id,
                 n.clinic_id as clinic_id,
                 n.is_read as is_read,
                 n.is_delete as is_delete,
@@ -93,7 +93,6 @@ class NotificationRepository implements NotificationRepositoryInterface
                 n.created_at as created_at
             from notification n
             left join appointments a on a.id = n.appointment_id
-            left join treatments t on t.id = n.treatment_id
             where n.user_id = :param_1
               and is_delete = "no"
               order by n.id desc', [
