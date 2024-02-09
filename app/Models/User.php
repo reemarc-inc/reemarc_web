@@ -35,6 +35,7 @@ class User extends Authenticatable
         'gender',
         'yob',
         'device_token',
+        'sns_login',
         'payment_customer_id',
         'image',
         'firebase_image',

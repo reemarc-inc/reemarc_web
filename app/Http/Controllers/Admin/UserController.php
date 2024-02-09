@@ -323,6 +323,7 @@ class UserController extends Controller
             'gender',
             'yob',
             'device_token',
+            'sns_login',
             'created_at',
             'updated_at'
         )->get();
@@ -511,6 +512,7 @@ class UserController extends Controller
                 'gender',
                 'yob',
                 'device_token',
+                'sns_login',
                 'image',
                 'firebase_image',
                 'created_at',
