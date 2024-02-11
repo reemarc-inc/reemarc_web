@@ -305,6 +305,10 @@ class NotificationController extends Controller
         $record['created_at'] = Carbon::now();
         $record->save();
 
+        // Update status on user table
+        $u_params['status'] = 'location_confirm';
+        $this->userRepository->update($user_id, $u_params);
+
         try {
             if ($this->treatmentsRepository->update($treatment_id, $params)){
                 $data = [
@@ -370,6 +374,10 @@ class NotificationController extends Controller
         $record['note'] = "<p>We have confirmed the patient's visit.</p>";
         $record['created_at'] = Carbon::now();
         $record->save();
+
+        // Update status on user table
+        $u_params['status'] = 'session_completed';
+        $this->userRepository->update($appointment_obj->user_id, $u_params);
 
         try {
             $updated_appointment = $this->appointmentsRepository->update($appointment_id, $params);

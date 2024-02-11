@@ -467,6 +467,11 @@ class TreatmentsController extends Controller
             $record['note'] = "<p>The package selection has been completed.</p>";
             $record['created_at'] = Carbon::now();
             $record->save();
+
+            // Update status on user table
+            $u_params['status'] = 'package_ready';
+            $this->userRepository->update($user_id, $u_params);
+
         }
         $treatment_param['updated_at'] = Carbon::now();
 
@@ -546,6 +551,10 @@ class TreatmentsController extends Controller
             $record['note'] = "<p>The package order has been successfully completed.</p>";
             $record['created_at'] = Carbon::now();
             $record->save();
+
+            // Update status on user table
+            $u_params['status'] = 'package_ready';
+            $this->userRepository->update($user_id, $u_params);
 
             // send push notification
             $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
@@ -644,6 +653,10 @@ class TreatmentsController extends Controller
             $record['created_at'] = Carbon::now();
             $record->save();
 
+            // Update status on user table
+            $u_params['status'] = 'location_sent';
+            $this->userRepository->update($user_id, $u_params);
+
             // send push notification
             $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
             $header = [
@@ -729,6 +742,10 @@ class TreatmentsController extends Controller
             $record['created_at'] = Carbon::now();
             $record->save();
 
+            // Update status on user table
+            $u_params['status'] = 'package_shipped';
+            $this->userRepository->update($user_id, $u_params);
+
             return "success";
 
         } catch (\Exception $e) {
@@ -787,6 +804,10 @@ class TreatmentsController extends Controller
             $record['note'] = "<p>This package has been successfully delivered.</p>";
             $record['created_at'] = Carbon::now();
             $record->save();
+
+            // Update status on user table
+            $u_params['status'] = 'package_delivered';
+            $this->userRepository->update($user_id, $u_params);
 
             // send push notification
             $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
@@ -878,13 +899,17 @@ class TreatmentsController extends Controller
 
             // Add Record
             $record = new Record();
-            $record['type'] = 'visit_confirm';
+            $record['type'] = 'visit_confirming';
             $record['appointment_id'] = $aptmt_rs['id'];
             $record['treatment_id'] = $treatment_id;
             $record['user_id'] = $treatment_obj->user_id;
             $record['note'] = "<p>The notification has been successfully sent.</p>";
             $record['created_at'] = Carbon::now();
             $record->save();
+
+            // Update status on user table
+            $u_params['status'] = 'visit_confirming';
+            $this->userRepository->update($treatment_obj->user_id, $u_params);
 
             // send push notification
             $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";

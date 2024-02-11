@@ -457,10 +457,16 @@ class AppointmentsController extends Controller
             $record['created_at'] = Carbon::now();
             $record->save();
 
+            // Update status on User table
+            $u_params['status'] = 'follow_up_completed';
+            $this->userRepository->update($appointment->user_id, $u_params);
+
         }
 
         $param_ap['treatment_id'] = $treatment_obj->id;
         $this->appointmentsRepository->update($appointment_id, $param_ap);
+
+
 
         return redirect('admin/appointment_follow_up')
             ->with('success', 'Follow Up Success!');
@@ -561,13 +567,17 @@ class AppointmentsController extends Controller
 
                 // Add Record
                 $record = new Record();
-                $record['type'] = 'booking_completed';
+                $record['type'] = 'treatment_started';
                 $record['appointment_id'] = $treatment_obj->appointment_id;
                 $record['treatment_id'] = $treatment_obj->id;
                 $record['user_id'] = $treatment_obj->user_id;
                 $record['note'] = "<p>The Booking was completed.</p><br><p>Clinic to address : ".$params['clinic_address']." at ".$params['booked_start']."</p>";
                 $record['created_at'] = Carbon::now();
                 $record->save();
+
+                // Update status on user table
+                $u_params['status'] = 'session_booked';
+                $this->userRepository->update($treatment_obj->user_id, $u_params);
 
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
@@ -886,6 +896,10 @@ class AppointmentsController extends Controller
                 $updated_appointment = $this->appointmentsRepository->update($a_id, $params);
                 if($updated_appointment){
 
+                    // Update status on User table
+                    $u_params['status'] = 'first_appointment_booked';
+                    $this->userRepository->update($params['user_id'], $u_params);
+
                     // Add Notification
                     $notification = new Notification();
                     $notification['user_id']            = $params['user_id'];
@@ -984,6 +998,10 @@ class AppointmentsController extends Controller
 
             $appointment = $this->appointmentsRepository->create($params);
             if($appointment){
+
+                // Update status on user table
+                $u_params['status'] = 'first_appointment_booked';
+                $this->userRepository->update($params['user_id'], $u_params);
 
                 // Add Notification
                 $notification = new Notification();
@@ -1130,6 +1148,10 @@ class AppointmentsController extends Controller
                     $record['created_at'] = Carbon::now();
                     $record->save();
 
+                    // Update status on User table
+                    $u_params['status'] = 'session_booked';
+                    $this->userRepository->update($params['user_id'], $u_params);
+
                     // send push notification
                     $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                     $header = [
@@ -1244,6 +1266,10 @@ class AppointmentsController extends Controller
                 $record['created_at'] = Carbon::now();
                 $record->save();
 
+                // Update status on User table
+                $u_params['status'] = 'session_booked';
+                $this->userRepository->update($params['user_id'], $u_params);
+
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
@@ -1335,6 +1361,10 @@ class AppointmentsController extends Controller
             $user_device_token = $user_obj->device_token;
 
             if ($appt) {
+
+                // Update status on User table
+                $u_params['status'] = 'booking_cancelled';
+                $this->userRepository->update($appt->user_id, $u_params);
 
                 // Add Notification
                 $notification = new Notification();
