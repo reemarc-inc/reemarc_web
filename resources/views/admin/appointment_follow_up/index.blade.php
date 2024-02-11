@@ -32,7 +32,7 @@
                                         <div class="badge badge-pill badge-primary mb-1 float-right">Completed</div>
                                         <?php } ?>
 
-                                    <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }}</h6>
+                                    <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }} [{{$appointment->id}}]</h6>
                                     <div class="text-small text-muted">Patient
                                         <?php if( $appointment->booked_date == Carbon\Carbon::now()->format('Y-m-d')) { ?>
                                         <div class="bullet"></div> <span class="text-danger">Today</span>

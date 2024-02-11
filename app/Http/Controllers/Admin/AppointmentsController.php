@@ -457,9 +457,15 @@ class AppointmentsController extends Controller
             $record['created_at'] = Carbon::now();
             $record->save();
 
-            return redirect('admin/appointment_follow_up')
-                ->with('success', 'Follow Up Success!');
         }
+
+        $param_ap['treatment_id'] = $treatment_obj->id;
+        $this->appointmentsRepository->update($appointment_id, $param_ap);
+
+        return redirect('admin/appointment_follow_up')
+            ->with('success', 'Follow Up Success!');
+
+
     }
 
     public function follow_up_pending(Request $request)
