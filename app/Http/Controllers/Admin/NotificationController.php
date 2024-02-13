@@ -306,7 +306,7 @@ class NotificationController extends Controller
         $record->save();
 
         // Update status on user table
-        $u_params['status'] = 'location_confirm';
+        $u_params['status'] = 'location_confirmed';
         $this->userRepository->update($user_id, $u_params);
 
         try {
