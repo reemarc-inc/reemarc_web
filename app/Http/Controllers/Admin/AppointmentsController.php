@@ -877,7 +877,7 @@ class AppointmentsController extends Controller
             $start = \DateTime::createFromFormat('Y-m-d H:i', $param['booked_start']);
             $end = (\DateTime::createFromFormat("Y-m-d H:i", $param['booked_start']))->add(new \DateInterval("PT".$clinic_obj->duration."M"));
             $params['booked_start'] = $start->format('Y-m-d H:i');
-            $date_for_notification = $start->format('M j, Y');
+            $date_for_notification = $start->format('M j');
             $params['booked_end'] = $end->format('Y-m-d H:i');
             $params['booked_day'] = date_format($start,'D');
             $params['booked_date'] = date_format($start,'Y-m-d');
@@ -912,7 +912,7 @@ class AppointmentsController extends Controller
                     $notification['is_read']            = 'no';
                     $notification['is_delete']          = 'no';
                     $notification['created_at']         = Carbon::now();
-                    $notification['note']               = "Your booking at ". $params['clinic_name'] . " is at " . $params['booked_time'] . " " . $date_for_notification . " has been completed.";
+                    $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
                     $notification->save();
 
                     // send push notification
@@ -1382,9 +1382,9 @@ class AppointmentsController extends Controller
                 $notification['created_at']         = Carbon::now();
 
                 $start = \DateTime::createFromFormat('Y-m-d H:i:s', $appt->booked_start);
-                $date_for_notification = $start->format('M j, Y');
+                $date_for_notification = $start->format('M j');
 
-                $notification['note']               = "Your booking at ". $appt->clinic_name . " is at " . $appt->booked_time . " " . $date_for_notification . " has been cancelled.";
+                $notification['note']               = $appt->clinic_name . " " . $appt->booked_time . " " . $date_for_notification;
                 $notification->save();
 
                 // send push notification

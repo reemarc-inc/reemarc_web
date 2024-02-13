@@ -539,7 +539,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = "reemarc doctors have chosen a treatment package for you";
+            $notification['note']               = "Estimated treatment duration " . $treatment_obj->month . " months" ;
             $notification->save();
 
             // Add Record
@@ -792,7 +792,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = "You are all set to receive a treatment and package.";
+            $notification['note']               = "To receive a treatment, Please make an appointment with reemarc";
             $notification->save();
 
             // Add Record
