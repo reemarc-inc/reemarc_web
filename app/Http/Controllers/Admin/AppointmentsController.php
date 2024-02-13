@@ -562,7 +562,7 @@ class AppointmentsController extends Controller
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
                 $notification['created_at']         = Carbon::now();
-                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
+                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . ", " . $date_for_notification;
                 $notification->save();
 
                 // Add Record
@@ -680,7 +680,7 @@ class AppointmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
+            $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . ", " . $date_for_notification;
             $notification->save();
 
             // Add Record
@@ -784,7 +784,7 @@ class AppointmentsController extends Controller
                 $start = \DateTime::createFromFormat('Y-m-d H:i:s', $appt->booked_start);
                 $date_for_notification = $start->format('M j');
 
-                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
+                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . ", " . $date_for_notification;
                 $notification->save();
 
                 // send push notification
@@ -912,7 +912,7 @@ class AppointmentsController extends Controller
                     $notification['is_read']            = 'no';
                     $notification['is_delete']          = 'no';
                     $notification['created_at']         = Carbon::now();
-                    $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
+                    $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . ", " . $date_for_notification;
                     $notification->save();
 
                     // send push notification
@@ -1017,7 +1017,7 @@ class AppointmentsController extends Controller
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
                 $notification['created_at']         = Carbon::now();
-                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
+                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . ", " . $date_for_notification;
                 $notification->save();
 
                 // send push notification
@@ -1135,7 +1135,7 @@ class AppointmentsController extends Controller
                     $notification['is_read']            = 'no';
                     $notification['is_delete']          = 'no';
                     $notification['created_at']         = Carbon::now();
-                    $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
+                    $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . ", " . $date_for_notification;
                     $notification->save();
 
                     // Add Record
@@ -1253,7 +1253,7 @@ class AppointmentsController extends Controller
                 $notification['is_read']            = 'no';
                 $notification['is_delete']          = 'no';
                 $notification['created_at']         = Carbon::now();
-                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . " " . $date_for_notification;
+                $notification['note']               = $params['clinic_name'] . " " . $params['booked_time'] . ", " . $date_for_notification;
                 $notification->save();
 
                 // Add Record
