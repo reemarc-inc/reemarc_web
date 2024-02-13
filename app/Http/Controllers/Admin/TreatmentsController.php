@@ -878,7 +878,7 @@ class TreatmentsController extends Controller
             $clinic_obj = $this->clinicRepository->findById($treatment_obj->clinic_id);
             $clinic_name = $clinic_obj->name;
             $start = \DateTime::createFromFormat('Y-m-d H:i:s', $aptmt_rs['booked_start']);
-            $start_format = $start->format('F j, Y');
+            $start_format = $start->format('F j');
 
             // Add Notification
             $notification = new Notification();
@@ -894,7 +894,7 @@ class TreatmentsController extends Controller
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
             $notification['created_at']         = Carbon::now();
-            $notification['note']               = "Please confirm your visit at , " .$clinic_name. " at ". $aptmt_rs['booked_time']. " on " . $start_format;
+            $notification['note']               = $clinic_name . " " . $aptmt_rs['booked_time'] . ", " . $start_format;
             $notification->save();
 
             // Add Record
