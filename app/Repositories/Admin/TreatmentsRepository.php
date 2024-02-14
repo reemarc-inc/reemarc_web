@@ -42,7 +42,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                 left join appointments a on a.id = t.appointment_id
                 where t.status in ("treatment_started")
                   ' . $region_filter . '
-                order by a.booked_start asc');
+                order by t.id desc');
     }
 
     public function findById($id)
