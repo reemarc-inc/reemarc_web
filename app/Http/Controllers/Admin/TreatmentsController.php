@@ -553,7 +553,7 @@ class TreatmentsController extends Controller
             $record->save();
 
             // Update status on user table
-            $u_params['status'] = 'package_ready';
+            $u_params['status'] = 'package_ordered';
             $this->userRepository->update($user_id, $u_params);
 
             // send push notification
