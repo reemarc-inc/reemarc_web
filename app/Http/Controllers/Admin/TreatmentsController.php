@@ -909,7 +909,13 @@ class TreatmentsController extends Controller
 
             // Update status on user table
             $u_params['status'] = 'visit_confirming';
+            $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($treatment_obj->user_id, $u_params);
+
+            $t_params['status'] = 'visit_confirming';
+            $t_params['updated_at'] = Carbon::now();
+            $this->treatmentsRepository->update($treatment_id, $t_params);
+
 
             // send push notification
             $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
