@@ -352,7 +352,7 @@ class NotificationController extends Controller
         $appointment_id = $apmt_rs['id'];
         $appointment_obj = $this->appointmentsRepository->findById($appointment_id);
 
-        if($appointment_obj->status == 'Treatment_Completed'){
+        if($appointment_obj->status == 'session_completed'){
             $data = [
                 'error' => [
                     'code' => 404,
@@ -362,12 +362,12 @@ class NotificationController extends Controller
             return response()->json($data);
         }
 
-        $params['status'] = 'Treatment_Completed';
+        $params['status'] = 'session_completed';
         $params['updated_at'] = Carbon::now();
 
         // Add Record
         $record = new Record();
-        $record['type'] = 'visit_confirmed';
+        $record['type'] = 'session_completed';
         $record['appointment_id'] = $appointment_id;
         $record['treatment_id'] = $treatment_id;
         $record['user_id'] = $appointment_obj->user_id;
@@ -377,7 +377,13 @@ class NotificationController extends Controller
 
         // Update status on user table
         $u_params['status'] = 'session_completed';
+        $u_params['updated_at'] = Carbon::now();
         $this->userRepository->update($appointment_obj->user_id, $u_params);
+
+        // Update status on treatment table
+        $t_params['status'] = 'session_completed';
+        $t_params['updated_at'] = Carbon::now();
+        $this->treatmentsRepository->update($treatment_id, $t_params);
 
         try {
             $updated_appointment = $this->appointmentsRepository->update($appointment_id, $params);
