@@ -40,7 +40,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                     a.created_at as created_at
                 from treatments t
                 left join appointments a on a.id = t.appointment_id
-                where t.status in ("treatment_started")
+                where t.status in ("first_session_booked", "session_completed", "session_booked", "visit_confirming")
                   ' . $region_filter . '
                 order by t.id desc');
     }
