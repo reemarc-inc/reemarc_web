@@ -40,7 +40,10 @@
 {{--                        <?php } ?>--}}
 
                         <?php if($treatment->package_id != null){ ?>
-                        <?php if($treatment->status == 'first_session_booked' || 'visit_confirming' || 'session_completed' || 'session_booked' ) { ?>
+                        <?php if( ($treatment->status == 'first_session_booked') ||
+                            ($treatment->status == 'visit_confirming') ||
+                                ($treatment->status == 'session_completed') ||
+                                    ($treatment->status == 'session_booked') ) { ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
