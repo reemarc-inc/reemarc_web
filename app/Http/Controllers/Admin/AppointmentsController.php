@@ -1079,7 +1079,7 @@ class AppointmentsController extends Controller
         }else{
 
             $check_first_session = $this->appointmentsRepository->check_first_session($params['user_id']);
-            if($check_first_session && $check_first_session->status == 'First_Session_Upcoming'){
+            if($check_first_session && $check_first_session->status == 'First_Session_Upcoming'){ // if first session
                 $aptmt_id = $check_first_session->id;
                 $params['status'] = 'Cancel';
                 $params['updated_at'] = Carbon::now();
@@ -1113,7 +1113,7 @@ class AppointmentsController extends Controller
             $params['booked_date'] = date_format($start,'Y-m-d');
             $params['booked_time'] = date_format($start,'g:i a');
 
-            $params['status'] = 'Treatment_Upcoming';
+            $params['status'] = 'session_booked';
             $params['created_at'] = Carbon::now();
 
             $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
@@ -1125,7 +1125,7 @@ class AppointmentsController extends Controller
                 if($updated_appointment){
 
                     // Treatment status update to treatment_processing
-                    $param_treatment['status'] = 'treatment_started';
+                    $param_treatment['status'] = 'session_booked';
                     $param_treatment['updated_at'] = Carbon::now();
                     $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
 
@@ -1243,7 +1243,7 @@ class AppointmentsController extends Controller
             if($appointment){
 
                 // Treatment status update to treatment_processing
-                $param_treatment['status'] = 'treatment_started';
+                $param_treatment['status'] = 'session_booked';
                 $param_treatment['updated_at'] = Carbon::now();
                 $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
 
@@ -1266,7 +1266,7 @@ class AppointmentsController extends Controller
 
                 // Add Record
                 $record = new Record();
-                $record['type'] = 'booking_completed';
+                $record['type'] = 'session_booked';
                 $record['appointment_id'] = $treatment_obj->appointment_id;
                 $record['treatment_id'] = $treatment_obj->id;
                 $record['user_id'] = $treatment_obj->user_id;
