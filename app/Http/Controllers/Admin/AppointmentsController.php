@@ -1251,7 +1251,7 @@ class AppointmentsController extends Controller
             if($appointment){
 
                 // Treatment status update to treatment_processing
-                $param_treatment['status'] = 'session_booked';
+                $param_treatment['status'] = $status;
                 $param_treatment['updated_at'] = Carbon::now();
                 $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
 
@@ -1274,7 +1274,7 @@ class AppointmentsController extends Controller
 
                 // Add Record
                 $record = new Record();
-                $record['type'] = 'session_booked';
+                $record['type'] = $status;
                 $record['appointment_id'] = $treatment_obj->appointment_id;
                 $record['treatment_id'] = $treatment_obj->id;
                 $record['user_id'] = $treatment_obj->user_id;
@@ -1283,7 +1283,7 @@ class AppointmentsController extends Controller
                 $record->save();
 
                 // Update status on User table
-                $u_params['status'] = 'session_booked';
+                $u_params['status'] = $status;
                 $this->userRepository->update($params['user_id'], $u_params);
 
                 // send push notification

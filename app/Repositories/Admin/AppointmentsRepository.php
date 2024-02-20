@@ -140,7 +140,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                            where user_id =:param_1
-                             and status = "Upcoming"
+                             and status in ("Upcoming", "first_session_booked", "session_booked")
                              and booked_date =:param_2', [
                                 'param_1' => $user_id,
                                 'param_2' => $booked_date
@@ -152,7 +152,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                            where clinic_id =:param_1
-                             and status = "Upcoming"
+                             and status in ("Upcoming", "first_session_booked", "session_booked")
                              and booked_start =:param_2', [
             'param_1' => $clinic_id,
             'param_2' => $booked_start
