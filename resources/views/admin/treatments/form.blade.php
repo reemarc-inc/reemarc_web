@@ -39,7 +39,8 @@
 
 {{--                        <?php } ?>--}}
 
-                        <?php if( ($treatment->package_id != null) && ($treatment->status == ('first_session_booked' || 'visit_confirming' || 'session_completed' || 'session_booked' ) )){ ?>
+                        <?php if($treatment->package_id != null){ ?>
+                        <?php if($treatment->status == 'first_session_booked' || 'visit_confirming' || 'session_completed' || 'session_booked' ) { ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
@@ -89,6 +90,7 @@
                                     <?php } ?>
                             </div>
                         </div>
+                        <?php } ?>
                         <?php } ?>
 
                         <div class="card">
