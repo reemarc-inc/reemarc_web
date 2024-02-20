@@ -1078,13 +1078,13 @@ class AppointmentsController extends Controller
 
         }else{
 
-            $check_first_session = $this->appointmentsRepository->check_first_session($params['user_id']);
-            if($check_first_session && $check_first_session->status == 'First_Session_Upcoming'){ // if first session
-                $aptmt_id = $check_first_session->id;
-                $params['status'] = 'Cancel';
-                $params['updated_at'] = Carbon::now();
-                $this->appointmentsRepository->update($aptmt_id, $params);
-            }
+//            $check_first_session = $this->appointmentsRepository->check_first_session($params['user_id']);
+//            if($check_first_session && $check_first_session->status == 'First_Session_Upcoming'){ // if first session
+//                $aptmt_id = $check_first_session->id;
+//                $params['status'] = 'Cancel';
+//                $params['updated_at'] = Carbon::now();
+//                $this->appointmentsRepository->update($aptmt_id, $params);
+//            }
 
             // for session booking (treatment_id exist!)
             $user_obj = User::where('id', $params['user_id'])->first();
