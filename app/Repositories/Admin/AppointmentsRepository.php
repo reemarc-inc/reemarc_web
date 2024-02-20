@@ -235,8 +235,19 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function check_session_exist($user_id)
     {
         $treatment = new Treatments();
-        $treatment_rs = $treatment->Where('user_id', '=', $user_id)->first();
+        $treatment_rs = $treatment->Where('user_id', '=', $user_id)
+            ->OrderBy('id', 'desc')
+            ->first();
         return $treatment_rs;
 
+    }
+
+    public function check_first_session($user_id)
+    {
+        $appointment = new Appointments();
+        $appointment_rs = $appointment->Where('user_id', '=', $user_id)
+            ->OrderBy('id', 'desc')
+            ->first();
+        return $appointment_rs;
     }
 }
