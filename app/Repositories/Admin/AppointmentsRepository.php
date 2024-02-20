@@ -214,7 +214,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $aptmt = new Appointments();
         $aptmt_rs = $aptmt->Where('treatment_id', '=', $treatment_id)
-            ->WhereIn('status', array('Treatment_Upcoming', 'Treatment_Completed', 'Visit_Confirming'))
+            ->WhereIn('status', array('first_session_booked', 'session_booked', 'Visit_Confirming', 'session_completed'))
             ->OrderBy('booked_start', 'desc')
             ->first();
 
