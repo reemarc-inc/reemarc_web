@@ -422,6 +422,11 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                 order by booked_start asc');
     }
 
-
+    public function get_treatment_status_by_user_id($user_id)
+    {
+        $treatment = new Treatments();
+        $treatment_rs = $treatment->Where('user_id', '=', $user_id)->first();
+        return $treatment_rs;
+    }
 
 }

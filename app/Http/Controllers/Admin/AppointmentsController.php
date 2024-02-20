@@ -1078,6 +1078,14 @@ class AppointmentsController extends Controller
 
         }else{
 
+            $rs = $this->treatmentsRepository->get_treatment_status_by_user_id($params['user_id']);
+            if($rs && ($rs->status == 'package_delivered') ){
+                $status = 'first_session_booked';
+            }else{
+                $status = 'session_booked';
+            }
+
+
 //            $check_first_session = $this->appointmentsRepository->check_first_session($params['user_id']);
 //            if($check_first_session && $check_first_session->status == 'First_Session_Upcoming'){ // if first session
 //                $aptmt_id = $check_first_session->id;
@@ -1113,7 +1121,7 @@ class AppointmentsController extends Controller
             $params['booked_date'] = date_format($start,'Y-m-d');
             $params['booked_time'] = date_format($start,'g:i a');
 
-            $params['status'] = 'session_booked';
+            $params['status'] = $status;
             $params['created_at'] = Carbon::now();
 
             $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
@@ -1125,7 +1133,7 @@ class AppointmentsController extends Controller
                 if($updated_appointment){
 
                     // Treatment status update to treatment_processing
-                    $param_treatment['status'] = 'session_booked';
+                    $param_treatment['status'] = $status;
                     $param_treatment['updated_at'] = Carbon::now();
                     $this->treatmentsRepository->update($treatment_obj->id, $param_treatment);
 
@@ -1148,7 +1156,7 @@ class AppointmentsController extends Controller
 
                     // Add Record
                     $record = new Record();
-                    $record['type'] = 'booking_completed';
+                    $record['type'] = $status;
                     $record['appointment_id'] = $treatment_obj->appointment_id;
                     $record['treatment_id'] = $treatment_obj->id;
                     $record['user_id'] = $treatment_obj->user_id;
@@ -1157,7 +1165,7 @@ class AppointmentsController extends Controller
                     $record->save();
 
                     // Update status on User table
-                    $u_params['status'] = 'session_booked';
+                    $u_params['status'] = $status;
                     $this->userRepository->update($params['user_id'], $u_params);
 
                     // send push notification
