@@ -80,12 +80,12 @@ class NotificationRepository implements NotificationRepositoryInterface
 
         $result = DB::select('
             select n.type as notification_type,
-                n.id as id,
+                 n.id as id,
                 n.user_id as user_id,
                 n.appointment_id as appointment_id,
-                a.status as appointment_status,
                 n.treatment_id as treatment_id,
-                u.status as treatment_status,
+                u.appointment_status as appointment_status,
+                u.treatment_status as treatment_status,
                 n.clinic_id as clinic_id,
                 n.is_read as is_read,
                 n.is_delete as is_delete,
