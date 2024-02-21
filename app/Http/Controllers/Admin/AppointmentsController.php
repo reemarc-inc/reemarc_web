@@ -1079,16 +1079,22 @@ class AppointmentsController extends Controller
         }else{
 
             $rs = $this->treatmentsRepository->get_treatment_status_by_user_id($params['user_id']);
-            if($rs && ($rs->status == 'package_delivered' || $rs->status == 'first_session_booked') ){
-                $status = 'first_session_booked';
+            if($rs) {
+                if($rs->status == 'package_delivered' || $rs->status == 'first_session_booked'){
+                    $status = 'first_session_booked';
+                }else{
+                    $status = 'session_booked';
+                }
             }else{
                 $status = 'session_booked';
             }
-            
-            if($rs->status == 'first_session_booked'){
-                $first_session_obj = $this->appointmentsRepository->get_fisrt_session_obj($params['user_id']);
-                $apt_id = $first_session_obj->id;
-                $this->appointmentsRepository->delete($apt_id);
+
+            if($rs){
+                if($rs->status == 'first_session_booked'){
+                    $first_session_obj = $this->appointmentsRepository->get_first_session_obj($params['user_id']);
+                    $apt_id = $first_session_obj->id;
+                    $this->appointmentsRepository->delete($apt_id);
+                }
             }
 
             // for session booking (treatment_id exist!)

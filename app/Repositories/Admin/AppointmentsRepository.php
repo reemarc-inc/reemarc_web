@@ -243,7 +243,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
 
     }
 
-    public function get_fisrt_session_obj($user_id)
+    public function get_first_session_obj($user_id)
     {
         $appointment = new Appointments();
         $appointment_rs = $appointment->Where('user_id', '=', $user_id)
