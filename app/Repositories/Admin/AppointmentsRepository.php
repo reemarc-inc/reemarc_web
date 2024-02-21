@@ -68,7 +68,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         if($status != '') {
             $status_filter = ' and status ="' . $status . '" ';
         }else{
-            $status_filter = ' and status in ("Upcoming", "Complete") ';
+            $status_filter = ' and status in ("upcoming", "complete") ';
         }
 
         return DB::select(
@@ -85,21 +85,21 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function get_upcoming_appointments()
     {
         $brand = new Appointments();
-        $brand = $brand->Where('status', '=', "Upcoming");
+        $brand = $brand->Where('status', array("upcoming", "first_session_booked", "session_booked"));
         return $brand->get();
     }
 
     public function get_upcoming_appointments_by_clinic_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->WhereIn('status', array("Upcoming","Treatment_Upcoming"))->Where('clinic_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("upcoming","first_session_booked", "session_booked"))->Where('clinic_id', '=', $c_id);
         return $brand->get();
     }
 
     public function get_complete_appointments_by_clinic_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->WhereIn('status', array("Complete","Treatment_Completed"))->Where('clinic_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("complete","session_completed"))->Where('clinic_id', '=', $c_id);
         return $brand->get();
     }
 
@@ -107,21 +107,21 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $brand = new Appointments();
         $brand = $brand->Where('user_id', '=', $c_id)
-            ->WhereIn('status', array('Upcoming', 'Visit_Confirming', 'first_session_booked', 'session_booked'));
+            ->WhereIn('status', array('upcoming', 'first_session_booked', 'session_booked'));
         return $brand->get();
     }
 
     public function get_complete_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->WhereIn('status', array("Complete", "session_completed"))->Where('user_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("complete", "session_completed"))->Where('user_id', '=', $c_id);
         return $brand->get();
     }
 
     public function get_cancel_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->Where('status', '=', "Cancel")->Where('user_id', '=', $c_id);
+        $brand = $brand->Where('status', '=', "cancel")->Where('user_id', '=', $c_id);
         return $brand->get();
     }
 
@@ -130,7 +130,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select clinic_id, booked_start, booked_end
                             from appointments
                             where clinic_id =:param_1
-                            and status = "Upcoming"', [
+                            and status in ("upcoming", "first_session_booked", "session_booked")', [
                                 'param_1' => $c_id
         ]);
     }
@@ -140,7 +140,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                            where user_id =:param_1
-                             and status in ("Upcoming", "first_session_booked", "session_booked")
+                             and status in ("upcoming", "first_session_booked", "session_booked")
                              and booked_date =:param_2', [
                                 'param_1' => $user_id,
                                 'param_2' => $booked_date
@@ -152,7 +152,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return DB::select('select *
                             from appointments
                            where clinic_id =:param_1
-                             and status in ("Upcoming", "first_session_booked", "session_booked")
+                             and status in ("upcoming", "first_session_booked", "session_booked")
                              and booked_start =:param_2', [
             'param_1' => $clinic_id,
             'param_2' => $booked_start
@@ -165,7 +165,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         $aptmt_rs = $aptmt->Where('user_id', '=', $user_id)
             ->Where('clinic_id', '=', $clinic_id)
             ->Where('booked_start', '=', $booked_start)
-            ->Where('status', '=', 'Cancel')
+            ->Where('status', '=', 'cancel')
             ->first();
         return $aptmt_rs;
     }
@@ -215,7 +215,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $aptmt = new Appointments();
         $aptmt_rs = $aptmt->Where('treatment_id', '=', $treatment_id)
-            ->WhereIn('status', array('first_session_booked', 'session_booked', 'Visit_Confirming', 'session_completed'))
+            ->WhereIn('status', array('first_session_booked', 'session_booked', 'visit_confirming', 'session_completed'))
             ->OrderBy('booked_start', 'desc')
             ->first();
 
@@ -226,7 +226,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $aptmt = new Appointments();
         $aptmt_rs = $aptmt->Where('treatment_id', '=', $treatment_id)
-            ->WhereIn('status', array('Visit_Confirming'))
+            ->WhereIn('status', array('visit_confirming'))
             ->OrderBy('booked_start', 'desc')
             ->first();
 
@@ -243,11 +243,21 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
 
     }
 
-    public function get_first_session_obj($user_id)
+    public function get_recent_session($user_id)
     {
         $appointment = new Appointments();
         $appointment_rs = $appointment->Where('user_id', '=', $user_id)
-            ->Where('status', '=', 'first_session_booked')
+            ->Where('status', array('first_session_booked', 'session_booked'))
+            ->OrderBy('id', 'desc')
+            ->first();
+        return $appointment_rs;
+    }
+
+    public function get_recent_appointment($user_id)
+    {
+        $appointment = new Appointments();
+        $appointment_rs = $appointment->Where('user_id', '=', $user_id)
+            ->Where('status', array('upcoming'))
             ->OrderBy('id', 'desc')
             ->first();
         return $appointment_rs;

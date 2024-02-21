@@ -871,7 +871,7 @@ class TreatmentsController extends Controller
             }
 
             // Update appointment status to visit_confirming
-            $param_appointment['status'] = 'Visit_Confirming';
+            $param_appointment['status'] = 'visit_confirming';
             $param_appointment['updated_at'] = Carbon::now();
             $this->appointmentsRepository->update($aptmt_rs['id'], $param_appointment);
 

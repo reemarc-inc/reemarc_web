@@ -860,6 +860,11 @@ class AppointmentsController extends Controller
         Log::info($session_exist);
         if(!$session_exist){ // for first visit booking
 
+            $init_appointment = $this->appointmentsRepository->get_recent_appointment($params['user_id']);
+            if($init_appointment){
+                $this->appointmentsRepository->delete($init_appointment->id);
+            }
+
             $user_obj = User::where('id', $params['user_id'])->first();
             $params['user_first_name'] = $user_obj->first_name;
             $params['user_last_name'] = $user_obj->last_name;
@@ -886,7 +891,7 @@ class AppointmentsController extends Controller
             $treatment_id = null;
             $params['treatment_id'] = $treatment_id;
             $params['created_at'] = Carbon::now();
-            $params['status'] = 'Upcoming';
+            $params['status'] = 'upcoming';
 
             $cancel_exist = $this->appointmentsRepository->check_cancel_exist($params['user_id'],$params['clinic_id'],$params['booked_start']);
             if($cancel_exist){
@@ -897,7 +902,7 @@ class AppointmentsController extends Controller
                 if($updated_appointment){
 
                     // Update status on User table
-                    $u_params['status'] = 'first_appointment_booked';
+                    $u_params['appointment_status'] = 'upcoming';
                     $this->userRepository->update($params['user_id'], $u_params);
 
                     // Add Notification
@@ -1000,7 +1005,7 @@ class AppointmentsController extends Controller
             if($appointment){
 
                 // Update status on user table
-                $u_params['status'] = 'first_appointment_booked';
+                $u_params['appointment_status'] = 'upcoming';
                 $this->userRepository->update($params['user_id'], $u_params);
 
                 // Add Notification
@@ -1085,14 +1090,11 @@ class AppointmentsController extends Controller
                     $status = 'first_session_booked';
                 }
 
-                if($rs->status == 'first_session_booked'){
-                    $first_session_obj = $this->appointmentsRepository->get_first_session_obj($params['user_id']);
-                    $apt_id = $first_session_obj->id;
-                    $this->appointmentsRepository->delete($apt_id);
+                if($rs->status == 'first_session_booked' || $rs->status == 'session_booked'){
+                    $first_session_obj = $this->appointmentsRepository->get_recent_session($params['user_id']);
+                    $this->appointmentsRepository->delete($first_session_obj->id);
                 }
             }
-
-            Log::info($status);
 
             // for session booking (treatment_id exist!)
             $user_obj = User::where('id', $params['user_id'])->first();
@@ -1165,7 +1167,9 @@ class AppointmentsController extends Controller
                     $record->save();
 
                     // Update status on User table
-                    $u_params['status'] = $status;
+                    $u_params['appointment_status'] = $status;
+                    $u_params['treatment_status'] = $status;
+                    $u_params['updated_at'] = Carbon::now();
                     $this->userRepository->update($params['user_id'], $u_params);
 
                     // send push notification
@@ -1283,7 +1287,9 @@ class AppointmentsController extends Controller
                 $record->save();
 
                 // Update status on User table
-                $u_params['status'] = $status;
+                $u_params['appointment_status'] = $status;
+                $u_params['treatment_status'] = $status;
+                $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($params['user_id'], $u_params);
 
                 // send push notification
@@ -1356,7 +1362,7 @@ class AppointmentsController extends Controller
         $param = $request->all();
         $appointment_id = $param['appointment_id'];
         $apmt_obj = $this->appointmentsRepository->findById($appointment_id);
-        if($apmt_obj->status == "Cancel"){
+        if($apmt_obj->status == "cancel"){
             $data = [
                 'error' => [
                     'code' => 404,
@@ -1367,7 +1373,7 @@ class AppointmentsController extends Controller
         }
 
         $treatment_id = null;
-        $params['status'] = 'Cancel';
+        $params['status'] = 'cancel';
         $params['updated_at'] = Carbon::now();
 
         try {
@@ -1379,7 +1385,8 @@ class AppointmentsController extends Controller
             if ($appt) {
 
                 // Update status on User table
-                $u_params['status'] = 'booking_cancelled';
+                $u_params['appointment_status'] = 'cancel';
+                $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($appt->user_id, $u_params);
 
                 // Add Notification
