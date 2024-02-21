@@ -107,14 +107,14 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $brand = new Appointments();
         $brand = $brand->Where('user_id', '=', $c_id)
-            ->WhereIn('status', array('Upcoming', 'Treatment_Upcoming', 'Visit_Confirming'));
+            ->WhereIn('status', array('Upcoming', 'Visit_Confirming', 'first_session_booked', 'session_booked'));
         return $brand->get();
     }
 
     public function get_complete_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->WhereIn('status', array("Complete", "Treatment_Completed"))->Where('user_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("Complete", "session_completed"))->Where('user_id', '=', $c_id);
         return $brand->get();
     }
 
