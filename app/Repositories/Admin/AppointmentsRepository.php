@@ -243,10 +243,11 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
 
     }
 
-    public function check_first_session($user_id)
+    public function get_fisrt_session_obj($user_id)
     {
         $appointment = new Appointments();
         $appointment_rs = $appointment->Where('user_id', '=', $user_id)
+            ->Where('status', '=', 'first_session_booked')
             ->OrderBy('id', 'desc')
             ->first();
         return $appointment_rs;
