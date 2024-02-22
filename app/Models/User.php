@@ -38,6 +38,8 @@ class User extends Authenticatable
         'sns_login',
         'appointment_status',
         'treatment_status',
+        'treatment_id',
+        'clinic_id',
         'payment_customer_id',
         'image',
         'firebase_image',
