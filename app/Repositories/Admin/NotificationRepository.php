@@ -80,10 +80,10 @@ class NotificationRepository implements NotificationRepositoryInterface
 
         $result = DB::select('
             select n.type as notification_type,
-                 n.id as id,
+                n.id as id,
                 n.user_id as user_id,
                 n.appointment_id as appointment_id,
-                n.treatment_id as treatment_id,
+                u.treatment_id as treatment_id,
                 u.appointment_status as appointment_status,
                 u.treatment_status as treatment_status,
                 n.clinic_id as clinic_id,
@@ -93,8 +93,8 @@ class NotificationRepository implements NotificationRepositoryInterface
                 n.created_at as created_at
             from notification n
             left join appointments a on a.id = n.appointment_id
-            left join treatments t on t.id = n.treatment_id
-            left join users u on u.id = n.user_id
+			left join users u on u.id = n.user_id
+            left join treatments t on t.id = u.treatment_id
             where n.user_id = :param_1
               and is_delete = "no"
               order by id desc', [
