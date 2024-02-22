@@ -307,6 +307,7 @@ class NotificationController extends Controller
 
         // Update status on user table
         $u_params['status'] = 'location_confirmed';
+        $u_params['clinic_id'] = $clinic_id;
         $this->userRepository->update($user_id, $u_params);
 
         try {

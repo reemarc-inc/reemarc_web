@@ -459,6 +459,7 @@ class AppointmentsController extends Controller
 
             // Update status on User table
             $u_params['status'] = 'follow_up_completed';
+            $u_params['treatment_id'] = $treatment_obj->id;
             $this->userRepository->update($appointment->user_id, $u_params);
 
         }
@@ -903,6 +904,7 @@ class AppointmentsController extends Controller
 
                     // Update status on User table
                     $u_params['appointment_status'] = 'upcoming';
+                    $u_params['clinic_id'] = $params['clinic_id'];
                     $this->userRepository->update($params['user_id'], $u_params);
 
                     // Add Notification
@@ -1006,6 +1008,7 @@ class AppointmentsController extends Controller
 
                 // Update status on user table
                 $u_params['appointment_status'] = 'upcoming';
+                $u_params['clinic_id'] = $params['clinic_id'];
                 $this->userRepository->update($params['user_id'], $u_params);
 
                 // Add Notification
@@ -1169,6 +1172,7 @@ class AppointmentsController extends Controller
                     // Update status on User table
                     $u_params['appointment_status'] = $status;
                     $u_params['treatment_status'] = $status;
+                    $u_params['clinic_id'] = $params['clinic_id'];
                     $u_params['updated_at'] = Carbon::now();
                     $this->userRepository->update($params['user_id'], $u_params);
 
@@ -1289,6 +1293,7 @@ class AppointmentsController extends Controller
                 // Update status on User table
                 $u_params['appointment_status'] = $status;
                 $u_params['treatment_status'] = $status;
+                $u_params['clinic_id'] = $params['clinic_id'];
                 $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($params['user_id'], $u_params);
 
