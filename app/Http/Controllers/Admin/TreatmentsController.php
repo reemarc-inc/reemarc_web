@@ -620,7 +620,8 @@ class TreatmentsController extends Controller
             $record->save();
 
             // Update status on user table
-            $u_params['status'] = 'package_ordered';
+            $u_params['treatment_status'] = 'package_ordered';
+            $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
             // send push notification
@@ -721,7 +722,8 @@ class TreatmentsController extends Controller
             $record->save();
 
             // Update status on user table
-            $u_params['status'] = 'location_sent';
+            $u_params['treatment_status'] = 'location_sent';
+            $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
             // send push notification
@@ -810,7 +812,8 @@ class TreatmentsController extends Controller
             $record->save();
 
             // Update status on user table
-            $u_params['status'] = 'package_shipped';
+            $u_params['treatment_status'] = 'package_shipped';
+            $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
             return "success";
@@ -873,7 +876,8 @@ class TreatmentsController extends Controller
             $record->save();
 
             // Update status on user table
-            $u_params['status'] = 'package_delivered';
+            $u_params['treatment_status'] = 'package_delivered';
+            $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
             // send push notification
@@ -975,7 +979,8 @@ class TreatmentsController extends Controller
             $record->save();
 
             // Update status on user table
-            $u_params['status'] = 'visit_confirming';
+            $u_params['treatment_status'] = 'visit_confirming';
+            $u_params['appointment_status'] = 'visit_confirming';
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($treatment_obj->user_id, $u_params);
 

@@ -578,7 +578,9 @@ class AppointmentsController extends Controller
                 $record->save();
 
                 // Update status on user table
-                $u_params['status'] = 'first_session_booked';
+                $u_params['treatment_status'] = 'first_session_booked';
+                $u_params['appointment_status'] = 'first_session_booked';
+                $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($treatment_obj->user_id, $u_params);
 
                 // send push notification
