@@ -60,8 +60,10 @@ Route::post("read_notification", [NotificationController::class, 'read_notificat
 Route::post("location_confirm", [NotificationController::class, 'location_confirm']); //
 Route::post("confirm_your_visit", [NotificationController::class, 'confirm_your_visit']); //
 
-Route::post("get_treatment_progress", [TreatmentsController::class, 'get_treatment_progress']); //
+Route::post("get_treatment_progress", [TreatmentsController::class, 'get_treatment_progress']);
+Route::post("get_treatment_progress_by_user_id", [TreatmentsController::class, 'get_treatment_progress_by_user_id']);
 
 Route::post('get_package_by_treatment_id', [PackageController::class, 'get_package_by_treatment_id']);
+Route::post('get_package_by_user_id', [PackageController::class, 'get_package_by_user_id']);
 
 Route::apiResource("member", MemberController::class);

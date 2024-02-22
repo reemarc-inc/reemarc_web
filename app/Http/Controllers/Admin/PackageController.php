@@ -185,4 +185,39 @@ class PackageController extends Controller
 
     }
 
+    public function get_package_by_user_id(Request $request)
+    {
+        try{
+            $param = $request->all();
+            Log::info($request);
+
+            $user_id = $param['user_id'];
+            $rs_obj = $this->treatmentsRepository->get_package_by_user_id($user_id);
+
+            if($rs_obj){
+
+                $rs = (object)$rs_obj[0];
+                $data = [
+                    'data' => [
+                        'package' => $rs
+                    ]
+                ];
+            }else{
+                $data = [
+                    'error' => [
+                        'message' => "Package not exist"
+                    ]
+                ];
+            }
+
+            return response()->json($data);
+
+        }catch (\Exception $ex) {
+            return response()->json([
+                'msg' => $ex->getMessage() . ' [' . $ex->getCode() . ']'
+            ]);
+        }
+
+    }
+
 }
