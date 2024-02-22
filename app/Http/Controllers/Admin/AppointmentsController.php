@@ -433,7 +433,7 @@ class AppointmentsController extends Controller
 
         $param = $request->all();
         $appointment_id = $param['appointment_id'];
-        $params['status'] = 'Complete';
+        $params['status'] = 'complete';
         $params['updated_at'] = Carbon::now();
 
         if ($this->appointmentsRepository->update($appointment_id, $params)) {
@@ -458,7 +458,8 @@ class AppointmentsController extends Controller
             $record->save();
 
             // Update status on User table
-            $u_params['status'] = 'follow_up_completed';
+            $u_params['treatment_status'] = 'follow_up_completed';
+            $u_params['appointment_status'] = 'complete';
             $u_params['treatment_id'] = $treatment_obj->id;
             $this->userRepository->update($appointment->user_id, $u_params);
 
