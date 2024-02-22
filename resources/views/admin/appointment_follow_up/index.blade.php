@@ -26,9 +26,9 @@
                                 <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
                                 <div class="media-body">
 
-                                        <?php if($appointment->status == 'Upcoming') { ?>
+                                        <?php if($appointment->status == 'upcoming') { ?>
                                         <div class="badge badge-pill badge-success mb-1 float-right">Upcoming</div>
-                                        <?php } else if($appointment->status == 'Complete') { ?>
+                                        <?php } else if($appointment->status == 'complete') { ?>
                                         <div class="badge badge-pill badge-primary mb-1 float-right">Completed</div>
                                         <?php } ?>
 
@@ -82,7 +82,7 @@
                                             {{ $appointment->booked_day }}
                                         </div>
                                         <div>
-                                            <?php if($appointment->status == 'Complete'){ ?>
+                                            <?php if($appointment->status == 'complete'){ ?>
                                             <b>Completed At:</b>
                                             {{ $appointment->updated_at }}
                                             <?php } ?>
@@ -93,7 +93,7 @@
                         </div>
 
                         <div class="card-footer">
-                            <?php if($appointment->status == 'Upcoming'){ ?>
+                            <?php if($appointment->status == 'upcoming'){ ?>
                             <button type="button"
                                     class="btn-sm followup-white-project-btn"
                                     data-toggle="modal"
