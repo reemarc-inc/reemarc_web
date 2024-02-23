@@ -437,7 +437,15 @@ class TreatmentsController extends Controller
 
         for($i=1; $i<=$total; $i++) {
             if(isset($sessions[$i - 1])) {
-                $status = ($sessions[$i - 1]->status == 'Treatment_Upcoming') ? 'Upcoming' : 'Completed';
+                if($sessions[$i - 1]->status == 'first_session_booked'){
+                    $status = 'Upcoming';
+                }elseif ($sessions[$i - 1]->status == 'session_booked'){
+                    $status = 'Upcoming';
+                }elseif($sessions[$i - 1]->status == 'visit_confirming'){
+                    $status = 'Visit Confirming';
+                }elseif($sessions[$i - 1]->status == 'session_completed'){
+                    $status = 'Completed';
+                }
                 $session_list[] = [
                     'appointment_id' => $sessions[$i - 1]->id,
                     'session' => 'SESSION '.$i,
