@@ -267,7 +267,7 @@ class TreatmentsController extends Controller
                     $status = 'Upcoming';
                 }else if($sessions[$i - 1]->status == 'session_completed'){
                     $status = 'Completed';
-                }else if($sessions[$i - 1]->status == 'Visit_Confirming'){
+                }else if($sessions[$i - 1]->status == 'visit_confirming'){
                     $status = 'Visit_Confirming';
                 }
 
