@@ -58,6 +58,15 @@ class NotificationRepository implements NotificationRepositoryInterface
         return $notification->delete();
     }
 
+    public function get_notification_id_by_appointment_id($a_id)
+    {
+        $notification = new Notification();
+        $rs = $notification->Where('appointment_id', '=', $a_id)
+            ->orderBy('id','desc')
+            ->first();
+        return $rs;
+    }
+
     public function get_notification_list_by_user_id($u_id)
     {
 

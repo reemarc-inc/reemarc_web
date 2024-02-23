@@ -866,6 +866,10 @@ class AppointmentsController extends Controller
 
             $init_appointment = $this->appointmentsRepository->get_recent_appointment($params['user_id']);
             if($init_appointment){
+                $noti_rs = $this->notificationRepository->get_notification_id_by_appointment_id($init_appointment->id);
+                // delete for notification table
+                $this->notificationRepository->delete($noti_rs->id);
+                // delete for appointment table
                 $this->appointmentsRepository->delete($init_appointment->id);
             }
 
@@ -1098,7 +1102,12 @@ class AppointmentsController extends Controller
 
                 if($rs->status == 'first_session_booked' || $rs->status == 'session_booked'){
                     $first_session_obj = $this->appointmentsRepository->get_recent_session($params['user_id']);
-                    $this->appointmentsRepository->delete($first_session_obj->id);
+                    $a_id = $first_session_obj->id;
+                    $noti_rs = $this->notificationRepository->get_notification_id_by_appointment_id($a_id);
+                    // delete for notification table
+                    $this->notificationRepository->delete($noti_rs->id);
+                    // delete for appointment table
+                    $this->appointmentsRepository->delete($a_id);
                 }
             }
 
