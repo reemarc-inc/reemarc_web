@@ -350,59 +350,70 @@ class TreatmentsController extends Controller
         $treatment_id = $treatment_obj->id;
         $total = $treatment_obj->session;
         $this->data['current_session'] = $sessions = $this->appointmentsRepository->get_current_session($treatment_id);
-        $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
-        $month_rule = [
-            1 => 'TBD',
-            2 => '1 Month',
-            3 => '3 Month',
-            4 => '6 Month',
-            5 => '9 Month',
-            6 => '12 Month',
-            7 => '15 Month',
-            8 => '18 Month',
-            9 => '21 Month',
-            10 => '24 Month',
-            11 => '27 Month',
-            12 => '30 Month',
-            13 => '33 Month',
-            14 => '36 Month',
-        ];
 
-        $session_list = array();
+        if($sessions) {
 
-        for($i=1; $i<=$total; $i++) {
-            if(isset($sessions[$i - 1])) {
-                if($sessions[$i - 1]->status == 'first_session_booked'){
-                    $status = 'Upcoming';
-                }elseif ($sessions[$i - 1]->status == 'session_booked'){
-                    $status = 'Upcoming';
-                }elseif($sessions[$i - 1]->status == 'visit_confirming'){
-                    $status = 'Visit Confirming';
-                }elseif($sessions[$i - 1]->status == 'session_completed'){
-                    $status = 'Completed';
+            $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
+
+            $month_rule = [
+                1 => 'TBD',
+                2 => '1 Month',
+                3 => '3 Month',
+                4 => '6 Month',
+                5 => '9 Month',
+                6 => '12 Month',
+                7 => '15 Month',
+                8 => '18 Month',
+                9 => '21 Month',
+                10 => '24 Month',
+                11 => '27 Month',
+                12 => '30 Month',
+                13 => '33 Month',
+                14 => '36 Month',
+            ];
+
+            $session_list = array();
+
+            for ($i = 1; $i <= $total; $i++) {
+                if (isset($sessions[$i - 1])) {
+                    if ($sessions[$i - 1]->status == 'first_session_booked') {
+                        $status = 'Upcoming';
+                    } elseif ($sessions[$i - 1]->status == 'session_booked') {
+                        $status = 'Upcoming';
+                    } elseif ($sessions[$i - 1]->status == 'visit_confirming') {
+                        $status = 'Visit Confirming';
+                    } elseif ($sessions[$i - 1]->status == 'session_completed') {
+                        $status = 'Completed';
+                    }
+
+                    $session_list[] = [
+                        'appointment_id' => $sessions[$i - 1]->id,
+                        'session' => 'SESSION ' . $i,
+                        'booked_start' => date("M d, Y", strtotime($sessions[$i - 1]->booked_date)),
+                        'status' => $status
+                    ];
+                } else {
+                    $session_list[] = [
+                        'appointment_id' => null,
+                        'session' => 'SESSION ' . $i,
+                        'booked_start' => $month_rule[$i],
+                        'status' => 'Not Scheduled'
+                    ];
                 }
-
-                $session_list[] = [
-                    'appointment_id' => $sessions[$i - 1]->id,
-                    'session' => 'SESSION '.$i,
-                    'booked_start' => date("M d, Y", strtotime($sessions[$i - 1]->booked_date)),
-                    'status' => $status
-                ];
-            }else{
-                $session_list[] = [
-                    'appointment_id' => null,
-                    'session' => 'SESSION '.$i,
-                    'booked_start' => $month_rule[$i],
-                    'status' => 'Not Scheduled'
-                ];
             }
-        }
 
-        $data = [
-            'data' => [
-                'treatment_list' => $session_list
-            ]
-        ];
+            $data = [
+                'data' => [
+                    'treatment_list' => $session_list
+                ]
+            ];
+        }else{
+            $data = [
+                'error' => [
+                    'message' => "There is no treatment data."
+                ]
+            ];
+        }
         return response()->json($data);
 
     }
