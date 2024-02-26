@@ -1102,12 +1102,14 @@ class AppointmentsController extends Controller
 
                 if($rs->status == 'first_session_booked' || $rs->status == 'session_booked'){
                     $first_session_obj = $this->appointmentsRepository->get_recent_session($params['user_id']);
-                    $a_id = $first_session_obj->id;
-                    $noti_rs = $this->notificationRepository->get_notification_id_by_appointment_id($a_id);
-                    // delete for notification table
-                    $this->notificationRepository->delete($noti_rs->id);
-                    // delete for appointment table
-                    $this->appointmentsRepository->delete($a_id);
+                    if($first_session_obj) {
+                        $a_id = $first_session_obj->id;
+                        $noti_rs = $this->notificationRepository->get_notification_id_by_appointment_id($a_id);
+                        // delete for notification table
+                        $this->notificationRepository->delete($noti_rs->id);
+                        // delete for appointment table
+                        $this->appointmentsRepository->delete($a_id);
+                    }
                 }
             }
 
@@ -1405,6 +1407,14 @@ class AppointmentsController extends Controller
                 $u_params['appointment_status'] = 'cancel';
                 $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($appt->user_id, $u_params);
+
+                $treatment_obj = $this->treatmentsRepository->get_treatment_status_by_user_id($appt->user_id);
+                if($treatment_obj){
+                    // Update status on Treatment table
+                    $t_params['status'] = 'cancel';
+                    $t_params['updated_at'] = Carbon::now();
+                    $this->treatmentsRepository->update($treatment_obj->id, $t_params);
+                }
 
                 // Add Notification
                 $notification = new Notification();
