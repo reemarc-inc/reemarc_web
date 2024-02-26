@@ -259,14 +259,11 @@ class TreatmentsController extends Controller
 
         $session_list = array();
 
-        ddd($sessions);
-
-
         for($i=1; $i<=$total; $i++) {
             if(isset($sessions[$i - 1])) {
-
-//                $status = ($sessions[$i - 1]->status == ('first_session_booked' || 'session_completed') ) ? 'Upcoming' : 'Completed';
-                if($sessions[$i - 1]->status == ('first_session_booked' || 'session_completed')){
+                if($sessions[$i - 1]->status == 'first_session_booked'){
+                    $status = 'Upcoming';
+                }else if($sessions[$i - 1]->status == 'session_booked'){
                     $status = 'Upcoming';
                 }else if($sessions[$i - 1]->status == 'session_completed'){
                     $status = 'Completed';
@@ -292,7 +289,6 @@ class TreatmentsController extends Controller
             }
         }
 
-        ddd($session_list);
         $this->data['session_list'] = $session_list;
 
         if($this->data['package']) {
