@@ -74,7 +74,7 @@
                                         $bg_css = "bg-success"; $font_css = "color: #fff;";
                                     }else if($row['status'] == 'Not Scheduled'){
                                         $bg_css = "bg-primary"; $font_css = "color: #fff;";
-                                    }else if($row['status'] == 'Visit_Confirming'){
+                                    }else if($row['status'] == 'Visit Confirming'){
                                         $bg_css = "bg-danger"; $font_css = "color: #fff;";
                                     }
                                 ?>
