@@ -289,7 +289,7 @@ class TreatmentsController extends Controller
             }
         }
 
-//        ddd($session_list);
+        ddd($session_list);
         $this->data['session_list'] = $session_list;
 
         if($this->data['package']) {
