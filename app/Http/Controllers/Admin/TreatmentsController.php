@@ -259,6 +259,9 @@ class TreatmentsController extends Controller
 
         $session_list = array();
 
+        ddd($sessions);
+
+
         for($i=1; $i<=$total; $i++) {
             if(isset($sessions[$i - 1])) {
 
