@@ -86,7 +86,7 @@
                             </div>
 
                             <div class="card-footer text-right">
-                                    <?php if(isset($last_session_status) && ($last_session_status->status == ('first_session_booked' || 'session_booked') )){ ?>
+                                    <?php if(isset($last_session_status) && ( ($last_session_status->status == 'first_session_booked') || ($last_session_status->status =='session_booked') ) ){ ?>
                                     <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="visit_confirm({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Visit Confirm Send</button>
                                     <?php }else{ ?>
                                     <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The visit confirmation has been successfully sent</span>
