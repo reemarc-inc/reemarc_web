@@ -858,10 +858,12 @@ class AppointmentsController extends Controller
     public function booking_from_app(Request $request)
     {
         $param = $request->all();
+        Log::info($param);
         $params['user_id'] = $param['user_id'];
+        $params['clinic_id'] = $param['clinic_id'];
 
         $session_exist = $this->appointmentsRepository->check_session_exist($params['user_id']);
-        Log::info($session_exist);
+//        Log::info($session_exist);
         if(!$session_exist){ // for first visit booking
 
             $init_appointment = $this->appointmentsRepository->get_recent_appointment($params['user_id']);
@@ -880,7 +882,6 @@ class AppointmentsController extends Controller
             $params['user_phone'] = $user_obj->phone;
             $user_device_token = $user_obj->device_token;
 
-            $params['clinic_id'] = $param['clinic_id'];
             $clinic_obj = Clinic::where('id', $params['clinic_id'])->first();
             $params['clinic_name'] = $clinic_obj->name;
             $params['clinic_phone'] = $clinic_obj->phone;
