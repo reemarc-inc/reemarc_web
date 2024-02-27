@@ -378,6 +378,7 @@ class NotificationController extends Controller
 
         // Update status on user table
         $u_params['treatment_status'] = 'session_completed';
+        $u_params['appointment_status'] = 'session_completed';
         $u_params['updated_at'] = Carbon::now();
         $this->userRepository->update($appointment_obj->user_id, $u_params);
 
