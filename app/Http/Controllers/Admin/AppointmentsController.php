@@ -1411,6 +1411,7 @@ class AppointmentsController extends Controller
 
                 // Update status on User table
                 $u_params['appointment_status'] = 'cancel';
+                $u_params['treatment_status'] = 'cancel';
                 $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($appt->user_id, $u_params);
 
