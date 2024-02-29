@@ -1411,14 +1411,16 @@ class AppointmentsController extends Controller
 
                 // Update status on User table
                 $u_params['appointment_status'] = 'cancel';
-                $u_params['treatment_status'] = 'cancel';
+                if($appt->treatment_id) {
+                    $u_params['treatment_status'] = 'session_completed';
+                }
                 $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($appt->user_id, $u_params);
 
                 $treatment_obj = $this->treatmentsRepository->get_treatment_status_by_user_id($appt->user_id);
                 if($treatment_obj){
                     // Update status on Treatment table
-                    $t_params['status'] = 'cancel';
+                    $t_params['status'] = 'session_completed';
                     $t_params['updated_at'] = Carbon::now();
                     $this->treatmentsRepository->update($treatment_obj->id, $t_params);
                 }
