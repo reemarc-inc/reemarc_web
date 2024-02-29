@@ -43,7 +43,8 @@
                         <?php if( ($treatment->status == 'first_session_booked') ||
                             ($treatment->status == 'visit_confirming') ||
                                 ($treatment->status == 'session_completed') ||
-                                    ($treatment->status == 'session_booked') ) { ?>
+                                    ($treatment->status == 'session_booked') ||
+                                        ($treatment->status == 'cancel')) { ?>
                         <div class="card">
                             <input type="hidden" name="t_id" value="{{ $treatment->id }}">
                             <div class="card-header">
