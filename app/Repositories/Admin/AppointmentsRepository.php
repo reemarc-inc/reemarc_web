@@ -103,6 +103,14 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return $brand->get();
     }
 
+    public function get_visit_confirming_appointments_by_user_id($c_id)
+    {
+        $brand = new Appointments();
+        $brand = $brand->Where('user_id', '=', $c_id)
+            ->WhereIn('status', array('visit_confirming'));
+        return $brand->get();
+    }
+
     public function get_upcoming_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();

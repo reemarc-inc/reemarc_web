@@ -1578,6 +1578,21 @@ class AppointmentsController extends Controller
      * API
      * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
      */
+    public function get_appointments_visit_confirming_list_profile(Request $request)
+    {
+        $param = $request->all();
+        $user = $this->userRepository->findById($param['user_id']);
+        $appointments_list = $this->appointmentsRepository->get_visit_confirming_appointments_by_user_id($param['user_id']);
+        if(sizeof($appointments_list)>0){
+            $user->appointment = $appointments_list;
+        }
+        return $user;
+    }
+
+    /***
+     * API
+     * @return Appointments[]|\Illuminate\Database\Eloquent\Collection
+     */
     public function get_appointments_upcoming_list_profile(Request $request)
     {
         $param = $request->all();
