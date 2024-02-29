@@ -1100,15 +1100,11 @@ class AppointmentsController extends Controller
                 if($rs->status == 'package_delivered' || $rs->status == 'first_session_booked'){
                     $status = 'first_session_booked';
                 }
-                Log::info('1103' . $rs->status);
                 if($rs->status == 'first_session_booked' || $rs->status == 'session_booked'){
                     $first_session_obj = $this->appointmentsRepository->get_recent_session($params['user_id']);
-                    Log::info('1106' . $first_session_obj);
                     if($first_session_obj) {
                         $a_id = $first_session_obj->id;
-                        Log::info('1109'. $a_id);
                         $noti_rs = $this->notificationRepository->get_notification_id_by_appointment_id($a_id);
-                        Log::info('1111'. $noti_rs);
                         // delete for notification table
                         $this->notificationRepository->delete($noti_rs->id);
                         // delete for appointment table
