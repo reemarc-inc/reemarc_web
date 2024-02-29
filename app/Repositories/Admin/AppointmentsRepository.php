@@ -255,7 +255,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $appointment = new Appointments();
         $appointment_rs = $appointment->Where('user_id', '=', $user_id)
-            ->Where('status', array('first_session_booked', 'session_booked'))
+            ->WhereIn('status', array('first_session_booked', 'session_booked'))
             ->OrderBy('id', 'desc')
             ->first();
         return $appointment_rs;
@@ -265,7 +265,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $appointment = new Appointments();
         $appointment_rs = $appointment->Where('user_id', '=', $user_id)
-            ->Where('status', array('upcoming'))
+            ->WhereIn('status', array('upcoming'))
             ->OrderBy('id', 'desc')
             ->first();
         return $appointment_rs;
