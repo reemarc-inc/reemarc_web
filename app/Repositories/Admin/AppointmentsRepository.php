@@ -203,7 +203,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
                             from appointments
                             where treatment_id =:param_1
                             and status in ("first_session_booked", "session_booked", "session_completed", "visit_confirming")
-                            order by booked_start asc', [
+                            order by id desc', [
             'param_1' => $treatment_id
         ]);
     }

@@ -964,7 +964,7 @@ class TreatmentsController extends Controller
             $param_appointment['updated_at'] = Carbon::now();
             $this->appointmentsRepository->update($aptmt_rs['id'], $param_appointment);
 
-            $clinic_obj = $this->clinicRepository->findById($treatment_obj->clinic_id);
+            $clinic_obj = $this->clinicRepository->findById($aptmt_rs['clinic_id']);
             $clinic_name = $clinic_obj->name;
             $start = \DateTime::createFromFormat('Y-m-d H:i:s', $aptmt_rs['booked_start']);
             $start_format = $start->format('F j');
@@ -977,7 +977,7 @@ class TreatmentsController extends Controller
             $notification['user_email']         = $user_obj->email;
             $notification['appointment_id']     = $aptmt_rs['id'];
             $notification['treatment_id']       = $treatment_id;
-            $notification['clinic_id']          = $treatment_obj->clinic_id;
+            $notification['clinic_id']          = $aptmt_rs['clinic_id'];
             $notification['package_id']         = $treatment_obj->package_id;
             $notification['type']               = 'visit_confirm';
             $notification['is_read']            = 'no';
