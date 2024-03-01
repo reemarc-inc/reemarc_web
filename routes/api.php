@@ -60,6 +60,7 @@ Route::post("read_notification", [NotificationController::class, 'read_notificat
 
 Route::post("location_confirm", [NotificationController::class, 'location_confirm']); //
 Route::post("confirm_your_visit", [NotificationController::class, 'confirm_your_visit']); //
+Route::post("missed_your_visit", [NotificationController::class, 'missed_your_visit']); //
 
 Route::post("get_treatment_progress", [TreatmentsController::class, 'get_treatment_progress']);
 Route::post("get_treatment_progress_by_user_id", [TreatmentsController::class, 'get_treatment_progress_by_user_id']);

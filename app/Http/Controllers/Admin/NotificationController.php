@@ -413,4 +413,72 @@ class NotificationController extends Controller
 
     }
 
+    public function missed_your_visit(Request $request)
+    {
+        $param = $request->all();
+        $treatment_id = $param['treatment_id'];
+        $apmt_rs = $this->appointmentsRepository->get_last_treatment_session($treatment_id);
+
+        if($apmt_rs == null){
+            $data = [
+                'error' => [
+                    'code' => 404,
+                    'message' => "There are no scheduled appointments."
+                ]
+            ];
+            return response()->json($data);
+        }
+        $appointment_id = $apmt_rs['id'];
+        $appointment_obj = $this->appointmentsRepository->findById($appointment_id);
+
+        $params['status'] = 'cancel';
+        $params['updated_at'] = Carbon::now();
+
+        // Add Record
+        $record = new Record();
+        $record['type'] = 'session_cancel';
+        $record['appointment_id'] = $appointment_id;
+        $record['treatment_id'] = $treatment_id;
+        $record['user_id'] = $appointment_obj->user_id;
+        $record['note'] = "<p>Patient missed visit.</p>";
+        $record['created_at'] = Carbon::now();
+        $record->save();
+
+        // Update status on user table
+        $u_params['treatment_status'] = 'session_completed';
+        $u_params['appointment_status'] = 'session_completed';
+        $u_params['updated_at'] = Carbon::now();
+        $this->userRepository->update($appointment_obj->user_id, $u_params);
+
+        // Update status on treatment table
+        $t_params['status'] = 'session_completed';
+        $t_params['updated_at'] = Carbon::now();
+        $this->treatmentsRepository->update($treatment_id, $t_params);
+
+        try {
+            $updated_appointment = $this->appointmentsRepository->update($appointment_id, $params);
+            if ($updated_appointment){
+                $data = [
+                    'data' => [
+                        "code" => 200,
+                        "message" => "Visit missed"
+                    ]
+                ];
+                return response()->json($data);
+            }else{
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Data transaction filed"
+                    ]
+                ];
+                return response()->json($data);
+            }
+
+        }catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
+    }
+
 }
