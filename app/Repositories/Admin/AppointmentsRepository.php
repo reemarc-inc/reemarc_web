@@ -122,7 +122,9 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     public function get_complete_appointments_by_user_id($c_id)
     {
         $brand = new Appointments();
-        $brand = $brand->WhereIn('status', array("complete", "session_completed"))->Where('user_id', '=', $c_id);
+        $brand = $brand->WhereIn('status', array("complete", "session_completed"))
+            ->Where('user_id', '=', $c_id)
+            ->OrderBy('id', 'desc');
         return $brand->get();
     }
 
