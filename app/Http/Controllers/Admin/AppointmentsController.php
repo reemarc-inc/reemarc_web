@@ -1106,10 +1106,11 @@ class AppointmentsController extends Controller
                         $a_id = $first_session_obj->id;
                         $noti_rs = $this->notificationRepository->get_notification_id_by_appointment_id($a_id);
                         // delete for notification table
-                        $this->notificationRepository->delete($noti_rs->id);
+                        //$this->notificationRepository->delete($noti_rs->id);
                         // delete for appointment table
-                        $this->appointmentsRepository->delete($a_id);
-
+                        //$this->appointmentsRepository->delete($a_id);
+                        $a_param['status'] = 'cancel';
+                        $this->appointmentsRepository->update($a_id,$a_param);
                     }
                 }
             }
