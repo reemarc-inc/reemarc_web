@@ -257,7 +257,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
     {
         $appointment = new Appointments();
         $appointment_rs = $appointment->Where('user_id', '=', $user_id)
-            ->WhereIn('status', array('first_session_booked', 'session_booked'))
+            ->WhereIn('status', array('first_session_booked', 'session_booked', 'visit_confirming'))
             ->OrderBy('id', 'desc')
             ->first();
         return $appointment_rs;

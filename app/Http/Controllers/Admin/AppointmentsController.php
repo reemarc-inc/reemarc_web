@@ -1100,7 +1100,7 @@ class AppointmentsController extends Controller
                 if($rs->status == 'package_delivered' || $rs->status == 'first_session_booked'){
                     $status = 'first_session_booked';
                 }
-                if($rs->status == 'first_session_booked' || $rs->status == 'session_booked'){
+                if($rs->status == 'first_session_booked' || $rs->status == 'session_booked' || $rs->status == 'visit_confirming'){
                     $first_session_obj = $this->appointmentsRepository->get_recent_session($params['user_id']);
                     if($first_session_obj) {
                         $a_id = $first_session_obj->id;
