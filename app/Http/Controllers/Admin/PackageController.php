@@ -195,14 +195,14 @@ class PackageController extends Controller
             $rs_obj = $this->treatmentsRepository->get_package_by_user_id($user_id);
 
             if($rs_obj){
-                if(is_null($rs_obj->package_id)){
+                $rs = (object)$rs_obj[0];
+                if(is_null($rs->package_id)){
                     $data = [
                         'error' => [
                             'message' => "Package not exist"
                         ]
                     ];
                 }else {
-                    $rs = (object)$rs_obj[0];
                     $data = [
                         'data' => [
                             'package' => $rs
