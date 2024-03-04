@@ -195,7 +195,7 @@ class PackageController extends Controller
             $rs_obj = $this->treatmentsRepository->get_package_by_user_id($user_id);
 
 
-            if($rs_obj->package_id != null){
+            if(isset($rs_obj->package_id)){
 
                 $rs = (object)$rs_obj[0];
                 $data = [
