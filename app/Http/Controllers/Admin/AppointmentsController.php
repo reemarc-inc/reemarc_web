@@ -601,6 +601,8 @@ class AppointmentsController extends Controller
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "'.$treatment_obj->id.'",
+                        "appointment_status": "first_session_booked",
+                        "treatment_status": "first_session_booked",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "'.$treatment_obj->package_id.'",
                         "is_read": "no",
@@ -715,6 +717,8 @@ class AppointmentsController extends Controller
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
                     "treatment_id": "'.$notification['treatment_id'].'",
+                    "appointment_status": "session_booked",
+                    "treatment_status": "session_booked",
                     "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
                     "is_read": "no",
@@ -759,7 +763,7 @@ class AppointmentsController extends Controller
         $param = $request->all();
         $appointment_id = $param['appointment_id'];
         $treatment_id = $param['treatment_id'];
-        $params['status'] = 'Cancel';
+        $params['status'] = 'cancel';
         $params['updated_at'] = Carbon::now();
 
         try {
@@ -809,6 +813,8 @@ class AppointmentsController extends Controller
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "'.$treatment_id.'",
+                        "appointment_status": "cancel",
+                        "treatment_status": "cancel",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
@@ -898,6 +904,7 @@ class AppointmentsController extends Controller
             $params['booked_time'] = date_format($start,'g:i a');
 
             $treatment_id = null;
+            $treatment_status = null;
             $params['treatment_id'] = $treatment_id;
             $params['created_at'] = Carbon::now();
             $params['status'] = 'upcoming';
@@ -948,6 +955,8 @@ class AppointmentsController extends Controller
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "'.$treatment_id.'",
+                        "appointment_status": "upcoming",
+                        "treatment_status": "",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
@@ -1016,6 +1025,7 @@ class AppointmentsController extends Controller
 
                 // Update status on user table
                 $u_params['appointment_status'] = 'upcoming';
+                $u_params['treatment_status'] = null;
                 $u_params['clinic_id'] = $params['clinic_id'];
                 $this->userRepository->update($params['user_id'], $u_params);
 
@@ -1053,7 +1063,9 @@ class AppointmentsController extends Controller
                     "id": "'.$notification->id.'",
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "null",
+                    "treatment_id": "'.$treatment_id.'",
+                    "appointment_status": "upcoming",
+                    "treatment_status": "'.$treatment_status.'",
                     "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
                     "is_read": "no",
@@ -1215,6 +1227,8 @@ class AppointmentsController extends Controller
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
                         "treatment_id": "'.$treatment_obj->id.'",
+                        "appointment_status": "'.$status.'",
+                        "treatment_status": "'.$status.'",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "'.$treatment_obj->package_id.'",
                         "is_read": "no",
@@ -1336,6 +1350,8 @@ class AppointmentsController extends Controller
                     "user_id": "'.$notification['user_id'].'",
                     "appointment_id": "'.$notification['appointment_id'].'",
                     "treatment_id": "'.$notification['treatment_id'].'",
+                    "appointment_status": "'.$status.'",
+                    "treatment_status": "'.$status.'",
                     "clinic_id": "'.$notification['clinic_id'].'",
                     "package_id": "null",
                     "is_read": "no",
@@ -1398,7 +1414,6 @@ class AppointmentsController extends Controller
             return response()->json($data);
         }
 
-        $treatment_id = null;
         $params['status'] = 'cancel';
         $params['updated_at'] = Carbon::now();
 
@@ -1412,8 +1427,16 @@ class AppointmentsController extends Controller
 
                 // Update status on User table
                 $u_params['appointment_status'] = 'cancel';
+                $t_id = null;
+                $t_status = null;
                 if($appt->treatment_id) {
+                    $u_params['treatment_id'] = $appt->treatment_id;
                     $u_params['treatment_status'] = 'session_completed';
+                    $t_id = $appt->treatment_id;
+                    $t_status = 'session_completed';
+                }else{
+                    $u_params['treatment_id'] = null;
+                    $u_params['treatment_status'] = null;
                 }
                 $u_params['updated_at'] = Carbon::now();
                 $this->userRepository->update($appt->user_id, $u_params);
@@ -1464,7 +1487,9 @@ class AppointmentsController extends Controller
                         "id": "'.$notification->id.'",
                         "user_id": "'.$notification['user_id'].'",
                         "appointment_id": "'.$notification['appointment_id'].'",
-                        "treatment_id": "null",
+                        "treatment_id": "'.$t_id.'",
+                        "appointment_status": "cancel",
+                        "treatment_status": "'.$t_status.'",
                         "clinic_id": "'.$notification['clinic_id'].'",
                         "package_id": "null",
                         "is_read": "no",
