@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 
 use App\Models\FileAttachments;
 use App\Models\User;
+use App\Repositories\Admin\ClinicRepository;
 use App\Repositories\Admin\FileAttachmentsRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
@@ -30,16 +31,19 @@ class UserController extends Controller
 {
     private $userRepository;
     private $fileAttachmentsRepository;
+    private $clinicRepository;
     private $campaignBrandsRepository;
 
     public function __construct(UserRepository $userRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
+                                ClinicRepository $clinicRepository,
                                 CampaignBrandsRepository $campaignBrandsRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->userRepository = $userRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
+        $this->clinicRepository = $clinicRepository;
         $this->campaignBrandsRepository = $campaignBrandsRepository;
 
         $this->data['currentAdminMenu'] = 'users';
@@ -211,6 +215,7 @@ class UserController extends Controller
         $this->data['region'] = $user->region;
         $this->data['role_'] = $user->role;
 //        $this->data['user_brand'] = $user->user_brand;
+        $this->data['clinic'] = $user->clinic_id;
         $this->data['gender'] = $user->gender;
         $this->data['yob'] = $user->yob;
         $this->data['brands'] = $this->campaignBrandsRepository->findAll();
@@ -234,10 +239,15 @@ class UserController extends Controller
             'Patient' => 'patient',
             'Operator' => 'operator',
         ];
+
+        $this->data['clinics'] = $this->clinicRepository->findAll();
+
         $this->data['genders_'] = [
             'M' => 'M',
             'F' => 'F',
         ];
+
+
 
         return view('admin.users.form', $this->data);
     }

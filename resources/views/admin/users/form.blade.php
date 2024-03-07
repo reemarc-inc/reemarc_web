@@ -77,6 +77,17 @@
                                     @enderror
                                 </div>
                                 <div class="form-group">
+                                    <label>Clinic</label>
+                                    <select class="form-control" name="clinic_id">
+                                        <option>Select Clinic</option>
+                                        @foreach ($clinics as $key => $value)
+                                            <option value="{{ $key }}" {{ $key == $clinic ? 'selected' : '' }}>
+                                                {{ $value['name'] }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <label>Gender</label>
                                     <div class="selectgroup w-100">
                                         @foreach ($genders_ as $key => $value)
