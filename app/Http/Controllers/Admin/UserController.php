@@ -123,7 +123,7 @@ class UserController extends Controller
             'F' => 'F',
         ];
         $this->data['gender'] = null;
-        $this->data['clinic_id'] = null;
+        $this->data['clinic'] = null;
         $this->data['roleId'] = null;
         $this->data['access_level'] = null;
         $this->data['region'] = null;
