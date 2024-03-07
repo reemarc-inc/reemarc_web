@@ -81,7 +81,7 @@
                                     <select class="form-control" name="clinic_id">
                                         <option>Select Clinic</option>
                                         @foreach ($clinics as $key => $value)
-                                            <option value="{{ $key }}" {{ $key == $clinic ? 'selected' : '' }}>
+                                            <option value="{{ $value['id'] }}" {{ $value['id'] == $clinic ? 'selected' : '' }}>
                                                 {{ $value['name'] }}
                                             </option>
                                         @endforeach
