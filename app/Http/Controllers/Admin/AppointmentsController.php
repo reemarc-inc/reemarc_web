@@ -346,7 +346,7 @@ class AppointmentsController extends Controller
         $params['user_last_name'] = $user->last_name;
         $params['user_email'] = $user->email;
         $params['user_phone'] = $user->phone;
-        $params['status'] = 'Upcoming';
+        $params['status'] = 'upcoming';
         $params['created_at'] = Carbon::now();
 
         $this->appointmentsRepository->create($params);

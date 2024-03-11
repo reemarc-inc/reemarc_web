@@ -91,7 +91,13 @@
                                     <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-danger" style="font-size: medium;" onclick="visit_confirm({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Visit Confirm Send</button>
                                     <?php }else{ ?>
                                     <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The visit confirmation has been successfully sent</span>
+                                    <br/><br/>
+                                        <?php if($treatment->status == 'visit_confirming') {?>
+                                        <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-success" style="font-size: medium;" onclick="to_visit_confirmed({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Visit Confirmed</button>
+                                        <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-warning" style="font-size: medium;" onclick="no_show({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> No Show</button>
+                                        <?php }?>
                                     <?php } ?>
+
                             </div>
                         </div>
                         <?php } ?>
@@ -538,21 +544,62 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        rs = JSON.parse(response);
-                        if(response == 'Device token not found') {
-                            alert(response);
-                        }else if(response == 'Internal Server Error'){
-                            alert(response);
-                        }else if(rs.code == "messaging/registration-token-not-registered"){
-                            alert(rs.message);
+                        if(response == 'success') {
+                            alert("System update completed.");
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
                         }else{
-                            alert("The notification has been successfully sent.");
-                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                            alert('Error!');
                         }
                     },
                 })
             }
         }
+
+
+        function to_visit_confirmed(treatment_id){
+            if (confirm("Are you sure to confirm the visit?") == true) {
+                $.ajax({
+                    url: "<?php echo url('/admin/treatment/to_visit_confirmed'); ?>",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        _token : "{{ csrf_token() }}",
+                        id : treatment_id
+                    },
+                    success: function(response) {
+                        if(response == 'success') {
+                            alert("System update completed.");
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
+                        }else{
+                            alert('Error!');
+                        }
+                    },
+                })
+            }
+        }
+
+        function no_show(treatment_id){
+            if (confirm("Are you sure to No Show") == true) {
+                $.ajax({
+                    url: "<?php echo url('/admin/treatment/no_show'); ?>",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        _token : "{{ csrf_token() }}",
+                        id : treatment_id
+                    },
+                    success: function(response) {
+                        if(response == 'success') {
+                            alert("System update completed.");
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
+                        }else{
+                            alert('Error!');
+                        }
+                    },
+                })
+            }
+        }
+
     </script>
 
 @endsection

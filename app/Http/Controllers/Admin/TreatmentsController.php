@@ -1012,48 +1012,146 @@ class TreatmentsController extends Controller
             $t_params['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $t_params);
 
+            return 'success';
 
             // send push notification
-            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-            $header = [
-                'content-type: application/json'
-            ];
+//            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+//            $header = [
+//                'content-type: application/json'
+//            ];
+//
+//            $postdata = '{
+//                "token":  "'.$user_device_token.'",
+//                "notification": {
+//                    "title": "reemarc",
+//                    "body": "Please confirm your visit at '.$clinic_name.' at ' .$aptmt_rs['booked_time']. ' on ' . $start_format.'"
+//                },
+//                "data": {
+//                    "notification_type": "visit_confirm",
+//                    "id": "'.$notification->id.'",
+//                    "user_id": "'.$notification['user_id'].'",
+//                    "appointment_id": "'.$notification['appointment_id'].'",
+//                    "treatment_id": "'.$notification['treatment_id'].'",
+//                    "appointment_status": "visit_confirming",
+//                    "treatment_status": "visit_confirming",
+//                    "clinic_id": "'.$notification['clinic_id'].'",
+//                    "package_id": "'.$notification['package_id'].'",
+//                    "is_read": "no",
+//                    "is_delete": "no",
+//                    "note": "'.$notification['note'].'",
+//                    "created_at" : "'.Carbon::now().'"
+//                }
+//            }';
+//
+//            $ch = curl_init();
+//            curl_setopt($ch, CURLOPT_URL, $url);
+//            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+//            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+//            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+//            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+//            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+//
+//            $result = curl_exec($ch);
+//            curl_close($ch);
+//
+//            return $result;
 
-            $postdata = '{
-                "token":  "'.$user_device_token.'",
-                "notification": {
-                    "title": "reemarc",
-                    "body": "Please confirm your visit at '.$clinic_name.' at ' .$aptmt_rs['booked_time']. ' on ' . $start_format.'"
-                },
-                "data": {
-                    "notification_type": "visit_confirm",
-                    "id": "'.$notification->id.'",
-                    "user_id": "'.$notification['user_id'].'",
-                    "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$notification['treatment_id'].'",
-                    "appointment_status": "visit_confirming",
-                    "treatment_status": "visit_confirming",
-                    "clinic_id": "'.$notification['clinic_id'].'",
-                    "package_id": "'.$notification['package_id'].'",
-                    "is_read": "no",
-                    "is_delete": "no",
-                    "note": "'.$notification['note'].'",
-                    "created_at" : "'.Carbon::now().'"
-                }
-            }';
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+    public function to_visit_confirmed(Request $request)
+    {
+        try{
+            $param = $request->all();
+            $treatment_id = $param['id'];
+            $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+            $aptmt_rs =$this->appointmentsRepository->get_last_treatment_visit_confirming_appointment($treatment_id);
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+            // Update appointment status to visit_confirming
+            $param_appointment['status'] = 'session_completed';
+            $param_appointment['updated_at'] = Carbon::now();
+            $this->appointmentsRepository->update($aptmt_rs['id'], $param_appointment);
 
-            return $result;
+            $clinic_obj = $this->clinicRepository->findById($aptmt_rs['clinic_id']);
+            $clinic_name = $clinic_obj->name;
+            $start = \DateTime::createFromFormat('Y-m-d H:i:s', $aptmt_rs['booked_start']);
+            $start_format = $start->format('F j');
+
+            // Add Record
+            $record = new Record();
+            $record['type'] = 'session_completed';
+            $record['appointment_id'] = $aptmt_rs['id'];
+            $record['treatment_id'] = $treatment_id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['note'] = '<p>Patient visit has been confirmed.</p><br/>'.$clinic_name . " " . $aptmt_rs["booked_time"] . ", " . $start_format;
+            $record['created_at'] = Carbon::now();
+            $record->save();
+
+            // Update status on user table
+            $u_params['treatment_status'] = 'session_completed';
+            $u_params['appointment_status'] = 'session_completed';
+            $u_params['updated_at'] = Carbon::now();
+            $this->userRepository->update($treatment_obj->user_id, $u_params);
+
+            $t_params['status'] = 'session_completed';
+            $t_params['updated_at'] = Carbon::now();
+            $this->treatmentsRepository->update($treatment_id, $t_params);
+
+            return 'success';
+
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function no_show(Request $request)
+    {
+        try{
+            $param = $request->all();
+            $treatment_id = $param['id'];
+            $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
+            $aptmt_rs =$this->appointmentsRepository->get_last_treatment_visit_confirming_appointment($treatment_id);
+
+            // Update appointment status to No Show
+            $param_appointment['status'] = 'cancel';
+            $param_appointment['no_show'] = 'y';
+            $param_appointment['updated_at'] = Carbon::now();
+            $this->appointmentsRepository->update($aptmt_rs['id'], $param_appointment);
+
+            $clinic_obj = $this->clinicRepository->findById($aptmt_rs['clinic_id']);
+            $clinic_name = $clinic_obj->name;
+            $start = \DateTime::createFromFormat('Y-m-d H:i:s', $aptmt_rs['booked_start']);
+            $start_format = $start->format('F j');
+
+            // Add Record
+            $record = new Record();
+            $record['type'] = 'session_completed';
+            $record['appointment_id'] = $aptmt_rs['id'];
+            $record['treatment_id'] = $treatment_id;
+            $record['user_id'] = $treatment_obj->user_id;
+            $record['note'] = '<p>Patient No Show.</p><br/>'.$clinic_name . " " . $aptmt_rs["booked_time"] . ", " . $start_format;
+            $record['created_at'] = Carbon::now();
+            $record->save();
+
+            if($treatment_obj->status == 'first_session_booked'){
+                $t_status = 'package_delivered';
+            }else{
+                $t_status = 'session_completed';
+            }
+
+            // Update status on user table
+            $u_params['treatment_status'] = $t_status;
+            $u_params['appointment_status'] = 'cancel';
+            $u_params['updated_at'] = Carbon::now();
+            $this->userRepository->update($treatment_obj->user_id, $u_params);
+
+            $t_params['status'] = $t_status;
+            $t_params['updated_at'] = Carbon::now();
+            $this->treatmentsRepository->update($treatment_id, $t_params);
+
+            return 'success';
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

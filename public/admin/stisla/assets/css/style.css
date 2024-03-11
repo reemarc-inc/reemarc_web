@@ -1566,6 +1566,7 @@ h6 .badge {
   box-shadow: 0 2px 6px #ffc473;
   background-color: #ffa426;
   border-color: #ffa426;
+    border-radius: 1.25rem;
   color: #fff; }
   .btn-warning:hover, .btn-warning:focus, .btn-warning:active, .btn-warning.disabled:hover, .btn-warning.disabled:focus, .btn-warning.disabled:active {
     background-color: #ff990d !important;
