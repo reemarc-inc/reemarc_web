@@ -1011,9 +1011,9 @@ class TreatmentsController extends Controller
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($treatment_obj->user_id, $u_params);
 
-//            $t_params['status'] = 'visit_confirming';
-//            $t_params['updated_at'] = Carbon::now();
-//            $this->treatmentsRepository->update($treatment_id, $t_params);
+            $t_params['status'] = 'visit_confirming';
+            $t_params['updated_at'] = Carbon::now();
+            $this->treatmentsRepository->update($treatment_id, $t_params);
 
             return 'success';
 
