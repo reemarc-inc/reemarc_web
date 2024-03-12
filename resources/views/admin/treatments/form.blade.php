@@ -92,7 +92,7 @@
                                     <?php }else{ ?>
                                     <span class="badge badge-dark" style="font-size: large;"><i class="fa fa-check-circle"> </i> The visit confirmation has been successfully sent</span>
                                     <br/><br/>
-                                        <?php if($treatment->status == 'visit_confirming') {?>
+                                        <?php if($last_session_status->status == 'visit_confirming') {?>
                                         <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-success" style="font-size: medium;" onclick="to_visit_confirmed({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> Visit Confirmed</button>
                                         <button type="button" id="btn_send_notification" class="btn btn-icon icon-left btn-warning" style="font-size: medium;" onclick="no_show({{$treatment->id}})"><i class="fa fa-paper-plane"> </i> No Show</button>
                                         <?php }?>
