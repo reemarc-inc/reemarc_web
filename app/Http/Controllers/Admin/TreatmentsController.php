@@ -1138,9 +1138,12 @@ class TreatmentsController extends Controller
             $record['created_at'] = Carbon::now();
             $record->save();
 
-            if($treatment_obj->status == 'first_session_booked'){
+            // if session_completed exist,,, it should be 2nd, 3rd session..
+            $is_first_session = $this->appointmentsRepository->check_first_session($treatment_obj->user_id);
+
+            if(!$is_first_session){ // if first_session
                 $t_status = 'package_delivered';
-            }else{
+            }else{ // if 2,3 session...
                 $t_status = 'session_completed';
             }
 

@@ -283,4 +283,14 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
             ->first();
         return $appointment_rs;
     }
+
+    public function check_first_session($user_id)
+    {
+        $appointment = new Appointments();
+        $appointment_rs = $appointment->Where('user_id', '=', $user_id)
+            ->WhereIn('status', array('session_completed'))
+            ->OrderBy('id', 'desc')
+            ->first();
+        return $appointment_rs;
+    }
 }
