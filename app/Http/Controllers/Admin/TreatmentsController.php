@@ -460,6 +460,7 @@ class TreatmentsController extends Controller
                     'appointment_id' => $sessions[$i - 1]->id,
                     'session' => 'SESSION '.$i,
                     'booked_start' => date("M d, Y", strtotime($sessions[$i - 1]->booked_date)),
+                    'rec_date' => date("M d, Y", strtotime($sessions[$i - 1]->booked_date)),
                     'status' => $status
                 ];
             }else{
@@ -480,6 +481,9 @@ class TreatmentsController extends Controller
         return response()->json($data);
 
     }
+
+
+
 
     /**
      * Update the specified resource in storage.
@@ -1003,14 +1007,13 @@ class TreatmentsController extends Controller
             $record->save();
 
             // Update status on user table
-            $u_params['treatment_status'] = 'visit_confirming';
             $u_params['appointment_status'] = 'visit_confirming';
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($treatment_obj->user_id, $u_params);
 
-            $t_params['status'] = 'visit_confirming';
-            $t_params['updated_at'] = Carbon::now();
-            $this->treatmentsRepository->update($treatment_id, $t_params);
+//            $t_params['status'] = 'visit_confirming';
+//            $t_params['updated_at'] = Carbon::now();
+//            $this->treatmentsRepository->update($treatment_id, $t_params);
 
             return 'success';
 
