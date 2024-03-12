@@ -1008,6 +1008,7 @@ class TreatmentsController extends Controller
 
             // Update status on user table
             $u_params['appointment_status'] = 'visit_confirming';
+            $u_params['treatment_status'] = 'visit_confirming';
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($treatment_obj->user_id, $u_params);
 
