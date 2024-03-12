@@ -105,7 +105,7 @@
 
                         <div class="card">
                             <div class="card-header" style="position: relative;">
-                                <h4>Patient</h4>
+                                <h4>Patient ({{ $user->id }})</h4>
                                 <nav style="position: absolute; top: 0; right: 0; padding: 20px;">
                                     <ul>
                                         <span class="badge badge-primary">{{ $treatment->status }}</span>
