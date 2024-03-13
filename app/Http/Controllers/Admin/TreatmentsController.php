@@ -1072,6 +1072,9 @@ class TreatmentsController extends Controller
             $treatment_id = $param['id'];
             $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
             $aptmt_rs =$this->appointmentsRepository->get_last_treatment_visit_confirming_appointment($treatment_id);
+            $user_id = $treatment_obj->user_id;
+            $user_obj = $this->userRepository->findById($user_id);
+            $user_device_token = $user_obj->device_token;
 
             // Update appointment status to visit_confirming
             $param_appointment['status'] = 'session_completed';
@@ -1082,6 +1085,23 @@ class TreatmentsController extends Controller
             $clinic_name = $clinic_obj->name;
             $start = \DateTime::createFromFormat('Y-m-d H:i:s', $aptmt_rs['booked_start']);
             $start_format = $start->format('F j');
+
+            // Add Notification
+            $notification = new Notification();
+            $notification['user_id']            = $user_obj->id;
+            $notification['user_first_name']    = $user_obj->first_name;
+            $notification['user_last_name']     = $user_obj->last_name;
+            $notification['user_email']         = $user_obj->email;
+            $notification['appointment_id']     = $aptmt_rs['id'];
+            $notification['treatment_id']       = $treatment_id;
+            $notification['clinic_id']          = $aptmt_rs['clinic_id'];
+            $notification['package_id']         = $treatment_obj->package_id;
+            $notification['type']               = 'visit_confirm';
+            $notification['is_read']            = 'no';
+            $notification['is_delete']          = 'no';
+            $notification['created_at']         = Carbon::now();
+            $notification['note']               = 'Confirmed your visit';
+            $notification->save();
 
             // Add Record
             $record = new Record();
@@ -1103,7 +1123,47 @@ class TreatmentsController extends Controller
             $t_params['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $t_params);
 
-            return 'success';
+            // send push notification
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+            $header = [
+                'content-type: application/json'
+            ];
+
+            $postdata = '{
+                "token":  "'.$user_device_token.'",
+                "notification": {
+                    "title": "reemarc",
+                    "body": "Confirmed your visit"
+                },
+                "data": {
+                    "notification_type": "visit_confirm",
+                    "id": "'.$notification->id.'",
+                    "user_id": "'.$notification['user_id'].'",
+                    "appointment_id": "'.$notification['appointment_id'].'",
+                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "appointment_status": "visit_confirming",
+                    "treatment_status": "visit_confirming",
+                    "clinic_id": "'.$notification['clinic_id'].'",
+                    "package_id": "'.$notification['package_id'].'",
+                    "is_read": "no",
+                    "is_delete": "no",
+                    "note": "'.$notification['note'].'",
+                    "created_at" : "'.Carbon::now().'"
+                }
+            }';
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            return $result;
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -1117,6 +1177,9 @@ class TreatmentsController extends Controller
             $treatment_id = $param['id'];
             $treatment_obj = $this->treatmentsRepository->findById($treatment_id);
             $aptmt_rs =$this->appointmentsRepository->get_last_treatment_visit_confirming_appointment($treatment_id);
+            $user_id = $treatment_obj->user_id;
+            $user_obj = $this->userRepository->findById($user_id);
+            $user_device_token = $user_obj->device_token;
 
             // Update appointment status to No Show
             $param_appointment['status'] = 'cancel';
@@ -1129,9 +1192,26 @@ class TreatmentsController extends Controller
             $start = \DateTime::createFromFormat('Y-m-d H:i:s', $aptmt_rs['booked_start']);
             $start_format = $start->format('F j');
 
+            // Add Notification
+            $notification = new Notification();
+            $notification['user_id']            = $user_obj->id;
+            $notification['user_first_name']    = $user_obj->first_name;
+            $notification['user_last_name']     = $user_obj->last_name;
+            $notification['user_email']         = $user_obj->email;
+            $notification['appointment_id']     = $aptmt_rs['id'];
+            $notification['treatment_id']       = $treatment_id;
+            $notification['clinic_id']          = $aptmt_rs['clinic_id'];
+            $notification['package_id']         = $treatment_obj->package_id;
+            $notification['type']               = 'visit_confirm';
+            $notification['is_read']            = 'no';
+            $notification['is_delete']          = 'no';
+            $notification['created_at']         = Carbon::now();
+            $notification['note']               = 'Missed your visit';
+            $notification->save();
+
             // Add Record
             $record = new Record();
-            $record['type'] = 'session_completed';
+            $record['type'] = 'session_missed';
             $record['appointment_id'] = $aptmt_rs['id'];
             $record['treatment_id'] = $treatment_id;
             $record['user_id'] = $treatment_obj->user_id;
@@ -1157,6 +1237,49 @@ class TreatmentsController extends Controller
             $t_params['status'] = $t_status;
             $t_params['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $t_params);
+
+            // send push notification
+            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+            $header = [
+                'content-type: application/json'
+            ];
+
+            $postdata = '{
+                "token":  "'.$user_device_token.'",
+                "notification": {
+                    "title": "reemarc",
+                    "body": "Missed your visit"
+                },
+                "data": {
+                    "notification_type": "visit_confirm",
+                    "id": "'.$notification->id.'",
+                    "user_id": "'.$notification['user_id'].'",
+                    "appointment_id": "'.$notification['appointment_id'].'",
+                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "appointment_status": "visit_confirming",
+                    "treatment_status": "visit_confirming",
+                    "clinic_id": "'.$notification['clinic_id'].'",
+                    "package_id": "'.$notification['package_id'].'",
+                    "is_read": "no",
+                    "is_delete": "no",
+                    "no_show": "yes",
+                    "note": "'.$notification['note'].'",
+                    "created_at" : "'.Carbon::now().'"
+                }
+            }';
+
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            return $result;
 
             return 'success';
 
