@@ -24,6 +24,7 @@ class Notification extends Model
         'note',
         'is_delete',
         'is_read',
+        'no_show',
     ];
 
     protected $primaryKey = 'id';

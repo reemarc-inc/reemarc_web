@@ -1205,6 +1205,7 @@ class TreatmentsController extends Controller
             $notification['type']               = 'visit_confirm';
             $notification['is_read']            = 'no';
             $notification['is_delete']          = 'no';
+            $notification['no_show']            = 'yes';
             $notification['created_at']         = Carbon::now();
             $notification['note']               = 'Missed your visit';
             $notification->save();
