@@ -81,6 +81,7 @@ class NotificationRepository implements NotificationRepositoryInterface
                 n.clinic_id as clinic_id,
                 n.is_read as is_read,
                 n.is_delete as is_delete,
+                n.no_show as no_show,
                 n.note as note,
                 n.created_at as created_at
             from notification n
