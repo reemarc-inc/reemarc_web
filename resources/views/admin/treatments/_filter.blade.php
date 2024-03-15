@@ -2,14 +2,18 @@
     <div class="form-row" style="background-color: white; margin: -16px 0px 0px 0px; padding: 0px 0px 0px 12px;">
         <hr width="99%" />
         <div class="form-group col-md-4">
-        <input type="text" name="q" class="design-field" id="q" placeholder="Patient name.." value="{{ !empty($filter['q']) ? $filter['q'] : old('q') }}">
-        </div>
-        <div class="form-group col-md-2">
-            <select class="design-select" name="region">
-                <option value="">Select Region</option>
-                @foreach ($regions_ as $value)
-                    <option value="{{ $value }}" @if( $value == $region_) selected="selected" @endif >
-                        {{$value}}
+            <?php
+            if(auth()->user()->role == 'doctor'){
+                $condition = 'disabled';
+            }else{
+                $condition = '';
+            }
+            ?>
+            <select class="design-select" name="clinic_id" {{ $condition }}>
+                <option value="">Select Clinic</option>
+                @foreach ($clinics as $value)
+                    <option value="{{ $value->id }}" @if( $value->id == $clinic_) selected="selected" @endif >
+                        {{$value->name}}
                     </option>
                 @endforeach
             </select>

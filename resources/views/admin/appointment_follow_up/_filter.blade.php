@@ -1,11 +1,15 @@
 <form method="GET" action="{{ route('appointment.follow_up') }}">
     <div class="form-row" style="background-color: white; margin: -16px 0px 0px 0px; padding: 0px 0px 0px 12px;">
         <hr width="99%" />
-{{--        <div class="form-group col-md-2">--}}
-{{--            <input type="text" name="q" class="design-field" id="q" placeholder="Patient Name" value="{{ !empty($filter['q']) ? $filter['q'] : '' }}">--}}
-{{--        </div>--}}
         <div class="form-group col-md-3">
-            <select class="design-select" name="clinic">
+            <?php
+            if(auth()->user()->role == 'doctor'){
+                $condition = 'disabled';
+            }else{
+                $condition = '';
+            }
+            ?>
+            <select class="design-select" name="clinic" {{ $condition }}>
                 <option value="">Select Clinic</option>
                 @foreach ($clinics as $key => $value)
                     <option value="{{ $value->id }}" @if( $value->id == $clinic) selected="selected" @endif >

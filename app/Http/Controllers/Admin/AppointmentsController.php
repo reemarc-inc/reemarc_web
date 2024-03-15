@@ -366,16 +366,28 @@ class AppointmentsController extends Controller
 
         $this->data['filter'] = $param;
 
-        if(isset($_GET['clinic'])) {
-            $clinic = $param['clinic'];
-        }else{
-            $clinic = !empty($param['clinic']) ? $param['clinic'] : '';
+        $clinic_id = auth()->user()->clinic_id;
+
+        if($clinic_id == null){ // if Admin....
+            if(isset($_GET['clinic'])) {
+                $clinic = $param['clinic'];
+            }else{
+                $clinic = !empty($param['clinic']) ? $param['clinic'] : '';
+            }
+            if(isset($_GET['status'])) {
+                $status = $param['status'];
+            }else{
+                $status = !empty($param['status']) ? $param['status'] : '';
+            }
+        }else{ // if Clinic Doctor,,
+            $clinic = $clinic_id;
+            if(isset($_GET['status'])) {
+                $status = $param['status'];
+            }else{
+                $status = !empty($param['status']) ? $param['status'] : 'Upcoming';
+            }
         }
-        if(isset($_GET['status'])) {
-            $status = $param['status'];
-        }else{
-            $status = !empty($param['status']) ? $param['status'] : '';
-        }
+
         $this->data['clinic'] = $clinic;
         $this->data['status'] = $status;
         $this->data['clinics'] = $this->clinicRepository->findAll();

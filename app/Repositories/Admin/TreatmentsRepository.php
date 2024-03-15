@@ -18,12 +18,12 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
         return $treatments;
     }
 
-    public function get_treatment_list($region)
+    public function get_treatment_list($clinic_id)
     {
-        if($region != '') {
-            $region_filter = ' and a.clinic_region ="' . $region . '" ';
+        if($clinic_id != '') {
+            $clinic_filter = ' and t.clinic_id ="' . $clinic_id . '" ';
         }else{
-            $region_filter = ' ';
+            $clinic_filter = ' ';
         }
 
         return DB::select(
@@ -41,7 +41,7 @@ class TreatmentsRepository implements TreatmentsRepositoryInterface
                 from treatments t
                 left join appointments a on a.id = t.appointment_id
                 where t.status in ("first_session_booked", "session_completed", "session_booked", "visit_confirming")
-                  ' . $region_filter . '
+                  ' . $clinic_filter . '
                 order by t.id desc');
     }
 

@@ -33,6 +33,7 @@ class UserRequest extends FormRequest
 //            'name' => ['required', 'string', 'max:255'],
             'first_name' => ['required', 'string', 'max:255'],
             'last_name' => ['required', 'string', 'max:255'],
+            'clinic_id' => [],
             'email' => [
                 'required',
                 'string',

@@ -66,43 +66,35 @@ class TreatmentsController extends Controller
     public function index(Request $request)
     {
 //        $this->data['treatments'] = $this->treatmentsRepository->findAll();
+
         $this->data['currentAdminMenu'] = 'treatments';
-        $params = $request->all();
+        $param = $request->all();
 
         $options = [
             'per_page' => $this->perPage,
             'order' => [
                 'created_at' => 'desc',
             ],
-            'filter' => $params,
+            'filter' => $param,
         ];
 
-        $this->data['filter'] = $params;
+        $this->data['filter'] = $param;
 
-        $this->data['regions_'] = [
-            'New York',
-            'San Francisco',
-            'Seoul',
-            'Busan',
-            'Jeju',
-        ];
+        $this->data['clinics'] = $this->clinicRepository->findAll();
+        $clinic_id = auth()->user()->clinic_id;
 
-        $this->data['roles_'] = [
-            'Admin' => 'admin',
-            'Doctor' => 'doctor',
-            'Patient' => 'patient',
-            'Operator' => 'operator',
-        ];
-        $this->data['region_'] = !empty($params['region']) ? $params['region'] : '';
-        $this->data['role_'] = !empty($params['role']) ? $params['role'] : '';
-
-        if(isset($_GET['region'])) {
-            $region = $params['region'];
-        }else{
-            $region = !empty($params['region']) ? $params['region'] : '';
+        if($clinic_id == null){  // if Admin....
+            if(isset($_GET['clinic_id'])) {
+                $clinic_id = $param['clinic_id'];
+            }else{
+                $clinic_id = !empty($param['clinic_id']) ? $param['clinic_id'] : '';
+            }
+        }else{  // if Doctor....
+            $clinic_id = $clinic_id;
         }
 
-        $this->data['treatments'] = $this->treatmentsRepository->get_treatment_list($region);
+        $this->data['clinic_'] = $clinic_id;
+        $this->data['treatments'] = $this->treatmentsRepository->get_treatment_list($clinic_id);
 
         return view('admin.treatments.index', $this->data);
     }

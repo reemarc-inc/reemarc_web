@@ -32,10 +32,10 @@
 {{--        <?php } ?>--}}
 
         <li class="menu-header">Appointments</li>
-<!--        --><?php //if(auth()->user()->role == 'admin'){ ?>
+        <?php if(auth()->user()->role == 'admin'){ ?>
         <li class="{{ ($currentAdminMenu == 'appointment_make') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointment_make')}}"><i class="fas fa-table"></i> <span>Make Appointment</span></a></li>
         <li class="{{ ($currentAdminMenu == 'appointments_list') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointments_list')}}"><i class="fas fa-list-ul"></i> <span>Appointment List</span></a></li>
-<!--        --><?php //} ?>
+        <?php }?>
         <?php if(auth()->user()->role == 'admin' || auth()->user()->role == 'doctor'){ ?>
         <li class="{{ ($currentAdminMenu == 'appointment_follow_up') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/appointment_follow_up')}}"><i class="fas fa-check-square"></i> <span>Follow Up</span></a></li>
         <?php } ?>
@@ -47,7 +47,7 @@
         <li class="{{ ($currentAdminMenu == 'package_jira') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/package_jira')}}"><i class="fa fa-magnet"></i> <span>Package Order Status</span></a></li>
         <?php } ?>
         <li class="menu-header">Treatments</li>
-        <?php if(auth()->user()->role == 'admin'){ ?>
+        <?php if(auth()->user()->role == 'admin' || auth()->user()->role == 'doctor'){ ?>
         <li class="{{ ($currentAdminMenu == 'treatments') ? $activeClass : '' }}"><a class="nav-link" href="{{ url('admin/treatments')}}"><i class="fas fa-stethoscope"></i> <span>Treatment List</span></a></li>
         <?php } ?>
         <li class="menu-header">Account</li>
