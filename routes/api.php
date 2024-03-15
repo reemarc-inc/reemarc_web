@@ -48,6 +48,7 @@ Route::post("get_appointments_visit_confirming_list_profile", [AppointmentsContr
 Route::post("get_appointments_upcoming_list_profile", [AppointmentsController::class, 'get_appointments_upcoming_list_profile']); //
 Route::post("get_appointments_complete_list_profile", [AppointmentsController::class, 'get_appointments_complete_list_profile']); //
 Route::post("get_appointments_cancel_list_profile", [AppointmentsController::class, 'get_appointments_cancel_list_profile']); //
+Route::post("get_appointments_total_list_profile", [AppointmentsController::class, 'get_appointments_total_list_profile']); //
 
 Route::post("booking_from_app", [AppointmentsController::class, 'booking_from_app']); //
 Route::post("booking_cancel_app", [AppointmentsController::class, 'booking_cancel_app']); //
