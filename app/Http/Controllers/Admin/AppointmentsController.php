@@ -1678,23 +1678,25 @@ class AppointmentsController extends Controller
     public function get_appointments_total_list_profile(Request $request)
     {
         $param = $request->all();
-        $user = $this->userRepository->findById($param['user_id']);
+
+        $appt = new appointments();
+
         $upcoming_list = $this->appointmentsRepository->get_upcoming_appointments_by_user_id($param['user_id']);
         if(sizeof($upcoming_list)>0){
-            $user->upcoming_list = $upcoming_list;
+            $appt->upcoming_list = $upcoming_list;
         }
         $complete_list = $this->appointmentsRepository->get_complete_appointments_by_user_id($param['user_id']);
         if(sizeof($complete_list)>0){
-            $user->complete_list = $complete_list;
+            $appt->complete_list = $complete_list;
         }
         $cancel_list = $this->appointmentsRepository->get_cancel_appointments_by_user_id($param['user_id']);
         if(sizeof($cancel_list)>0){
-            $user->cancel_list = $cancel_list;
+            $appt->cancel_list = $cancel_list;
         }
         $visit_confirming = $this->appointmentsRepository->get_visit_confirming_appointments_by_user_id($param['user_id']);
         if(sizeof($visit_confirming)>0){
-            $user->visit_confirming = $visit_confirming;
+            $appt->visit_confirming = $visit_confirming;
         }
-        return $user;
+        return $appt;
     }
 }
