@@ -232,6 +232,7 @@ class TreatmentsController extends Controller
 
         $this->data['current_session'] = $sessions = $this->appointmentsRepository->get_current_session($id);
         $first_session = $this->appointmentsRepository->get_first_session($id);
+        $first_session_date = date("Y-m-d");
         if($first_session){
             $first_session_date = $first_session->booked_date;
         }
