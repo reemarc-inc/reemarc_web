@@ -232,7 +232,9 @@ class TreatmentsController extends Controller
 
         $this->data['current_session'] = $sessions = $this->appointmentsRepository->get_current_session($id);
         $first_session = $this->appointmentsRepository->get_first_session($id);
-        $first_session_date = $first_session->booked_date;
+        if($first_session){
+            $first_session_date = $first_session->booked_date;
+        }
         $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($id);
         $month_rule = [
             1 => '0 Month',
