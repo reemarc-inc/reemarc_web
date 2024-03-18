@@ -347,7 +347,8 @@ class TreatmentsController extends Controller
         $this->data['current_session'] = $sessions = $this->appointmentsRepository->get_current_session($treatment_id);
 
         if($sessions) {
-
+            $first_session = $this->appointmentsRepository->get_first_session($id);
+            $first_session_date = $first_session->booked_date;
             $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
 
             $month_rule = [
@@ -384,14 +385,16 @@ class TreatmentsController extends Controller
                     $session_list[] = [
                         'appointment_id' => $sessions[$i - 1]->id,
                         'session' => 'SESSION ' . $i,
-                        'booked_start' => date("M d, Y", strtotime($sessions[$i - 1]->booked_date)),
+                        'booked_start' => date('M j', strtotime($sessions[$i - 1]->booked_start)),
+                        'rec_date' => date('M j', strtotime("+$month_rule[$i]", strtotime($first_session_date))),
                         'status' => $status
                     ];
                 } else {
                     $session_list[] = [
                         'appointment_id' => null,
                         'session' => 'SESSION ' . $i,
-                        'booked_start' => $month_rule[$i],
+                        'booked_start' => 'TBD',
+                        'rec_date' => date('M j', strtotime("+$month_rule[$i]", strtotime($first_session_date))),
                         'status' => 'Not Scheduled'
                     ];
                 }
@@ -410,7 +413,6 @@ class TreatmentsController extends Controller
             ];
         }
 
-        var_dump($data);
         return response()->json($data);
 
     }
