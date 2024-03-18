@@ -473,11 +473,11 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        var rs = JSON.parse(response);
+                        rs = JSON.parse(response);
                         if(response == 'Device token not found') {
-                            alert(rs);
+                            alert(response);
                         }else if(response == 'Internal Server Error'){
-                            alert(rs);
+                            alert(response);
                         }else if(rs.code == "messaging/registration-token-not-registered"){
                             alert(rs.message);
                         }else{
