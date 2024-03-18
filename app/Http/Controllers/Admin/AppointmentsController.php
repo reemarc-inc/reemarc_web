@@ -1678,9 +1678,7 @@ class AppointmentsController extends Controller
     public function get_appointments_total_list_profile(Request $request)
     {
         $param = $request->all();
-
-        $user = new appointments();
-
+        $user = $this->userRepository->findById($param['user_id']);
         $upcoming_list = $this->appointmentsRepository->get_upcoming_appointments_by_user_id($param['user_id']);
         if(sizeof($upcoming_list)>0){
             $user->upcoming_list = $upcoming_list;
