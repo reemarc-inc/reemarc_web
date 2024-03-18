@@ -80,7 +80,12 @@
                                     }
                                 ?>
                                     <div class="progress mb-3" style="height: 30px; border-radius: 0.75rem;">
-                                        <div class="progress-bar {{$bg_css}}" role="progressbar" data-width="{{$i*$x}}%" aria-valuenow="50" aria-valuemin="0" aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">{{ $row['session'] }} [{{ date("m/d/y g A", strtotime($row['booked_start'])) }}] - {{ $row['status'] }}</div>
+                                        <div class="progress-bar {{$bg_css}}"
+                                             role="progressbar" data-width="{{$i*$x}}%"
+                                             aria-valuenow="50" aria-valuemin="0"
+                                             aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">
+                                            {{ $row['session'] }}  [{{ $row['rec_date'] }}] / [{{ $row['booked_start'] }}] - {{ $row['status'] }}
+                                        </div>
                                     </div>
                                 <?php  $i++;?>
                                 <?php } ?>

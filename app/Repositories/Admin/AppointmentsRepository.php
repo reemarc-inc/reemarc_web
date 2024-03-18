@@ -217,6 +217,17 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         ]);
     }
 
+    public function get_first_session($treatment_id)
+    {
+        $aptmt = new Appointments();
+        $aptmt_rs = $aptmt->Where('treatment_id', '=', $treatment_id)
+            ->WhereIn('status', array('first_session_booked'))
+            ->OrderBy('id', 'asc')
+            ->first();
+
+        return $aptmt_rs;
+    }
+
     public function get_last_treatment_visit_confirming_appointment($treatment_id)
     {
         $aptmt = new Appointments();
