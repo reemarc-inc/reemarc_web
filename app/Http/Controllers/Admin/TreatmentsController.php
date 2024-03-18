@@ -714,7 +714,13 @@ class TreatmentsController extends Controller
             $package_obj = $this->packageRepository->findById($package_id);
 
             if(!$user_device_token){
-                return "Device token not found";
+                $data = [
+                    'error' => [
+                        'code' => 404,
+                        'message' => "Device token not found"
+                    ]
+                ];
+                return response()->json($data);
             }
 
             $param_treatment['status'] = 'location_sent';
