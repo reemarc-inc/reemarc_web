@@ -613,9 +613,6 @@ class TreatmentsController extends Controller
             $package_id = $treatment_obj->package_id;
             $package_obj = $this->packageRepository->findById($package_id);
 
-            if(!$user_device_token){
-                return "Device token not found";
-            }
             $param_treatment['status'] = 'package_ordered';
             $param_treatment['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $param_treatment);
@@ -652,47 +649,52 @@ class TreatmentsController extends Controller
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
-            // send push notification
-            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-            $header = [
-                'content-type: application/json'
-            ];
+            if(!$user_device_token){
+                return "No device token";
+            }else {
 
-            $postdata = '{
-                "token":  "'.$user_device_token.'",
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
+
+                $postdata = '{
+                "token":  "' . $user_device_token . '",
                 "notification": {
                     "title": "reemarc",
                     "body": "reemarc doctors have chosen a treatment package for you"
                 },
                 "data": {
                     "notification_type": "package_ordered",
-                    "id": "'.$notification->id.'",
-                    "user_id": "'.$notification['user_id'].'",
-                    "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "id": "' . $notification->id . '",
+                    "user_id": "' . $notification['user_id'] . '",
+                    "appointment_id": "' . $notification['appointment_id'] . '",
+                    "treatment_id": "' . $notification['treatment_id'] . '",
                     "appointment_status": "complete",
                     "treatment_status": "package_ordered",
-                    "clinic_id": "'.$notification['clinic_id'].'",
-                    "package_id": "'.$notification['package_id'].'",
+                    "clinic_id": "' . $notification['clinic_id'] . '",
+                    "package_id": "' . $notification['package_id'] . '",
                     "is_read": "no",
                     "is_delete": "no",
-                    "note": "'.$notification['note'].'",
-                    "created_at" : "'.Carbon::now().'"
-                }
-            }';
+                    "note": "' . $notification['note'] . '",
+                    "created_at" : "' . Carbon::now() . '"
+                    }
+                }';
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-            return $result;
+                return $result;
+            }
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -715,10 +717,6 @@ class TreatmentsController extends Controller
 
             $package_id = $treatment_obj->package_id;
             $package_obj = $this->packageRepository->findById($package_id);
-
-            if(!$user_device_token){
-                return "Device token not found";
-            }
 
             $param_treatment['status'] = 'location_sent';
             $param_treatment['updated_at'] = Carbon::now();
@@ -756,47 +754,51 @@ class TreatmentsController extends Controller
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
-            // send push notification
-            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-            $header = [
-                'content-type: application/json'
-            ];
+            if(!$user_device_token){
+                return "No device token";
+            }else{
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
 
-            $postdata = '{
-                "token":  "'.$user_device_token.'",
-                "notification": {
-                    "title": "reemarc",
-                    "body": "Your package has arrived reemarc. Please confirm your treatment location."
-                },
-                "data": {
-                    "notification_type": "location_sent",
-                    "id": "'.$notification->id.'",
-                    "user_id": "'.$notification['user_id'].'",
-                    "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$notification['treatment_id'].'",
-                    "appointment_status": "complete",
-                    "treatment_status": "location_sent",
-                    "clinic_id": "'.$notification['clinic_id'].'",
-                    "package_id": "'.$notification['package_id'].'",
-                    "is_read": "no",
-                    "is_delete": "no",
-                    "note": "'.$notification['note'].'",
-                    "created_at" : "'.Carbon::now().'"
-                }
-            }';
+                $postdata = '{
+                    "token":  "' . $user_device_token . '",
+                    "notification": {
+                        "title": "reemarc",
+                        "body": "Your package has arrived reemarc. Please confirm your treatment location."
+                    },
+                    "data": {
+                        "notification_type": "location_sent",
+                        "id": "' . $notification->id . '",
+                        "user_id": "' . $notification['user_id'] . '",
+                        "appointment_id": "' . $notification['appointment_id'] . '",
+                        "treatment_id": "' . $notification['treatment_id'] . '",
+                        "appointment_status": "complete",
+                        "treatment_status": "location_sent",
+                        "clinic_id": "' . $notification['clinic_id'] . '",
+                        "package_id": "' . $notification['package_id'] . '",
+                        "is_read": "no",
+                        "is_delete": "no",
+                        "note": "' . $notification['note'] . '",
+                        "created_at" : "' . Carbon::now() . '"
+                    }
+                }';
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-            return $result;
+                return $result;
+            }
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -872,10 +874,6 @@ class TreatmentsController extends Controller
             $package_id = $treatment_obj->package_id;
             $package_obj = $this->packageRepository->findById($package_id);
 
-            if(!$user_device_token){
-                return "Device token not found";
-            }
-
             $param_treatment['status'] = 'package_delivered';
             $param_treatment['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $param_treatment);
@@ -912,47 +910,51 @@ class TreatmentsController extends Controller
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
-            // send push notification
-            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-            $header = [
-                'content-type: application/json'
-            ];
+            if(!$user_device_token){
+                return "No device token";
+            }else {
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
 
-            $postdata = '{
-                "token":  "'.$user_device_token.'",
+                $postdata = '{
+                "token":  "' . $user_device_token . '",
                 "notification": {
                     "title": "reemarc",
                     "body": "You are all set to receive a treatment and package."
                 },
                 "data": {
                     "notification_type": "package_delivered",
-                    "id": "'.$notification->id.'",
-                    "user_id": "'.$notification['user_id'].'",
-                    "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "id": "' . $notification->id . '",
+                    "user_id": "' . $notification['user_id'] . '",
+                    "appointment_id": "' . $notification['appointment_id'] . '",
+                    "treatment_id": "' . $notification['treatment_id'] . '",
                     "appointment_status": "complete",
                     "treatment_status": "package_delivered",
-                    "clinic_id": "'.$notification['clinic_id'].'",
-                    "package_id": "'.$notification['package_id'].'",
+                    "clinic_id": "' . $notification['clinic_id'] . '",
+                    "package_id": "' . $notification['package_id'] . '",
                     "is_read": "no",
                     "is_delete": "no",
-                    "note": "'.$notification['note'].'",
-                    "created_at" : "'.Carbon::now().'"
-                }
-            }';
+                    "note": "' . $notification['note'] . '",
+                    "created_at" : "' . Carbon::now() . '"
+                    }
+                }';
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-            return $result;
+                return $result;
+            }
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -1129,47 +1131,51 @@ class TreatmentsController extends Controller
             $t_params['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $t_params);
 
-            // send push notification
-            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-            $header = [
-                'content-type: application/json'
-            ];
+            if(!$user_device_token){
+                return "No device token";
+            }else{
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
 
-            $postdata = '{
-                "token":  "'.$user_device_token.'",
+                $postdata = '{
+                "token":  "' . $user_device_token . '",
                 "notification": {
                     "title": "reemarc",
                     "body": "Confirmed your visit"
                 },
                 "data": {
                     "notification_type": "visit_confirm",
-                    "id": "'.$notification->id.'",
-                    "user_id": "'.$notification['user_id'].'",
-                    "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "id": "' . $notification->id . '",
+                    "user_id": "' . $notification['user_id'] . '",
+                    "appointment_id": "' . $notification['appointment_id'] . '",
+                    "treatment_id": "' . $notification['treatment_id'] . '",
                     "appointment_status": "visit_confirming",
                     "treatment_status": "visit_confirming",
-                    "clinic_id": "'.$notification['clinic_id'].'",
-                    "package_id": "'.$notification['package_id'].'",
+                    "clinic_id": "' . $notification['clinic_id'] . '",
+                    "package_id": "' . $notification['package_id'] . '",
                     "is_read": "no",
                     "is_delete": "no",
-                    "note": "'.$notification['note'].'",
-                    "created_at" : "'.Carbon::now().'"
-                }
-            }';
+                    "note": "' . $notification['note'] . '",
+                    "created_at" : "' . Carbon::now() . '"
+                    }
+                }';
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-            return $result;
+                return $result;
+            }
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -1245,50 +1251,53 @@ class TreatmentsController extends Controller
             $t_params['updated_at'] = Carbon::now();
             $this->treatmentsRepository->update($treatment_id, $t_params);
 
-            // send push notification
-            $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
-            $header = [
-                'content-type: application/json'
-            ];
+            if(!$user_device_token){
+                return "No device token";
+            }else {
+                // send push notification
+                $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
+                $header = [
+                    'content-type: application/json'
+                ];
 
-            $postdata = '{
-                "token":  "'.$user_device_token.'",
+                $postdata = '{
+                "token":  "' . $user_device_token . '",
                 "notification": {
                     "title": "reemarc",
                     "body": "Missed your visit"
                 },
                 "data": {
                     "notification_type": "visit_confirm",
-                    "id": "'.$notification->id.'",
-                    "user_id": "'.$notification['user_id'].'",
-                    "appointment_id": "'.$notification['appointment_id'].'",
-                    "treatment_id": "'.$notification['treatment_id'].'",
+                    "id": "' . $notification->id . '",
+                    "user_id": "' . $notification['user_id'] . '",
+                    "appointment_id": "' . $notification['appointment_id'] . '",
+                    "treatment_id": "' . $notification['treatment_id'] . '",
                     "appointment_status": "visit_confirming",
                     "treatment_status": "visit_confirming",
-                    "clinic_id": "'.$notification['clinic_id'].'",
-                    "package_id": "'.$notification['package_id'].'",
+                    "clinic_id": "' . $notification['clinic_id'] . '",
+                    "package_id": "' . $notification['package_id'] . '",
                     "is_read": "no",
                     "is_delete": "no",
                     "no_show": "yes",
-                    "note": "'.$notification['note'].'",
-                    "created_at" : "'.Carbon::now().'"
-                }
-            }';
+                    "note": "' . $notification['note'] . '",
+                    "created_at" : "' . Carbon::now() . '"
+                    }
+                }';
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 60);
+                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+                curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 
-            $result = curl_exec($ch);
-            curl_close($ch);
+                $result = curl_exec($ch);
+                curl_close($ch);
 
-            return $result;
+                return $result;
+            }
 
-            return 'success';
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

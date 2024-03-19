@@ -446,16 +446,11 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        rs = JSON.parse(response);
-                        if(response == 'Device token not found') {
-                            alert(response);
-                        }else if(response == 'Internal Server Error'){
-                            alert(response);
-                        }else if(rs.code == "messaging/registration-token-not-registered"){
-                            alert(rs.message);
+                        if(response == 'No device token') {
+                            alert('No device token, no notification. However transaction proceeds.');
                         }else{
-                            alert("System update completed.");
-                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                            alert("The notification has been successfully sent.");
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
                         }
                     },
                 })
@@ -473,16 +468,11 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        rs = JSON.parse(response);
-                        if(response == 'Device token not found') {
-                            alert(response);
-                        }else if(response == 'Internal Server Error'){
-                            alert(response);
-                        }else if(rs.code == "messaging/registration-token-not-registered"){
-                            alert(rs.message);
+                        if(response == 'No device token') {
+                            alert('No device token, no notification. However transaction proceeds.');
                         }else{
                             alert("The notification has been successfully sent.");
-                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
                         }
                     },
                 })
@@ -522,16 +512,11 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        rs = JSON.parse(response);
-                        if(response == 'Device token not found') {
-                            alert(response);
-                        }else if(response == 'Internal Server Error'){
-                            alert(response);
-                        }else if(rs.code == "messaging/registration-token-not-registered"){
-                            alert(rs.message);
+                        if(response == 'No device token') {
+                            alert('No device token, no notification. However transaction proceeds.');
                         }else{
-                            alert("System update completed.");
-                            window.location.reload('/admin/treatments/'+treatment_id+'/edit');
+                            alert("The notification has been successfully sent.");
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
                         }
                     },
                 })
@@ -572,11 +557,11 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        if(response == 'success') {
-                            alert("System update completed.");
-                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
+                        if(response == 'No device token') {
+                            alert('No device token, no notification. However transaction proceeds.');
                         }else{
-                            alert('Error!');
+                            alert("The notification has been successfully sent.");
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
                         }
                     },
                 })
@@ -594,11 +579,11 @@
                         id : treatment_id
                     },
                     success: function(response) {
-                        if(response == 'success') {
-                            alert("System update completed.");
-                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
+                        if(response == 'No device token') {
+                            alert('No device token, no notification. However transaction proceeds.');
                         }else{
-                            alert('Error!');
+                            alert("The notification has been successfully sent.");
+                            window.location.reload('/admin/treatments/' + treatment_id + '/edit');
                         }
                     },
                 })
