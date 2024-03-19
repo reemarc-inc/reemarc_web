@@ -6,6 +6,7 @@
             <div class="text-small font-600-bold" style="color: #03b06d;"><i class="fas fa-circle"></i> Seoul</div>
             <div class="text-small font-600-bold" style="color: #9f76c2;"><i class="fas fa-circle"></i> New York</div>
             <div class="text-small font-600-bold" style="color: #017cc2;"><i class="fas fa-circle"></i> San Francisco</div>
+            <div class="text-small font-600-bold" style="color: #017cc2;"><i class="fas fa-circle"></i> China</div>
         </div>
 
         <div class="form-group col-md-2">

@@ -719,7 +719,8 @@ class AssetController extends Controller
         $this->data['teams'] = [
           'Seoul',
           'New York',
-          'San Francisco'
+          'San Francisco',
+          'China'
         ];
 
         return view('admin.asset.jira_kec', $this->data);

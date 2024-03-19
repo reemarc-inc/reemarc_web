@@ -61,6 +61,7 @@ class ClinicController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
@@ -88,6 +89,7 @@ class ClinicController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
         $this->data['disabled_days_'] = [
             'Mon' => 1,
@@ -208,6 +210,7 @@ class ClinicController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['disabled_days_'] = [

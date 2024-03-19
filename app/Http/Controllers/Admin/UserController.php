@@ -73,6 +73,7 @@ class UserController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
@@ -101,6 +102,7 @@ class UserController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',
@@ -234,6 +236,7 @@ class UserController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',

@@ -123,6 +123,7 @@ class TreatmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['roles_'] = [
@@ -165,6 +166,7 @@ class TreatmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['roleId'] = null;
@@ -306,6 +308,7 @@ class TreatmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['genders_'] = [

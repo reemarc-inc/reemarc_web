@@ -78,6 +78,7 @@ class AppointmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['statuss_'] = [
@@ -113,6 +114,7 @@ class AppointmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['roleId'] = null;
@@ -190,6 +192,7 @@ class AppointmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['status_'] = [
@@ -284,6 +287,7 @@ class AppointmentsController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
         $this->data['roles_'] = [
             'Admin' => 'admin',

@@ -47,6 +47,7 @@ class ApiController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         $this->data['roleId'] = null;
@@ -115,6 +116,7 @@ class ApiController extends Controller
             'Seoul',
             'Busan',
             'Jeju',
+            'China'
         ];
 
         return view('admin.clinic.form', $this->data);
