@@ -462,6 +462,7 @@ class UserController extends Controller
     {
         try{
             $params['email'] = $request['email'];
+            $params['user_type'] = $request['user_type'];
 //            $params['phone'] = $request['phone'];
             $params['password'] = Hash::make($request['password']);
             $params['first_name'] = $request['first_name'];

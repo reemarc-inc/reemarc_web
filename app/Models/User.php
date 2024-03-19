@@ -40,6 +40,7 @@ class User extends Authenticatable
         'treatment_status',
         'treatment_id',
         'clinic_id',
+        'user_type',
         'payment_customer_id',
         'image',
         'firebase_image',
