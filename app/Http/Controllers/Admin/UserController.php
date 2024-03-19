@@ -339,6 +339,7 @@ class UserController extends Controller
             'yob',
             'device_token',
             'sns_login',
+            'user_type',
             'created_at',
             'updated_at'
         )->get();
