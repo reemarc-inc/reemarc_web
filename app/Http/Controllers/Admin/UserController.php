@@ -529,6 +529,7 @@ class UserController extends Controller
                 'yob',
                 'device_token',
                 'sns_login',
+                'user_type',
                 'image',
                 'firebase_image',
                 'created_at',
