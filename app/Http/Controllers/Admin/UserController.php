@@ -353,7 +353,26 @@ class UserController extends Controller
         try{
             $param = $request->all();
             Log::info($request);
-            $user_obj = User::where('email', $param['email'])->first();
+            $user_obj = User::select(
+                'id',
+                'first_name',
+                'last_name',
+                'region',
+                'role',
+                'email',
+                'password',
+                'phone',
+                'gender',
+                'yob',
+                'device_token',
+                'sns_login',
+                'clinic_id',
+                'user_type',
+                'image',
+                'firebase_image',
+                'created_at',
+                'updated_at'
+            )->where('email', $param['email'])->first();
             if($user_obj){
                 $data = [
                     'data' => [
@@ -530,6 +549,7 @@ class UserController extends Controller
                 'yob',
                 'device_token',
                 'sns_login',
+                'clinic_id',
                 'user_type',
                 'image',
                 'firebase_image',
