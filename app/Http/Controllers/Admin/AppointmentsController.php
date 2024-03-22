@@ -486,7 +486,7 @@ class AppointmentsController extends Controller
 
 
 
-        return redirect('admin/appointment_follow_up')
+        return redirect('admin/patient_jira')
             ->with('success', 'Follow Up Success!');
 
 

@@ -99,6 +99,37 @@ class TreatmentsController extends Controller
         return view('admin.treatments.index', $this->data);
     }
 
+    public function patient_jira(Request $request)
+    {
+        $this->data['currentAdminMenu'] = 'patient_jira';
+
+        $param = $request->all();
+
+        $clinic_id = auth()->user()->clinic_id;
+
+        if($clinic_id == null){ // if Admin....
+            if(isset($_GET['clinic'])) {
+                $clinic = $param['clinic'];
+            }else{
+                $clinic = !empty($param['clinic']) ? $param['clinic'] : '';
+            }
+        }else{ // if Clinic Doctor,,
+            $clinic = $clinic_id;
+        }
+
+        $this->data['clinic'] = $clinic;
+        $this->data['clinics'] = $this->clinicRepository->findAll();
+
+        $this->data['follow_up_list'] = $this->appointmentsRepository->get_patients_list_by_filter($clinic);
+        $this->data['visit_confirm_list'] = $this->appointmentsRepository->get_visit_confirm_list_by_filter($clinic);
+
+//        $this->data['treatment_complete_list'] = $this->appointmentsRepository->get_treatment_complete_list_by_filter($clinic);
+        $this->data['treatment_complete_list'] = null;
+        $this->data['user_pending_list'] = $this->appointmentsRepository->get_user_pending_list_list_by_filter($clinic);
+
+        return view('admin.patient.jira_patient', $this->data);
+    }
+
     public function package_jira(Request $request)
     {
 //        $this->data['treatments'] = $this->treatmentsRepository->findAll();

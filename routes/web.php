@@ -96,7 +96,7 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::post('treatments/update/{id}', [AdminTreatments::class, 'update'])->name('treatments.update');
     Route::get('treatments', [AdminTreatments::class, 'index'])->name('treatments.index');
 
-
+    Route::get('patient_jira', [AdminTreatments::class, 'patient_jira'])->name('patient.jira');
     Route::get('package_jira', [AdminTreatments::class, 'package_jira'])->name('package.jira');
 
     Route::post('treatment/package_order', [AdminTreatments::class, 'package_order'])->name('treatment.package_order');

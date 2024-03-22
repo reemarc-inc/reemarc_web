@@ -57,7 +57,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
         return $appointments->delete();
     }
 
-    public function get_patients_list_by_filter($clinic, $status)
+    public function get_patients_list_by_filter($clinic)
     {
         if($clinic != '') {
             $clinic_filter = ' and clinic_id ="' . $clinic . '" ';
@@ -65,21 +65,62 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
             $clinic_filter = ' ';
         }
 
-        if($status != '') {
-            $status_filter = ' and status ="' . $status . '" ';
-        }else{
-            $status_filter = ' and status in ("upcoming", "complete") ';
-        }
-
         return DB::select(
             'select *
                 from appointments
                 where booked_start is not null
                   ' . $clinic_filter . '
-                  ' . $status_filter . '
+                  and status in ("upcoming")
                 order by status desc, booked_start desc');
     }
 
+    public function get_visit_confirm_list_by_filter($clinic)
+    {
+        if($clinic != '') {
+            $clinic_filter = ' and clinic_id ="' . $clinic . '" ';
+        }else{
+            $clinic_filter = ' ';
+        }
+
+        return DB::select(
+            'select *
+                from appointments
+                where status in ("visit_confirming")
+                  ' . $clinic_filter . '
+                order by status desc, booked_start desc');
+    }
+
+    public function get_treatment_complete_list_by_filter($clinic)
+    {
+        if($clinic != '') {
+            $clinic_filter = ' and clinic_id ="' . $clinic . '" ';
+        }else{
+            $clinic_filter = ' ';
+        }
+
+        return DB::select(
+            'select *
+                from appointments
+                where status in ("treatment_completed")
+                  ' . $clinic_filter . '
+                order by status desc, booked_start desc');
+    }
+
+    public function get_user_pending_list_list_by_filter($clinic)
+    {
+        if($clinic != '') {
+            $clinic_filter = ' and clinic_id ="' . $clinic . '" ';
+        }else{
+            $clinic_filter = ' ';
+        }
+
+        return DB::select(
+            'select *
+                from users
+                where user_type in ("existing_member_pending")
+                  ' . $clinic_filter . '
+                order by id desc');
+    }
 
 
     public function get_upcoming_appointments()

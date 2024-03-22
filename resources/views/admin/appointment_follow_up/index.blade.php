@@ -91,7 +91,6 @@
                                 </div>
                             </div>
                         </div>
-
                         <div class="card-footer">
                             <?php if($appointment->status == 'upcoming'){ ?>
                             <button type="button"
