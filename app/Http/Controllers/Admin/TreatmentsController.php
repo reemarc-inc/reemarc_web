@@ -680,9 +680,9 @@ class TreatmentsController extends Controller
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
-            if(!$user_device_token){
-                return "No device token";
-            }else {
+//            if(!$user_device_token){
+//                return "No device token";
+//            }else {
 
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
@@ -725,7 +725,7 @@ class TreatmentsController extends Controller
                 curl_close($ch);
 
                 return $result;
-            }
+//            }
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -943,7 +943,7 @@ class TreatmentsController extends Controller
 
             if(!$user_device_token){
                 return "No device token";
-            }else {
+            }else{
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
