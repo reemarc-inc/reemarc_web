@@ -24,6 +24,7 @@ use App\Repositories\Admin\TreatmentsRepository;
 use App\Repositories\Admin\ClinicRepository;
 
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class TreatmentsController extends Controller
 {
@@ -786,8 +787,10 @@ class TreatmentsController extends Controller
             $this->userRepository->update($user_id, $u_params);
 
             if(!$user_device_token){
+                Log::info('location_send (No device token)');
                 return "No device token";
             }else{
+                Log::info('location_send (device token exist)');
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
