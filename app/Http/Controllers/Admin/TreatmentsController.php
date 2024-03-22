@@ -681,10 +681,11 @@ class TreatmentsController extends Controller
             $u_params['updated_at'] = Carbon::now();
             $this->userRepository->update($user_id, $u_params);
 
-//            if(!$user_device_token){
-//                return "No device token";
-//            }else {
-
+            if(!$user_device_token){
+                Log::info('package_ordered (No device token - '.$user_obj->email.')');
+                return "No device token";
+            }else {
+                Log::info('package_ordered (Device token exist - '.$user_obj->email.')');
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
@@ -726,7 +727,7 @@ class TreatmentsController extends Controller
                 curl_close($ch);
 
                 return $result;
-//            }
+            }
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
@@ -787,10 +788,10 @@ class TreatmentsController extends Controller
             $this->userRepository->update($user_id, $u_params);
 
             if(!$user_device_token){
-                Log::info('location_send (No device token)');
+                Log::info('location_send (No device token - '.$user_obj->email.')');
                 return "No device token";
             }else{
-                Log::info('location_send (device token exist)');
+                Log::info('location_send (Device token exist - '.$user_obj->email.')');
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
@@ -945,8 +946,10 @@ class TreatmentsController extends Controller
             $this->userRepository->update($user_id, $u_params);
 
             if(!$user_device_token){
+                Log::info('package_ordered (No device token - '.$user_obj->email.')');
                 return "No device token";
             }else{
+                Log::info('package_ordered (Device token exist - '.$user_obj->email.')');
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
@@ -1166,8 +1169,10 @@ class TreatmentsController extends Controller
             $this->treatmentsRepository->update($treatment_id, $t_params);
 
             if(!$user_device_token){
+                Log::info('session_completed (No device token - '.$user_obj->email.')');
                 return "No device token";
             }else{
+                Log::info('session_completed (Device token exist - '.$user_obj->email.')');
                 // send push notification
                 $url = "https://us-central1-reemarc-300aa.cloudfunctions.net/sendFCM";
                 $header = [
