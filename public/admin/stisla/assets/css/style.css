@@ -602,13 +602,13 @@ select.form-control:not([size]):not([multiple]) {
 
 
 .followup-white-project-btn {
-    color: #000000;
-    background-color: #f8f8f8;
+    color: #ffffff;
+    background-color: #9b9b9b;
     border-color: #ffffff;
     font-weight: bold;
     border-radius: 0.7em;
     padding: 5px 0px 5px 0px;
-    border: 1px solid;
+    border: 0px solid;
     width: 100%;
     box-shadow: #000000;
 }

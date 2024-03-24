@@ -90,6 +90,75 @@
 
                 <div class="col-md-3" >
                     <div class="card status_title">
+                        <h5 class="status_name">Invisalign Order</h5>
+                    </div>
+                    @isset($package_ready_list)
+                        @foreach ($package_ready_list as $row)
+                            <div class="card">
+                                <div class="card-header">
+                                    <li class="media">
+                                        <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
+                                        <div class="media-body">
+                                            <div class="badge badge-pill badge-info mb-1 float-right">Package Ready</div>
+                                            <h6 class="media-title">{{ $row->user_first_name }} {{ $row->user_last_name }} [{{$row->user_id}}]</h6>
+                                            <div class="text-small text-muted">
+                                                Patient
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div class="card-body" style="display: flex; margin-bottom: -35px;">
+
+                                    <div class="col-md-6" style="padding: 0px 0px 0px 0px;">
+                                        <div class="form-group">
+                                            <div class="input-group info" style="display: block; ">
+                                                <div>
+                                                    <b style="color: #0062FF;">
+                                                        {{ $row->clinic_name }}
+                                                    </b>
+                                                </div>
+                                                <div>
+                                                    <b>Appt ID:</b>
+                                                    #{{ $row->appointment_id }}
+                                                </div>
+                                                <div>
+                                                    <b>Status:</b>
+                                                    {{ ucwords($row->treatment_status) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="padding: 0px 0px 0px 0px;">
+                                        <div class="form-group">
+                                            <div class="input-group info" style="display: block; ">
+                                                <div>
+                                                    <b>Package:</b>
+                                                    {{ $row->package_name }}
+                                                </div>
+                                                <div>
+                                                    <b>Num:</b>
+                                                    {{ $row->number_of_aligners }}
+                                                </div>
+                                                <div>
+                                                    <b>Period:</b>
+                                                    {{ $row->treatment_duration }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{{ url('admin/treatments/'. $row->treatment_id .'/edit') }}">
+                                        <button type="button" class="btn-sm followup-white-project-btn">Order Complete</button>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endisset
+                </div>
+
+                <div class="col-md-3" >
+                    <div class="card status_title">
                         <h5 class="status_name">Visit Confirm</h5>
                     </div>
                     @isset($visit_confirm_list)
@@ -100,7 +169,7 @@
                                     <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
                                     <div class="media-body">
                                         <div class="badge badge-pill badge-danger mb-1 float-right">Visit Confirming</div>
-                                        <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }} [{{$appointment->user_id}}]</h6>
+                                        <h6 class="media-title">{{ $appointment->user_first_name }} {{ $appointment->user_last_name }} [{{$appointment->user_id}}]</h6>
                                         <div class="text-small text-muted">Patient
                                             <?php if( $appointment->booked_date == Carbon\Carbon::now()->format('Y-m-d')) { ?>
                                             <div class="bullet"></div> <span class="text-danger">Today</span>
@@ -161,75 +230,6 @@
 
                 <div class="col-md-3" >
                     <div class="card status_title">
-                        <h5 class="status_name">Treatment Complete</h5>
-                    </div>
-                    @isset($treatment_complete_list)
-                    @foreach ($treatment_complete_list as $appointment)
-                        <div class="card">
-                            <div class="card-header">
-                                <li class="media">
-                                    <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
-                                    <div class="media-body">
-                                        <div class="badge badge-pill badge-danger mb-1 float-right">Visit Confirming</div>
-                                        <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }} [{{$appointment->user_id}}]</h6>
-                                        <div class="text-small text-muted">Patient
-                                            <?php if( $appointment->booked_date == Carbon\Carbon::now()->format('Y-m-d')) { ?>
-                                            <div class="bullet"></div> <span class="text-danger">Today</span>
-                                            <?php } ?>
-                                        </div>
-                                    </div>
-                                </li>
-                            </div>
-                            <div class="card-body" style="display: flex; margin-bottom: -35px;">
-
-                                <div class="col-md-6" style="padding: 0px 0px 0px 0px;">
-                                    <div class="form-group">
-                                        <div class="input-group info" style="display: block; ">
-                                            <div>
-                                                <b style="color: #0062FF;">
-                                                    {{ $appointment->clinic_name }}
-                                                </b>
-                                            </div>
-                                            <div>
-                                                <b>Appt ID:</b>
-                                                #{{ $appointment->id }}
-                                            </div>
-                                            <div>
-                                                <b>Status:</b>
-                                                {{ ucwords($appointment->status) }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6" style="padding: 0px 0px 0px 0px;">
-                                    <div class="form-group">
-                                        <div class="input-group info" style="display: block; ">
-                                            <div>
-                                                <b>Date:</b>
-                                                {{ $appointment->booked_date }}
-                                            </div>
-                                            <div>
-                                                <b>Time:</b>
-                                                {{ $appointment->booked_time }}
-                                            </div>
-                                            <div>
-                                                <b>Day:</b>
-                                                {{ $appointment->booked_day }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="card-footer">
-                                <button type="button" class="btn-sm followup-white-project-btn">Follow Up</button>
-                            </div>
-                        </div>
-                    @endforeach
-                    @endisset
-                </div>
-
-                <div class="col-md-3" >
-                    <div class="card status_title">
                         <h5 class="status_name">Existing Member Pending</h5>
                     </div>
                     @isset($user_pending_list)
@@ -240,7 +240,7 @@
                                     <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
                                     <div class="media-body">
                                         <div class="badge badge-pill badge-warning mb-1 float-right">Member Pending</div>
-                                        <h6 class="media-title">{{ $user->last_name }} {{ $user->first_name }} [{{$user->id}}]</h6>
+                                        <h6 class="media-title">{{ $user->first_name }} {{ $user->last_name }} [{{$user->id}}]</h6>
                                         <div class="text-small text-muted">Patient</div>
                                     </div>
                                 </li>

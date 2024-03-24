@@ -121,7 +121,8 @@ class TreatmentsController extends Controller
         $this->data['clinic'] = $clinic;
         $this->data['clinics'] = $this->clinicRepository->findAll();
 
-        $this->data['follow_up_list'] = $this->appointmentsRepository->get_patients_list_by_filter($clinic);
+        $this->data['follow_up_list'] = $this->appointmentsRepository->get_follow_up_list_by_filter($clinic);
+        $this->data['package_ready_list'] = $this->appointmentsRepository->get_package_ready_list_by_filter($clinic);
         $this->data['visit_confirm_list'] = $this->appointmentsRepository->get_visit_confirm_list_by_filter($clinic);
 
 //        $this->data['treatment_complete_list'] = $this->appointmentsRepository->get_treatment_complete_list_by_filter($clinic);
