@@ -123,9 +123,8 @@ class TreatmentsController extends Controller
 
         $this->data['follow_up_list'] = $this->appointmentsRepository->get_follow_up_list_by_filter($clinic);
         $this->data['package_ready_list'] = $this->appointmentsRepository->get_package_ready_list_by_filter($clinic);
+        $this->data['package_ordered_list'] = $this->appointmentsRepository->get_package_ordered_list_by_filter($clinic);
         $this->data['visit_confirm_list'] = $this->appointmentsRepository->get_visit_confirm_list_by_filter($clinic);
-
-//        $this->data['treatment_complete_list'] = $this->appointmentsRepository->get_treatment_complete_list_by_filter($clinic);
         $this->data['treatment_complete_list'] = null;
         $this->data['user_pending_list'] = $this->appointmentsRepository->get_user_pending_list_list_by_filter($clinic);
 

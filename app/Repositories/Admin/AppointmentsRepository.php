@@ -104,6 +104,7 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
                     t.user_id as user_id,
                     t.clinic_id as clinic_id,
                     c.name as clinic_name,
+                    c.region as region,
                     t.appointment_id as appointment_id,
                     t.id as treatment_id,
                     t.status as treatment_status,
@@ -115,6 +116,36 @@ class AppointmentsRepository implements AppointmentsRepositoryInterface
                 left join clinic c on c.id = t.clinic_id
                 left join package p on p.id = t.package_id
                 where t.status = "package_ready"
+                  ' . $clinic_filter . '
+                order by t.created_at desc');
+    }
+
+    public function get_package_ordered_list_by_filter($clinic)
+    {
+        if($clinic != '') {
+            $clinic_filter = ' and t.clinic_id ="' . $clinic . '" ';
+        }else{
+            $clinic_filter = ' ';
+        }
+
+        return DB::select(
+            'select u.first_name as user_first_name,
+                    u.last_name as user_last_name,
+                    t.user_id as user_id,
+                    t.clinic_id as clinic_id,
+                    c.region as region,
+                    c.name as clinic_name,
+                    t.appointment_id as appointment_id,
+                    t.id as treatment_id,
+                    t.status as treatment_status,
+                    p.name as package_name,
+                    p.number_of_aligners as number_of_aligners,
+                    p.treatment_duration as treatment_duration
+                from treatments t
+                left join users u on u.id = t.user_id
+                left join clinic c on c.id = t.clinic_id
+                left join package p on p.id = t.package_id
+                where t.status = "package_ordered"
                   ' . $clinic_filter . '
                 order by t.created_at desc');
     }

@@ -23,11 +23,11 @@
         </div>
         <div class="form-group col-md-5">
         </div>
-{{--        <div class="form-group col-md-2">--}}
-{{--            <div class="follow" style="float:right; margin-top: -5px; padding-right: 15px;">--}}
-{{--                <i class="left" onclick="moveScrollRight()" ></i>--}}
-{{--                <i class="right" onclick="moveScrollLeft()" ></i>--}}
-{{--            </div>--}}
-{{--        </div>--}}
+        <div class="form-group col-md-2">
+            <div class="follow" style="float:right; margin-top: -5px; padding-right: 15px;">
+                <i class="left" onclick="moveScrollRight()" ></i>
+                <i class="right" onclick="moveScrollLeft()" ></i>
+            </div>
+        </div>
     </div>
 </form>

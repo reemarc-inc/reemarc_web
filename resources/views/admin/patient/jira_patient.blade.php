@@ -28,7 +28,7 @@
                                     <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
                                     <div class="media-body">
                                         <div class="badge badge-pill badge-success mb-1 float-right">Upcoming</div>
-                                        <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }} [{{$appointment->user_id}}]</h6>
+                                        <h6 class="media-title">{{ $appointment->user_last_name }} {{ $appointment->user_first_name }}</h6>
                                         <div class="text-small text-muted">Patient
                                             <?php if( $appointment->booked_date == Carbon\Carbon::now()->format('Y-m-d')) { ?>
                                             <div class="bullet"></div> <span class="text-danger">Today</span>
@@ -48,12 +48,13 @@
                                                 </b>
                                             </div>
                                             <div>
-                                                <b>Appt ID:</b>
-                                                #{{ $appointment->id }}
+                                                <b>
+                                                {{ $appointment->clinic_region }}
+                                                </b>
                                             </div>
                                             <div>
-                                                <b>Status:</b>
-                                                {{ ucwords($appointment->status) }}
+                                                <b>User ID:</b>
+                                                #{{ ucwords($appointment->user_id) }}
                                             </div>
                                         </div>
                                     </div>
@@ -99,8 +100,8 @@
                                     <li class="media">
                                         <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
                                         <div class="media-body">
-                                            <div class="badge badge-pill badge-info mb-1 float-right">Package Ready</div>
-                                            <h6 class="media-title">{{ $row->user_first_name }} {{ $row->user_last_name }} [{{$row->user_id}}]</h6>
+                                            <div class="badge badge-pill badge-info mb-1 float-right">Package Selected</div>
+                                            <h6 class="media-title">{{ $row->user_first_name }} {{ $row->user_last_name }}</h6>
                                             <div class="text-small text-muted">
                                                 Patient
                                             </div>
@@ -118,12 +119,13 @@
                                                     </b>
                                                 </div>
                                                 <div>
-                                                    <b>Appt ID:</b>
-                                                    #{{ $row->appointment_id }}
+                                                    <b>
+                                                    {{ $row->region }}
+                                                    </b>
                                                 </div>
                                                 <div>
-                                                    <b>Status:</b>
-                                                    {{ ucwords($row->treatment_status) }}
+                                                    <b>User ID:</b>
+                                                    #{{ ucwords($row->user_id) }}
                                                 </div>
                                             </div>
                                         </div>
@@ -159,6 +161,76 @@
 
                 <div class="col-md-3" >
                     <div class="card status_title">
+                        <h5 class="status_name">Delivery Arrival Confirmation</h5>
+                    </div>
+                    @isset($package_ordered_list)
+                        @foreach ($package_ordered_list as $row)
+                            <div class="card">
+                                <div class="card-header">
+                                    <li class="media">
+                                        <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
+                                        <div class="media-body">
+                                            <div class="badge badge-pill badge-dark mb-1 float-right">Package Ordered</div>
+                                            <h6 class="media-title">{{ $row->user_first_name }} {{ $row->user_last_name }}</h6>
+                                            <div class="text-small text-muted">
+                                                Patient
+                                            </div>
+                                        </div>
+                                    </li>
+                                </div>
+                                <div class="card-body" style="display: flex; margin-bottom: -35px;">
+
+                                    <div class="col-md-6" style="padding: 0px 0px 0px 0px;">
+                                        <div class="form-group">
+                                            <div class="input-group info" style="display: block; ">
+                                                <div>
+                                                    <b style="color: #0062FF;">
+                                                        {{ $row->clinic_name }}
+                                                    </b>
+                                                </div>
+                                                <div>
+                                                    <b>
+                                                    {{ $row->region }}
+                                                    </b>
+                                                </div>
+                                                <div>
+                                                    <b>User ID:</b>
+                                                    #{{ ucwords($row->user_id) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" style="padding: 0px 0px 0px 0px;">
+                                        <div class="form-group">
+                                            <div class="input-group info" style="display: block; ">
+                                                <div>
+                                                    <b>Package:</b>
+                                                    {{ $row->package_name }}
+                                                </div>
+                                                <div>
+                                                    <b>Num:</b>
+                                                    {{ $row->number_of_aligners }}
+                                                </div>
+                                                <div>
+                                                    <b>Period:</b>
+                                                    {{ $row->treatment_duration }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <a href="{{ url('admin/treatments/'. $row->treatment_id .'/edit') }}">
+                                        <button type="button" class="btn-sm followup-white-project-btn">Package Delivered</button>
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endisset
+                </div>
+
+                <div class="col-md-3" >
+                    <div class="card status_title">
                         <h5 class="status_name">Visit Confirm</h5>
                     </div>
                     @isset($visit_confirm_list)
@@ -169,7 +241,7 @@
                                     <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
                                     <div class="media-body">
                                         <div class="badge badge-pill badge-danger mb-1 float-right">Visit Confirming</div>
-                                        <h6 class="media-title">{{ $appointment->user_first_name }} {{ $appointment->user_last_name }} [{{$appointment->user_id}}]</h6>
+                                        <h6 class="media-title">{{ $appointment->user_first_name }} {{ $appointment->user_last_name }}</h6>
                                         <div class="text-small text-muted">Patient
                                             <?php if( $appointment->booked_date == Carbon\Carbon::now()->format('Y-m-d')) { ?>
                                             <div class="bullet"></div> <span class="text-danger">Today</span>
@@ -189,12 +261,13 @@
                                                 </b>
                                             </div>
                                             <div>
-                                                <b>Appt ID:</b>
-                                                #{{ $appointment->id }}
+                                                <b>
+                                                {{ $appointment->clinic_region }}
+                                                </b>
                                             </div>
                                             <div>
-                                                <b>Status:</b>
-                                                {{ ucwords($appointment->status) }}
+                                                <b>User ID:</b>
+                                                #{{ ucwords($appointment->user_id) }}
                                             </div>
                                         </div>
                                     </div>
