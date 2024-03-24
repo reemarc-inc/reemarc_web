@@ -21,8 +21,6 @@ use App\Repositories\Admin\UserRepository;
 use App\Repositories\Admin\RoleRepository;
 use App\Repositories\Admin\PermissionRepository;
 
-use App\Repositories\Admin\CampaignBrandsRepository;
-
 use App\Authorizable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -32,19 +30,16 @@ class UserController extends Controller
     private $userRepository;
     private $fileAttachmentsRepository;
     private $clinicRepository;
-    private $campaignBrandsRepository;
 
     public function __construct(UserRepository $userRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
-                                ClinicRepository $clinicRepository,
-                                CampaignBrandsRepository $campaignBrandsRepository) // phpcs:ignore
+                                ClinicRepository $clinicRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->userRepository = $userRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->clinicRepository = $clinicRepository;
-        $this->campaignBrandsRepository = $campaignBrandsRepository;
 
         $this->data['currentAdminMenu'] = 'users';
     }
@@ -95,7 +90,6 @@ class UserController extends Controller
     public function create()
     {
 
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll();
         $this->data['regions'] = [
             'New York',
             'San Francisco',
@@ -222,7 +216,6 @@ class UserController extends Controller
         $this->data['clinic'] = $user->clinic_id;
         $this->data['gender'] = $user->gender;
         $this->data['yob'] = $user->yob;
-        $this->data['brands'] = $this->campaignBrandsRepository->findAll();
         $options = [
             'user_id' => $id,
             'order' => [
@@ -251,8 +244,6 @@ class UserController extends Controller
             'M' => 'M',
             'F' => 'F',
         ];
-
-
 
         return view('admin.users.form', $this->data);
     }
