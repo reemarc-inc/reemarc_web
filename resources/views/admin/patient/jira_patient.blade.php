@@ -351,10 +351,15 @@
 {{--                                </div>--}}
                             </div>
                             <div class="card-footer">
-                                <button type="button"
-                                        class="btn-sm followup-white-project-btn"
-                                        data-toggle="modal"
-                                        data-target="#follow-{{$user->id}}">Review</button>
+                                <a href="{{ url('admin/users/existing_user_pending/'. $user->id) }}">
+                                    <button type="button" class="btn-sm followup-white-project-btn">Review</button>
+                                </a>
+{{--                                <button type="button"--}}
+{{--                                        class="btn-sm followup-white-project-btn"--}}
+{{--                                        data-toggle="modal"--}}
+{{--                                        data-target="#follow-{{$user->id}}">--}}
+{{--                                    Review--}}
+{{--                                </button>--}}
                             </div>
                         </div>
                     @endforeach

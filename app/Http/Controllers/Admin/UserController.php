@@ -187,11 +187,43 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function existing_user_pending($id)
     {
         $this->data['user'] = $this->userRepository->findById($id);
 
         return view('admin.users.show', $this->data);
+    }
+
+    public function existing_user_update(Request $request, $id)
+    {
+        $user = $this->userRepository->findById($id);
+        $param = $request->request->all();
+
+        if($param['answer_1'] == 'no'){ // new
+            $u_params['user_type'] = 'existing_member';
+            $u_params['updated_at'] = Carbon::now();
+        }else{
+
+            if($param['answer_2'] == 'no'){ // ordered. but not received yet
+                $u_params['user_type'] = 'existing_member';
+                $u_params['updated_at'] = Carbon::now();
+                $u_params['treatment_status'] = 'package_ordered';
+            }else{
+
+                $u_params['user_type'] = 'existing_member';
+                $u_params['updated_at'] = Carbon::now();
+            }
+
+        }
+
+
+        if($this->userRepository->update($id, $u_params)){
+            return redirect('admin/patient_jira')
+                ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
+        }else {
+            return redirect('admin/patient_jira')
+                ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
+        }
     }
 
     /**
@@ -311,6 +343,14 @@ class UserController extends Controller
         return redirect('admin/users/'.$id.'/edit')
                 ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
     }
+
+    public function show($id)
+    {
+        $user = $this->userRepository->findById($id);
+
+        return view('admin.show.form', $this->data);
+    }
+
 
     /***
      * API

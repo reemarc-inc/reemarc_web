@@ -385,7 +385,7 @@ class TreatmentsController extends Controller
         $this->data['current_session'] = $sessions = $this->appointmentsRepository->get_current_session($treatment_id);
 
         if($sessions) {
-            $first_session = $this->appointmentsRepository->get_first_session($treatment_id);
+            $first_session = $this->appointmentsRepository->get_current_session($treatment_id);
             $first_session_date = $first_session->booked_date;
             $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
 

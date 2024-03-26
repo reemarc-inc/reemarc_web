@@ -74,6 +74,10 @@ Route::prefix('admin')->middleware(['auth'])->group(function () {
     Route::resource('roles', AdminRole::class);
 
     Route::resource('users', AdminUser::class);
+
+    Route::post('users/existing_user_update/{id}', [AdminUser::class, 'existing_user_update'])->name('users.existingUserUpdate');
+
+    Route::get('users/existing_user_pending/{id}', [AdminUser::class, 'existing_user_pending'])->name('users.existingUserPending');
     Route::get('users/fileRemove/{id}', [AdminUser::class, 'fileRemove'])->name('users.fileRemove');
 
     Route::resource('clinic', AdminClinic::class);
