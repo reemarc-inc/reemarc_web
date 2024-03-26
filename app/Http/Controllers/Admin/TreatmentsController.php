@@ -1017,9 +1017,9 @@ class TreatmentsController extends Controller
             $user_obj = $this->userRepository->findById($user_id);
             $user_device_token = $user_obj->device_token;
 
-            if(!$user_device_token){
-                return "Device token not found";
-            }
+//            if(!$user_device_token){
+//                return "Device token not found";
+//            }
 
             // Update appointment status to visit_confirming
             $param_appointment['status'] = 'visit_confirming';
