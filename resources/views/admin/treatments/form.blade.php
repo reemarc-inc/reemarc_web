@@ -84,7 +84,7 @@
                                              role="progressbar" data-width="{{$i*$x}}%"
                                              aria-valuenow="50" aria-valuemin="0"
                                              aria-valuemin="100" style="width: 10%; font-size: 1rem; {{$font_css}}">
-                                            {{ $row['session'] }}  [{{ $row['rec_date'] }}] / [{{ $row['booked_start'] }}] - {{ $row['status'] }}
+                                            {{ $row['session'] }}  [{{ $row['rec_date'] }}] / [{{ $row['booked_start'] }}] - [{{ $row['clinic'] }}] {{ $row['status'] }}
                                         </div>
                                     </div>
                                 <?php  $i++;?>

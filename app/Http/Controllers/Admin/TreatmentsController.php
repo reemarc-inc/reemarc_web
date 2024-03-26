@@ -308,6 +308,7 @@ class TreatmentsController extends Controller
                     'session' => 'SESSION '.$i,
                     'booked_start' => date('M j', strtotime($sessions[$i - 1]->booked_start)),
                     'rec_date' => date('M j', strtotime("+$month_rule[$i]", strtotime($first_session_date))),
+                    'clinic' => $sessions[$i - 1]->clinic_name,
                     'status' => $status
                 ];
             }else{
@@ -317,6 +318,7 @@ class TreatmentsController extends Controller
                     'session' => 'SESSION '.$i,
                     'booked_start' => 'TBD',
                     'rec_date' => date('M j', strtotime("+$month_rule[$i]", strtotime($first_session_date))),
+                    'clinic' => 'TBD',
                     'status' => 'Not Scheduled'
                 ];
             }
