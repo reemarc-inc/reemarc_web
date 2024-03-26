@@ -388,8 +388,8 @@ class TreatmentsController extends Controller
 
         if($sessions) {
             $first_session = $this->appointmentsRepository->get_current_session($treatment_id);
-            Log::info($treatment_id . " - " . $first_session);
-            $first_session_date = $first_session->booked_date;
+            Log::info($treatment_id . " - " . $first_session['booked_date']);
+            $first_session_date = $first_session['booked_date'];
             $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
 
             $month_rule = [
