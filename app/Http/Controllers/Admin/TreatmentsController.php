@@ -397,7 +397,7 @@ class TreatmentsController extends Controller
             $this->data['last_session_status'] = $this->appointmentsRepository->get_last_treatment_session_status($treatment_id);
 
             $month_rule = [
-                1 => 'TBD',
+                1 => '0 Month',
                 2 => '1 Month',
                 3 => '3 Month',
                 4 => '6 Month',
