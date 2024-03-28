@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 
 use App\Models\FileAttachments;
 use App\Models\User;
+use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\ClinicRepository;
 use App\Repositories\Admin\FileAttachmentsRepository;
+use App\Repositories\Admin\TreatmentsRepository;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -28,16 +30,22 @@ use Illuminate\Support\Facades\Log;
 class UserController extends Controller
 {
     private $userRepository;
+    private $appointmentsRepository;
+    private $treatmentsRepository;
     private $fileAttachmentsRepository;
     private $clinicRepository;
 
     public function __construct(UserRepository $userRepository,
+                                AppointmentsRepository $appointmentsRepository,
+                                TreatmentsRepository $treatmentsRepository,
                                 FileAttachmentsRepository $fileAttachmentsRepository,
                                 ClinicRepository $clinicRepository) // phpcs:ignore
     {
         parent::__construct();
 
         $this->userRepository = $userRepository;
+        $this->appointmentsRepository = $appointmentsRepository;
+        $this->treatmentsRepository = $treatmentsRepository;
         $this->fileAttachmentsRepository = $fileAttachmentsRepository;
         $this->clinicRepository = $clinicRepository;
 
@@ -194,35 +202,170 @@ class UserController extends Controller
         return view('admin.users.show', $this->data);
     }
 
+    public function create_first_appointment($user_obj){
+
+        $clinic_obj = $this->clinicRepository->findById($user_obj->clinic_id);
+
+        $params['user_id'] = $user_obj->id;
+        $params['user_first_name'] = $user_obj->first_name;
+        $params['user_last_name'] = $user_obj->last_name;
+        $params['user_email'] = $user_obj->email;
+        $params['user_phone'] = $user_obj->phone;
+        $params['clinic_id'] = $user_obj->clinic_id;
+        $params['clinic_name'] = $clinic_obj->name;
+        $params['clinic_phone'] = $clinic_obj->phone;
+        $params['clinic_address'] = $clinic_obj->address;
+        $params['clinic_region'] = $clinic_obj->region;
+        $params['status'] = 'complete';
+
+        return $this->appointmentsRepository->create($params);
+    }
+
+    public function create_session_appointment($user_obj, $booked_start, $t_id){
+
+        $clinic_obj = $this->clinicRepository->findById($user_obj->clinic_id);
+
+        $params['user_id'] = $user_obj->id;
+        $params['user_first_name'] = $user_obj->first_name;
+        $params['user_last_name'] = $user_obj->last_name;
+        $params['user_email'] = $user_obj->email;
+        $params['user_phone'] = $user_obj->phone;
+        $params['clinic_id'] = $user_obj->clinic_id;
+        $params['clinic_name'] = $clinic_obj->name;
+        $params['clinic_phone'] = $clinic_obj->phone;
+        $params['clinic_address'] = $clinic_obj->address;
+        $params['clinic_region'] = $clinic_obj->region;
+
+        $temp = explode(',', $booked_start);
+        $duration = 60;
+        $start = \DateTime::createFromFormat('Y-m-d H:i', $temp[0].$temp[1]);
+        $end = (\DateTime::createFromFormat("Y-m-d H:i", $temp[0].$temp[1]))->add(new \DateInterval("PT".$duration."M"));
+        $params['booked_start'] = $start->format('Y-m-d H:i');
+        $params['booked_end'] = $end->format('Y-m-d H:i');
+        $params['booked_day'] = date_format($start,'D');
+        $params['booked_date'] = date_format($start,'Y-m-d');
+        $params['booked_time'] = date_format($start,'g:i a');
+
+        $params['treatment_id'] = $t_id;
+        $params['status'] = 'complete';
+
+        return $this->appointmentsRepository->create($params);
+    }
+
+
+    public function create_treatment($user_obj, $apmt_obj, $status)
+    {
+        $params['appointment_id'] = $apmt_obj->id;
+        $params['user_id'] = $user_obj->id;
+        $params['clinic_id'] = $user_obj->clinic_id;
+        $params['package_id'] = $apmt_obj->id;
+        $params['session'] = $apmt_obj->id;
+        $params['month'] = $apmt_obj->id;
+        $params['ship_to_office'] = $apmt_obj->clinic_address;
+        $params['status'] = $status;
+
+        return $this->treatmentsRepository->create($params);
+    }
+
+    public function generate_past_bookings($first_date, $month, $user_obj, $t_id)
+    {
+        $first_session_date = $first_date;
+//        ddd($first_date, $month);
+        $month_rule = [
+            1 => '0 Month',
+            2 => '1 Month',
+            3 => '3 Month',
+            4 => '6 Month',
+            5 => '9 Month',
+            6 => '12 Month',
+            7 => '15 Month',
+            8 => '18 Month',
+            9 => '21 Month',
+            10 => '24 Month',
+            11 => '27 Month',
+            12 => '30 Month',
+            13 => '33 Month',
+            14 => '36 Month',
+        ];
+        $index = [
+            9 => 5,
+            12 => 6,
+            15 => 7,
+            18 => 8,
+            21 => 9,
+            24 => 10,
+            27 => 11,
+            30 => 12,
+            33 => 13,
+            36 => 14
+        ];
+        $total = $index[$month];
+        for($i=1; $i<=$total; $i++) {
+            $temp_date = date('Y-m-d 10:00:00', strtotime("+$month_rule[$i]", strtotime($first_session_date)));
+            if($temp_date <= date('Y-m-d H:i:s')) {
+                $session_list[] = [
+                    'num' => $i,
+                    'session' => 'SESSION ' . $i,
+                    'booked_start' => date('Y-m-d 08:00:00', strtotime("+$month_rule[$i]", strtotime($first_session_date))),
+                    'rec_date' => date('Y-m-d H:i:s', strtotime("+$month_rule[$i]", strtotime($first_session_date))),
+                    'clinic' => 'TBD',
+                    'status' => 'Not Scheduled'
+                ];
+
+                ddd($first_date, $month, $session_list);
+                $this->create_session_appointment($user_obj, $temp_date, $t_id);
+            }
+        }
+    }
+
     public function existing_user_update(Request $request, $id)
     {
-        $user = $this->userRepository->findById($id);
+        $user_obj = $this->userRepository->findById($id);
         $param = $request->request->all();
 
-        if($param['answer_1'] == 'no'){ // new
+        if($param['answer_1'] == 'no'){ // new -> first appointment(cho-dong) needed
             $u_params['user_type'] = 'existing_member';
             $u_params['updated_at'] = Carbon::now();
-        }else{
 
-            if($param['answer_2'] == 'no'){ // ordered. but not received yet
+        }else{ // cho-dong finished!! (create appointment row)
+
+            // create appointment row
+            $apmt_obj = $this->create_first_appointment($user_obj);
+
+            if($param['answer_3'] == 'no'){ // no : received yet -> (package_ordered)
                 $u_params['user_type'] = 'existing_member';
-                $u_params['updated_at'] = Carbon::now();
                 $u_params['treatment_status'] = 'package_ordered';
-            }else{
-
-                $u_params['user_type'] = 'existing_member';
                 $u_params['updated_at'] = Carbon::now();
-            }
 
+                // create treatment row
+                $treatment_obj = $this->create_treatment($user_obj, $apmt_obj, 'package_ordered');
+                $u_params['treatment_id'] = $treatment_obj->id;
+
+            }else{  // yes : received package -> (package_delivered)
+                $u_params['user_type'] = 'existing_member';
+                $u_params['treatment_status'] = 'package_delivered';
+                $u_params['updated_at'] = Carbon::now();
+
+                // create treatments row (treatment / multi appointments )
+                // create treatment row
+                $treatment_obj = $this->create_treatment($user_obj, $apmt_obj, 'package_delivered');
+                $u_params['treatment_id'] = $treatment_obj->id;
+
+                $first_date = $param['first_date'];
+                $month = $param['answer_2'];
+
+                $this->generate_past_bookings($first_date, $month,$user_obj, $u_params['treatment_id']);
+
+            }
         }
 
 
         if($this->userRepository->update($id, $u_params)){
             return redirect('admin/patient_jira')
-                ->with('success', __('users.success_updated_message', ['first_name' => $user->first_name]));
+                ->with('success', __('users.success_updated_message', ['first_name' => $user_obj->first_name]));
         }else {
             return redirect('admin/patient_jira')
-                ->with('error', __('users.fail_to_update_message', ['first_name' => $user->first_name]));
+                ->with('error', __('users.fail_to_update_message', ['first_name' => $user_obj->first_name]));
         }
     }
 

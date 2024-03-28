@@ -301,24 +301,24 @@
                     @endisset
                 </div>
 
-                <div class="col-md-3" >
-                    <div class="card status_title">
-                        <h5 class="status_name">Existing Member Pending</h5>
-                    </div>
-                    @isset($user_pending_list)
-                    @foreach ($user_pending_list as $user)
-                        <div class="card">
-                            <div class="card-header">
-                                <li class="media">
-                                    <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">
-                                    <div class="media-body">
-                                        <div class="badge badge-pill badge-warning mb-1 float-right">Member Pending</div>
-                                        <h6 class="media-title">{{ $user->first_name }} {{ $user->last_name }} [{{$user->id}}]</h6>
-                                        <div class="text-small text-muted">Patient</div>
-                                    </div>
-                                </li>
-                            </div>
-                            <div class="card-body" style="display: flex; margin-bottom: -35px;">
+{{--                <div class="col-md-3" >--}}
+{{--                    <div class="card status_title">--}}
+{{--                        <h5 class="status_name">Existing Member Pending</h5>--}}
+{{--                    </div>--}}
+{{--                    @isset($user_pending_list)--}}
+{{--                    @foreach ($user_pending_list as $user)--}}
+{{--                        <div class="card">--}}
+{{--                            <div class="card-header">--}}
+{{--                                <li class="media">--}}
+{{--                                    <img class="mr-3 rounded-circle" width="50" src="/storage/image/default_profile.png" alt="avatar">--}}
+{{--                                    <div class="media-body">--}}
+{{--                                        <div class="badge badge-pill badge-warning mb-1 float-right">Member Pending</div>--}}
+{{--                                        <h6 class="media-title">{{ $user->first_name }} {{ $user->last_name }} [{{$user->id}}]</h6>--}}
+{{--                                        <div class="text-small text-muted">Patient</div>--}}
+{{--                                    </div>--}}
+{{--                                </li>--}}
+{{--                            </div>--}}
+{{--                            <div class="card-body" style="display: flex; margin-bottom: -35px;">--}}
 
 {{--                                <div class="col-md-6" style="padding: 0px 0px 0px 0px;">--}}
 {{--                                    <div class="form-group">--}}
@@ -349,22 +349,22 @@
 {{--                                        </div>--}}
 {{--                                    </div>--}}
 {{--                                </div>--}}
-                            </div>
-                            <div class="card-footer">
-                                <a href="{{ url('admin/users/existing_user_pending/'. $user->id) }}">
-                                    <button type="button" class="btn-sm followup-white-project-btn">Review</button>
-                                </a>
+{{--                            </div>--}}
+{{--                            <div class="card-footer">--}}
+{{--                                <a href="{{ url('admin/users/existing_user_pending/'. $user->id) }}">--}}
+{{--                                    <button type="button" class="btn-sm followup-white-project-btn">Review</button>--}}
+{{--                                </a>--}}
 {{--                                <button type="button"--}}
 {{--                                        class="btn-sm followup-white-project-btn"--}}
 {{--                                        data-toggle="modal"--}}
 {{--                                        data-target="#follow-{{$user->id}}">--}}
 {{--                                    Review--}}
 {{--                                </button>--}}
-                            </div>
-                        </div>
-                    @endforeach
-                    @endisset
-                </div>
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    @endforeach--}}
+{{--                    @endisset--}}
+{{--                </div>--}}
 
             </div>
         </div>

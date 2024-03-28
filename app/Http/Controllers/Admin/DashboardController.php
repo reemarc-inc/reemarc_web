@@ -11,29 +11,46 @@ use App\Mail\ReminderDueBefore;
 use App\Mail\ReminderDueToday;
 use App\Mail\SendMail;
 use App\Models\Schedule;
+use App\Repositories\Admin\AppointmentsRepository;
 use App\Repositories\Admin\AssetNotificationUserRepository;
+use App\Repositories\Admin\ClinicRepository;
 use App\Repositories\Admin\UserRepository;
 use Illuminate\Http\Request;
 use Mail;
 
 class DashboardController extends Controller
 {
-    public function __construct()
+    private $appointmentsRepository;
+    private $clinicRepository;
+
+    public function __construct(AppointmentsRepository $appointmentsRepository,
+                                ClinicRepository $clinicRepository,)
     {
         parent::__construct();
+
+        $this->appointmentsRepository = $appointmentsRepository;
+        $this->clinicRepository = $clinicRepository;
+
     }
 
     public function index(Request $request)
     {
         $this->data['currentAdminMenu'] = 'dashboard';
-//        return view('admin.dashboard.index', $this->data);
 
-        if($request->ajax()) {
-            $data = Schedule::whereDate('event_start', '>=', $request->start)
-                ->whereDate('event_end',   '<=', $request->end)
-                ->get(['id', 'event_name', 'event_start', 'event_end']);
-            return response()->json($data);
+        $clinic_id = auth()->user()->clinic_id;
+        if($clinic_id == null){ // if Admin....
+            $clinic = !empty($param['clinic']) ? $param['clinic'] : '';
+            $clinic_name = 'Admin';
+        }else{ // if Clinic Doctor,,
+            $clinic = $clinic_id;
+            $clinic_obj = $this->clinicRepository->findById($clinic_id);
+            $clinic_name = $clinic_obj->name;
         }
+        $this->data['clinic_name'] = $clinic_name;
+        $this->data['num_follow_up'] = count($this->appointmentsRepository->get_follow_up_list_by_filter($clinic));
+        $this->data['num_package_ready'] = count($this->appointmentsRepository->get_package_ready_list_by_filter($clinic));
+        $this->data['num_package_ordered'] = count($this->appointmentsRepository->get_package_ordered_list_by_filter($clinic));
+        $this->data['num_visit_confirm'] = count($this->appointmentsRepository->get_visit_confirm_list_by_filter($clinic));
 
         return view('admin.dashboard.index', $this->data);
     }

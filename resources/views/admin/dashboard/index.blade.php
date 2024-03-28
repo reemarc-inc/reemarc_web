@@ -29,66 +29,77 @@
         <div class="section-header">
             <h1>Dashboard</h1>
         </div>
+        <div class="section-title">
+            <h3>{{ $clinic_name }}</h3>
+        </div>
         <div class="row">
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-primary">
-                        <i class="far fa-user"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Today Upcoming Patient</h4>
+                <a href="{{ url('admin/patient_jira/')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-primary">
+                            <i class="far fa-user"></i>
                         </div>
-                        <div class="card-body">
-                            10
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Follow Up</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $num_follow_up }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-danger">
-                        <i class="far fa-newspaper"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>News</h4>
+                <a href="{{ url('admin/patient_jira/')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-danger">
+                            <i class="far fa-newspaper"></i>
                         </div>
-                        <div class="card-body">
-                            42
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Invisalign Order</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $num_package_ready }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-warning">
-                        <i class="far fa-file"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Reports</h4>
+                <a href="{{ url('admin/patient_jira/')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-warning">
+                            <i class="far fa-file"></i>
                         </div>
-                        <div class="card-body">
-                            1,201
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Delivery Arrival Confirmation</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $num_package_ordered }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6 col-12">
-                <div class="card card-statistic-1">
-                    <div class="card-icon bg-success">
-                        <i class="fas fa-circle"></i>
-                    </div>
-                    <div class="card-wrap">
-                        <div class="card-header">
-                            <h4>Online Users</h4>
+                <a href="{{ url('admin/patient_jira/')}}">
+                    <div class="card card-statistic-1">
+                        <div class="card-icon bg-success">
+                            <i class="fas fa-circle"></i>
                         </div>
-                        <div class="card-body">
-                            47
+                        <div class="card-wrap">
+                            <div class="card-header">
+                                <h4>Visit Confirm</h4>
+                            </div>
+                            <div class="card-body">
+                                {{ $num_visit_confirm }}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
 {{--        <div class="row">--}}
@@ -180,123 +191,123 @@
 {{--            </div>--}}
 {{--        </div>--}}
 
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="d-inline">Tasks</h4>
-                    </div>
-                    <div class="card-body">
-                        <ul class="list-unstyled list-unstyled-border">
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="cbx-1">
-                                    <label class="custom-control-label" for="cbx-1"></label>
-                                </div>
-                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-4.png" alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-danger mb-1 float-right">Not Finished</div>
-                                    <h6 class="media-title"><a href="#">Redesign header</a></h6>
-                                    <div class="text-small text-muted">Alfa Zulkarnain <div class="bullet"></div> <span class="text-primary">Now</span></div>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="cbx-2" checked="">
-                                    <label class="custom-control-label" for="cbx-2"></label>
-                                </div>
-                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-5.png" alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-primary mb-1 float-right">Completed</div>
-                                    <h6 class="media-title"><a href="#">Add a new component</a></h6>
-                                    <div class="text-small text-muted">Serj Tankian <div class="bullet"></div> 4 Min</div>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="cbx-3">
-                                    <label class="custom-control-label" for="cbx-3"></label>
-                                </div>
-                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-2.png" alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-warning mb-1 float-right">Progress</div>
-                                    <h6 class="media-title"><a href="#">Fix modal window</a></h6>
-                                    <div class="text-small text-muted">Ujang Maman <div class="bullet"></div> 8 Min</div>
-                                </div>
-                            </li>
-                            <li class="media">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="cbx-4">
-                                    <label class="custom-control-label" for="cbx-4"></label>
-                                </div>
-                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-1.png" alt="avatar">
-                                <div class="media-body">
-                                    <div class="badge badge-pill badge-danger mb-1 float-right">Not Finished</div>
-                                    <h6 class="media-title"><a href="#">Remove unwanted classes</a></h6>
-                                    <div class="text-small text-muted">Farhan A Mujib <div class="bullet"></div> 21 Min</div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Referral URL</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="mb-4">
-                            <div class="text-small float-right font-weight-bold text-muted">2,100</div>
-                            <div class="font-weight-bold mb-1">Google</div>
-                            <div class="progress" data-height="3" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" data-width="80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"></div>
-                            </div>
-                        </div>
+{{--        <div class="row">--}}
+{{--            <div class="col-lg-6 col-md-6 col-12">--}}
+{{--                <div class="card">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <h4 class="d-inline">Tasks</h4>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body">--}}
+{{--                        <ul class="list-unstyled list-unstyled-border">--}}
+{{--                            <li class="media">--}}
+{{--                                <div class="custom-control custom-checkbox">--}}
+{{--                                    <input type="checkbox" class="custom-control-input" id="cbx-1">--}}
+{{--                                    <label class="custom-control-label" for="cbx-1"></label>--}}
+{{--                                </div>--}}
+{{--                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-4.png" alt="avatar">--}}
+{{--                                <div class="media-body">--}}
+{{--                                    <div class="badge badge-pill badge-danger mb-1 float-right">Not Finished</div>--}}
+{{--                                    <h6 class="media-title"><a href="#">Redesign header</a></h6>--}}
+{{--                                    <div class="text-small text-muted">Alfa Zulkarnain <div class="bullet"></div> <span class="text-primary">Now</span></div>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+{{--                            <li class="media">--}}
+{{--                                <div class="custom-control custom-checkbox">--}}
+{{--                                    <input type="checkbox" class="custom-control-input" id="cbx-2" checked="">--}}
+{{--                                    <label class="custom-control-label" for="cbx-2"></label>--}}
+{{--                                </div>--}}
+{{--                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-5.png" alt="avatar">--}}
+{{--                                <div class="media-body">--}}
+{{--                                    <div class="badge badge-pill badge-primary mb-1 float-right">Completed</div>--}}
+{{--                                    <h6 class="media-title"><a href="#">Add a new component</a></h6>--}}
+{{--                                    <div class="text-small text-muted">Serj Tankian <div class="bullet"></div> 4 Min</div>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+{{--                            <li class="media">--}}
+{{--                                <div class="custom-control custom-checkbox">--}}
+{{--                                    <input type="checkbox" class="custom-control-input" id="cbx-3">--}}
+{{--                                    <label class="custom-control-label" for="cbx-3"></label>--}}
+{{--                                </div>--}}
+{{--                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-2.png" alt="avatar">--}}
+{{--                                <div class="media-body">--}}
+{{--                                    <div class="badge badge-pill badge-warning mb-1 float-right">Progress</div>--}}
+{{--                                    <h6 class="media-title"><a href="#">Fix modal window</a></h6>--}}
+{{--                                    <div class="text-small text-muted">Ujang Maman <div class="bullet"></div> 8 Min</div>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+{{--                            <li class="media">--}}
+{{--                                <div class="custom-control custom-checkbox">--}}
+{{--                                    <input type="checkbox" class="custom-control-input" id="cbx-4">--}}
+{{--                                    <label class="custom-control-label" for="cbx-4"></label>--}}
+{{--                                </div>--}}
+{{--                                <img class="mr-3 rounded-circle" width="50" src="/storage/assets/img/avatar/avatar-1.png" alt="avatar">--}}
+{{--                                <div class="media-body">--}}
+{{--                                    <div class="badge badge-pill badge-danger mb-1 float-right">Not Finished</div>--}}
+{{--                                    <h6 class="media-title"><a href="#">Remove unwanted classes</a></h6>--}}
+{{--                                    <div class="text-small text-muted">Farhan A Mujib <div class="bullet"></div> 21 Min</div>--}}
+{{--                                </div>--}}
+{{--                            </li>--}}
+{{--                        </ul>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="col-lg-6 col-md-6 col-12">--}}
+{{--                <div class="card">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <h4>Referral URL</h4>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body">--}}
+{{--                        <div class="mb-4">--}}
+{{--                            <div class="text-small float-right font-weight-bold text-muted">2,100</div>--}}
+{{--                            <div class="font-weight-bold mb-1">Google</div>--}}
+{{--                            <div class="progress" data-height="3" style="height: 3px;">--}}
+{{--                                <div class="progress-bar" role="progressbar" data-width="80%" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="mb-4">
-                            <div class="text-small float-right font-weight-bold text-muted">1,880</div>
-                            <div class="font-weight-bold mb-1">Facebook</div>
-                            <div class="progress" data-height="3" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" data-width="67%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 67%;"></div>
-                            </div>
-                        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            <div class="text-small float-right font-weight-bold text-muted">1,880</div>--}}
+{{--                            <div class="font-weight-bold mb-1">Facebook</div>--}}
+{{--                            <div class="progress" data-height="3" style="height: 3px;">--}}
+{{--                                <div class="progress-bar" role="progressbar" data-width="67%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 67%;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="mb-4">
-                            <div class="text-small float-right font-weight-bold text-muted">1,521</div>
-                            <div class="font-weight-bold mb-1">Bing</div>
-                            <div class="progress" data-height="3" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" data-width="58%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 58%;"></div>
-                            </div>
-                        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            <div class="text-small float-right font-weight-bold text-muted">1,521</div>--}}
+{{--                            <div class="font-weight-bold mb-1">Bing</div>--}}
+{{--                            <div class="progress" data-height="3" style="height: 3px;">--}}
+{{--                                <div class="progress-bar" role="progressbar" data-width="58%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 58%;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="mb-4">
-                            <div class="text-small float-right font-weight-bold text-muted">884</div>
-                            <div class="font-weight-bold mb-1">Yahoo</div>
-                            <div class="progress" data-height="3" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" data-width="36%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 36%;"></div>
-                            </div>
-                        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            <div class="text-small float-right font-weight-bold text-muted">884</div>--}}
+{{--                            <div class="font-weight-bold mb-1">Yahoo</div>--}}
+{{--                            <div class="progress" data-height="3" style="height: 3px;">--}}
+{{--                                <div class="progress-bar" role="progressbar" data-width="36%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 36%;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="mb-4">
-                            <div class="text-small float-right font-weight-bold text-muted">473</div>
-                            <div class="font-weight-bold mb-1">Kodinger</div>
-                            <div class="progress" data-height="3" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" data-width="28%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 28%;"></div>
-                            </div>
-                        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            <div class="text-small float-right font-weight-bold text-muted">473</div>--}}
+{{--                            <div class="font-weight-bold mb-1">Kodinger</div>--}}
+{{--                            <div class="progress" data-height="3" style="height: 3px;">--}}
+{{--                                <div class="progress-bar" role="progressbar" data-width="28%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 28%;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
 
-                        <div class="mb-4">
-                            <div class="text-small float-right font-weight-bold text-muted">418</div>
-                            <div class="font-weight-bold mb-1">Multinity</div>
-                            <div class="progress" data-height="3" style="height: 3px;">
-                                <div class="progress-bar" role="progressbar" data-width="20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            <div class="text-small float-right font-weight-bold text-muted">418</div>--}}
+{{--                            <div class="font-weight-bold mb-1">Multinity</div>--}}
+{{--                            <div class="progress" data-height="3" style="height: 3px;">--}}
+{{--                                <div class="progress-bar" role="progressbar" data-width="20%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"></div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
     </section>
 
 @endsection
